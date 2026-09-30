@@ -1,0 +1,10 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Raw government downloads and row-level data: large, and re-downloadable
+data/raw/
+data/lca/

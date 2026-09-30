@@ -1,0 +1,373 @@
+system,slug,company,rule,fein,dol_name,tech_filings,decision
+ashby,abridge,Abridge,prefix,82-4607710,"Abridge AI, Inc.",26,accept
+ashby,abridge,Abridge,prefix,20-5640156,ABRIDGE INFO SYSTEMS INC.,13,reject
+ashby,acorns,Acorns,prefix,45-4766397,Acorns Grow Incorporated,11,accept
+ashby,amigo,Amigo AI,squashed,88-4345266,Amigo Inc.,1,reject
+ashby,amplify,Amplify,prefix,13-4125483,"Amplify Education, Inc.",16,accept
+ashby,amplify,Amplify,prefix,99-2708963,Amplify Cell Technologies LLC,13,reject
+ashby,amplify,Amplify,prefix,93-3122189,Amplify Ventures Group LLC,5,reject
+ashby,arq,ARQ,prefix,93-2983149,"ARQ Realty, LLC",1,reject
+ashby,bridger,Bridger,prefix,94-2297460,Bridger Insurance Services,4,reject
+ashby,bridger,Bridger,prefix,99-4530236,"Bridger Companies, Inc.",1,reject
+ashby,castle,Castle,prefix,46-2674720,"Castle Global, Inc.",7,reject
+ashby,castle,Castle,prefix,85-3180324,Castle Park Investments LLC,2,reject
+ashby,castle,Castle,prefix,85-3110491,"CastlePay, Inc.",2,reject
+ashby,castle,Castle,prefix,82-3834928,Castle Point Learning Systems Corporation,2,reject
+ashby,castle,Castle,prefix,87-4615679,"Castle Labs, Inc.",1,reject
+ashby,castle,Castle,prefix,84-3098285,"Castle Shield Holdings, LLC",1,reject
+ashby,cerebras,Cerebras,prefix,81-2256092,CEREBRAS SYSTEMS INC.,37,accept
+ashby,clasp-group,Clasp,exact,93-2984725,"Clasp, Inc.",2,reject
+ashby,clasp-group,Clasp,exact,83-1126868,"Clasp Group, Inc.",1,reject
+ashby,coder,Coder,prefix,99-2262281,Coder Version INC,7,reject
+ashby,coder,Coder,prefix,84-4069712,"Coder Logics, Inc",5,reject
+ashby,coder,Coder,prefix,47-3163615,"Coder Technologies, Inc.",1,accept
+ashby,collective,Collective,prefix,82-4464632,"Collective Hub, Inc.",8,accept
+ashby,color-health,Color,squashed,46-3353585,"Color Health, Inc.",4,accept
+ashby,concourse,Concourse,prefix,81-2576667,Concourse Team Express LLC,1,reject
+ashby,confido,Confido,prefix,88-3288554,Confido Health Inc.,1,accept
+ashby,crusoe,Crusoe,prefix,83-1941319,"Crusoe Energy Systems, Inc.",130,accept
+ashby,decagon,Decagon,prefix,99-0394709,"Decagon AI, Inc.",20,accept
+ashby,elevenlabs,ElevenLabs,squashed,88-2721123,"Eleven Labs, Inc.",5,accept
+ashby,eliza,Eliza,prefix,39-3338921,Eliza Solutions Corp. Inc.,1,reject
+ashby,etched,Etched,prefix,92-0793021,"Etched.ai, Inc.",13,accept
+ashby,exa,Exa,prefix,87-1607720,Exa Labs Inc.,4,accept
+ashby,focal,Focal,prefix,99-2415213,Focal Studio Corporation,1,reject
+ashby,focal,Focal,prefix,47-4374047,Focal Systems Inc.,1,reject
+ashby,fractional-ai,Fractional AI,exact,42-2553446,Serviceco Merger Sub 2 LLC,2,accept
+ashby,fractional-ai,Fractional AI,exact,86-3100436,"Fractional AI, Inc.",1,accept
+ashby,g2,G2,prefix,92-3103462,G2 Technology Corp,1,reject
+ashby,g2,G2,prefix,45-4058680,"G2 Bankruptcy Risk Solutions, Inc.",1,reject
+ashby,g2,G2,prefix,45-4182087,"G2.Com, Inc.",1,accept
+ashby,generalist,Generalist,prefix,99-1776675,"Generalist AI, Inc.",1,accept
+ashby,genesis,Genesis AI,squashed,13-4041496,Genesis Corp,224,reject
+ashby,harvey,Harvey,prefix,94-3307138,Harvey Nash Inc.,82,reject
+ashby,harvey,Harvey,prefix,88-3448544,HARVEY AI CORPORATION,36,accept
+ashby,harvey,Harvey,prefix,20-3981915,"Harvey M. Rose Associates, LLC",1,reject
+ashby,harvey,Harvey,prefix,11-2617620,Harvey Norman Maltz DDS PC,1,reject
+ashby,haydenai,Hayden AI,prefix,83-3876821,"Hayden AI Technologies, Inc.",26,accept
+ashby,heron-power,Heron Power,prefix,99-4910558,Heron Power Electronics Company,2,accept
+ashby,hilberts,Hilbert,prefix,33-4225433,Hilbert AI Co.,3,reject
+ashby,hooglee,Hooglee,exact,33-3634500,Hooglee Corp.,9,accept
+ashby,hooglee,Hooglee,exact,99-4716017,Hooglee Corp.,4,accept
+ashby,icon,Icon,prefix,46-2004234,Icon IT Group,7,reject
+ashby,icon,Icon,prefix,23-2689156,"ICON Clinical Research, LLC",7,reject
+ashby,icon,Icon,prefix,87-2486718,ICON GLOBAL TECHNOLOGIES LLC,2,reject
+ashby,icon,Icon,prefix,11-3158459,"ICON Laboratory Services, Inc.",2,reject
+ashby,icon,Icon,prefix,22-3712652,"ICON TECHNICAL GROUP, INC.",1,reject
+ashby,icon,Icon,prefix,80-0860558,ICON PAYMENTS LLC,1,reject
+ashby,imprint,Imprint,prefix,85-2512986,"Imprint Payments, Inc.",14,accept
+ashby,jerry.ai,Jerry,prefix,82-0671529,"Jerry Services, Inc.",8,accept
+ashby,jerry.ai,Jerry,prefix,95-3179026,"Jerry Leigh of California, Inc.",1,reject
+ashby,kayak,KAYAK,prefix,46-1870460,KAYAK Software Corporation,20,accept
+ashby,klarity-ai,Klarity,prefix,82-2264039,"Klarity Intelligence, Inc.",10,accept
+ashby,klarity-ai,Klarity,prefix,86-3819198,Klarity Health Inc.,1,reject
+ashby,koahlabs,Koah,squashed,99-4821485,Koah Labs Inc.,1,accept
+ashby,leavitt,Leavitt Group,prefix,90-1077000,LEAVITT MEDICAL INC.,2,reject
+ashby,liquid,Liquid,prefix,92-3158053,"Liquid AI, Inc.",7,accept
+ashby,liquid,Liquid,prefix,27-3089961,"Liquid Logics, L.L.C.",2,reject
+ashby,lynk,Lynk,prefix,82-1986972,"Lynk Global, Inc.",3,accept
+ashby,maticrobots,Matic,squashed,82-3660576,"Matic Robots, Inc.",3,accept
+ashby,meow,Meow,prefix,86-2460927,Meow Technologies Inc.,1,accept
+ashby,mercor,Mercor,prefix,88-1741971,Mercor.io Corporation,21,accept
+ashby,meridianlink,Meridian Link,squashed,82-4844620,"MeridianLink, Inc.",11,accept
+ashby,meridianlink,Meridian Link,squashed,33-0849406,"MeridianLink, Inc.",1,accept
+ashby,metaview,Metaview,prefix,87-2531030,"Metaview Technologies, Inc.",1,accept
+ashby,mirage,Mirage,prefix,77-0368095,Mirage Software Inc. dba: Bourntec Solutions,30,reject
+ashby,moss,Moss,prefix,73-1699834,"Moss & Associates, LLC",4,reject
+ashby,moss,Moss,prefix,92-2870368,Moss Robotics,2,reject
+ashby,moss,Moss,prefix,95-1561887,Moss Motors Ltd.,1,reject
+ashby,n1,N1,prefix,47-1341269,N1 Solutions LLC,2,reject
+ashby,nascent,Nascent,prefix,86-2187744,Nascent Technologies Inc,10,reject
+ashby,nascent,Nascent,prefix,47-4837215,Nascent Global LLC,1,reject
+ashby,nascent,Nascent,prefix,47-0892023,"Nascent Technology, LLC",1,reject
+ashby,nooks,Nooks,prefix,85-3364853,"Nooks Communications, Inc.",12,accept
+ashby,notion,Notion,prefix,45-5580473,"Notion Labs, Inc.",40,accept
+ashby,odysseyml,Odyssey,prefix,47-0698507,Odyssey Reinsurance Company,9,reject
+ashby,odysseyml,Odyssey,prefix,93-3590714,Odyssey Systems Inc.,4,reject
+ashby,odysseyml,Odyssey,prefix,75-2859772,"Odyssey Information Services, Inc.",1,reject
+ashby,odysseyml,Odyssey,prefix,20-0381879,"Odyssey Space Research, LLC",1,reject
+ashby,openloophealth,OpenLoop,squashed,84-4147978,"OpenLoop Health, Inc.",1,accept
+ashby,osmo,Osmo,prefix,88-2159047,"Osmo Labs, PBC",2,accept
+ashby,paradigm,Paradigm,prefix,52-2118672,"Paradigm Infotech, Inc.",4,reject
+ashby,paradigm,Paradigm,prefix,83-1531977,Paradigm Operations LP,3,reject
+ashby,paradigm,Paradigm,prefix,33-2244455,Paradigm US Operation Inc.,3,reject
+ashby,paradigm,Paradigm,prefix,82-2700973,"Paradigm Connect, Inc.",1,reject
+ashby,paradigm,Paradigm,prefix,46-1480875,"PARADIGM TECHNOLOGY CONSULTING, LLC",1,reject
+ashby,persona,Persona,prefix,38-4087866,"Persona Identities, Inc.",14,accept
+ashby,persona,Persona,prefix,93-2069506,"Persona AE, Inc.",2,reject
+ashby,persona,Persona,prefix,99-3493820,Persona AI Inc.,1,reject
+ashby,pointone,PointOne,prefix,93-4139260,"PointOne Technologies, Inc.",2,accept
+ashby,probook,Probook,prefix,92-3206804,Probook Solutions Inc.,1,accept
+ashby,pylon-labs,Pylon,squashed,92-1216415,"Pylon Labs, Inc.",3,accept
+ashby,quanta,Quanta,prefix,56-2677058,"Quanta Technology, LLC",5,reject
+ashby,quanta,Quanta,prefix,76-0574732,"Quanta Services Management Partnership, L.P.",3,reject
+ashby,quanta,Quanta,prefix,99-5041561,Quanta Technology,3,reject
+ashby,quanta,Quanta,prefix,30-0177111,"Quanta Manufacturing Nashville, LLC",2,reject
+ashby,quanta,Quanta,prefix,99-3992807,"Quanta Ventures Holdings, LLC.",2,reject
+ashby,quantum,Quantum,prefix,20-2695962,Quantum Integrators Group LLC,76,reject
+ashby,quantum,Quantum,prefix,38-4055835,QUANTUM TECHNOLOGIES LLC,39,reject
+ashby,quantum,Quantum,prefix,83-3023508,"QUANTUM SYSTEMS GROUP, INC.",25,reject
+ashby,quantum,Quantum,prefix,30-1023787,"QUANTUM TECHNOLOGIES, INC.",16,reject
+ashby,quantum,Quantum,prefix,92-1376245,Quantum Code Consultancy Services LLC,10,reject
+ashby,radiant-industries,Radiant,prefix,26-4305997,"Radiant Innovative, Inc",22,reject
+ashby,radiant-industries,Radiant,prefix,83-3961822,"Radiant Digital Solutions, Inc.",12,reject
+ashby,radiant-industries,Radiant,prefix,20-2876961,"Radiant Global Technologies, Inc.",12,reject
+ashby,radiant-industries,Radiant,prefix,68-0372650,"Radiant Logic, Inc.",12,reject
+ashby,radiant-industries,Radiant,prefix,84-2930432,"Radiant Way Technology, Inc.",8,reject
+ashby,realmalliance,Realm,squashed,87-3701004,"Realm Alliance, Inc.",1,accept
+ashby,revel,Revel,prefix,84-3188007,"Revel IT, Inc.",19,reject
+ashby,revel,Revel,prefix,86-1628184,"REVEL CONSULTING SERVICES, LLC",9,reject
+ashby,revel,Revel,prefix,82-4755768,"Revel Transit, Inc.",1,accept
+ashby,roadrunner,RoadRunner,prefix,46-5760171,"RoadRunner Recycling, Inc.",6,accept
+ashby,sentry,Sentry,prefix,39-0333950,"Sentry Insurance, a Mutual Company",7,reject
+ashby,shepherd,Shepherd,prefix,37-1992467,"Shepherd Labs, Inc.",5,reject
+ashby,sierra,Sierra,prefix,47-2624966,Sierra Consulting Inc,46,reject
+ashby,sierra,Sierra,prefix,92-3340193,"Sierra Technologies, Inc.",34,reject
+ashby,sierra,Sierra,prefix,83-0643692,Sripadha Inc,30,reject
+ashby,sierra,Sierra,prefix,48-1282551,Sierra Digital Inc,25,reject
+ashby,sierra,Sierra,prefix,58-2548193,"Sierra-Cedar, LLC",14,reject
+ashby,siftstack,SIFT,prefix,45-2454313,"SIFT SCIENCE, INC.",10,reject
+ashby,siftstack,SIFT,prefix,42-2784289,"Sift Development, Inc.",1,reject
+ashby,sim,Sim,prefix,27-0517063,"Sim Infotech, Inc.",25,reject
+ashby,sim,Sim,prefix,45-2921972,"SIM Management Advisors, Inc.",1,reject
+ashby,simile,Simile,prefix,33-3097817,"Simile AI, Inc.",4,accept
+ashby,starbridge,Starbridge,prefix,35-2891945,"Starbridge.ai, Inc.",2,accept
+ashby,stradahq,Strada,prefix,99-2541287,"Strada U.S. Professional Services, LLC",8,reject
+ashby,stradahq,Strada,prefix,99-2530008,"Strada U.S. Payroll, LLC",4,reject
+ashby,stradahq,Strada,prefix,92-3079816,"Strada API, Inc.",3,reject
+ashby,superhuman platform inc,Superhuman,prefix,45-3823133,Superhuman Platform Inc.,71,accept
+ashby,teamworks,Teamworks,prefix,81-2787532,"Teamworks Innovations, Inc.",1,accept
+ashby,tempo,Tempo,prefix,39-2724794,"TEMPO LABS, INC.",3,reject
+ashby,tempo,Tempo,prefix,47-2547923,"Tempo Interactive, Inc.",2,reject
+ashby,tempo,Tempo,prefix,99-3934584,"Tempo Ai, Inc.",1,reject
+ashby,tempo,Tempo,prefix,84-2827633,Tempo Software Inc.,1,reject
+ashby,titan-msp,Titan,prefix,45-3694418,Titan Technologies Inc,14,reject
+ashby,titan-msp,Titan,prefix,06-1666149,"Titan Data Group, Inc.",6,reject
+ashby,titan-msp,Titan,prefix,75-2943376,"Titan Ventures, LLC",2,reject
+ashby,titan-msp,Titan,prefix,81-4062218,"Titan Advanced Energy Solutions, Inc.",1,reject
+ashby,triumph-arcade,Triumph,prefix,87-4098173,Triumph IT Inc,27,reject
+ashby,triumph-arcade,Triumph,prefix,85-3276537,"Triumph Labs, Inc.",2,reject
+ashby,triumph-arcade,Triumph,prefix,82-4705707,Triumph Global LLC,2,reject
+ashby,triumph-arcade,Triumph,prefix,99-0863733,TRIUMPH DIGITAL INC,2,reject
+ashby,triumph-arcade,Triumph,prefix,85-2100369,Triumph Tech,1,reject
+ashby,triumph-arcade,Triumph,prefix,27-0886872,Triumph Services,1,reject
+ashby,unlimitedindustries,Unlimited,prefix,82-3722702,Unlimited Advisory LLC,3,reject
+ashby,unlimitedindustries,Unlimited,prefix,33-2725719,Unlimited AI Inc.,2,reject
+ashby,unlimitedindustries,Unlimited,prefix,33-2728997,Unlimited Supply Companies LLC,1,reject
+ashby,valinor,Valinor,prefix,39-4751990,Valinor Digital Inc.,1,reject
+ashby,valon,Valon,prefix,84-2070751,"Valon Technologies, Inc.",23,accept
+ashby,voxel,Voxel,prefix,86-2862825,Voxel Labs Inc.,8,accept
+ashby,withflex,Flex,prefix,20-4166276,Flex Consulting Group Inc.,32,reject
+ashby,withflex,Flex,prefix,88-2030698,FLEX MARKETING,2,reject
+ashby,withflex,Flex,prefix,20-1106950,"Flex-N-Gate Royal Oak, LLC",2,reject
+ashby,withflex,Flex,prefix,84-1900126,"Flex Rental Solutions, Inc.",1,reject
+ashby,withflex,Flex,prefix,93-2057995,Flex Technology Co,1,reject
+greenhouse,2k,2K,prefix,20-2851726,"2K Games, Inc.",23,accept
+greenhouse,3redpartners,3RedPartners,squashed,45-2588791,3Red Partners LLC,1,accept
+greenhouse,8451,84.51 Degrees,squashed,83-0352871,84.51 LLC,33,accept
+greenhouse,aegworldwide,AEG,prefix,95-4846439,"AEG PRESENTS, LLC",3,reject
+greenhouse,aegworldwide,AEG,prefix,35-2582309,AEG Vision,1,reject
+greenhouse,aevexaerospace,Aevex Aerospace,exact,33-0860431,"AEVEX Aerospace, LLC",1,accept
+greenhouse,aevexaerospace,Aevex Aerospace,exact,20-5208340,"AEVEX Aerospace, LLC",1,accept
+greenhouse,anthropic,Anthropic,prefix,86-1696045,"Anthropic, PBC",248,accept
+greenhouse,arcboatcompany,Arc,prefix,46-5598014,ARC Solutions USA Inc,42,reject
+greenhouse,arcboatcompany,Arc,prefix,45-4038772,ADVANCED RESEARCH COMPANY,4,reject
+greenhouse,arcboatcompany,Arc,prefix,86-1452240,Arc Boat Company,3,accept
+greenhouse,arcboatcompany,Arc,prefix,87-1920284,Arc Research Institute,3,reject
+greenhouse,arcboatcompany,Arc,prefix,84-4435525,"ARC-ONE Solutions, LLC",1,reject
+greenhouse,arcboatcompany,Arc,prefix,74-6036592,"ARC Document Solutions, LLC",1,reject
+greenhouse,arcboatcompany,Arc,prefix,27-0700724,ARC FINANCIAL SOLUTIONS LLC,1,reject
+greenhouse,archer56,Archer,prefix,41-0129150,Archer Daniels Midland Company,125,reject
+greenhouse,archer56,Archer,prefix,85-2730902,Archer Aviation Inc.,21,accept
+greenhouse,archer56,Archer,prefix,83-2292321,Archer Aviation Operating Corp.,9,accept
+greenhouse,archer56,Archer,prefix,88-3906788,Archer Technologies LLC,6,reject
+greenhouse,archer56,Archer,prefix,74-3066911,"Archer Grey, LLC",5,reject
+greenhouse,arevonenergyimpltest,Arevon,prefix,82-2908418,"Arevon Energy, Inc.",8,accept
+greenhouse,armada,Armada,prefix,92-1554870,"Armada Systems, Inc.",35,accept
+greenhouse,armada,Armada,prefix,71-0922886,"Armada Supply Chain Solutions, LLC",1,reject
+greenhouse,assystinc,ASSYST,prefix,54-1673763,Assyst Inc. (formerly Advanced Software Systems),5,accept
+greenhouse,authenticinsurance,Authentic,prefix,36-5118387,AUTHENTIC DATA SOLUTIONS LLC,17,reject
+greenhouse,authenticinsurance,Authentic,prefix,88-2914905,"Authentic Insurance Services, Inc.",3,accept
+greenhouse,axios,Axios,prefix,81-3191723,"Axios Media, Inc.",3,accept
+greenhouse,axle,Axle,prefix,72-1533966,AXLE INFORMATICS,53,reject
+greenhouse,axle,Axle,prefix,92-2337383,AXLE IT INC.,49,reject
+greenhouse,axle,Axle,prefix,93-4767826,"Axle Automation, Inc.",1,reject
+greenhouse,botauto,Bot Auto,prefix,93-2903786,BOT AUTO TX INC,15,accept
+greenhouse,botauto,Bot Auto,prefix,93-1407063,BOT AUTO CA INC,11,accept
+greenhouse,bottomlinetechnologies,Bottom Line,squashed,02-0433294,"Bottomline Technologies, Inc.",4,accept
+greenhouse,cadwell,Cadwell,prefix,91-1089859,"Cadwell Industries, Inc.",1,accept
+greenhouse,capco,Capco,prefix,87-0727844,CAPCO CONSULTING SERVICES LLC,12,accept
+greenhouse,catapultsports,Catapult,squashed,59-3558793,Catapult Sports Inc.,1,accept
+greenhouse,clear,CLEAR,prefix,36-4862498,Clear Street Management LLC,29,reject
+greenhouse,clear,CLEAR,prefix,80-0096826,Clear Thought Solutions LLC,13,reject
+greenhouse,clear,CLEAR,prefix,85-3556296,"Clear View, Inc.",2,reject
+greenhouse,clear,CLEAR,prefix,45-4927687,Clear Markets Holdings Inc,2,reject
+greenhouse,clear,CLEAR,prefix,63-1280140,Clear Winds Technologies Inc.,1,reject
+greenhouse,clear,CLEAR,prefix,46-3655012,"Clear Labs, Inc.",1,reject
+greenhouse,clear,CLEAR,prefix,13-4278523,"Clear Link Technologies, LLC",1,reject
+greenhouse,commvault,Commvault,prefix,22-3447504,"CommVault Systems,Inc.",68,accept
+greenhouse,constellationsoftwareinc,Constellation,prefix,23-3064219,Constellation Energy Generation LLC,41,reject
+greenhouse,constellationsoftwareinc,Constellation,prefix,88-3391150,Constellation Software Inc.,6,accept
+greenhouse,constellationsoftwareinc,Constellation,prefix,31-1614097,"Constellation Insurance, Inc.",6,reject
+greenhouse,constellationsoftwareinc,Constellation,prefix,95-4714890,Constellation New Energy Inc.,4,reject
+greenhouse,constellationsoftwareinc,Constellation,prefix,16-0716709,"Constellation Brands, Inc.",2,reject
+greenhouse,cooksys,Cook Systems,prefix,62-1564079,"Cook Systems International, Inc.",3,accept
+greenhouse,cpisecurity,CPI Security,prefix,56-1756569,"CPI Security Systems, Inc.",1,accept
+greenhouse,cresta,Cresta,prefix,82-2180306,Cresta Intelligence Inc.,16,accept
+greenhouse,cti,CTI,prefix,38-2100303,"CTI and Associates, LLC",1,reject
+greenhouse,davinciderivatives,Da Vinci,prefix,46-2459996,Da Vinci Software Solutions LLC,11,reject
+greenhouse,davinciderivatives,Da Vinci,prefix,46-2940885,DA VINCI SURGICAL CENTER LLC,1,reject
+greenhouse,davinciderivatives,Da Vinci,prefix,92-1129068,"Da Vinci Design and Development, LLC",1,reject
+greenhouse,dhpace,DH Pace,squashed,43-1012574,"D. H. Pace Company, Inc.",2,accept
+greenhouse,didi,DiDi Global,squashed,83-2544330,"DiDi USA, Inc.",3,accept
+greenhouse,drivewealth,DriveWealth,prefix,35-2453624,DriveWealth Technologies LLC,24,accept
+greenhouse,energysolutions,Energy Solutions,prefix,85-2472239,Energy Solutions and Supplies LLC,2,reject
+greenhouse,engineersgate,Engineers Gate,prefix,32-0433589,Engineers Gate Manager LP,2,accept
+greenhouse,enigmaio,Enigma,prefix,93-2585198,Enigma Sciences LLC,3,reject
+greenhouse,enigmaio,Enigma,prefix,45-2236667,"ENIGMA TECHNOLOGIES, INC.",1,accept
+greenhouse,enova,Enova,prefix,27-1129195,"Enova Financial Holdings, LLC",23,accept
+greenhouse,ensemble,Ensemble,prefix,47-1202570,Ensemble RCM LLC,10,reject
+greenhouse,ensemble,Ensemble,prefix,87-1196675,"Ensemble Labs, Inc.",3,reject
+greenhouse,ensemble,Ensemble,prefix,88-4207542,"Ensemble Education, Inc.",1,reject
+greenhouse,evolutioniq,EvolutionIQ,exact,33-2190524,EvolutionIQ LLC,15,accept
+greenhouse,evolutioniq,EvolutionIQ,exact,84-2054466,Evolution IQ,4,accept
+greenhouse,federato,Federato,prefix,85-0592914,"Federato Technologies, Inc.",12,accept
+greenhouse,figureai,Figure,squashed,88-2447866,FIGURE AI INC.,15,accept
+greenhouse,forbes,Forbes,prefix,34-2065766,Forbes Media LLC,3,accept
+greenhouse,freedomconsulting,Freedom Technology Solutions Group,squashed,23-2824730,FREEDOM CONSULTING GROUP INC.,2,accept
+greenhouse,garnerhealth,Garner Health,prefix,84-3555449,"Garner Health Technology, Inc.",2,accept
+greenhouse,generalatlantic,General Atlantic,prefix,13-3491941,"GENERAL ATLANTIC SERVICE COMPANY, L.P.",1,accept
+greenhouse,gleanwork,Glean,prefix,83-3385168,"Glean Technologies, Inc.",49,accept
+greenhouse,greenhouse,Greenhouse,prefix,45-4167416,"Greenhouse Software, Inc.",1,accept
+greenhouse,harborglobal,Harbor,prefix,88-0534446,HARBOR HAT INC,20,reject
+greenhouse,harborglobal,Harbor,prefix,92-0678860,Harbor Employees LLC,6,reject
+greenhouse,harborglobal,Harbor,prefix,82-3574005,Harbor AI Inc.,6,reject
+greenhouse,harborglobal,Harbor,prefix,82-2703365,"Harbor.ai, LLC",5,reject
+greenhouse,harborglobal,Harbor,prefix,99-5016189,"Harbor Experts, Inc.",3,reject
+greenhouse,harborglobal,Harbor,prefix,45-2915340,"Harbor Labs, LLC",3,reject
+greenhouse,harborglobal,Harbor,prefix,34-1953397,"Harbor Capital Advisors, Inc.",3,reject
+greenhouse,headlandstechnologiesllc,Headlands Tech Holdings,prefix,27-4360786,"Headlands Tech Organization, LLC",16,accept
+greenhouse,ibkr,Interactive Brokers Group,exact,13-3863700,Interactive Brokers LLC,23,accept
+greenhouse,ibkr,Interactive Brokers Group,exact,26-2292821,Interactive Brokers Corp.,14,accept
+greenhouse,inflectionai,Inflection,squashed,88-0698735,"Inflection AI, Inc.",7,accept
+greenhouse,intercom,Fin,squashed,45-3543192,"Intercom, Inc.",7,accept
+greenhouse,interwellhealth,Interwell Health,prefix,88-1507503,InterWell Health Partners Inc.,1,accept
+greenhouse,ionq,IonQ,prefix,47-5522175,"IonQ Quantum, Inc.",7,accept
+greenhouse,liveviewtechnologiesinc,LVT,prefix,27-1572399,"LVT Labs, LLC",21,reject
+greenhouse,loop,Loop,prefix,81-5174956,"Loop Now Technologies, Inc.",8,reject
+greenhouse,loop,Loop,prefix,86-1189544,"Loop Payments, Inc.",6,reject
+greenhouse,loop,Loop,prefix,47-4228774,"Loop Mobility, Inc.",2,reject
+greenhouse,lumosfiber,Lumos,prefix,85-0938666,"Lumos App, Inc.",2,reject
+greenhouse,lumosfiber,Lumos,prefix,80-0697274,Lumos Networks Corp,1,reject
+greenhouse,lumosfiber,Lumos,prefix,72-1621016,"Lumos Labs, Inc.",1,reject
+greenhouse,lumosfiber,Lumos,prefix,41-4024384,Lumos Health PBC,1,reject
+greenhouse,m3,M3,prefix,20-1538729,"M3 CONSULTING, INC",6,reject
+greenhouse,m3,M3,prefix,46-1350451,M3 GLOBAL INC,5,reject
+greenhouse,m3,M3,prefix,82-3993485,M3 Tek Systems Inc,4,reject
+greenhouse,m3,M3,exact,71-0955864,M3 USA CORPORATION,2,reject
+greenhouse,m3,M3,exact,58-2442769,"M3, LLC",1,reject
+greenhouse,mangroup,Man Group,prefix,98-0503332,Man Investments USA Holdings Inc,14,accept
+greenhouse,mergeworld,MERGE,prefix,85-1379395,"Merge API, Inc.",9,accept
+greenhouse,mergeworld,MERGE,prefix,59-2248411,Merge Healthcare Solutions Inc.,1,reject
+greenhouse,metron,Metron,prefix,84-1328980,Metron Farnier LLC,1,reject
+greenhouse,momentumcompany3,Momentum,prefix,22-3615098,"MOMENTUM RESOURCE SOLUTIONS, LLC",4,reject
+greenhouse,momentumcompany3,Momentum,prefix,39-3100656,"Momentum.AI, Inc.",1,reject
+greenhouse,momentumcompany3,Momentum,prefix,92-0543488,Momentum Safe Inc,1,reject
+greenhouse,monsterenergy,Monster Energy,exact,82-1724005,Monster Energy US LLC,13,accept
+greenhouse,monsterenergy,Monster Energy,exact,33-0520613,Monster Energy Company,3,accept
+greenhouse,mw-tech-grad,Marshall Wace,prefix,47-0943020,Marshall Wace North America LP,7,accept
+greenhouse,nationallifeinsurancecompany,National Life,prefix,03-0144090,National Life Insurance Company,15,accept
+greenhouse,okx,OKX,prefix,88-3530565,OKX Technology Inc.,3,accept
+greenhouse,optiverprivate,Optiver,prefix,84-4498918,Optiver Services US LLC,23,accept
+greenhouse,otter,Otter,prefix,81-2445246,"OTTER.AI, INC.",60,accept
+greenhouse,otter,Otter,prefix,41-0462685,Otter Tail Power Company,1,reject
+greenhouse,patientpoint,PatientPoint,prefix,77-0701013,"PatientPoint Network Solutions, LLC",6,accept
+greenhouse,peregrinetechnologies,Peregrine,squashed,38-4083465,"Peregrine Technologies, Inc.",10,accept
+greenhouse,picoquantitativetrading,Pico,prefix,92-0407396,Pico Services Inc.,7,reject
+greenhouse,planetlabs,Planet,prefix,93-2936182,PLANET AI INVENTIONS LLC,41,reject
+greenhouse,planetlabs,Planet,prefix,81-3875248,PLANET-P INC,25,reject
+greenhouse,planetlabs,Planet,prefix,46-1996256,Planet Equity Group,16,reject
+greenhouse,planetlabs,Planet,prefix,92-1802844,Planet Soft LLC,9,reject
+greenhouse,planetlabs,Planet,prefix,85-4299396,Planet Labs PBC,9,accept
+greenhouse,pmg,PMG,prefix,27-2893369,PMG Worldwide LLC,36,accept
+greenhouse,pmg,PMG,prefix,14-1886154,PMG GLOBAL CORPORATION,31,reject
+greenhouse,prolificacademicltd,Prolific,prefix,16-1661155,"Prolific Technologies, Inc",15,reject
+greenhouse,qualifiedhealth,Qualified Health,prefix,93-4598038,Qualified Health PBC,23,accept
+greenhouse,radar,RADAR,prefix,81-2766646,"Radar Labs, Inc.",5,accept
+greenhouse,rapp,RAPP,prefix,75-2625096,RAPP WORLDWIDE TEXAS INC.,5,accept
+greenhouse,rapp,RAPP,prefix,36-4019827,RAPP Illinois Inc.,3,accept
+greenhouse,rapp,RAPP,prefix,20-1751835,RAPP Worldwide California Inc.,1,accept
+greenhouse,reach,Reach Financial,prefix,37-1779212,"Reach Financial LLC (fka Liberty Lending, LLC)",2,accept
+greenhouse,relaypro,Relay,prefix,27-1130333,"Relay Network, LLC",2,reject
+greenhouse,relaypro,Relay,prefix,47-3923475,"Relay Therapeutics, Inc.",1,reject
+greenhouse,renaissancelearning-nam,Renaissance,prefix,39-1559474,"Renaissance Learning, Inc.",14,accept
+greenhouse,renaissancelearning-nam,Renaissance,prefix,26-0385758,RENAISSANCE TECHNOLOGIES LLC,8,reject
+greenhouse,renaissancelearning-nam,Renaissance,prefix,43-1688273,Renaissance Financial Corporation,2,reject
+greenhouse,renaissancelearning-nam,Renaissance,prefix,82-2334555,"The Renaissance Therapy Group, LLC",1,reject
+greenhouse,renaissancelearning-nam,Renaissance,prefix,47-0397286,Renaissance Life & Health Insurance Company of America,1,reject
+greenhouse,renaissancelearning-nam,Renaissance,prefix,22-3840741,"Renaissance Lakewood, LLC",1,reject
+greenhouse,robinhood,Robinhood,prefix,46-4364776,"Robinhood Markets, Inc.",257,accept
+greenhouse,schonfeld,Schonfeld,prefix,47-5082310,Schonfeld Strategic Advisors LLC,22,accept
+greenhouse,secretariatadvisorsllc,Secretariat,prefix,82-4596089,Secretariat Advisors LLC,7,accept
+greenhouse,sharkninjaoperatingllc,SharkNinja,prefix,20-0115430,SharkNinja Operating LLC,23,accept
+greenhouse,shifttechnology,Shift,prefix,33-2706321,Shift IQ Solutions INC,6,reject
+greenhouse,sigmacomputing,Sigma,exact,46-5210250,"Sigma Computing, Inc.",52,accept
+greenhouse,sigmacomputing,Sigma,exact,41-2256887,SIGMA GROUP INC,6,reject
+greenhouse,sigmacomputing,Sigma,exact,22-2665375,SIGMA Corporation,1,reject
+greenhouse,stackav,StackAV,squashed,88-4271287,Stack AV Co,24,accept
+greenhouse,stratacareers,Strata Decision Technology,exact,32-0368502,"Strata Decision Technology, LLC",2,accept
+greenhouse,stratacareers,Strata Decision Technology,exact,85-2189829,"Strata Decision Technology, LLC",1,accept
+greenhouse,taketwo,Take Two,prefix,51-0350842,"Take-Two Interactive Software, Inc.",8,accept
+greenhouse,tebra,Tebra,prefix,20-0739220,"Tebra Technologies, Inc.",3,accept
+greenhouse,teletrackingtechnologiesinc,TeleTracking,prefix,25-1828750,"TeleTracking Technologies, Inc.",16,accept
+greenhouse,toshibaglobalcommercesolutions,Toshiba Global Commerce,squashed,45-5236414,"Toshiba Global Commerce Solutions, Inc.",35,accept
+greenhouse,transmarketgroup,TransMarket Group,prefix,38-4001604,"TransMarket Operations, LLC",2,accept
+greenhouse,trumid,Trumid,prefix,47-3764865,"Trumid Technologies, LLC",1,accept
+greenhouse,twitch,Twitch,prefix,20-5578222,"Twitch Interactive, Inc.",80,accept
+greenhouse,twitch,Twitch,prefix,12-3456789,Amazon.com Services LLC,55,reject
+greenhouse,vast,VAST,prefix,32-0507805,"Vast Data, Inc.",8,accept
+greenhouse,virtu,Virtu Financial,prefix,26-2211621,Virtu Financial Operating LLC,17,accept
+greenhouse,welbehealth,WelbeHealth,squashed,47-4992647,Welbe Health LLC,5,accept
+greenhouse,workstream,Workstream,prefix,81-3344636,"Workstream Technologies, Inc.",1,accept
+lever,aircall,Aircall,prefix,47-1062986,"Aircall.io, Inc.",26,accept
+lever,appen-2,Appen,prefix,35-2238395,"Appen AI, Inc.",3,accept
+lever,arable,Arable,prefix,47-2172698,"Arable Labs, Inc.",3,accept
+lever,bumbleinc,Bumble,prefix,45-0510146,"Bumble Bee Foods, LLC",1,reject
+lever,callan,Callan,prefix,88-0781244,"Callan Family Office, LLC",1,reject
+lever,color,Color,prefix,92-0943400,"Color Employer, LLC",7,reject
+lever,color,Color,prefix,46-3353585,"Color Health, Inc.",4,accept
+lever,dutch,Dutch,prefix,23-2172539,Dutch Valley Food Distributors Inc.,1,reject
+lever,dutch,Dutch,prefix,47-1532028,Dutch Express LLC,1,reject
+lever,economicmodeling,Lightcast,squashed,27-1605272,"Economic Modeling, LLC",6,accept
+lever,fiscalnote,FiscalNote,prefix,80-0934908,"FiscalNote Holdings, Inc. & Subsidiaries",8,accept
+lever,greenlight,Greenlight,prefix,47-2550478,"Greenlight Financial Technology, Inc.",17,accept
+lever,greenlight,Greenlight,prefix,26-3322959,"GreenLight Biosciences, Inc.",1,reject
+lever,grid,Grid,prefix,83-0632724,"GRID DYNAMICS HOLDINGS, INC.",59,reject
+lever,grid,Grid,prefix,47-1738381,Grid Raster Inc.,3,reject
+lever,h1,H1,prefix,84-2699829,"H1 Insights, Inc.",9,accept
+lever,hive,Hive,prefix,88-3272145,Hive Soft Solutions LLC,6,reject
+lever,hive,Hive,prefix,82-4853696,"Hive Financial Systems, LLC.",6,reject
+lever,ion,ION Group,prefix,36-3080374,"ION Trading, Inc",2,accept
+lever,ion,ION Group,prefix,59-3283729,"ION Media Networks, Inc.",1,reject
+lever,kgroupcompanies,K Group,prefix,92-1116350,K Tek Soft Inc,65,reject
+lever,kgroupcompanies,K Group,prefix,42-1679845,K Anand Corporation,26,reject
+lever,kgroupcompanies,K Group,prefix,84-2275762,"K-MAKIN TECHNOLOGIES, INC.",6,reject
+lever,kgroupcompanies,K Group,prefix,81-4173541,K Health Inc,5,reject
+lever,kgroupcompanies,K Group,prefix,99-4699955,K&S PROSPERITY HOLDINGS LLC,5,reject
+lever,life,Life.Church,prefix,83-4556546,"Life.Church Operations, LLC",10,accept
+lever,matchgroup,Match Group,exact,46-0478183,Tinder LLC,108,accept
+lever,matchgroup,Match Group,exact,32-0750899,"Match Group Americas, LLC",18,accept
+lever,moo,moo,prefix,85-2718603,Moo Housing Inc,4,reject
+lever,palantir,Palantir,prefix,68-0551851,PALANTIR TECHNOLOGIES INC.,273,accept
+lever,palantir,Palantir,prefix,36-4367074,Palantir.net Inc.,2,reject
+lever,pointclickcare,PointClickCare,prefix,98-0442503,PointClickCare Technologies USA Corp.,17,accept
+lever,regalvoice,Regal,squashed,85-1603594,"REGAL VOICE, INC.",4,accept
+lever,rover,Rover,prefix,20-1200573,"ROVER RESOURCES, INC",3,reject
+lever,rws,RWS,prefix,74-3032085,RWS Design and Controls Inc.,2,reject
+lever,sideinc,Side,prefix,27-0148736,"Side America, Inc.",2,accept
+lever,standtogether,Stand Together,prefix,27-3197768,Stand Together Foundation,4,accept
+lever,telligen,Telligen,prefix,82-5293753,Telligen Infotech Inc.,3,reject
+lever,trio,Trio,prefix,88-3708484,TRIO APPAREL GROUP INC,1,reject
+lever,windfalldata,Windfall,squashed,81-3232300,"Windfall Data, Inc.",1,accept
+lever,wisdomtree,WisdomTree,prefix,88-2069512,WisdomTree Digital Movement Inc.,1,accept
+lever,woven-by-toyota,Woven,squashed,86-2554188,"Woven by Toyota, U.S., Inc.",68,accept

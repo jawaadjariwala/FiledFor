@@ -1,0 +1,589 @@
+system,slug,company,fein,dol_name,tech_filings,rule
+ashby,42dot,42dot,98-1741882,42dot Inc.,3,exact
+ashby,abridge,Abridge,82-4607710,"Abridge AI, Inc.",26,prefix
+ashby,acorns,Acorns,45-4766397,Acorns Grow Incorporated,11,prefix
+ashby,aescape,Aescape,82-1754732,Aescape Inc.,3,exact
+ashby,aiprise,AiPrise,88-2448436,AiPrise Inc.,3,exact
+ashby,amplify,Amplify,13-4125483,"Amplify Education, Inc.",16,prefix
+ashby,anthelioncap,Anthelion Capital,93-2693498,Anthelion Capital Holdings LP,1,exact
+ashby,apiphany,Apiphany,93-4847869,Apiphany Corporation,3,exact
+ashby,applied,Applied Intuition,35-2602696,"Applied Intuition, Inc.",138,exact
+ashby,arch.co,Arch,46-0661443,Arch Group LLC,2,exact
+ashby,assembledhq,Assembled,36-4891839,"Assembled, Inc.",3,exact
+ashby,astronomer,Astronomer,47-5158055,"Astronomer, Inc.",4,exact
+ashby,augmodo,Augmodo,92-0342753,"Augmodo, Inc.",1,exact
+ashby,batoncorporation,Baton Corporation,33-2181887,Baton Inc,1,exact
+ashby,benchling,Benchling,45-5365648,"Benchling, Inc.",20,exact
+ashby,blackbird-labs-inc,Blackbird Labs,88-2148344,"Blackbird Labs, Inc.",2,exact
+ashby,blitzy,Blitzy,93-4487418,Blitzy Inc.,2,exact
+ashby,brainbaselabs,Brainbase Labs,99-1415163,"Brainbase Labs, Inc.",2,exact
+ashby,brinc,BRINC Drones,83-2465449,"BRINC Drones, Inc.",3,exact
+ashby,cantina,Cantina,27-3331827,Cantina Inc.,10,exact
+ashby,cerebras,Cerebras,81-2256092,CEREBRAS SYSTEMS INC.,37,prefix
+ashby,chartahealth,Charta Health,93-1423217,"Charta Health, Inc.",3,exact
+ashby,clarium,Clarium,85-1389870,"Clarium, Inc.",2,exact
+ashby,clipboard,Clipboard Health,81-2607261,Twomagnets LLC,4,alias
+ashby,cobot,Collaborative Robotics,88-1436738,"Collaborative Robotics, Inc.",14,exact
+ashby,coder,Coder,47-3163615,"Coder Technologies, Inc.",1,prefix
+ashby,cogent-security,Cogent Security,99-4813798,"Cogent Security, Inc.",5,exact
+ashby,cohere,Cohere,86-3737020,"Cohere US, Inc.",16,exact
+ashby,cohort,Cohort AI Inc.,99-4005025,Cohort AI Inc,1,exact
+ashby,collective,Collective,82-4464632,"Collective Hub, Inc.",8,prefix
+ashby,collinear-ai,Collinear AI,93-4362081,Collinear Ai Inc.,5,exact
+ashby,color-health,Color,46-3353585,"Color Health, Inc.",4,squashed
+ashby,commure,Commure,81-5300286,"Commure, Inc.",76,exact
+ashby,confido,Confido,88-3288554,Confido Health Inc.,1,prefix
+ashby,confluent,Confluent,47-1824387,"Confluent, Inc.",169,exact
+ashby,contoro,Contoro,87-4762522,Contoro Inc.,2,exact
+ashby,coram-ai,Coram AI,87-2508111,Coram AI Inc.,4,exact
+ashby,corvus-robotics,Corvus Robotics,81-5275691,Corvus Robotics Inc.,1,exact
+ashby,crusoe,Crusoe,83-1941319,"Crusoe Energy Systems, Inc.",130,prefix
+ashby,cursor,Anysphere,87-4436547,"Anysphere, Inc.",32,exact
+ashby,cylake-inc,Cylake,41-2651974,"Cylake, Inc.",3,exact
+ashby,decagon,Decagon,99-0394709,"Decagon AI, Inc.",20,prefix
+ashby,deepgram,Deepgram,47-4873919,"Deepgram, Inc.",2,exact
+ashby,dexmate,Dexmate,99-1259160,Dexmate Inc.,4,exact
+ashby,distyl,Distyl AI,92-1141444,"Distyl AI, Inc.",25,exact
+ashby,dyna-robotics,Dyna Robotics,99-4275405,Dyna Robotics Inc.,11,exact
+ashby,e-source,E Source Companies,20-4402870,"E Source Companies, LLC",2,exact
+ashby,ekho,Ekho,88-2794050,Ekho Inc.,2,exact
+ashby,elevenlabs,ElevenLabs,88-2721123,"Eleven Labs, Inc.",5,squashed
+ashby,ema,Ema,41-1467091,"EMA, Inc.",2,exact
+ashby,emerald-ai,Emerald AI,99-3634212,"Emerald AI, Inc.",1,exact
+ashby,equip,Equip Health,84-3571900,"Equip Health, Inc",6,exact
+ashby,etched,Etched,92-0793021,"Etched.ai, Inc.",13,prefix
+ashby,evenup,EvenUp,37-1960048,EvenUp Inc.,20,exact
+ashby,exa,Exa,87-1607720,Exa Labs Inc.,4,prefix
+ashby,flock safety,Flock Safety,82-0594875,Flock Group Inc.,2,alias
+ashby,fluidstack,FluidStack,36-5007834,Fluidstack Inc.,12,exact
+ashby,fortuna-health,Fortuna Health,93-1479610,"Fortuna Health, Inc.",1,exact
+ashby,fractional-ai,Fractional AI,42-2553446,"Fractional AI, LLC",2,exact
+ashby,fractional-ai,Fractional AI,86-3100436,"Fractional AI, Inc.",1,exact
+ashby,frec,"Frec Markets, Inc.",87-2201706,Frec Markets Inc,5,exact
+ashby,fundamentalresearchlabs,Fundamental Research Labs,93-2676060,"Fundamental Research Labs, Inc.",3,exact
+ashby,g2,G2,45-4182087,"G2.Com, Inc.",1,prefix
+ashby,gen-digital,Gen Digital,77-0181864,Gen Digital Inc.,110,exact
+ashby,generalist,Generalist,99-1776675,"Generalist AI, Inc.",1,prefix
+ashby,gigaml,Giga AI,93-1798391,"Giga AI, Inc.",2,exact
+ashby,gimlet,Gimlet Labs,93-3318131,"Gimlet Labs, Inc.",6,exact
+ashby,graymatter-robotics,GrayMatter Robotics,84-4480323,GrayMatter Robotics Inc.,1,exact
+ashby,greenlitecareers,GreenLite,93-1350948,Bretton AI Inc.,6,exact
+ashby,harperinsure,Harper Group,99-2025334,Harper Group Corp.,7,exact
+ashby,harvey,Harvey,88-3448544,HARVEY AI CORPORATION,36,prefix
+ashby,haydenai,Hayden AI,83-3876821,"Hayden AI Technologies, Inc.",26,prefix
+ashby,heron-power,Heron Power,99-4910558,Heron Power Electronics Company,2,prefix
+ashby,hinge-health,Hinge Health,81-1884841,"Hinge Health, Inc.",34,exact
+ashby,hipp,Hipp Health,99-1416045,Hipp Health Inc.,1,exact
+ashby,hippocratic ai,Hippocratic AI,92-2714696,"Hippocratic AI, Inc",39,exact
+ashby,hooglee,Hooglee,33-3634500,Hooglee Corp.,9,exact
+ashby,hooglee,Hooglee,99-4716017,Hooglee Corp.,4,exact
+ashby,hyperexponential,hyperexponential,38-4287692,Hyperexponential Inc.,1,exact
+ashby,ibotta,ibotta,35-2426358,"Ibotta, Inc.",5,exact
+ashby,illumio,Illumio,46-1675620,"Illumio, Inc.",71,exact
+ashby,imprint,Imprint,85-2512986,"Imprint Payments, Inc.",14,prefix
+ashby,insitro,Insitro,82-4635443,"Insitro, Inc.",5,exact
+ashby,interface-ai,interface.ai,81-2176961,"Interface AI, Inc.",4,exact
+ashby,jerry.ai,Jerry,82-0671529,"Jerry Services, Inc.",8,prefix
+ashby,kayak,KAYAK,46-1870460,KAYAK Software Corporation,20,prefix
+ashby,klarity-ai,Klarity,82-2264039,"Klarity Intelligence, Inc.",10,prefix
+ashby,koahlabs,Koah,99-4821485,Koah Labs Inc.,1,squashed
+ashby,kognitos,Kognitos,85-2334675,"Kognitos, Inc.",5,exact
+ashby,kong,Kong,98-0629818,Kong Inc.,7,exact
+ashby,kustomer,Kustomer,47-4837473,"Kustomer, LLC",5,exact
+ashby,lambda,Lambda,46-1144275,"Lambda, Inc.",16,exact
+ashby,layerfi,Layer Financial Technologies,92-3985850,Layer Financial Technologies Inc.,1,exact
+ashby,lightspark,Lightspark,88-1760276,"Lightspark Group, Inc.",4,exact
+ashby,lilt-production,Lilt,47-3352617,"Lilt, Inc.",2,exact
+ashby,liquid,Liquid,92-3158053,"Liquid AI, Inc.",7,prefix
+ashby,liveview-technologies,LiveView Technologies,20-2350309,"LiveView Technologies, Inc.",2,exact
+ashby,lynk,Lynk,82-1986972,"Lynk Global, Inc.",3,prefix
+ashby,marianaminerals,Mariana Minerals,99-4900198,Mariana Minerals Co.,6,exact
+ashby,maticrobots,Matic,82-3660576,"Matic Robots, Inc.",3,squashed
+ashby,meow,Meow,86-2460927,Meow Technologies Inc.,1,prefix
+ashby,mercor,Mercor,88-1741971,Mercor.io Corporation,21,prefix
+ashby,meridianlink,Meridian Link,82-4844620,"MeridianLink, Inc.",11,squashed
+ashby,meridianlink,Meridian Link,33-0849406,"MeridianLink, Inc.",1,squashed
+ashby,metaview,Metaview,87-2531030,"Metaview Technologies, Inc.",1,prefix
+ashby,mintlify,Mintlify,35-2730282,Mintlify Inc.,2,exact
+ashby,mistral.ai,Mistral AI,99-0657949,"Mistral AI, Inc.",56,exact
+ashby,monogram,Monogram,93-1922098,Monogram LLC,1,exact
+ashby,mtesting.ai,Mistral AI,99-0657949,"Mistral AI, Inc.",56,exact
+ashby,mudflap,Mudflap,81-4587736,Mudflap Inc.,1,exact
+ashby,netic,Cybernetic Labs,92-2861975,Cybernetic Labs Inc.,1,exact
+ashby,newlantern,New Lantern,86-1696000,"New Lantern, Inc.",1,exact
+ashby,nexxen,Nexxen,20-2801822,Nexxen Inc.,8,exact
+ashby,nooks,Nooks,85-3364853,"Nooks Communications, Inc.",12,prefix
+ashby,normalcomputing,Normal Computing,88-3048728,Normal Computing Corporation,2,exact
+ashby,northslope-technologies,Northslope Technologies,33-3845770,Northslope Technologies Inc.,9,exact
+ashby,nory-co,NORY,81-4829997,NORY Inc,2,exact
+ashby,notion,Notion,45-5580473,"Notion Labs, Inc.",40,prefix
+ashby,obvio,Obvio,92-2462002,Obvio Inc,5,exact
+ashby,openai,OpenAI,85-3082781,"OpenAI, L.L.C.",1,exact
+ashby,opengov,OpenGov,30-0717374,"OpenGov, Inc.",30,exact
+ashby,openloophealth,OpenLoop,84-4147978,"OpenLoop Health, Inc.",1,squashed
+ashby,opusclip,OpusClip,92-0263412,Opusclip Inc.,14,exact
+ashby,oratomic,Oratomic,41-3011753,"Oratomic, Inc.",1,exact
+ashby,orb,Orb,32-0645573,"Orb, Inc.",1,exact
+ashby,osmo,Osmo,88-2159047,"Osmo Labs, PBC",2,prefix
+ashby,par technology,PAR Tech,38-3250279,Par-Tech Inc.,1,exact
+ashby,parspec,Parspec,85-4198370,"Parspec, Inc.",4,exact
+ashby,patreon,Patreon,46-3115122,"PATREON, INC.",30,exact
+ashby,permitflow,PermitFlow,87-3695395,PermitFlow Inc.,3,exact
+ashby,perplexity,Perplexity AI,88-3550462,"Perplexity AI, Inc.",23,exact
+ashby,persona,Persona,38-4087866,"Persona Identities, Inc.",14,prefix
+ashby,picogrid,Picogrid,30-1220965,"Picogrid, Inc.",1,exact
+ashby,plaid,Plaid,46-0820571,"Plaid, Inc.",50,exact
+ashby,pointone,PointOne,93-4139260,"PointOne Technologies, Inc.",2,prefix
+ashby,polymarket,Polymarket,82-3333882,Blockratize Inc.,9,alias
+ashby,poshmark,Poshmark,27-4827617,Poshmark Inc.,19,exact
+ashby,preference-model,Preference Model,33-2788756,"Preference Model, Inc.",1,exact
+ashby,probook,Probook,92-3206804,Probook Solutions Inc.,1,prefix
+ashby,pylon-labs,Pylon,92-1216415,"Pylon Labs, Inc.",3,squashed
+ashby,quantcast,Quantcast,20-2436141,Quantcast Corporation,9,exact
+ashby,quantexa,Quantexa,32-0545797,Quantexa Inc.,4,exact
+ashby,qumulo,Qumulo,45-4622538,"Qumulo, Inc.",4,exact
+ashby,quora,Quora,27-0435025,"Quora, Inc.",29,exact
+ashby,rain,Rain,85-0948843,Rain Corporation,2,exact
+ashby,realmalliance,Realm,87-3701004,"Realm Alliance, Inc.",1,squashed
+ashby,replit,Replit,81-2273887,"Replit, Inc.",32,exact
+ashby,retell-ai,Retell AI,93-4612814,"Retell AI, Inc.",13,exact
+ashby,revel,Revel,82-4755768,"Revel Transit, Inc.",1,prefix
+ashby,rhoda-ai,Rhoda AI,99-4165909,Rhoda AI Corporation,3,exact
+ashby,rivet,Rivet Industries,99-0753434,Rivet Industries,5,exact
+ashby,roadrunner,RoadRunner,46-5760171,"RoadRunner Recycling, Inc.",6,prefix
+ashby,runpod,Runpod,93-1564675,"RunPod, Inc.",3,exact
+ashby,sciemo,Sciemo,33-3894358,Sciemo Inc.,1,exact
+ashby,sciforium,Sciforium,99-3051203,Sciforium,5,exact
+ashby,sentilink,SentiLink,82-2379442,SentiLink Corp.,8,exact
+ashby,sentry,Sentry,47-4554430,"Functional Software, Inc.",6,alias
+ashby,sewer-ai,SewerAI,83-4558130,SewerAI Corporation,1,exact
+ashby,simile,Simile,33-3097817,"Simile AI, Inc.",4,prefix
+ashby,skydio,Skydio,46-5344747,"Skydio, Inc.",16,exact
+ashby,slingshotai,Slingshot AI,87-1480966,"Slingshot AI, Inc.",1,exact
+ashby,snowflake,Snowflake,46-0636374,Snowflake Inc.,702,exact
+ashby,socket,Socket,85-2365111,"Socket, Inc.",1,exact
+ashby,specter,Specter,33-3422814,"Specter, Inc.",2,exact
+ashby,starbridge,Starbridge,35-2891945,Starbridge.ai Inc.,2,prefix
+ashby,strala-ai,Strala Group,33-3505014,"Strala Group, Inc.",3,exact
+ashby,sunday,Sunday Robotics,99-1784781,"Sunday Robotics, Inc.",14,exact
+ashby,superhuman platform inc,Superhuman,45-3823133,Superhuman Platform Inc.,71,prefix
+ashby,teamworks,Teamworks,81-2787532,"Teamworks Innovations, Inc.",1,prefix
+ashby,teleskope,Teleskope,88-0957182,Teleskope,1,exact
+ashby,teza-technologies,Teza Technologies,26-4772164,Teza Technologies LLC,3,exact
+ashby,thumbtack,Thumbtack,26-3592641,"Thumbtack, Inc.",51,exact
+ashby,traba,Traba,86-1735578,Traba Inc.,11,exact
+ashby,treeswift,Treeswift,85-0835846,"Treeswift, Inc.",6,exact
+ashby,trm-labs,TRM Labs,82-1623139,TRM Labs Inc.,5,exact
+ashby,trulioo,Trulioo,32-0651553,"Trulioo, Inc.",2,exact
+ashby,trunk tools,Trunk Tools,87-3466112,"Trunk Tools, Inc.",2,exact
+ashby,two-dots,Two Dots,87-4365955,"Two Dots, Inc.",1,exact
+ashby,uipath,UiPath,47-4333187,"UiPath, Inc.",45,exact
+ashby,uncountable,Uncountable,81-2939423,Uncountable Inc.,4,exact
+ashby,united-talent-agency,United Talent Agency,95-4312582,United Talent Agency,1,exact
+ashby,valon,Valon,84-2070751,"Valon Technologies, Inc.",23,prefix
+ashby,vanta,Vanta,81-4133785,Vanta Inc.,38,exact
+ashby,voxel,Voxel,86-2862825,Voxel Labs Inc.,8,prefix
+ashby,vytalize health,Vytalize Health,81-4678831,Vytalize Health Inc.,2,exact
+ashby,whatnot,WhatNot,84-3414892,Whatnot Inc.,63,exact
+ashby,withcherry,Cherry Technologies,82-2708163,CHERRY TECHNOLOGIES INC.,7,exact
+ashby,xero,Xero,45-1040932,"XERO, Inc.",14,exact
+ashby,zello,Zello,80-0771636,"Zello, Inc.",3,exact
+ashby,zettabyte-space,Zettabyte,88-0674876,"Zettabyte, LLC",3,exact
+ashby,zip,Zip,30-1130431,ZIP CO US INC.,4,exact
+greenhouse,10beauty,10Beauty,83-1247164,10Beauty Inc.,2,exact
+greenhouse,2k,2K,20-2851726,"2K Games, Inc.",23,prefix
+greenhouse,2u,2U,26-2335939,"2U, Inc.",3,exact
+greenhouse,3redpartners,3RedPartners,45-2588791,3Red Partners LLC,1,squashed
+greenhouse,8451,84.51 Degrees,83-0352871,84.51 LLC,33,squashed
+greenhouse,a3c41b8b71eff8c4,Ivanti,30-0110335,"Ivanti, Inc.",15,exact
+greenhouse,abacusinsights,Abacus Insights,82-2115444,"Abacus Insights, Inc.",17,exact
+greenhouse,accenturefederalservices,Accenture,72-0542904,Accenture LLP,3924,exact
+greenhouse,acuitymd,AcuityMD,83-2113472,"AcuityMD, Inc.",7,exact
+greenhouse,addepar1,Addepar,45-2500433,"Addepar, Inc.",35,exact
+greenhouse,advancedtechnologyservices,Advanced Technology Services,26-1499204,"Advanced Technology Services, Inc.",1,exact
+greenhouse,aevexaerospace,Aevex Aerospace,20-5208340,"AEVEX Aerospace, LLC",1,exact
+greenhouse,aevexaerospace,Aevex Aerospace,33-0860431,"AEVEX Aerospace, LLC",1,exact
+greenhouse,affirm,Affirm,45-5413534,"Affirm, Inc.",131,exact
+greenhouse,airtable,Airtable,46-2070030,"Formagrid, Inc. (d/b/a Airtable)",24,alias
+greenhouse,alarmcom,Alarm.com,20-0270429,Alarm.com Incorporated,16,exact
+greenhouse,allcareers,Cortica,36-4888270,"Cortica, Inc.",1,exact
+greenhouse,alphasense,AlphaSense,26-4324106,AlphaSense Inc.,12,exact
+greenhouse,altentechnologyusa,ALTEN Technology,90-1006038,"Alten Technology USA, Inc.",19,exact
+greenhouse,americaninstitutesforresearch,American Institutes for Research,25-0965219,American Institutes for Research,7,exact
+greenhouse,anaplan,Anaplan,27-0897861,"Anaplan, Inc.",38,exact
+greenhouse,anthropic,Anthropic,86-1696045,"Anthropic, PBC",248,exact
+greenhouse,aperiatechnologies,Aperia Technologies,45-2734649,"Aperia Technologies, Inc.",2,exact
+greenhouse,appian,Appian,54-1956084,Appian Corporation,53,exact
+greenhouse,applovin,AppLovin,45-3264542,AppLovin Corporation,54,exact
+greenhouse,apptronik,Apptronik,47-5640655,"APPTRONIK, INC.",8,exact
+greenhouse,arcboatcompany,Arc,86-1452240,Arc Boat Company,3,prefix
+greenhouse,archer56,Archer,85-2730902,Archer Aviation Inc.,21,prefix
+greenhouse,archer56,Archer,83-2292321,Archer Aviation Operating Corp.,9,prefix
+greenhouse,arevonenergyimpltest,Arevon,82-2908418,"Arevon Energy, Inc.",8,prefix
+greenhouse,arizeai,Arize AI,84-4221839,"Arize AI, Inc.",2,exact
+greenhouse,armada,Armada,92-1554870,"Armada Systems, Inc.",35,prefix
+greenhouse,artefactlinkedin,Artefact,86-1561416,"Artefact USA, Inc.",3,exact
+greenhouse,ashfieldadvisory,Inizio,46-3868479,Inizio Inc,1,exact
+greenhouse,assystinc,ASSYST,54-1673763,Assyst Inc. (formerly Advanced Software Systems),5,prefix
+greenhouse,asteralabs,Astera Labs,82-3437062,Astera Labs INC,14,exact
+greenhouse,atomicmachines,Atomic Machines,84-3569149,"Atomic Machines, Inc.",5,exact
+greenhouse,attentive,Attentive,87-3041400,"Attentive, Inc.",3,exact
+greenhouse,authenticinsurance,Authentic,88-2914905,"Authentic Insurance Services, Inc.",3,prefix
+greenhouse,avidxchangeinc,AvidXchange,56-2193588,"AvidXchange, Inc.",65,exact
+greenhouse,avride,Avride,85-4304382,"Avride, Inc.",25,exact
+greenhouse,axios,Axios,81-3191723,"Axios Media, Inc.",3,prefix
+greenhouse,axon,Axon,26-1879542,"AXON US, CORP.",1,exact
+greenhouse,bandwidth,Bandwidth,56-2242657,"BANDWIDTH, INC.",14,exact
+greenhouse,botauto,Bot Auto,93-2903786,BOT AUTO TX INC,15,prefix
+greenhouse,botauto,Bot Auto,93-1407063,BOT AUTO CA INC,11,prefix
+greenhouse,bottomlinetechnologies,Bottom Line,02-0433294,"Bottomline Technologies, Inc.",4,squashed
+greenhouse,bpcs,Blueprint Technologies,72-1591898,"Blueprint Technologies, LLC",2,exact
+greenhouse,bracebridgecapital,Bracebridge Capital,04-3344637,"Bracebridge Capital, LLC",7,exact
+greenhouse,bridgewater89,Bridgewater Associates,27-1437501,"BRIDGEWATER ASSOCIATES, LP",29,exact
+greenhouse,bwaltpostings,Bridgewater Associates,27-1437501,"BRIDGEWATER ASSOCIATES, LP",29,exact
+greenhouse,cadwell,Cadwell,91-1089859,"Cadwell Industries, Inc.",1,prefix
+greenhouse,canonical,Canonical,26-1194348,Canonical USA Inc.,2,exact
+greenhouse,capco,Capco,87-0727844,CAPCO CONSULTING SERVICES LLC,12,prefix
+greenhouse,caseguard,CaseGuard,46-4613612,CaseGuard Inc.,15,exact
+greenhouse,catapultsports,Catapult,59-3558793,Catapult Sports Inc.,1,squashed
+greenhouse,celigo,Celigo,90-0398114,"Celigo, Inc.",3,exact
+greenhouse,celonis,Celonis,61-1797223,"Celonis, Inc.",17,exact
+greenhouse,chanzuckerberginitiative,Chan Zuckerberg Initiative,81-0903867,"CHAN ZUCKERBERG INITIATIVE, LLC",2,exact
+greenhouse,chaosindustries,CHAOS Industries,88-2813549,"CHAOS INDUSTRIES, INC.",1,exact
+greenhouse,chowbus,ChowBus,47-4055685,"Chowbus, Inc.",15,exact
+greenhouse,cision,Cision,36-4011543,Cision US Inc.,5,exact
+greenhouse,clearwayjobs,Clearway Energy,37-1820831,Clearway Energy Group LLC,4,exact
+greenhouse,clinicalarchitecture,Clinical Architecture,26-0653628,"Clinical Architecture, LLC",7,exact
+greenhouse,commvault,Commvault,22-3447504,"CommVault Systems,Inc.",68,prefix
+greenhouse,constellationsoftwareinc,Constellation,88-3391150,Constellation Software Inc.,6,prefix
+greenhouse,consumerreports,Consumer Reports,13-1776434,"Consumer Reports, Inc.",11,exact
+greenhouse,convene,Convene,22-3942328,CONVENE INC,4,exact
+greenhouse,cooksys,Cook Systems,62-1564079,"Cook Systems International, Inc.",3,prefix
+greenhouse,cortland,Cortland,81-3779886,"Cortland Holdings, LLC",4,exact
+greenhouse,coursera,Coursera,45-3560292,Coursera Inc.,19,exact
+greenhouse,cpisecurity,CPI Security,56-1756569,"CPI Security Systems, Inc.",1,prefix
+greenhouse,cresta,Cresta,82-2180306,Cresta Intelligence Inc.,16,prefix
+greenhouse,dataiku,Dataiku,32-0460550,Dataiku Inc.,7,exact
+greenhouse,dbeconorthamerica,DB E.C.O. North America,27-3167608,DB E.C.O. North America Inc.,1,exact
+greenhouse,dhpace,DH Pace,43-1012574,"D. H. Pace Company, Inc.",2,squashed
+greenhouse,dialpad,Dialpad,27-4944127,"Dialpad, Inc.",4,exact
+greenhouse,didi,DiDi Global,83-2544330,"DiDi USA, Inc.",3,squashed
+greenhouse,diligentcorporation,Diligent Corporation,45-4831324,Diligent Group LLC,16,exact
+greenhouse,diligentrobotics,Diligent Robotics,81-0696029,"Diligent Robotics, Inc.",5,exact
+greenhouse,dlhcorporation,DLH,52-2247327,DLH Corp,8,exact
+greenhouse,doordashcanada,DoorDash,46-2852392,"DoorDash, Inc.",768,exact
+greenhouse,doordashusa,DoorDash,46-2852392,"DoorDash, Inc.",768,exact
+greenhouse,drivewealth,DriveWealth,35-2453624,DriveWealth Technologies LLC,24,prefix
+greenhouse,drweng,DRW,36-4331072,DRW Holdings LLC,43,exact
+greenhouse,duettoresearch,Duetto Research,45-4651813,"Duetto Research, Inc.",6,exact
+greenhouse,dunnhumby,dunnhumby,20-0469279,"dunnhumby, Inc.",5,exact
+greenhouse,dv01,dv01,47-2221568,"DV01, Inc.",8,exact
+greenhouse,dvtrading,DV Trading,81-2060024,DV Group LLC,5,exact
+greenhouse,eikontherapeutics,Eikon Therapeutics,84-2807586,"Eikon Therapeutics, Inc.",14,exact
+greenhouse,emergingtalent,Maven Securities,98-1441539,Maven Securities US Limited,3,exact
+greenhouse,energyhub,EnergyHub,45-0581113,EnergyHub Inc.,1,exact
+greenhouse,engineersgate,Engineers Gate,32-0433589,ENGINEERS GATE MANAGER LP,2,prefix
+greenhouse,enigmaio,Enigma,45-2236667,"ENIGMA TECHNOLOGIES, INC.",1,prefix
+greenhouse,enova,Enova,27-1129195,"Enova Financial Holdings, LLC",23,prefix
+greenhouse,eulerity,Eulerity,82-1957275,"Eulerity, Inc.",3,exact
+greenhouse,everlaw,Everlaw,27-4422378,"Everlaw, Inc.",17,exact
+greenhouse,evolutioniq,EvolutionIQ,33-2190524,EvolutionIQ LLC,15,exact
+greenhouse,evolutioniq,EvolutionIQ,84-2054466,Evolution IQ,4,exact
+greenhouse,evolver,Evolver,54-2013674,Evolver LLC,3,exact
+greenhouse,fairlife,Fairlife,80-0864026,"fairlife, LLC",2,exact
+greenhouse,fanaticscollectibles,Fanatics,45-4894304,"Fanatics Holdings, Inc.",5,exact
+greenhouse,fashionnova,Fashion Nova,86-1165549,"Fashion Nova, LLC",11,exact
+greenhouse,federato,Federato,85-0592914,"Federato Technologies, Inc.",12,prefix
+greenhouse,figma,Figma,46-2843087,"Figma, Inc.",83,exact
+greenhouse,figureai,Figure,88-2447866,FIGURE AI INC.,15,squashed
+greenhouse,fireworksai,Fireworks AI,92-0498978,"Fireworks.ai, Inc.",43,exact
+greenhouse,flagshippioneeringinc,Flagship Pioneering,75-2992246,"Flagship Pioneering, Inc.",4,exact
+greenhouse,flexport,Flexport,46-4803755,"Flexport, Inc.",51,exact
+greenhouse,focalsystems,Focal Systems,47-4374047,Focal Systems Inc.,1,exact
+greenhouse,forbes,Forbes,34-2065766,Forbes Media LLC,3,prefix
+greenhouse,fourhands,Four Hands,47-5236926,"Four Hands, LLC",1,exact
+greenhouse,fourkites,FourKites,46-2468366,"FourKites, Inc.",5,exact
+greenhouse,freedomconsulting,Freedom Technology Solutions Group,23-2824730,FREEDOM CONSULTING GROUP INC.,2,squashed
+greenhouse,fschumacherco,F. Schumacher & Co.,13-1279190,"F. SCHUMACHER & CO., LLC",1,exact
+greenhouse,gaintheory,Gain Theory,26-2523806,"Gain Theory, LLC",3,exact
+greenhouse,galaxydigitalservices,Galaxy,47-2701088,Galaxy Group Inc.,1,exact
+greenhouse,galileofinancialtechnologies,Galileo Financial Technologies,85-0808078,Galileo Financial Technologies,80,exact
+greenhouse,gallup,Gallup,21-0699771,"Gallup, Inc.",57,exact
+greenhouse,garnerhealth,Garner Health,84-3555449,"Garner Health Technology, Inc.",2,prefix
+greenhouse,generalatlantic,General Atlantic,13-3491941,"GENERAL ATLANTIC SERVICE COMPANY, L.P.",1,prefix
+greenhouse,genevatrading,Geneva Trading,36-4398436,GENEVA TRADING USA LLC,2,exact
+greenhouse,genscript,GenScript,36-4654831,GenScript USA Inc.,4,exact
+greenhouse,gensyn,Gensyn,61-2081820,"Gensyn, Inc.",3,exact
+greenhouse,geotab,Geotab,33-1223787,"Geotab USA, Inc.",18,exact
+greenhouse,ginkgobioworks,Ginkgo Bioworks,26-3118890,"Ginkgo Bioworks, Inc.",2,exact
+greenhouse,gleanwork,Glean,83-3385168,"Glean Technologies, Inc.",49,prefix
+greenhouse,gotion,Gotion,46-5177675,"Gotion, Inc.",3,exact
+greenhouse,grafanalabs,Grafana Labs,47-2051727,"Raintank, Inc.",1,alias
+greenhouse,greenhouse,Greenhouse,45-4167416,"Greenhouse Software, Inc.",1,prefix
+greenhouse,groupon,Groupon,27-0903295,"Groupon, Inc.",12,exact
+greenhouse,grvty,GRVTY,99-3823359,"GRVTY, Inc.",1,exact
+greenhouse,guidepointsecurity,GuidePoint Security,45-3694402,"GuidePoint Security, LLC",15,exact
+greenhouse,hasbro,Hasbro,05-0155090,"Hasbro, Inc.",2,exact
+greenhouse,headlandstechnologiesllc,Headlands Tech Holdings,27-4360786,"Headlands Tech Organization, LLC",16,prefix
+greenhouse,hiddenlayer,HiddenLayer,88-1414566,"HiddenLayer, Inc.",4,exact
+greenhouse,horizonsurgicalsystems,Horizon Surgical Systems,38-4187605,"HORIZON SURGICAL SYSTEMS, INC.",2,exact
+greenhouse,humansignal,HumanSignal,84-2150643,"HumanSignal, Inc.",1,exact
+greenhouse,ibkr,Interactive Brokers Group,13-3863700,Interactive Brokers LLC,23,exact
+greenhouse,ibkr,Interactive Brokers Group,26-2292821,Interactive Brokers Corp.,14,exact
+greenhouse,idmeuniversityrecruiting,ID.me,27-1835421,"ID.me, Inc.",18,exact
+greenhouse,iherb,iHerb,95-4887681,"iHerb, LLC",6,exact
+greenhouse,imc,IMC Trading,36-4366168,Polar Operations LLC d/b/a IMC Markets,16,alias
+greenhouse,inflectionai,Inflection,88-0698735,"Inflection AI, Inc.",7,squashed
+greenhouse,innodatainc,Innodata,13-3475943,Innodata Inc.,1,exact
+greenhouse,instabase,Instabase,47-3401215,"Instabase, Inc.",12,exact
+greenhouse,instalilyai,InstaLILY,92-1030265,Instalily Inc,13,exact
+greenhouse,insurify,Insurify,46-2732148,"Insurify, Inc.",3,exact
+greenhouse,intercom,Fin,45-3543192,"Intercom, Inc.",7,squashed
+greenhouse,intersystems,InterSystems,04-2639026,InterSystems Corporation,104,exact
+greenhouse,interwellhealth,Interwell Health,88-1507503,InterWell Health Partners Inc.,1,prefix
+greenhouse,ionq,IonQ,47-5522175,"IonQ Quantum, Inc.",7,prefix
+greenhouse,ispottv,iSpot.tv,45-4786521,"iSpot.tv, Inc.",8,exact
+greenhouse,janestreet,Jane Street,90-1010033,"Jane Street Group, LLC",61,exact
+greenhouse,jumio,Jumio,81-2548998,Jumio Corporation,2,exact
+greenhouse,kikoff,Kikoff,84-3587688,KikOff Inc.,29,exact
+greenhouse,klaviyocampus,Klaviyo,46-0989964,"Klaviyo, Inc.",86,exact
+greenhouse,klaviyojobs,Klaviyo,46-0989964,"Klaviyo, Inc.",86,exact
+greenhouse,knowbe4,KnowBe4,36-4827930,"KnowBe4, Inc.",10,exact
+greenhouse,koboldmetals,KoBold Metals,82-5490437,KOBOLD METALS COMPANY,1,exact
+greenhouse,kodiak,Kodiak Robotics,82-5086710,"Kodiak Robotics, Inc",17,exact
+greenhouse,latitude,Latitude AI,92-1130676,"Latitude AI, LLC",69,exact
+greenhouse,legendcareers,Legend Biotech,82-2688234,"Legend Biotech USA, Inc.",13,exact
+greenhouse,letsgetchecked,LetsGetChecked,47-5563417,"LetsGetChecked, Inc.",1,exact
+greenhouse,lgelectronics,LG Electronics,13-2950311,"LG ELECTRONICS U.S.A., INC.",16,exact
+greenhouse,lilasciences,Lila Sciences,92-2777247,"Lila Sciences, Inc.",11,exact
+greenhouse,lucidmotors,Lucid Motors,26-1618465,"Lucid USA, Inc.",300,alias
+greenhouse,ludorobotics,Ludo Robotics,41-2400762,"Ludo Robotics, Inc.",1,exact
+greenhouse,mammothbrands,Mammoth Brands,45-4576572,"HARRY'S, INC",5,exact
+greenhouse,mangroup,Man Group,98-0503332,Man Investments USA Holdings Inc,14,prefix
+greenhouse,map,VML,43-1618412,VML LLC,6,exact
+greenhouse,mara,MARA,01-0949984,"MARA Holdings, Inc.",1,exact
+greenhouse,matx,MatX,92-2361398,MatX Inc.,1,exact
+greenhouse,mavenclinic,Maven Clinic,46-5747423,Maven Clinic Co,7,exact
+greenhouse,mavensecuritiesholdingltd,Maven Securities,98-1441539,Maven Securities US Limited,3,exact
+greenhouse,maymobility,May Mobility,81-4997501,"May Mobility, Inc.",8,exact
+greenhouse,mergeworld,MERGE,85-1379395,"Merge API, Inc.",9,prefix
+greenhouse,merqube,MerQube,84-2337682,"MerQube, Inc.",6,exact
+greenhouse,miopartners,MIO Partners,13-3456816,"MIO Partners, Inc.",10,exact
+greenhouse,mitratech,Mitratech,74-3025949,"Mitratech Holdings, Inc.",3,exact
+greenhouse,mixpanel,Mixpanel,27-0231379,Mixpanel Inc.,11,exact
+greenhouse,monsterenergy,Monster Energy,82-1724005,Monster Energy US LLC,13,exact
+greenhouse,monsterenergy,Monster Energy,33-0520613,Monster Energy Company,3,exact
+greenhouse,mozilla,Mozilla,20-3226186,Mozilla Corporation,2,exact
+greenhouse,murj,Murj,47-2256130,"Murj, Inc.",1,exact
+greenhouse,mw-tech-grad,Marshall Wace,47-0943020,Marshall Wace North America LP,7,prefix
+greenhouse,natera,Natera,01-0894487,"Natera, Inc.",88,exact
+greenhouse,nationallifeinsurancecompany,National Life,03-0144090,National Life Insurance Company,15,prefix
+greenhouse,neuralink,Neuralink,81-3312960,Neuralink Corp.,10,exact
+greenhouse,ninjatrader,NinjaTrader,46-5764709,"NinjaTrader Group, LLC",8,exact
+greenhouse,notexternal,Blueprint Technologies,72-1591898,"Blueprint Technologies, LLC",2,exact
+greenhouse,nozominetworks,Nozomi Networks,81-4107539,"Nozomi Networks, Inc.",2,exact
+greenhouse,okx,OKX,88-3530565,OKX Technology Inc.,3,prefix
+greenhouse,omadahealth,Omada Health,45-2355015,OMADA HEALTH INC.,9,exact
+greenhouse,omguk,Omnicom Media Group,13-4165920,"Omnicom Media Group Holdings, Inc.",9,exact
+greenhouse,omnicomhealth,Omnicom Health,26-2507588,Omnicom Health Group LLC,1,exact
+greenhouse,ooma,Ooma,06-1713274,"Ooma, Inc.",6,exact
+greenhouse,opentable,OpenTable,94-3374049,"OpenTable, Inc.",7,exact
+greenhouse,optimove,Optimove,61-1774886,Optimove Inc,1,exact
+greenhouse,optiverprivate,Optiver,84-4498918,Optiver Services US LLC,23,prefix
+greenhouse,optoinvest,Opto Investments,85-2624755,"Opto Investments, Inc.",2,exact
+greenhouse,otter,Otter,81-2445246,"OTTER.AI, INC.",60,prefix
+greenhouse,pagerduty,PagerDuty,27-2793871,"PAGERDUTY, INC.",2,exact
+greenhouse,parallel,Parallel Systems,35-2683367,"Parallel Systems, Inc.",1,exact
+greenhouse,pathrobotics,Path Robotics,83-2135454,PATH ROBOTICS INC.,13,exact
+greenhouse,patientpoint,PatientPoint,77-0701013,"PatientPoint Network Solutions, LLC",6,prefix
+greenhouse,peregrinetechnologies,Peregrine,38-4083465,"Peregrine Technologies, Inc.",10,squashed
+greenhouse,perpay,Perpay,46-5615461,"Perpay, Inc.",7,exact
+greenhouse,perryellisinternational,Perry Ellis International,59-1162998,"Perry Ellis International, Inc.",5,exact
+greenhouse,personalisinc,Personalis,27-5411038,"Personalis, Inc.",6,exact
+greenhouse,pharomanagement,Pharo Management,83-3703722,"Pharo Management, Inc.",1,exact
+greenhouse,pingidentity,Ping Identity,84-1610456,Ping Identity Corporation,16,exact
+greenhouse,planetlabs,Planet,85-4299396,Planet Labs PBC,9,squashed
+greenhouse,pmg,PMG,27-2893369,PMG Worldwide LLC,36,prefix
+greenhouse,point72,Point72,81-3985683,"Point72, L.P.",115,exact
+greenhouse,purestorage,Pure Storage,27-1069557,"PURE STORAGE, INC.",253,exact
+greenhouse,qualifiedhealth,Qualified Health,93-4598038,Qualified Health PBC,23,exact
+greenhouse,queracomputinginc,QuEra Computing,83-2841994,QuEra Computing Inc.,6,exact
+greenhouse,rab,RAB Lighting,13-1726345,"RAB Lighting, Inc.",2,exact
+greenhouse,racapitalmanagementllc,RA Capital Management,83-0406777,"RA Capital Management, LLC",1,exact
+greenhouse,radar,RADAR,81-2766646,"Radar Labs, Inc.",5,prefix
+greenhouse,radixuniversity,Radix Trading,46-1314839,"Radix Trading, LLC",3,exact
+greenhouse,rapp,RAPP,75-2625096,RAPP WORLDWIDE TEXAS INC.,5,prefix
+greenhouse,rapp,RAPP,36-4019827,RAPP Illinois Inc.,3,prefix
+greenhouse,rapp,RAPP,20-1751835,RAPP Worldwide California Inc.,1,prefix
+greenhouse,reach,Reach Financial,37-1779212,"Reach Financial LLC (fka Liberty Lending, LLC)",2,prefix
+greenhouse,redwoodmaterials,Redwood Materials,82-1226508,"REDWOOD MATERIALS, INC.",6,exact
+greenhouse,reltio,Reltio,45-2730536,"Reltio, Inc.",11,exact
+greenhouse,renaissancelearning-nam,Renaissance,39-1559474,"Renaissance Learning, Inc.",14,prefix
+greenhouse,rhombuspower,Rhombus Power,90-0716854,"Rhombus Power, Inc.",25,exact
+greenhouse,roadrunner,RoadRunner Recycling,46-5760171,"RoadRunner Recycling, Inc.",6,exact
+greenhouse,robinhood,Robinhood,46-4364776,"Robinhood Markets, Inc.",257,prefix
+greenhouse,roboforce,RoboForce,93-1488838,RoboForce Inc.,5,exact
+greenhouse,rocketlab,Rocket Lab USA,80-0947107,"Rocket Lab USA, Inc.",1,exact
+greenhouse,rockstargames,Rockstar Games,06-1580362,"Rockstar Games, Inc.",15,exact
+greenhouse,scaleai,Scale AI,81-2516208,"Scale AI, Inc.",109,exact
+greenhouse,schonfeld,Schonfeld,47-5082310,Schonfeld Strategic Advisors LLC,22,prefix
+greenhouse,scm,Stevens Capital Management,98-0377305,Stevens Capital Management LP,1,exact
+greenhouse,scopely,Scopely,27-5425295,"Scopely, Inc.",16,exact
+greenhouse,scoutmotors,Scout Motors,88-3460258,Scout Motors Inc.,6,exact
+greenhouse,secretariatadvisorsllc,Secretariat,82-4596089,Secretariat Advisors LLC,7,prefix
+greenhouse,selffinancial,Self Financial,47-3596202,"Self Financial, Inc.",7,exact
+greenhouse,sharkninjaoperatingllc,SharkNinja,20-0115430,SharkNinja Operating LLC,23,prefix
+greenhouse,sigmacomputing,Sigma,46-5210250,"Sigma Computing, Inc.",52,exact
+greenhouse,simplisafe,SimpliSafe,20-5367003,"SimpliSafe, Inc.",14,exact
+greenhouse,singlestore,SingleStore,27-4338678,SingleStore Inc.,14,exact
+greenhouse,sironamedical,Sirona Medical,32-0567454,"Sirona Medical, Inc.",5,exact
+greenhouse,skildai-careers,Skild AI,93-1415031,"Skild AI, Inc.",6,exact
+greenhouse,smartsheet,Smartsheet,20-2954357,"Smartsheet, Inc.",62,exact
+greenhouse,soci,SOCi,45-5383269,"SOCi, Inc.",1,exact
+greenhouse,sonyinteractiveentertainmentglobal,Sony Interactive Entertainment,76-0745782,SONY INTERACTIVE ENTERTAINMENT LLC,282,exact
+greenhouse,spacex,SpaceX,01-0627671,Space Exploration Technologies Corp.,6,alias
+greenhouse,sparksoftcorporation,Sparksoft,20-1779865,Sparksoft Corporation,72,exact
+greenhouse,speechify,Speechify,81-4958197,"Speechify, Inc.",3,exact
+greenhouse,stackadapt,StackAdapt,30-1005380,StackAdapt US Inc.,8,exact
+greenhouse,stackav,StackAV,88-4271287,Stack AV Co,24,squashed
+greenhouse,stratacareers,Strata Decision Technology,32-0368502,"Strata Decision Technology, LLC",2,exact
+greenhouse,stratacareers,Strata Decision Technology,85-2189829,"Strata Decision Technology, LLC",1,exact
+greenhouse,stubhubinc,StubHub,77-0546018,"StubHub, Inc.",54,exact
+greenhouse,synack,Synack,46-1916005,"Synack, Inc.",1,exact
+greenhouse,taketwo,Take Two,51-0350842,"Take-Two Interactive Software, Inc.",8,prefix
+greenhouse,tatari,Tatari,81-3734795,"Tatari, Inc.",2,exact
+greenhouse,tebra,Tebra,20-0739220,"Tebra Technologies, Inc.",3,prefix
+greenhouse,tegnainc,TEGNA,16-0442930,"Tegna, Inc.",2,exact
+greenhouse,teletrackingtechnologiesinc,TeleTracking,25-1828750,"TeleTracking Technologies, Inc.",16,prefix
+greenhouse,tenstorrent,Tenstorrent,37-1882121,Tenstorrent USA Inc.,30,exact
+greenhouse,thealleninstitute,The Allen Institute for AI,82-4083177,Allen Institute for Artificial Intelligence,25,alias
+greenhouse,thenewyorktimes,The New York Times,13-1102020,The New York Times Company,44,exact
+greenhouse,thetradedesk,The Trade Desk,27-1887399,"THE TRADE DESK, INC.",100,exact
+greenhouse,thinkacademyus,Think Academy International Education,30-1201276,Think Academy International Education Inc.,4,exact
+greenhouse,thoughtworksreferral,Thoughtworks,36-3888809,"Thoughtworks, Inc.",45,exact
+greenhouse,threatlocker,Threatlocker,82-1592598,"ThreatLocker, Inc.",1,exact
+greenhouse,togetherai,Together AI,88-3607609,"Together Computer, Inc.",56,alias
+greenhouse,torcrobotics,Torc Robotics,20-2189518,"TORC Robotics, Inc.",57,exact
+greenhouse,toshibaglobalcommercesolutions,Toshiba Global Commerce,45-5236414,"Toshiba Global Commerce Solutions, Inc.",35,squashed
+greenhouse,trace3,Trace3,95-4876514,"Trace3, LLC",3,exact
+greenhouse,transcendinc,Transcend,32-0536950,"Transcend, Inc.",4,exact
+greenhouse,transmarketgroup,TransMarket Group,38-4001604,"TransMarket Operations, LLC",2,prefix
+greenhouse,tripadvisor,TripAdvisor,04-3503532,TripAdvisor LLC,31,exact
+greenhouse,trumid,Trumid,47-3764865,"Trumid Technologies, LLC",1,prefix
+greenhouse,truveta,Truveta,85-2537298,"Truveta, Inc.",25,exact
+greenhouse,tubitv,Tubi,27-1590494,"Tubi, Inc",44,exact
+greenhouse,twilio,Twilio,26-2574840,"Twilio, Inc.",261,exact
+greenhouse,twistbioscience,Twist Bioscience,46-2058888,Twist Bioscience Corporation,9,exact
+greenhouse,twitch,Twitch,20-5578222,"Twitch Interactive, Inc.",80,prefix
+greenhouse,uareai,Uare.ai,93-4825709,"UARE.AI, INC.",1,exact
+greenhouse,vast,VAST,32-0507805,"Vast Data, Inc.",8,prefix
+greenhouse,vercel,Vercel,47-5513830,"Vercel, Inc.",11,exact
+greenhouse,verifone,Verifone,99-0206064,"VeriFone, Inc.",19,exact
+greenhouse,verkada,Verkada,81-3505155,"Verkada, Inc",106,exact
+greenhouse,vestmark,Vestmark,04-3556518,"Vestmark, Inc.",18,exact
+greenhouse,vestwell,Vestwell,81-3062212,"Vestwell Holdings, Inc.",5,exact
+greenhouse,vipvermontinformationprocessing2,Vermont Information Processing,03-0231253,"Vermont Information Processing, LLC",5,exact
+greenhouse,virtu,Virtu Financial,26-2211621,Virtu Financial Operating LLC,17,prefix
+greenhouse,voloridgeinvestmentmanagement,Voloridge,93-3605569,"Voloridge, LLC",3,exact
+greenhouse,walleyecapital-external-fulltime,Walleye Capital,20-2560520,Walleye Capital LLC,17,exact
+greenhouse,walleyecapital-external-students,Walleye Capital,20-2560520,Walleye Capital LLC,17,exact
+greenhouse,waymark,Waymark,87-1928993,"Waymark, Inc.",5,exact
+greenhouse,welbehealth,WelbeHealth,47-4992647,Welbe Health LLC,5,squashed
+greenhouse,wonderschool,Wonderschool,45-1080073,"Wonderschool, Inc.",1,exact
+greenhouse,woolpert,Woolpert,20-1391406,"Woolpert, Inc.",3,exact
+greenhouse,workstream,Workstream,81-3344636,"Workstream Technologies, Inc.",1,prefix
+greenhouse,worldquant,WorldQuant,30-0484922,"WorldQuant, LLC",37,exact
+greenhouse,xai,xAI,92-3205539,"XAI, Inc.",1,exact
+greenhouse,xairatherapeutics,Xaira Therapeutics,92-3560899,"Xaira Therapeutics, Inc.",1,exact
+greenhouse,xometry,Xometry,32-0415449,Xometry Inc.,14,exact
+greenhouse,yesenergy,Yes Energy,26-2059092,Yes Energy LLC,7,exact
+greenhouse,yext,Yext,20-8059722,"Yext, Inc.",18,exact
+greenhouse,zetaglobal,Zeta Global,26-1196017,ZETA GLOBAL CORP.,39,exact
+greenhouse,ziprecruiter,ZipRecruiter,27-2976158,"ZipRecruiter, Inc.",47,exact
+greenhouse,zscaler,Zscaler,26-1173892,"Zscaler, Inc.",260,exact
+lever,aeratechnology,Aera Technology,77-0527525,"Aera Technology, Inc.",5,exact
+lever,aircall,Aircall,47-1062986,"Aircall.io, Inc.",26,prefix
+lever,aledade,Aledade,46-5417350,"Aledade, Inc.",32,exact
+lever,allegiantair,Allegiant Air,20-0808621,"Allegiant Air, LLC",10,exact
+lever,analyticpartners,Analytic Partners,13-4177380,"Analytic Partners, LP",26,exact
+lever,appen-2,Appen,35-2238395,"Appen AI, Inc.",3,prefix
+lever,arable,Arable,47-2172698,"Arable Labs, Inc.",3,prefix
+lever,artera-2,Artera,87-1224645,"Artera, Inc.",4,exact
+lever,attentive,Attentive,87-3041400,"Attentive, Inc.",3,exact
+lever,autoroboto,Autoroboto,47-4037093,AutoRoboto LLC,2,exact
+lever,beghouconsulting,Beghou Consulting,36-4169779,Beghou Consulting LLC,13,exact
+lever,bluesight,Bluesight,27-5550596,"Bluesight, Inc.",1,exact
+lever,bosonai,Boson Ai,92-2824499,Boson AI USA Inc.,8,exact
+lever,cesiumastro,CesiumAstro,81-5150046,CesiumAstro Inc.,1,exact
+lever,cirrus,Cirrus Logic,77-0024818,"CIRRUS LOGIC, INC.",4,exact
+lever,color,Color,46-3353585,"Color Health, Inc.",4,prefix
+lever,datalabusa,Datalab USA,52-2194299,"DataLab USA, LLC",3,exact
+lever,demiurgestudios,Demiurge Studios,75-3091630,"Demiurge Studios, Inc.",1,exact
+lever,economicmodeling,Lightcast,27-1605272,"Economic Modeling, LLC",6,squashed
+lever,ekimetrics,Ekimetrics,47-2035014,EKIMETRICS INC,1,exact
+lever,eliyan,Eliyan,87-3769007,Eliyan Corp.,1,exact
+lever,employ,Employ,56-2422812,"Employ, Inc.",5,exact
+lever,field-ai,Field AI,93-3789060,"Field AI, Inc.",13,exact
+lever,filevine,Filevine,82-1960713,"Filevine, INC.",1,exact
+lever,fiscalnote,FiscalNote,80-0934908,"FiscalNote Holdings, Inc. & Subsidiaries",8,prefix
+lever,glsllc,Global Lending Services,90-0772739,Global Lending Services LLC,22,exact
+lever,grailbio,GRAIL,86-3673636,"GRAIL, Inc.",28,exact
+lever,greenlight,Greenlight,47-2550478,"Greenlight Financial Technology, Inc.",17,prefix
+lever,h1,H1,84-2699829,"H1 Insights, Inc.",9,prefix
+lever,hottopic,Hot Topic,77-0198182,"HOT TOPIC, INC.",10,exact
+lever,hsag,Health Services Advisory Group,86-0440007,"Health Services Advisory Group, Inc.",8,exact
+lever,ion,ION Group,36-3080374,"ION Trading, Inc",2,prefix
+lever,jamcity,Jam City,27-1995808,"JAM CITY, INC.",10,exact
+lever,kitware,Kitware,14-1802694,"Kitware, Inc.",4,exact
+lever,latitudeinc,Latitude,84-3997089,"Latitude, Inc.",1,exact
+lever,leantaas,LeanTaaS,27-2113973,"LeanTaaS, Inc.",18,exact
+lever,life,Life.Church,83-4556546,"Life.Church Operations, LLC",10,prefix
+lever,matchgroup,Match Group,46-0478183,Tinder LLC,108,exact
+lever,matchgroup,Match Group,32-0750899,"Match Group Americas, LLC",18,exact
+lever,mulliganfunding,Mulligan Funding,26-3605217,"Mulligan Funding, LLC",2,exact
+lever,nobullproject,Nobull,82-2836127,"NOBULL, LLC",2,exact
+lever,nomihealth,Nomi Health,84-1905194,"Nomi Health, Inc.",6,exact
+lever,npowermedicine,N-Power Medicine,87-1592802,N-Power Medicine Inc.,4,exact
+lever,olo,Olo,20-2971562,Olo Inc.,1,exact
+lever,omnidesigntech,Omni Design Technologies,47-3497833,"Omni Design Technologies, Inc.",1,exact
+lever,palantir,Palantir,68-0551851,PALANTIR TECHNOLOGIES INC.,273,prefix
+lever,picklerobot,Pickle Robot,83-1425848,Pickle Robot Company,1,exact
+lever,pingwind,PingWind,46-0857959,"PingWind, Inc.",2,exact
+lever,plus-2,PlusAI,81-3283445,"PlusAI, Inc.",19,exact
+lever,pointclickcare,PointClickCare,98-0442503,PointClickCare Technologies USA Corp.,17,prefix
+lever,protective,Protective Life,95-2492236,Protective Life Corporation,3,exact
+lever,pyka,Pyka,81-4448026,Pyka Inc.,1,exact
+lever,quantcast,Quantcast,20-2436141,Quantcast Corporation,9,exact
+lever,questanalytics,Quest Analytics,30-0381293,Quest Analytics Inc.,1,exact
+lever,regalvoice,Regal,85-1603594,"REGAL VOICE, INC.",4,squashed
+lever,reply,Reply,68-0682665,"REPLY, INC.",1,exact
+lever,revenueanalytics,Revenue Analytics,31-1839338,"REVENUE ANALYTICS, INC.",5,exact
+lever,sambatv,Samba TV,26-3436467,"Samba TV, Inc.",3,exact
+lever,saviynt,Saviynt,47-3807420,"Saviynt, Inc.",87,exact
+lever,schmidt-entities,Schmidt Sciences,93-3926551,"Schmidt Sciences, LLC",1,exact
+lever,shieldai,Shield AI,47-4117444,"Shield AI, Inc.",2,exact
+lever,sideinc,Side,27-0148736,"Side America, Inc.",2,prefix
+lever,simberobotics,Simbe Robotics,47-1275059,"Simbe Robotics, Inc.",5,exact
+lever,simulmedia,Simulmedia,90-0420593,"Simulmedia, Inc.",1,exact
+lever,sophos,Sophos,04-3328310,"Sophos, Inc.",61,exact
+lever,spotify,Spotify,80-0555431,"SPOTIFY USA, INC.",151,exact
+lever,sprymethods,Spry Methods,54-2037959,Spry Methods Inc.,1,exact
+lever,standtogether,Stand Together,27-3197768,Stand Together Foundation,4,prefix
+lever,sugarcrm,SugarCRM,20-1173875,SugarCRM Inc.,4,exact
+lever,thinkahead,AHEAD,84-3489032,"Ahead, Inc",37,exact
+lever,trend-health-partners,Trend Health Partners,83-2044663,Trend Health Partners,1,exact
+lever,tri,Toyota Research Institute,81-0700429,"Toyota Research Institute, Inc.",27,exact
+lever,upscale-ai,Upscale AI,39-2930145,"Upscale AI, Inc",11,exact
+lever,veeva,Veeva Systems,20-8235463,Veeva Systems Inc.,147,exact
+lever,voltus,Voltus,81-3538282,"Voltus, Inc.",4,exact
+lever,waabi,Waabi,41-3090728,Waabi US Inc.,6,exact
+lever,wachter,Wachter,48-1238438,"Wachter, Inc.",2,exact
+lever,weride,WeRide,81-5463676,WeRide CORP,66,exact
+lever,whoop,Whoop,45-4312359,WHOOP Inc.,38,exact
+lever,windfalldata,Windfall,81-3232300,"Windfall Data, Inc.",1,squashed
+lever,wisdomtree,WisdomTree,88-2069512,WisdomTree Digital Movement Inc.,1,prefix
+lever,wisecode,WISEcode,37-1783511,"WISEcode, LLC",1,exact
+lever,woven-by-toyota,Woven,86-2554188,"Woven by Toyota, U.S., Inc.",68,squashed
+lever,wwprosolutions,World Wide Professional Solutions,82-1110302,"WORLD WIDE PROFESSIONAL SOLUTIONS, LLC.",3,exact
+lever,zeneducate,Zen Educate,87-4592754,Zen Educate Inc.,1,exact
+lever,zoox,Zoox,47-1523316,Zoox Inc.,331,exact
