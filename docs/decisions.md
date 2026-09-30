@@ -180,3 +180,184 @@ Two changes came out of building it:
 5. [x] Probe every feed, drop dead ones, write `companies.csv`
 6. [ ] Second opinion on the review decisions and labels, which were made in
        one pass by the same reviewer
+
+---
+
+## ADR-002: The poller
+
+**Status:** Accepted
+**Date:** 2026-09-30
+
+### Context
+
+The poller turns the watchlist into alerts: every 30 minutes it fetches every
+open job from 1,148 boards, keeps the ones a new grad could apply to, attaches
+sponsorship evidence, and notifies people about jobs they haven't seen. It has
+to cost $0 and survive boards that fail.
+
+Measured on 2026-09-30, one full pass:
+
+| System | Boards | Open jobs | Downloaded | Per job |
+|---|---|---|---|---|
+| Greenhouse | 532 | 44,269 | 37 MB | 0.8 KB (no descriptions in the list) |
+| Lever | 206 | 16,439 | 251 MB | 15.3 KB (descriptions always included) |
+| Ashby | 410 | 14,313 | 201 MB | 14.0 KB (descriptions always included) |
+| **Total** | **1,148** | **75,021** | **489 MB** | **27 seconds at 8 concurrent** |
+
+Of those 75,025 jobs, 26,280 have tech titles and 14,771 of those aren't
+clearly senior. 1,342 say entry-level or intern outright. 99.97% have a
+posting date.
+
+### Requirements
+
+- **Functional:** fetch, classify (role type, level, US or remote, warning
+  flags), attach evidence, detect new and closed jobs, alert each new match
+  once, publish the data the site reads, report feed health.
+- **Freshness:** alert within about 30 minutes of a job appearing on its board.
+- **Cost:** $0 beyond the domain. GitHub Actions, Neon free tier (0.5 GB,
+  scales to zero), GitHub Pages.
+- **Reliability:** one bad board never blocks the rest. A failed fetch must
+  never close that board's jobs.
+- **Privacy:** no job descriptions and no personal data stored.
+
+### Design
+
+```
+ companies.csv ──┐   GitHub Actions, every 30 min (python -m filedfor.poll)
+ sponsor_roles ──┤
+                 v
+   1. fetch      all boards, 8 at a time, retries, per-board isolation
+   2. classify   role type, level, location, remote          (title + fields)
+   3. keep       candidates: tech role, not clearly senior, US or remote
+   4. diff       vs open candidates in Postgres -> new / still open / closed
+   5. enrich     new only: fetch Greenhouse description, extract years and
+                 warning flags ("no sponsorship", "citizens only", clearance),
+                 attach evidence (role type -> occupation codes -> FEIN rows)
+   6. store      one short transaction: insert new, close missing, log run
+   7. notify     new matches -> Discord (now), web push (Phase 2)
+   8. publish    jobs.json + health.json -> GitHub Pages (no git commits)
+```
+
+**Data model (Postgres):**
+
+| Table | Holds | Size |
+|---|---|---|
+| `boards` | each board's last success, last error, consecutive failures | 1,148 rows |
+| `jobs` | candidates only: key (system, slug, job id), title, link, location, country, remote, role type, level, min years, 3 warning flags, posted, first seen, closed, alerted, classifier version | ~15,000 open + 90 days of closed, about 10 MB |
+| `runs` | one row per run: counts, duration, errors | 1,440 a month |
+| `subscriptions` | Phase 2: push endpoint, keys, chosen filters | small |
+| `deliveries` | Phase 2: which subscription got which job | pruned with jobs |
+
+### Key decisions
+
+**1. Store candidates, not every job.** The diff only needs the open
+candidates for each board (about 15,000 keys, read once per run). Writes per
+run are tens of rows instead of 75,000 updates, so storage and database time
+stay tiny. *Cost:* a job that later becomes a candidate (after a classifier
+change) looks new. Guard: alerts only go out for jobs posted in the last 72
+hours.
+
+**2. Descriptions are read, not stored.** Lever and Ashby descriptions are
+already in memory. Greenhouse descriptions are fetched per job, only for new
+candidates (tens per run), instead of downloading all 44,000 every time.
+Facts extracted from them are stored; the text is dropped.
+
+**3. Closing only counts on success.** A candidate is closed when its board
+was fetched successfully and the job is gone. A board that errors keeps its
+jobs open and its failure count goes up.
+
+**4. Alert once, at least once.** New jobs get `alerted_at` only after the
+send succeeds, so a failed send retries next run. A crash between sending and
+marking can repeat one alert, which is better than losing one.
+
+**5. First run alerts nothing.** The first run (and any newly added board)
+marks its jobs as already alerted, otherwise 15,000 notifications go out at
+once.
+
+**6. The database wakes briefly.** All fetching and classifying happens
+before connecting. One connection, one transaction, then disconnect. The
+site reads `jobs.json`, never the database, so traffic can't wake it.
+
+**7. Publish without commits.** `jobs.json` and `health.json` go to GitHub
+Pages as a build artifact each run, so the repo history isn't flooded with a
+commit every 30 minutes.
+
+### Load and cost
+
+| Resource | Estimate | Limit |
+|---|---|---|
+| Actions minutes | about 2 per run, 96 a day | Private repo: 2,000 a month free, so about 960 until launch on Oct 10. Public: unlimited |
+| Neon storage | about 10 MB | 0.5 GB |
+| Neon compute | a few seconds of work, then about 5 minutes idle before suspend, 48 times a day | measured in the Day 4 24-hour run |
+| Board APIs | 1 request per board per 30 minutes, plus a few description fetches | polite |
+| Discord | a handful of messages per run, 10 jobs per message | 30 messages a minute per webhook |
+
+### Failure handling and monitoring
+
+- Per request: 20 second timeout, 3 tries with backoff on timeouts, 429 and
+  5xx. A 404 marks the board failed for this run.
+- `health.json`: time of last run, boards failing now, boards failing for
+  more than a day (candidates to remove), jobs published.
+- Discord warning to the owner when more than 10% of boards fail in one run.
+- `concurrency` group in the workflow so two runs never overlap.
+
+### Test plan
+
+The classifiers decide what reaches a student, so they get a labelled test
+set. Everything else gets fast unit tests on saved data.
+
+| Area | Test type | How | Target |
+|---|---|---|---|
+| Role type (AI/ML, SWE, Data, none) from title | Labelled eval | 120 titles in `data/labels/titles.csv` | Precision 90%+ |
+| Level (intern, entry, experienced, unclear) from title | Labelled eval | Same sheet | Entry recall 95%+, precision 85%+ |
+| Min years, "no sponsorship", "citizens only", clearance | Labelled eval | 40 description snippets in `data/labels/descriptions.csv` | "No sponsorship" recall 95%+; years exact 90%+ |
+| US and remote detection | Unit | Real location strings from the snapshot, one case per pattern | Every pattern passes |
+| Board adapters | Unit | One saved, trimmed API response per system | Every field mapped; missing fields don't crash |
+| Diff: new, closed, failed board, first run, 72-hour guard | Unit | Pure function, no database | Every branch covered |
+| Discord notifier | Unit | httpx mock transport | 10 per message; 429 waits; failure leaves `alerted_at` empty |
+| Postgres store | Integration | Neon `dev` branch, skipped when `DEV_DATABASE_URL` isn't set | Same snapshot twice gives 0 new jobs |
+| Whole run | End to end | 3 saved boards + mock HTTP + dev branch | `jobs.json` has the expected jobs and evidence |
+
+The targets are targets, not results. Results get recorded here after
+the first scoring.
+
+**Why the classifier weights differ.** A senior job in a new grad's alerts is
+annoying. A missed entry-level job costs an application. A missed "we cannot
+sponsor" sends someone to a job that will reject them. So recall matters most
+for entry-level and "no sponsorship", and precision matters most for role
+type.
+
+**How the labelled sets were built (2026-09-30, seed 2026).**
+- **Titles:** 33,235 open jobs with engineering, data or AI words in the
+  title, split into rough buckets by keyword: entry-ish (2,618), plain
+  (16,924), senior-ish (13,693). 45, 50 and 25 were drawn from each, because a
+  plain random sample would hold almost no entry-level titles. Scores are
+  reported per bucket and weighted back to the bucket sizes.
+- **Descriptions:** 1,855 tech jobs from 120 random Lever and Ashby boards.
+  543 of them (29%) mention sponsorship, visas, citizenship or clearance. 20
+  were drawn from those and 20 from the rest. Each row shows only the
+  sentences around those words and around "N years", so labelling is quick.
+- **The rules are written before the labels are read.** The labels are the
+  held-out test, scored once. After fixing failures, the same set becomes a
+  development set, and a fresh sample is needed for the next honest score.
+
+**Labelling guide.**
+- `role`: `a` AI/ML, `s` software, `d` data, `n` none (sales engineer,
+  mechanical, support, product manager).
+- `level`: `i` intern, `e` entry (open to a new grad), `x` experienced, `?`
+  can't tell from the title alone.
+- `min_years`: the smallest number of years required, blank if none stated.
+- flags: `y` or `n`. "Regardless of citizenship" in equal-opportunity text is
+  `n`, because it isn't a restriction.
+
+### Revisit
+
+- **Schedule drift:** GitHub's cron can start runs late when it's busy.
+  Time-to-alert is measured on Day 7. If it's poor, trigger the workflow from
+  an external cron.
+- **Dead-man switch:** if runs stop entirely, nothing inside the poller
+  notices. A free healthchecks.io ping would email the owner.
+- **Classifier:** rules first. Move to a model only if the labelled test set
+  shows rules plateauing.
+- **Workday:** 45% of Simplify's listings, mostly large companies. Separate
+  adapter, stretch goal.

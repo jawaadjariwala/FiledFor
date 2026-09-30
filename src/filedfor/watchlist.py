@@ -32,6 +32,8 @@ from pathlib import Path
 import duckdb
 import httpx
 
+from filedfor.feeds import USER_AGENT, board_url
+
 LISTINGS_URL = (
     "https://raw.githubusercontent.com/SimplifyJobs/New-Grad-Positions/dev/"
     ".github/scripts/listings.json"
@@ -360,17 +362,6 @@ def match(feeds: list[Feed], employers: dict[str, Employer]) -> Counter:
     return stats
 
 
-# Public job-board APIs. Greenhouse serves EU boards from its main API;
-# Lever EU boards need the EU host.
-API = {
-    ("greenhouse", False): "https://boards-api.greenhouse.io/v1/boards/{slug}/jobs",
-    ("greenhouse", True): "https://boards-api.greenhouse.io/v1/boards/{slug}/jobs",
-    ("lever", False): "https://api.lever.co/v0/postings/{slug}?mode=json",
-    ("lever", True): "https://api.eu.lever.co/v0/postings/{slug}?mode=json",
-    ("ashby", False): "https://api.ashbyhq.com/posting-api/job-board/{slug}",
-}
-
-
 def count_jobs(system: str, body) -> int:
     if system == "lever":
         return len(body)
@@ -382,14 +373,10 @@ async def probe(
 ) -> dict[tuple[str, str], tuple[str, int]]:
     """Call each feed once: ('ok', job count) or ('dead', HTTP status)."""
     sem = asyncio.Semaphore(concurrency)
-    headers = {
-        "User-Agent": "FiledFor (open-source job board; filedfor.com)"
-    }
+    headers = {"User-Agent": USER_AGENT}
 
     async def one(client: httpx.AsyncClient, feed: Feed):
-        url = API[(feed.system, feed.eu and feed.system != "ashby")].format(
-            slug=urllib.parse.quote(feed.slug, safe="")
-        )
+        url = board_url(feed.system, feed.slug, feed.eu)
         async with sem:
             for attempt in range(3):
                 try:

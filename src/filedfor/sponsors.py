@@ -22,6 +22,22 @@ RAW_GLOB = "data/lca/LCA_Disclosure_Data_*.parquet"
 CLEAN = Path("data/lca/clean.parquet")
 SPONSORS = Path("data/sponsors.parquet")
 SPONSOR_ROLES = Path("data/sponsor_roles.parquet")
+ROLE_EVIDENCE = Path("data/role_evidence.parquet")
+
+# Occupation codes each FiledFor role type is filed under. Data engineers and
+# ML engineers are often filed as Software Developers, so that code is shared.
+ROLE_SOCS = {
+    "swe": ["15-1252.00", "15-1253.00", "15-1254.00", "15-1251.00", "15-1299.08"],
+    "ai": ["15-1252.00", "15-2051.00", "15-1221.00", "15-1299.08"],
+    "data": [
+        "15-2051.00",
+        "15-2051.01",
+        "15-1243.00",
+        "15-1242.00",
+        "15-2041.00",
+        "15-1252.00",
+    ],
+}
 
 # Hours and pay periods per year, to put every wage on the same footing
 YEARLY_FACTOR = """
@@ -72,9 +88,19 @@ where rn = 1
 WAGE_MIN, WAGE_MAX = 20_000, 1_000_000
 
 SPONSORS_SQL = f"""
+with top_name as (
+    -- Most common name per FEIN, ties broken alphabetically (mode() picks at random)
+    select employer_fein, first(employer_name order by n desc, employer_name) as top
+    from (
+        select employer_fein, employer_name, count(*) as n
+        from read_parquet('{CLEAN}')
+        group by all
+    )
+    group by employer_fein
+)
 select
     employer_fein,
-    mode(employer_name)                                        as employer_name,
+    any_value(top)                                             as employer_name,
     count(*)                                                   as filings,
     count(*) filter (where is_tech)                            as tech_filings,
     count(*) filter (where is_tech and is_new_hire)            as tech_new_hire_filings,
@@ -86,20 +112,22 @@ select
     median(wage_yearly) filter (
         where is_tech and wage_yearly between {WAGE_MIN} and {WAGE_MAX}
     )                                                          as tech_median_wage,
-    avg(h1b_dependent::int)                                    as h1b_dependent_share,
-    avg(placed_at_client::int)                                 as placed_at_client_share,
-    list(distinct employer_name)                               as name_variants,
+    round(avg(h1b_dependent::int), 4)                          as h1b_dependent_share,
+    round(avg(placed_at_client::int), 4)                       as placed_at_client_share,
+    list(distinct employer_name order by employer_name)       as name_variants,
     min(decision_date)                                         as first_decision,
     max(decision_date)                                         as last_decision
 from read_parquet('{CLEAN}')
+join top_name using (employer_fein)
 group by employer_fein
+order by employer_fein
 """
 
 SPONSOR_ROLES_SQL = f"""
 select
     employer_fein,
     soc_code,
-    mode(soc_title)                                  as soc_title,
+    min(soc_title)                                   as soc_title,
     count(*)                                         as filings,
     count(*) filter (where is_new_hire)              as new_hire_filings,
     count(*) filter (where wage_level = 'I')         as level_1,
@@ -113,7 +141,36 @@ select
 from read_parquet('{CLEAN}')
 where is_tech
 group by employer_fein, soc_code
+order by employer_fein, soc_code
 """
+
+
+def role_evidence_sql() -> str:
+    """One row per employer and role type: the numbers shown next to a job."""
+    role_map = " union all ".join(
+        f"select '{role}' as role, unnest({socs}) as soc_code"
+        for role, socs in ROLE_SOCS.items()
+    )
+    return f"""
+    with roles as ({role_map})
+    select
+        c.employer_fein,
+        r.role,
+        count(*)                                         as filings,
+        count(*) filter (where is_new_hire)              as new_hire_filings,
+        count(*) filter (where wage_level = 'I')         as level_1,
+        count(*) filter (where wage_level = 'II')        as level_2,
+        count(*) filter (where wage_level = 'III')       as level_3,
+        count(*) filter (where wage_level = 'IV')        as level_4,
+        median(wage_yearly) filter (
+            where wage_yearly between {WAGE_MIN} and {WAGE_MAX}
+        )                                                as median_wage,
+        max(decision_date)                               as last_decision
+    from read_parquet('{CLEAN}') c
+    join roles r using (soc_code)
+    group by all
+    order by employer_fein, role
+    """
 
 
 def build(con: duckdb.DuckDBPyConnection | None = None) -> None:
@@ -122,6 +179,9 @@ def build(con: duckdb.DuckDBPyConnection | None = None) -> None:
     con.sql(f"copy ({SPONSORS_SQL}) to '{SPONSORS}' (format parquet, compression zstd)")
     con.sql(
         f"copy ({SPONSOR_ROLES_SQL}) to '{SPONSOR_ROLES}' (format parquet, compression zstd)"
+    )
+    con.sql(
+        f"copy ({role_evidence_sql()}) to '{ROLE_EVIDENCE}' (format parquet, compression zstd)"
     )
 
 

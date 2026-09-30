@@ -1,0 +1,106 @@
+{
+ "jobs": [
+  {
+   "absolute_url": "https://job-boards.greenhouse.io/vercel/jobs/6136160004",
+   "data_compliance": [
+    {
+     "type": "gdpr",
+     "requires_consent": false,
+     "requires_processing_consent": false,
+     "requires_retention_consent": false,
+     "retention_period": null,
+     "demographic_data_consent_applies": true
+    }
+   ],
+   "internal_job_id": 5196261004,
+   "location": {
+    "name": "Hybrid - London"
+   },
+   "metadata": [
+    {
+     "id": 18783104004,
+     "name": "Career Site Categories",
+     "value": "Sales",
+     "value_type": "single_select"
+    }
+   ],
+   "id": 6136160004,
+   "updated_at": "2026-09-24T13:34:54-04:00",
+   "requisition_id": "1311",
+   "title": "Account Executive, Commercial",
+   "company_name": "Vercel",
+   "first_published": "2026-08-06T12:50:10-04:00",
+   "language": "en",
+   "application_deadline": null
+  },
+  {
+   "absolute_url": "https://job-boards.greenhouse.io/vercel/jobs/5999792004",
+   "data_compliance": [
+    {
+     "type": "gdpr",
+     "requires_consent": false,
+     "requires_processing_consent": false,
+     "requires_retention_consent": false,
+     "retention_period": null,
+     "demographic_data_consent_applies": true
+    }
+   ],
+   "internal_job_id": 5156316004,
+   "location": {
+    "name": "Hybrid - London"
+   },
+   "metadata": [
+    {
+     "id": 18783104004,
+     "name": "Career Site Categories",
+     "value": "Sales",
+     "value_type": "single_select"
+    }
+   ],
+   "id": 5999792004,
+   "updated_at": "2026-09-24T17:12:05-04:00",
+   "requisition_id": "1240",
+   "title": "Account Executive, Majors",
+   "company_name": "Vercel",
+   "first_published": "2026-05-21T09:26:09-04:00",
+   "language": "en",
+   "application_deadline": null
+  },
+  {
+   "absolute_url": "https://job-boards.greenhouse.io/vercel/jobs/5841911004",
+   "data_compliance": [
+    {
+     "type": "gdpr",
+     "requires_consent": false,
+     "requires_processing_consent": false,
+     "requires_retention_consent": false,
+     "retention_period": null,
+     "demographic_data_consent_applies": false
+    }
+   ],
+   "internal_job_id": 5070702004,
+   "location": {
+    "name": "Hybrid - Sydney"
+   },
+   "metadata": [
+    {
+     "id": 18783104004,
+     "name": "Career Site Categories",
+     "value": "Sales",
+     "value_type": "single_select"
+    }
+   ],
+   "id": 5841911004,
+   "updated_at": "2026-09-24T13:11:37-04:00",
+   "requisition_id": "1184",
+   "title": "Account Executive, Majors (APAC)",
+   "company_name": "Vercel",
+   "first_published": "2026-06-23T18:49:37-04:00",
+   "language": "en",
+   "application_deadline": null
+  }
+ ],
+ "meta": {
+  "total": 91
+ }
+}

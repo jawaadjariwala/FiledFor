@@ -8,3 +8,9 @@ __pycache__/
 # Raw government downloads and row-level data: large, and re-downloadable
 data/raw/
 data/lca/
+
+# Secrets: database URL, webhook URLs
+.env
+
+# Generated each run and published to GitHub Pages
+public/

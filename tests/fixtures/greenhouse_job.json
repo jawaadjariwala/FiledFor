@@ -1,0 +1,54 @@
+{
+ "absolute_url": "https://job-boards.greenhouse.io/vercel/jobs/6136160004",
+ "data_compliance": [
+  {
+   "type": "gdpr",
+   "requires_consent": false,
+   "requires_processing_consent": false,
+   "requires_retention_consent": false,
+   "retention_period": null,
+   "demographic_data_consent_applies": true
+  }
+ ],
+ "internal_job_id": 5196261004,
+ "location": {
+  "name": "Hybrid - London"
+ },
+ "metadata": [
+  {
+   "id": 18783104004,
+   "name": "Career Site Categories",
+   "value": "Sales",
+   "value_type": "single_select"
+  }
+ ],
+ "id": 6136160004,
+ "updated_at": "2026-09-24T13:34:54-04:00",
+ "requisition_id": "1311",
+ "title": "Account Executive, Commercial",
+ "company_name": "Vercel",
+ "first_published": "2026-08-06T12:50:10-04:00",
+ "language": "en",
+ "application_deadline": null,
+ "content": "&lt;div class=&quot;content-intro&quot;&gt;&lt;h2&gt;About Vercel:&lt;/h2&gt;\n&lt;p&gt;&lt;span data-sheets-root=&quot;1&quot;&gt;Vercel is the agentic infrastructure company, freeing people and agents to ship what&#39;s next. For more than a decade we&#39;ve helped builders move from idea to production with speed, security, and exceptional developer experience.&lt;/span&gt;&lt;/p&gt;\n&lt;p&gt;&lt;span data-sheets-root=&quot;1&quot;&gt;Now we&#39;re scaling our products for both agents and people to ship and run software, built in the open and trusted by OpenAI, PayPal, Ramp, Supreme, and millions of developers worldwide.&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;&lt;h2&gt;About the Role:&lt;/h2&gt;\n&lt;p&gt;Vercel&#39;s sales team is built on people who are technically fluent, commercially sharp, and deeply curious about the companies they sell into.&lt;/p&gt;\n&lt;p&gt;You\u2019ll run full-cycle deals in close partnership with Solutions Architects, Marketing, and Customer Success, and you\u2019ll help shape how Vercel goes to market as we continue to expand our Commercial segment. We\u2019re building a team with a strong preference to grow talent internally. If you want a path to larger scopes and leadership over time, this is a great place to do it.&lt;/p&gt;\n&lt;p&gt;This is a high-impact, net-new logo role on a fast-growing, technical sales team. You\u2019ll sell to developers and engineering leaders at modern, digital-native companies, connecting Vercel\u2019s front-end cloud and developer experience to",
+ "departments": [
+  {
+   "id": 4085775004,
+   "name": "Account Executive",
+   "child_ids": [],
+   "parent_id": null
+  }
+ ],
+ "offices": [
+  {
+   "id": 4091069004,
+   "name": "Office - London",
+   "location": "London, England, United Kingdom",
+   "child_ids": [],
+   "parent_id": 4014161004
+  }
+ ],
+ "ai_disclaimer": null,
+ "include_ai_disclaimer": null,
+ "ai_opt_out_request_url": "http://app4.greenhouse.io/ai_opt_out_request/job_post/6136160004/ai_opt_out"
+}

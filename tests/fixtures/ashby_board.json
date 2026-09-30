@@ -1,0 +1,83 @@
+{
+ "jobs": [
+  {
+   "id": "ac6c4998-d6e7-429d-a889-930376bcc9f2",
+   "title": "Member of Technical Staff - Compiler Engineer",
+   "department": "Research and Development",
+   "team": "Engineering",
+   "employmentType": "FullTime",
+   "location": "San Francisco, CA",
+   "secondaryLocations": [],
+   "publishedAt": "2026-03-10T04:39:21.332+00:00",
+   "isListed": true,
+   "isRemote": false,
+   "workplaceType": "OnSite",
+   "address": {
+    "postalAddress": {
+     "postalCode": "94103",
+     "addressRegion": "California",
+     "streetAddress": "255 Portrero Ave",
+     "addressCountry": "United States",
+     "addressLocality": "San Francisco"
+    }
+   },
+   "jobUrl": "https://jobs.ashbyhq.com/gimlet/ac6c4998-d6e7-429d-a889-930376bcc9f2",
+   "applyUrl": "https://jobs.ashbyhq.com/gimlet/ac6c4998-d6e7-429d-a889-930376bcc9f2/application",
+   "descriptionHtml": "<p style=\"min-height:1.5em\"><strong>About us</strong></p><p style=\"min-height:1.5em\">Gimlet is building the first multi-silicon neocloud designed for fast, efficient AI inference.</p><p style=\"min-height:1.5em\">We combine large-scale compute infrastructure with an execution platform that partitions AI workloads and maps each stage to the hardware best suited to run it.</p><p style=\"min-height:1.5em\">We work with foundation labs, hyperscalers, and AI-native companies, giving our team access to technical problems spanning frontier models, production infrastructure, and emerging hardware.</p><p style=\"min-height:1.5em\"><strong>About the role</strong></p><p style=\"min-height:1.5em\">As a Member of Technical Staff, Compiler, you will build Gimlet's AI Compiler Stack: the layer that determines how AI workloads are represented, optimized, and executed across hardware with fundamentally different architectures, memory systems, and performance characteristics.</p><p style=\"min-height:1.5em\">The compiler is one of the hardest and most critical parts of our inference stack. Its decisions reach directly into scheduling, communication, memory movement, kernel execution, and end-to-end serving performance of Gimlet\u2019s inference stack. A compiler built for a single target can bake in assumptions about the memory hierarchy and execution model. We can't. That constraint is what makes the work interesting.</p><p style=\"min-height:1.5em\">Our stack is built on open-source MLIR and LLVM compiler in",
+   "descriptionPlain": "About us\n\nGimlet is building the first multi-silicon neocloud designed for fast, efficient AI inference.\n\nWe combine large-scale compute infrastructure with an execution platform that partitions AI workloads and maps each stage to the hardware best suited to run it.\n\nWe work with foundation labs, hyperscalers, and AI-native companies, giving our team access to technical problems spanning frontier models, production infrastructure, and emerging hardware.\n\nAbout the role\n\nAs a Member of Technical Staff, Compiler, you will build Gimlet's AI Compiler Stack: the layer that determines how AI workloads are represented, optimized, and executed across hardware with fundamentally different architectures, memory systems, and performance characteristics.\n\nThe compiler is one of the hardest and most critical parts of our inference stack. Its decisions reach directly into scheduling, communication, memory movement, kernel execution, and end-to-end serving performance of Gimlet\u2019s inference stack. A compiler built for a single target can bake in assumptions about the memory hierarchy and execution model. We can't. That constraint is what makes the work interesting.\n\nOur stack is built on open-source MLIR and LLVM compiler infrastructure. We design our own dialects, passes, and lowering paths on top of that infrastructure rather than maintaining a proprietary compiler from scratch. You will be working in an ecosystem you can carry with you, alongside people who know it deeply.\n\nWhat you will "
+  },
+  {
+   "id": "5e313d06-240e-44ef-87d2-318edf246f1f",
+   "title": "Member of Technical Staff - Distributed Systems",
+   "department": "Research and Development",
+   "team": "Engineering",
+   "employmentType": "FullTime",
+   "location": "San Francisco, CA",
+   "secondaryLocations": [],
+   "publishedAt": "2026-03-10T04:41:59.056+00:00",
+   "isListed": true,
+   "isRemote": false,
+   "workplaceType": "OnSite",
+   "address": {
+    "postalAddress": {
+     "postalCode": "94103",
+     "addressRegion": "California",
+     "streetAddress": "255 Portrero Ave",
+     "addressCountry": "United States",
+     "addressLocality": "San Francisco"
+    }
+   },
+   "jobUrl": "https://jobs.ashbyhq.com/gimlet/5e313d06-240e-44ef-87d2-318edf246f1f",
+   "applyUrl": "https://jobs.ashbyhq.com/gimlet/5e313d06-240e-44ef-87d2-318edf246f1f/application",
+   "descriptionHtml": "<p style=\"min-height:1.5em\"><strong>About us</strong></p><p style=\"min-height:1.5em\">Gimlet is building the first multi-silicon neocloud designed for fast, efficient AI inference.</p><p style=\"min-height:1.5em\">We combine large-scale compute infrastructure with an execution platform that partitions AI workloads and maps each stage to the hardware best suited to run it.</p><p style=\"min-height:1.5em\">We work with foundation labs, hyperscalers, and AI-native companies, giving our team access to technical problems spanning frontier models, production infrastructure, and emerging hardware.</p><p style=\"min-height:1.5em\"><strong>About the role</strong></p><p style=\"min-height:1.5em\">As a Member of Technical Staff, you will build the systems that schedule, route, and coordinate AI workloads across Gimlet\u2019s infrastructure.</p><p style=\"min-height:1.5em\">Different stages of an inference pipeline may run on different hardware, scale independently, and exchange state across the system. Your work will determine how those workloads are placed, coordinated, routed, recovered, and operated in production.</p><p style=\"min-height:1.5em\">You will work across scheduling, orchestration, control planes, APIs, and fault tolerance. You will design systems that make distributed infrastructure easier to operate, enable workloads to run reliably across a heterogeneous fleet, and partner with compiler, ML systems, networking, and infrastructure engineers to connect the full execution stack.</p><p styl",
+   "descriptionPlain": "About us\n\nGimlet is building the first multi-silicon neocloud designed for fast, efficient AI inference.\n\nWe combine large-scale compute infrastructure with an execution platform that partitions AI workloads and maps each stage to the hardware best suited to run it.\n\nWe work with foundation labs, hyperscalers, and AI-native companies, giving our team access to technical problems spanning frontier models, production infrastructure, and emerging hardware.\n\nAbout the role\n\nAs a Member of Technical Staff, you will build the systems that schedule, route, and coordinate AI workloads across Gimlet\u2019s infrastructure.\n\nDifferent stages of an inference pipeline may run on different hardware, scale independently, and exchange state across the system. Your work will determine how those workloads are placed, coordinated, routed, recovered, and operated in production.\n\nYou will work across scheduling, orchestration, control planes, APIs, and fault tolerance. You will design systems that make distributed infrastructure easier to operate, enable workloads to run reliably across a heterogeneous fleet, and partner with compiler, ML systems, networking, and infrastructure engineers to connect the full execution stack.\n\nWhat success looks like\n\nIn the first 12-18 months, you will:\n\n - Build scheduling and orchestration systems for heterogeneous compute\n\n - Design systems that manage independently scalable stages of distributed inference pipelines\n\n - Improve the reliability and fault tolerance of"
+  },
+  {
+   "id": "376f7e48-4f3f-48bc-a59f-16529364a32c",
+   "title": "Member of Technical Staff - Kernels & GPU Performance",
+   "department": "Research and Development",
+   "team": "Engineering",
+   "employmentType": "FullTime",
+   "location": "San Francisco, CA",
+   "secondaryLocations": [],
+   "publishedAt": "2026-03-10T04:43:28.158+00:00",
+   "isListed": true,
+   "isRemote": false,
+   "workplaceType": "OnSite",
+   "address": {
+    "postalAddress": {
+     "postalCode": "94103",
+     "addressRegion": "California",
+     "streetAddress": "255 Portrero Ave",
+     "addressCountry": "United States",
+     "addressLocality": "San Francisco"
+    }
+   },
+   "jobUrl": "https://jobs.ashbyhq.com/gimlet/376f7e48-4f3f-48bc-a59f-16529364a32c",
+   "applyUrl": "https://jobs.ashbyhq.com/gimlet/376f7e48-4f3f-48bc-a59f-16529364a32c/application",
+   "descriptionHtml": "<p style=\"min-height:1.5em\"><strong>About us</strong></p><p style=\"min-height:1.5em\">Gimlet is building the first multi-silicon neocloud designed for fast, efficient AI inference.</p><p style=\"min-height:1.5em\">We combine large-scale compute infrastructure with an execution platform that partitions AI workloads and maps each stage to the hardware best suited to run it.</p><p style=\"min-height:1.5em\">We work with foundation labs, hyperscalers, and AI-native companies, giving our team access to technical problems spanning frontier models, production infrastructure, and emerging hardware.</p><p style=\"min-height:1.5em\"><strong>About the role</strong></p><p style=\"min-height:1.5em\">As a Member of Technical Staff, you will build and optimize the low-level execution primitives that turn accelerator performance into production inference performance.</p><p style=\"min-height:1.5em\">Rather than optimizing for one hardware architecture, you will work across accelerators with different execution models, memory hierarchies, capabilities, and software stacks. Your work will shape the latency, throughput, and efficiency Gimlet can achieve across established and emerging hardware architectures.</p><p style=\"min-height:1.5em\">You will work close to the hardware across kernel implementation, memory access, execution behavior, profiling, and performance validation. You will develop optimizations that account for differences between accelerator architectures and partner with compiler, ML systems",
+   "descriptionPlain": "About us\n\nGimlet is building the first multi-silicon neocloud designed for fast, efficient AI inference.\n\nWe combine large-scale compute infrastructure with an execution platform that partitions AI workloads and maps each stage to the hardware best suited to run it.\n\nWe work with foundation labs, hyperscalers, and AI-native companies, giving our team access to technical problems spanning frontier models, production infrastructure, and emerging hardware.\n\nAbout the role\n\nAs a Member of Technical Staff, you will build and optimize the low-level execution primitives that turn accelerator performance into production inference performance.\n\nRather than optimizing for one hardware architecture, you will work across accelerators with different execution models, memory hierarchies, capabilities, and software stacks. Your work will shape the latency, throughput, and efficiency Gimlet can achieve across established and emerging hardware architectures.\n\nYou will work close to the hardware across kernel implementation, memory access, execution behavior, profiling, and performance validation. You will develop optimizations that account for differences between accelerator architectures and partner with compiler, ML systems, and distributed systems engineers to improve performance across the full execution stack.\n\nWhat success looks like\n\nIn the first 12-18 months, you will:\n\n - Build and optimize kernels that improve latency, throughput, and hardware utilization for production AI workloads"
+  }
+ ],
+ "apiVersion": "1"
+}
