@@ -1,0 +1,121 @@
+id,title,company,location,bucket,role,level
+greenhouse:icapitalnetwork:8813861002,Platform Support - Analyst,iCapital Network,"New York, New York, United States",plain,n,?
+lever:kitware:2b798a3f-0c54-4ff9-8c3f-3d5144706939,Machine Learning Engineer,Kitware,"Clifton Park, New York",plain,a,?
+greenhouse:zscaler:5244299007,"Senior Sales Engineer, Enterprise - Minnesota",Zscaler,"Remote - Minnesota, USA",senior-ish,n,x
+lever:alertus:095fe981-7fb8-467d-bf2b-184507d2a0e1,Associate QA Tester (Software/Mobile),Alertus Technologies,"Baltimore, MD",entry-ish,s,e
+greenhouse:kikoff:4390878009,Staff Engineer - Web Applications,Kikoff,San Francisco,senior-ish,s,x
+lever:tsmg:e5a97236-474e-49ba-95b0-8758c8f2cdd6,"Driver / Data Collector in Buonabitacolo, Italy",TSMG,Buonabitacolo,plain,n,?
+greenhouse:maymobility:8730957002,Lead Machine Learning Engineer,May Mobility,USA - Remote,senior-ish,a,x
+lever:palantir:72e51928-07f0-4be0-aae5-0ae6956a4846,Forward Deployed Infrastructure Engineer - UK Government,Palantir,"London, United Kingdom",plain,n,?
+greenhouse:prolificacademicltd:4955254101,"AI Training - Executive Assistant - Charlotte, US",Prolific,Remote,plain,a,x
+greenhouse:intersystems:7709831003,Business Development Manager - Data Platforms,InterSystems,Santiago,senior-ish,d,x
+greenhouse:graphcore:8842000002,Graduate Mechanical Engineer,Graphcore,"Austin, Texas, United States",entry-ish,n,e
+greenhouse:imc:4986999101,Trading Engineer,IMC Trading,"Amsterdam, Netherlands",plain,n,?
+greenhouse:prolificacademicltd:4869278101,"Canada Residents - AI Trainers - Innisfail, Canada",Prolific,Remote,plain,a,?
+lever:veeva:3c9f37fe-6876-45ed-b161-169bdddea9d2,Senior Consultant / Consultant - AI Strategy,Veeva Systems,China - Shanghai,senior-ish,a,x
+greenhouse:ziprecruiter:8209764,"Software Engineer, Big Data",ZipRecruiter,Remote,plain,s,?
+greenhouse:prolificacademicltd:4870729101,"Chemistry - Graduates - AI Training - Kansas City, US",Prolific,Remote,entry-ish,n,e
+greenhouse:rebuildmanufacturing:4729848005,Manufacturing Engineer Intern Fall 2026,Re:Build Manufacturing,"Merrimack, NH",entry-ish,n,i
+lever:shieldai:6e5d59f1-cd4a-451b-be66-5db9af34df44,"Senior Manager, Avionics Mechanical Engineering (R4416)",Shield AI,"Seattle, Washington",senior-ish,n,x
+lever:tsmg:489826fc-eca7-41de-a117-c5f344f39be8,"Driver / Data Collector in Mühlhausen, Germany",TSMG,Mühlhausen,plain,n,?
+ashby:applied:4c3cd892-2ef0-40b6-877a-39540a224a5c,Hardware Integration Engineer - New Grad (December 2026),Applied Intuition,Sunnyvale,entry-ish,n,e
+lever:tsmg:805d8dc0-0959-4eb5-9a8f-dd12219da1b0,"Driver/Data Collector in Arezzo, Italy",TSMG,Arezzo,plain,n,?
+greenhouse:bandwidth:8214440,Software Development Manager I,Bandwidth,"Raleigh, NC",entry-ish,s,e
+greenhouse:phaidra:4725937005,Senior AI Research Scientist (Model-based RL),Phaidra,Remote - United Kingdom,senior-ish,a,x
+lever:gmo:69fd389b-eb62-4d1c-a392-28a89c36b2cf,"Quantitative Research Analyst, Investment Risk and Capital Markets Research (Grantham, Mayo, van Otterloo & Co. LLC)",GMO,"Boston, MA",plain,d,?
+greenhouse:spacex:8760870002,"Sr. Yield Engineer, RF Final Test Integration (Starlink/Akoustis)",SpaceX,"Bastrop, TX",senior-ish,n,x
+lever:tsmg:ee0fb79e-499f-4fc7-987b-738653186238,"Driver/ Data Collector in Čakovec, Croatia",TSMG,Čakovec,plain,n,?
+greenhouse:togetherai:5213322007,"Junior/Senior/Staff Software Engineer, Inference / Compute Infrastructure Engineering",Together AI,Amsterdam,entry-ish,s,e
+lever:tandh:dde93055-ba6e-4bfd-aae9-ab182b38bc34,Transportation Designer – Engineer in Training,Thomas & Hutton,"Buford, Georgia",plain,n,e
+greenhouse:prolificacademicltd:4868595101,"HTML/CSS - Senior Developers - AI Training - Oxford, UK",Prolific,Remote,senior-ish,a,x
+lever:tsmg:4fe0b9e1-6b75-40f4-80ea-c7d3ba382c10,Robot Teleoperator (AI & Robotics),TSMG,"Nashville, TN",plain,n,?
+greenhouse:otter:8716964002,Middleware Solutions Engineer I,Otter,"Los Angeles, CA",entry-ish,n,e
+lever:kitware:102aa9fd-44bd-4c54-b49c-b15935e058e7,AI Researcher,Kitware,"Clifton Park, New York",plain,a,?
+greenhouse:applovin:4708449006,Backend Engineering Intern (2027 Summer Internship),AppLovin,Singapore,entry-ish,s,i
+greenhouse:prolificacademicltd:4871083101,"Data Entry Clerk - Graduates - AI Training - Zaragoza, Spain",Prolific,Remote,entry-ish,d,e
+lever:protective:3d2ba7d0-b5ab-4af3-9757-1fc399d8b095,Legal Analyst I,Protective Life,"Birmingham, AL",entry-ish,n,e
+lever:weloglobal:374f169c-f0c9-4c9e-a7ad-a1746fc98d65,Project Perseus | Data Labeling Associate - Arabic Speakers (Human-in-the-Loop AI),Welo Global,California,entry-ish,d,?
+greenhouse:prolificacademicltd:4875182101,"Linguist/Translator - Graduates - AI Training - Puebla, Mexico",Prolific,Remote,entry-ish,n,?
+ashby:voleon:4172fea8-68c0-4bb1-b462-b100f6b50900,Senior Machine Learning Engineer,The Voleon Group,London,senior-ish,a,x
+greenhouse:affirm:7931494003,"Staff Software Engineer, Backend (Identity International)",Affirm,Remote Spain,entry-ish,s,x
+greenhouse:prolificacademicltd:4872636101,"Computer Sciences - Graduates - AI Training - Baltimore, US",Prolific,Remote,entry-ish,a,e
+lever:saviynt:8a5b0999-d866-4482-b5c0-fa82eb2c49bc,"Principal Software Engineer, Platform Engineering & Edge Infrastructure",Saviynt,"Milpitas, California",senior-ish,s,x
+lever:shieldai:8c850c75-081d-4d09-bebf-096379a93010,Summer 2027 - Software Engineer Intern,Shield AI,"San Diego, California",entry-ish,s,i
+greenhouse:spacex:8784191002,Avionics Manufacturing Engineer (PCBA),SpaceX,"Hawthorne, CA",plain,n,?
+lever:tsmg:1d4108c2-fb52-4c5e-b6c6-8d5f2518ad04,"Driver / Data Collector in Lemgo, Germany (for Detmold area)",TSMG,Lemgo,plain,n,?
+ashby:incident:e4e272c4-95a3-43df-a414-a4c1c5f1279d,Product Engineer - GTM,incident.io,London,plain,n,?
+lever:margo-group:5109f33b-9c19-418a-8abe-c94517ce95af,Business Developer Junior - CDI - H/F,MARGO,Paris,entry-ish,n,e
+greenhouse:pathrobotics:8635262002,"Software Engineer, C#",Path Robotics,"Columbus, Ohio",plain,s,?
+greenhouse:prolificacademicltd:4866992101,"Computer Sciences - Graduates - AI Training - Oxford, UK",Prolific,Remote,entry-ish,a,e
+greenhouse:vercel:6181755004,Software Engineering Intern - Winter '27,Vercel,Hybrid - San Francisco,entry-ish,s,i
+ashby:skydio:bab95798-8ec7-4254-83c9-070b19c71814,Manufacturing Execution System Analyst,Skydio,"Hayward, California, United States",plain,n,?
+greenhouse:apptronik:6017400004,Principal Electrical Engineer - Compute and Sensing,Apptronik,"Sunnyvale, CA",senior-ish,n,x
+greenhouse:abacusinsights:8783925002,Sustaining and Forward Deployed Engineer,Abacus Insights,India,plain,s,?
+lever:latitudeinc:58ba6451-8baf-43c3-973d-bf75a36f66cb,Applications Engineer,Latitude,"Suwanee, GA",plain,n,?
+greenhouse:rocketlab:7992604003,Mechanical Engineer I,Rocket Lab USA,"Silver Spring, MD",entry-ish,n,e
+greenhouse:robinhood:8142959,"Software Engineering Intern, iOS (Summer 2027)",Robinhood,"Menlo Park, CA; New York, NY",entry-ish,s,i
+greenhouse:anthropic:4980430008,"Research Engineer, Interpretability",Anthropic,"San Francisco, CA",plain,a,?
+greenhouse:vardaspace:7824765003,Propulsion Engineering Internship - Spring 2027,Varda Space,"El Segundo, California, United States",entry-ish,n,e
+greenhouse:andurilindustries:5239083007,2027 Flight Software Engineer Intern,Anduril,"Costa Mesa, California, United States",entry-ish,s,i
+lever:tsmg:99b41f9c-44e1-4e25-b5e5-c9edd53b6537,"Driver\Data Collector in Paris, France",TSMG,Paris,plain,n,?
+greenhouse:spacex:8820982002,"Manager, Starlink Engineering (Starlink PCBA SMT)",SpaceX,"Bastrop, TX",senior-ish,n,x
+lever:palantir:f221738b-e97c-4ce3-a12a-17ada2b855e4,"Software Engineer, Internship - Infrastructure",Palantir,"Palo Alto, CA",entry-ish,s,i
+lever:getwingapp:9d81db85-2f2e-47ae-a37f-75ef5fc17708,"Product Manager, AI",Wing Assistant,Hong Kong,senior-ish,n,x
+ashby:etched:bf163fe4-1c81-43ce-b129-518c8fbaf46a,Substrate IC Package Layout Design Engineer,Etched,Taipei,plain,n,?
+lever:tsmg:d3c375de-379e-49e3-9ba7-956319d27b70,"Driver / Data collector in Edolo, Italy",TSMG,Edolo,plain,n,?
+lever:zoox:de43fa7a-1cf2-41b9-ba99-244f699e3870,"Staff Software Engineer, HPC",Zoox,"Foster City, CA",senior-ish,s,x
+greenhouse:avride:4012771009,Data Scientist – AV Metrics & Evaluation Analytics,Avride,"Austin, Texas",plain,d,?
+lever:palantir:f75cb0d2-6608-450b-848e-0f27937c930d,Software Engineer - Apollo Platform,Palantir,"London, United Kingdom",plain,s,?
+lever:wyetechllc:b4831410-b020-42fc-8285-c57574daa7e6,Digital Network Exploitation Analyst 3,Wyetech,"Annapolis Junction, Maryland",senior-ish,n,x
+greenhouse:rebuildmanufacturing:4732952005,Software Development Engineer,Re:Build Manufacturing,"Los Angeles, CA; Seattle, WA",plain,s,?
+greenhouse:olsson:5405807008,Civil Engineering Internship - Traffic & Technology,Olsson,"Oklahoma City, OK; Tulsa, OK",entry-ish,n,i
+lever:tsmg:4cb21314-41a4-4f89-8b2c-9bb41a106c31,"Driver/Data Collector in San Benedetto del Tronto: Montesecco, Italy",TSMG,San Benedetto del Tronto,plain,n,?
+greenhouse:olsson:5396116008,Civil Engineering Internship - Federal Infrastructure Site Design,Olsson,"North Kansas City, MO",entry-ish,n,i
+greenhouse:altentechnologyusa:5040790007,"Design Release Engineer, Body Interior- Hard Trim",ALTEN Technology,"Long Beach, California",plain,n,?
+lever:woven-by-toyota:afd875af-9bae-4700-9d2d-dece40019ddb,Senior Simulation Engineer - Machine Learning,Woven,"Palo Alto, CA",senior-ish,a,x
+lever:crestoperations:776e2e50-9c77-41d7-9c51-05cd1075f2ab,Beta Engineering Summer 2027 Internship,Crest Industries,"Pineville, Louisiana",entry-ish,n,i
+greenhouse:andurilindustries:5032266007,"Field Service Engineer, Counter Intrusion",Anduril,"Costa Mesa, California, United States",plain,n,?
+ashby:allen-control-systems:ad41a645-7b94-407d-a579-003fba1b8e68,"Mechanical Engineering Intern, 2027",Allen Control Systems,"Austin, TX",entry-ish,n,i
+greenhouse:prolificacademicltd:4978654101,"AI Trainer - Fluent Macedonian Speakers - Michigan, US",Prolific,Remote,plain,a,?
+lever:tsmg:9cb13d08-dae1-46cb-a37c-0e32289d70e8,"Driver / Data collector in Valencia, Spain",TSMG,Valencia,plain,n,?
+greenhouse:freeformfuturecorp:7895902003,Software Engineer (New Grad Summer 2027),Freeform,"Los Angeles, CA (On-site)",entry-ish,s,e
+greenhouse:prolificacademicltd:4865237101,AI Training Experts (Freelance - Leicester),Prolific,Remote,plain,a,?
+lever:sugarcrm:19663e84-81c1-47c8-a3a3-38745ae43a9e,Junior Engineer,SugarCRM,Craiova,entry-ish,n,e
+ashby:decagon:69fd28a8-0de2-45a5-9b98-33725515add4,"Research Engineer, Audio and Speech",Decagon,San Francisco,plain,a,?
+lever:tsmg:263ece6f-26fe-4343-b1ca-9bf383f29a02,"Driver / Data Collector in Bayreuth, Germany",TSMG,Bayreuth,plain,n,?
+greenhouse:scm:3891424,Senior C++ Developer - Remote,Stevens Capital Management,"Radnor, PA",senior-ish,s,x
+greenhouse:olsson:5405907008,Civil Engineering Internship - Rail Track,Olsson,"Loveland, CO; Omaha, NE",entry-ish,n,i
+ashby:cohere:39cab400-c976-41d9-9002-880ac6985b64,Lead Data Scientist,Cohere,United States,senior-ish,d,x
+greenhouse:artefactlinkedin:7332462002,Business Developer Junior,Artefact,"9th arrondissement of Paris, 75009, Paris, France",entry-ish,n,e
+ashby:decagon:8c40fb7a-5f25-4112-a1df-f1c22b81042c,Agent Deployment Engineer,Decagon,San Francisco,plain,a,?
+lever:shieldai:f6bbec19-f1c6-44ce-9af5-132b25b6e83a,Power Electronics - Thermal Engineer I (R4842),Shield AI,"Seattle, Washington",plain,n,e
+ashby:applied:12fc5adf-1827-45d4-83d9-3856064dd25e,"System Safety Engineer, Mining/Industrial",Applied Intuition,Sunnyvale,plain,n,?
+greenhouse:lucidmotors:5212756007,Sr. Suspension Engineer,Lucid Motors,Saudi Arabia,senior-ish,n,x
+greenhouse:ionq:5998606004,Senior Research Software Engineer,IonQ,"Boston, Massachusetts, United States",senior-ish,s,x
+greenhouse:imc:4564480101,Graduate Software Engineer (2026),IMC Trading,"Aarhus, Central Denmark Region, Denmark; Amsterdam, Netherlands",entry-ish,s,e
+lever:tsmg:f39181fd-0ac9-4126-a881-9c50e5e81e66,"Driver / Data Collector in Ungheni, Moldova",TSMG,Ungheni,plain,n,?
+greenhouse:innodatainc:4248774009,Generative AI Associate - Flexible Hours,Innodata,Remote - Florida,entry-ish,a,e
+greenhouse:prolificacademicltd:4872810101,"Database Administrator - Graduates - AI Training - Tlalnepantla, Mexico",Prolific,Remote,entry-ish,d,e
+greenhouse:pmg:8587038002,Graduate Leadership Program - AI & Software Engineering (June Start),PMG,"Dallas, Texas",entry-ish,a,i
+lever:tsmg:c3155183-7def-4988-bfff-332f50a84e04,Mapping Data Collection Driver,TSMG,Barcelona,plain,n,?
+lever:infraservices:3861e784-b931-4c2c-8250-c3b893e67919,Data Center Technician I,InfraServices,"Wanamingo, Minnesota",entry-ish,n,e
+greenhouse:andurilindustries:5248692007,"Systems Engineer, Space Imaging",Anduril,"Waltham, Massachusetts, United States",plain,n,?
+lever:tsmg:6d03e503-8a98-4e96-bce2-8c61dca1c1b0,"Driver / Data collector in Monno, Italy",TSMG,Monno,plain,n,?
+greenhouse:axq:5215193004,Senior Quantitative Researcher,AXQ Capital,Beijing; Shanghai,senior-ish,n,x
+greenhouse:astranis:4704621006,Mechanical Associate Engineer (Spring 2027),Astranis,San Francisco,entry-ish,n,e
+greenhouse:spacex:8696156002,"New Graduate Engineer, Software Security - '26/'27 (Starlink)",SpaceX,"Bastrop, TX",entry-ish,s,e
+greenhouse:proconex:6194453004,Field Services Engineer - Entry-Level,Proconex,"Royersford, Pennsylvania, United States",entry-ish,n,e
+lever:foth:44611d2b-f3c5-4c6e-92a2-168613fbbf38,Business Development - Food Plant Engineering,FOTH,"Cincinnati, Ohio",plain,n,?
+ashby:voleon:ef2b0892-1772-4240-a535-4043d66d848e,Research Intern (London),The Voleon Group,London,entry-ish,n,i
+lever:tsmg:3f7c8c51-c3f9-4aa6-9b36-a81a8fb8cc8d,Mapping Data Collection Driver,TSMG,"Fort Wayne, IN",plain,n,?
+ashby:liveview-technologies:5506f2ef-be14-4a4a-8bb3-eaec5de82b89,Senior Staff Embedded Software Engineer - Cameras,LiveView Technologies,Remote,senior-ish,s,x
+greenhouse:prolificacademicltd:4849063101,"AI Engineer/ML Engineer  - Senior Developers - AI Training - Indianapolis, US",Prolific,Remote,senior-ish,a,x
+greenhouse:shifttechnology:7652429003,Data Scientist Intern (English Speaker),Shift,Mexico - Mexico City,entry-ish,d,i
+greenhouse:shifttechnology:8005395003,"Data Scientist Internship (November, 6 months)",Shift,France - Paris,entry-ish,d,i
+lever:agile-defense:fd51b24e-dcbd-45e5-a6fc-ecde758dfee7,Java Engineer - Secret Clearance Required,Agile Defense,"Rosslyn, VA",plain,s,?
+greenhouse:olsson:5267686008,Civil Project Engineer - Industrial Environmental,Olsson,"Des Moines, IA; Fayetteville, AR; Lincoln, NE; Little Rock, AR; North Kansas City, MO; Oklahoma City, OK; Omaha, NE; Overland Park, KS; Remote",plain,n,?
+greenhouse:andurilindustries:4984597007,"Senior Modeling and Simulation Engineer, Space",Anduril,"Costa Mesa, California, United States",senior-ish,n,x
+ashby:telus-digital:e1dfd8b7-fb8a-4ce9-957f-0706b13195c7,Product Analyst Intern (US) - Summer 2027,TELUS Digital,Columbus,entry-ish,n,i
+greenhouse:prolificacademicltd:4850457101,Polish - Fluent Speakers - AI Training - Netherlands,Prolific,Remote,plain,n,?
+greenhouse:thenuclearcompany:5391923008,Summer 2027 AI Applied Research Internship,The Nuclear Company,"Washington, DC",entry-ish,a,i
+lever:weloglobal:287d2601-9908-4360-bd10-72d963d07c11,AI Trainers Network - Persian,Welo Global,Afghanistan,plain,n,?

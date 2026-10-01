@@ -121,6 +121,18 @@ def load_state(conn: psycopg.Connection) -> tuple[set[Key], set[Key], set[Board]
     return open_keys, closed_keys, known
 
 
+def stale_keys(conn: psycopg.Connection, version: int) -> set[Key]:
+    """Open jobs classified by older rules, to be re-read once."""
+    return {
+        (r["system"], r["slug"], r["job_id"])
+        for r in conn.execute(
+            "select system, slug, job_id from jobs "
+            "where closed_at is null and classifier_version < %s",
+            (version,),
+        )
+    }
+
+
 def save_run(
     conn: psycopg.Connection,
     new_jobs: Iterable[dict],

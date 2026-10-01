@@ -11,9 +11,11 @@ import asyncio
 import csv
 import json
 import os
+import re
 import sys
 import time
 from dataclasses import dataclass, field
+from datetime import timedelta
 from pathlib import Path
 
 from filedfor import classify, feeds, notify, store
@@ -23,6 +25,7 @@ from filedfor.evidence import COMPANIES, EvidenceIndex
 PUBLIC = Path("public")  # published to GitHub Pages, not committed
 CONCURRENCY = 8
 FAILED_SHARE_WARNING = 0.10
+MAX_AGE = timedelta(days=30)  # older postings are mostly evergreen or filled
 
 
 @dataclass(frozen=True)
@@ -31,9 +34,14 @@ class AlertFilter:
     levels: frozenset[str] = frozenset({"entry"})
     max_years: int = 2  # 'unclear' titles pass when the description asks for <= this
     include_unknown_country: bool = True  # "Remote" with no country stated
+    # Research titles to skip, but only on these boards: at startups "Research
+    # Engineer" is often applied ML engineering, at frontier labs it's research
+    skip_research_at: frozenset[str] = frozenset()
 
     def matches(self, job: dict) -> bool:
         if job["role"] not in self.roles:
+            return False
+        if job["slug"] in self.skip_research_at and RESEARCH.search(job["title"]):
             return False
         if job["no_sponsorship"] or job["citizens_only"] or job["clearance"]:
             return False
@@ -48,7 +56,11 @@ class AlertFilter:
         return False
 
 
-PERSONAL = AlertFilter()
+RESEARCH = re.compile(r"research (engineer|scientist)|\bresearcher\b|^research\b", re.IGNORECASE)
+FRONTIER_LABS = frozenset({"anthropic", "openai", "xai", "mistral.ai", "cohere"})
+
+# The owner wants applied AI roles, not frontier-lab research
+PERSONAL = AlertFilter(skip_research_at=FRONTIER_LABS)
 
 
 @dataclass
@@ -111,7 +123,7 @@ async def fill_descriptions(postings: list[feeds.Posting]) -> None:
 
 def job_row(c: Candidate, company: str, evidence, now, alerted) -> dict:
     p = c.posting
-    f = classify.flags(p.description or "")
+    f = classify.flags(p.description or "", p.title, company)
     return {
         "system": p.system,
         "slug": p.slug,
@@ -136,9 +148,15 @@ def job_row(c: Candidate, company: str, evidence, now, alerted) -> dict:
     }
 
 
-def publish(jobs: list[dict], health: dict) -> None:
-    """jobs.json for the site: open jobs a new grad could apply to."""
+def fresh(job: dict, now) -> bool:
+    return job["posted_at"] is None or now - job["posted_at"] <= MAX_AGE
+
+
+def publish(jobs: list[dict], health: dict, now) -> None:
+    """jobs.json for the site: open jobs a new grad could apply to, posted in
+    the last 30 days."""
     PUBLIC.mkdir(exist_ok=True)
+    jobs = [j for j in jobs if fresh(j, now)]
     keep = [
         {k: (v.isoformat() if hasattr(v, "isoformat") else v) for k, v in j.items()}
         for j in jobs
@@ -170,11 +188,14 @@ async def run(send_alerts: bool = True) -> dict:
     conn = store.connect()
     store.ensure_schema(conn)
     open_keys, closed_keys, known = store.load_state(conn)
+    stale = store.stale_keys(conn, classify.VERSION)
     conn.close()  # let the database sleep while we fetch descriptions
     ch = diff(open_keys, set(cands), ok, known, closed_keys)
 
     new = [cands[k] for k in sorted(ch.new)]
-    await fill_descriptions([c.posting for c in new])
+    # Still open and still a candidate, but classified by older rules
+    refresh = [cands[k] for k in sorted(stale & set(cands))]
+    await fill_descriptions([c.posting for c in new + refresh])
     evidence = EvidenceIndex()
     now = store.utcnow()
     rows = [
@@ -187,6 +208,16 @@ async def run(send_alerts: bool = True) -> dict:
             or not should_alert(c.posting.posted_at, now),
         )
         for c in new
+    ] + [
+        # alerted_at None keeps whatever the job already had (coalesce in store)
+        job_row(
+            c,
+            names[c.posting.key[:2]],
+            evidence.lookup(c.posting.system, c.posting.slug, c.role),
+            now,
+            alerted=False,
+        )
+        for c in refresh
     ]
 
     stats = {
@@ -251,7 +282,7 @@ async def run(send_alerts: bool = True) -> dict:
         "failing_now": sorted(f"{s}/{g}: {e}" for (s, g), e in failed.items()),
         "failing_over_a_day": stale,
     }
-    publish(jobs, health)
+    publish(jobs, health, store.utcnow())
     return health
 
 

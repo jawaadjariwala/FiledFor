@@ -350,6 +350,66 @@ type.
 - flags: `y` or `n`. "Regardless of citizenship" in equal-opportunity text is
   `n`, because it isn't a restriction.
 
+### Classifier results (2026-10-01)
+
+Labels: 120 titles and 40 description snippets, labelled by the owner.
+
+**First score, held out (rules v2, written before the labels were read):**
+
+| Measure | Target | Result |
+|---|---|---|
+| SWE role precision | 90%+ | 55% |
+| AI / Data role precision | 90%+ | 86% / 80% |
+| Entry level precision / recall | 85%+ / 95%+ | 89% / 65% |
+| Intern, experienced (precision / recall) | | 94% / 94%, 93% / 96% |
+| "No sponsorship" precision / recall | recall 95%+ | 100% / 100% (only 3 positives) |
+| "Citizens only" recall | | 22% |
+| Required years, "2 or fewer" split | | 40 of 40 |
+
+The SWE number was the main failure: any title containing "Engineer" counted
+as software, and most of those are hardware, field or sales roles.
+
+**After fixes (rules v3).** This is now a development score, not a held-out
+one, because the fixes were made after reading where the rules failed. A fresh
+sample is needed for the next honest number.
+
+- A bare "Engineer" no longer means software; a language name ("Java
+  Engineer") or software word does.
+- Strong entry words ("Junior", "New Grad", "Engineer in Training") win over a
+  seniority word in the same title.
+- More ways of writing "US persons only" (the ITAR list of citizen, permanent
+  resident, refugee, asylee), clearances read from the title, and clearance
+  jobs counted as citizens-only, because US clearances require citizenship.
+- Government contractors (federal, government, public sector) count as
+  citizens-only. Owner's rule.
+- Titles from the excluded gig marketplaces (30 of 120) are left out of the
+  score, because the poller no longer fetches those boards.
+
+| Measure (90 titles, 40 snippets) | Target | Result |
+|---|---|---|
+| SWE role precision / recall | 90%+ | 96% / 100% |
+| AI role precision | 90%+ | 100% (10 of 10, after 3 label corrections) |
+| Data role precision / recall | 90%+ | 100% / 57% |
+| Entry level precision / recall | 85%+ / 95%+ | 95% / 90% (94% weighted) |
+| Blocked for F-1 (any flag) precision / recall | | 79% / 100% |
+| Required years, "2 or fewer" split | | 40 of 40 |
+
+Every "blocked" disagreement comes from the government and clearance rules,
+which were added after labelling.
+
+Three labels were corrected after discussion. A sales engineer is a sales
+role, so "none". Two research engineer roles at AI labs were labelled "none"
+because the owner doesn't want research roles; they are AI roles, so they're
+labelled AI. The owner's personal alert filter skips research titles only at
+frontier labs (Anthropic, OpenAI, xAI, Mistral, Cohere), because at startups
+"Research Engineer" is often applied ML engineering (Exa's content
+understanding role, for example). With those corrections, AI role precision is 100% (10 of 10) and any
+tech role is 98%.
+
+**Effect on the live data:** candidates went from 6,401 to 4,627 (1,829
+closed, 55 added). Jobs stored under older rules are re-read once when the
+rules version changes, keeping their first-seen time and alert state.
+
 ### Revisit
 
 - **Schedule drift:** GitHub's cron can start runs late when it's busy.

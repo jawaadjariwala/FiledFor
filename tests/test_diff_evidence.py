@@ -69,3 +69,25 @@ def test_evidence_sums_across_feins(tmp_path):
     assert e.last_decision == "2026-03-01"
     assert idx.lookup("lever", "acme", "data") is None
     assert idx.lookup("lever", "none", "swe") is None
+
+
+def test_personal_filter_skips_research_only_at_frontier_labs():
+    from filedfor.poll import PERSONAL
+
+    base = {
+        "role": "ai",
+        "level": "entry",
+        "min_years": None,
+        "is_us": True,
+        "no_sponsorship": False,
+        "citizens_only": False,
+        "clearance": False,
+    }
+    exa = base | {"slug": "exa", "title": "Research Engineer, Content Understanding"}
+    lab = base | {"slug": "anthropic", "title": "Research Engineer, Interpretability"}
+    applied = base | {"slug": "anthropic", "title": "AI Engineer, New Grad"}
+    assert (
+        PERSONAL.matches(exa)
+        and not PERSONAL.matches(lab)
+        and PERSONAL.matches(applied)
+    )

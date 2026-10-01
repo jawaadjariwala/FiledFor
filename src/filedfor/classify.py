@@ -15,7 +15,7 @@ rules classified them.
 import re
 from dataclasses import dataclass
 
-VERSION = 2
+VERSION = 3
 
 
 def _rx(*parts: str) -> re.Pattern:
@@ -38,6 +38,7 @@ NOT_SOFTWARE = _rx(
     r"\b(recruiter|designer|counsel|accountant|technician|mechanic|machinist|welder"
     r"|scientist,? (chemistry|biology)|biologist|chemist)\b",
     r"\bdata cent(er|re)\b",
+    r"\bbusiness develop",
 )
 # Overrides the list above: "Distributed Systems Engineer" is software
 SOFTWARE_HINT = _rx(
@@ -94,9 +95,11 @@ SWE = _rx(
     r"automation engineer",
     r"member of technical staff",
     r"forward deployed engineer",
-    r"\bengineer\b",
-    r"\bengineering\b",
     r"programmer",
+    r"distributed systems",
+    r"systems software",
+    # Titles that name a language: "Java Engineer", "Python Developer"
+    r"\b(java|python|c\+\+|c#|\.net|javascript|typescript|golang|rust|ruby|scala|kotlin|swift)\b",
 )
 
 
@@ -122,7 +125,7 @@ def role(title: str) -> str | None:
         return None
     if AI.search(t) and JOB_WORD.search(t):
         return "ai"
-    if DATA.search(t) and JOB_WORD.search(t):
+    if DATA.search(t) and JOB_WORD.search(t) and "software" not in t:
         return "data"
     if SWE.search(t):
         return "swe"
@@ -153,6 +156,16 @@ EXPERIENCED = _rx(
     r"\b[2-6]\b\s*$",
     r"\b[2-6]\s*[,(-]",
     r"\b(l|e|ic)[4-9]\b",
+)
+# Explicit enough to win over a seniority word in the same title
+STRONG_ENTRY = _rx(
+    r"new\s*grad",
+    r"new graduate",
+    r"entry[- ]level",
+    r"\bjunior\b",
+    r"early[- ]career",
+    r"engineer in training",
+    r"\beit\b",
 )
 ENTRY = _rx(
     r"new\s*grad",
@@ -185,6 +198,8 @@ def level(title: str) -> str:
     t = title.lower().replace("member of technical staff", "mts")
     if INTERN.search(t):
         return "intern"
+    if STRONG_ENTRY.search(t):
+        return "entry"
     # "Associate Director" is experienced; "Associate Software Engineer" is entry
     if EXPERIENCED.search(t):
         return "experienced"
@@ -377,6 +392,15 @@ CITIZENS_ONLY = _rx(
     r"(u\.?s\.?|us)\s+persons?\b.{0,80}(itar|export|required|must|only)",
     r"(itar|export control).{0,120}(u\.?s\.?|us)\s+(person|citizen)",
     r"requires?\s+(u\.?s\.?|united states)\s+citizenship",
+    # ITAR's list: citizen, permanent resident, refugee, asylee
+    r"citizen(ship)?\s*(,|or)?\s*(lawful\s*,?\s*)?(permanent resident|green card)",
+    r"(green card|permanent resident)s?(\s+holders?)?\s+only",
+    r"permanent resident.{0,80}(refugee|asylee|asylum)",
+    r"(citizen|u\.?s\.? persons?)\b.{0,150}\b(itar|export control)",
+)
+# Government contractors (his rule, 2026-10-01): treated as citizens-only
+GOVERNMENT = _rx(
+    r"\bfederal\b", r"\bgovernment\b", r"public sector", r"\bgovcloud\b", r"\bdod\b"
 )
 CLEARANCE = _rx(
     r"security clearance",
@@ -396,10 +420,21 @@ class Flags:
     clearance: bool
 
 
-def flags(description: str) -> Flags:
+TITLE_CLEARANCE = _rx(
+    r"\bts/sci\b", r"top secret", r"\bsecret\b", r"\bcleared\b", r"clearance"
+)
+
+
+def flags(description: str, title: str = "", company: str = "") -> Flags:
+    """US security clearances require US citizenship, so a clearance job is
+    also citizens-only. So is work for a government contractor."""
     d = " ".join(description.split())
+    clearance = bool(CLEARANCE.search(d) or TITLE_CLEARANCE.search(title))
+    citizens = bool(
+        CITIZENS_ONLY.search(d) or clearance or GOVERNMENT.search(f"{title} {company}")
+    )
     return Flags(
         no_sponsorship=bool(NO_SPONSORSHIP.search(d)),
-        citizens_only=bool(CITIZENS_ONLY.search(d)),
-        clearance=bool(CLEARANCE.search(d)),
+        citizens_only=citizens,
+        clearance=clearance,
     )

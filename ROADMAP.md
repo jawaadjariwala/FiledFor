@@ -124,7 +124,8 @@ makes it public.
 ### Phase 2: public
 
 **Day 5: the site**
-- [ ] Static site generated from `jobs.json`: filter by lane, location, remote, posted-within
+- [ ] Static site generated from `jobs.json`: filter by lane, location, remote, posted-within.
+      Only jobs posted in the last 30 days are published (older ones are mostly evergreen)
 - [ ] Every job shows its evidence badge and a link to the numbers
 - [ ] Methodology page: data sources, matching, limits, disclaimer
 

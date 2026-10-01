@@ -14,12 +14,15 @@ from filedfor.classify import flags, is_remote, is_us, level, min_years, role
         ("Machine Learning Engineer", "ai", "unclear"),
         ("Data Scientist I", "data", "entry"),
         ("Software Engineer II", "swe", "experienced"),
-        ("Associate Director, Engineering", "swe", "experienced"),
+        ("Associate Director, Engineering", None, "experienced"),
         ("Distributed Systems Engineer", "swe", "unclear"),
         ("Member of Technical Staff", "swe", "unclear"),  # "staff" here isn't a level
         ("Software Engineering Intern (Summer 2027)", "swe", "intern"),
-        ("Engineer I - Payments", "swe", "entry"),
-        ("Staff Engineer", "swe", "experienced"),
+        ("Engineer I - Payments", None, "entry"),  # a bare "Engineer" is too vague
+        ("Staff Engineer", None, "experienced"),
+        ("Java Engineer - Secret Clearance Required", "swe", "unclear"),
+        ("Junior/Senior/Staff Software Engineer", "swe", "entry"),  # open to juniors
+        ("Business Developer Junior", None, "entry"),
         ("Sales Engineer", None, "unclear"),
         ("Systems Engineer, Starship", None, "unclear"),  # hardware systems work
         ("Data Center Technician", None, "unclear"),
@@ -111,7 +114,15 @@ def test_min_years(text, years):
             True,
         ),
         ("Must be a U.S. person as defined by ITAR.", False, True, False),
-        ("Ability to obtain a security clearance.", False, False, True),
+        # Clearances require US citizenship, so they block F-1 students too
+        ("Ability to obtain a security clearance.", False, True, True),
+        (
+            "US citizen, lawful permanent resident, refugee, or asylee (ITAR requirement)",
+            False,
+            True,
+            False,
+        ),
+        ("US Citizenship or Green Card only", False, True, False),
     ],
 )
 def test_flags(text, sponsor, citizen, clearance):
@@ -121,3 +132,8 @@ def test_flags(text, sponsor, citizen, clearance):
         citizen,
         clearance,
     )
+
+
+def test_government_contractors_are_citizens_only():
+    assert flags("", "Data Analyst", "CGS Federal").citizens_only
+    assert flags("", "Analyst (Top Secret)").clearance
