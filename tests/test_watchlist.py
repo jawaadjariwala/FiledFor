@@ -1,5 +1,8 @@
 """Regression tests for the name and URL traps found while building the watchlist."""
 
+import json
+from pathlib import Path
+
 import pytest
 
 from filedfor.watchlist import Employer, Feed, find_candidates, norm, parse_feed_url
@@ -48,7 +51,10 @@ def test_norm(raw, expected):
         # Greenhouse paths that aren't a company's board
         ("https://boards.greenhouse.io/embed/job_app?token=7619102003", None),
         ("https://job-boards.eu.greenhouse.io/agency/jobs/4778238101", None),
-        ("https://acme.wd5.myworkdayjobs.com/en-US/careers/job/1", None),
+        (
+            "https://acme.wd5.myworkdayjobs.com/en-US/careers/job/1",
+            ("workday", "acme.wd5/careers", False),
+        ),
     ],
 )
 def test_parse_feed_url(url, expected):
@@ -98,3 +104,59 @@ def test_rejections_fall_through_to_the_next_rule_only():
     # Every prefix candidate rejected too: no new page of five
     rejected = {(*key, "1")} | {(*key, c.fein) for c in got[key]}
     assert key not in find_candidates([feed("sigma", "Sigma")], emps, rejected)
+
+
+def test_workday_us_filter_found_at_any_depth():
+    from filedfor.watchlist import us_filter
+
+    facets = json.loads(
+        (Path(__file__).parent / "fixtures" / "workday_page.json").read_text()
+    )["facets"]
+    assert us_filter(facets) == "locationHierarchy1=2fcb99c455831013ea52fb338f2932d8"
+    flat = [
+        {
+            "facetParameter": "Location_Country",
+            "values": [{"descriptor": "United States of America", "id": "x"}],
+        }
+    ]
+    assert us_filter(flat) == "Location_Country=x"
+    assert (
+        us_filter(
+            [
+                {
+                    "facetParameter": "timeType",
+                    "values": [{"descriptor": "Full time", "id": "f"}],
+                }
+            ]
+        )
+        == ""
+    )
+
+
+def test_timed_out_board_stays_and_dead_board_goes(tmp_path, monkeypatch):
+    from collections import Counter
+
+    from filedfor import watchlist
+
+    monkeypatch.setattr(watchlist, "COMPANIES", tmp_path / "companies.csv")
+    monkeypatch.setattr(watchlist, "MATCHES", tmp_path / "matches.csv")
+    watchlist.write_csv(watchlist.MATCHES, [], watchlist.MATCH_FIELDS)
+    old = {"eu": 0, "company": "X", "open_jobs": 40, "feins": "", "tech_filings": 0}
+    watchlist.write_csv(
+        watchlist.COMPANIES,
+        [
+            old | {"system": "workday", "slug": "a.wd1/x", "us_filter": "f=us"},
+            old | {"system": "lever", "slug": "gone", "us_filter": ""},
+        ],
+        watchlist.COMPANY_FIELDS,
+    )
+    feeds = [
+        Feed("workday", "a.wd1/x", False, Counter({"X": 1})),
+        Feed("lever", "gone", False, Counter({"X": 1})),
+    ]
+    status = {feeds[0].key: ("error", 0, ""), feeds[1].key: ("dead", 404, "")}
+    watchlist.write_companies(feeds, status)
+    rows = watchlist.read_csv(watchlist.COMPANIES)
+    assert [(r["slug"], r["open_jobs"], r["us_filter"]) for r in rows] == [
+        ("a.wd1/x", "40", "f=us")
+    ]

@@ -1,10 +1,12 @@
 """Build the watchlist: which job feeds to poll, and which DOL employer each one is.
 
-1. feeds:   Greenhouse, Lever and Ashby boards found in the SimplifyJobs
-            listings (used only to discover slugs, never republished).
+1. feeds:   Greenhouse, Lever, Ashby, Workday and SmartRecruiters boards
+            found in the SimplifyJobs listings (used only to discover slugs,
+            never republished).
 2. match:   link each feed's company to DOL employers (FEINs) with tiered
             rules. See ADR-001 in docs/decisions.md for why these rules.
 3. probe:   call every feed once, drop dead ones, write companies.csv.
+            For Workday this also finds the board's United States filter.
 
 Match rules, strongest first. Every match records the rule that made it:
 
@@ -32,7 +34,7 @@ from pathlib import Path
 import duckdb
 import httpx
 
-from filedfor.feeds import USER_AGENT, board_url
+from filedfor.feeds import USER_AGENT, board_url, workday_jobs_url
 
 LISTINGS_URL = (
     "https://raw.githubusercontent.com/SimplifyJobs/New-Grad-Positions/dev/"
@@ -53,6 +55,14 @@ FEED_PATTERNS = {
     ),
     "lever": re.compile(r"jobs(\.eu)?\.lever\.co/([\w.-]+)"),
     "ashby": re.compile(r"jobs\.ashbyhq\.com/([^/?#]+)"),
+    "smartrecruiters": re.compile(
+        r"(?:jobs|careers)\.smartrecruiters\.com/(?:[a-z]{2}(?:-[A-Z]{2})?/)?([\w-]+)/\d"
+    ),
+    # tenant.wdN.myworkdayjobs.com/[en-US/]site/... or wdN.myworkdaysite.com/recruiting/tenant/site
+    "workday": re.compile(
+        r"//([\w-]+)\.(wd\d+)\.myworkdayjobs\.com/(?:[a-z]{2}-[A-Z]{2}/)?([\w-]+)"
+        r"|//(wd\d+)\.myworkdaysite\.com/(?:[a-z]{2}-[A-Z]{2}/)?recruiting/([\w-]+)/([\w-]+)"
+    ),
 }
 # Greenhouse paths that are not a company board
 NOT_A_BOARD = {"embed", "agency"}
@@ -128,7 +138,8 @@ class Feed:
 
 
 def parse_feed_url(url: str) -> tuple[str, str, bool] | None:
-    """(system, slug, is_eu) for a Greenhouse, Lever or Ashby job URL."""
+    """(system, slug, is_eu) for a job URL on any supported system.
+    A Workday slug is "tenant.wdN/site": the site name is case-sensitive."""
     for system, pattern in FEED_PATTERNS.items():
         m = pattern.search(url)
         if not m:
@@ -139,6 +150,9 @@ def parse_feed_url(url: str) -> tuple[str, str, bool] | None:
             )
         elif system == "lever":
             eu, slug = m.group(1), m.group(2)
+        elif system == "workday":
+            tenant, dc, site = m.group(1, 2, 3) if m.group(1) else m.group(5, 4, 6)
+            return system, f"{tenant.lower()}.{dc}/{site}", False
         else:
             eu, slug = None, m.group(1)
         slug = urllib.request.unquote(slug).lower()
@@ -236,8 +250,10 @@ def find_candidates(
         names = {n for n in map(norm, feed.names) if n}
         if not names:
             continue
+        # A Workday slug's tenant ("nvidia" in nvidia.wd5/...) is the name part
+        slug_name = feed.slug.split(".")[0] if feed.system == "workday" else feed.slug
         squashed_names = {n.replace(" ", "") for n in names} | {
-            re.sub(r"[^a-z0-9]", "", feed.slug)
+            re.sub(r"[^a-z0-9]", "", slug_name)
         }
         rules = [
             ("exact", set().union(*(exact.get(n, set()) for n in names))),
@@ -365,30 +381,68 @@ def match(feeds: list[Feed], employers: dict[str, Employer]) -> Counter:
 def count_jobs(system: str, body) -> int:
     if system == "lever":
         return len(body)
+    if system == "smartrecruiters":
+        return body["totalFound"]
+    if system == "workday":
+        return body["total"]
     return len(body["jobs"])
+
+
+US_NAMES = {"united states", "united states of america", "usa", "us"}
+
+
+def us_filter(facets: list[dict]) -> str:
+    """'facet=value id' for a Workday board's United States filter, or ''.
+    Boards name the facet differently (locationCountry, Location_Country,
+    locationHierarchy1) and some nest it, so search by the value's label."""
+    for f in facets:
+        for v in f.get("values", []):
+            if "facetParameter" in v:
+                found = us_filter([v])
+                if found:
+                    return found
+            elif (v.get("descriptor") or "").strip().lower() in US_NAMES:
+                return f"{f['facetParameter']}={v['id']}"
+    return ""
 
 
 async def probe(
     feeds: list[Feed], concurrency: int = 8
-) -> dict[tuple[str, str], tuple[str, int]]:
-    """Call each feed once: ('ok', job count) or ('dead', HTTP status)."""
+) -> dict[tuple[str, str], tuple[str, int, str]]:
+    """Call each feed once: ('ok', job count, US filter) or ('dead', HTTP status, '')."""
     sem = asyncio.Semaphore(concurrency)
     headers = {"User-Agent": USER_AGENT}
 
     async def one(client: httpx.AsyncClient, feed: Feed):
-        url = board_url(feed.system, feed.slug, feed.eu)
         async with sem:
             for attempt in range(3):
                 try:
-                    r = await client.get(url)
+                    if feed.system == "workday":
+                        r = await client.post(
+                            workday_jobs_url(feed.slug),
+                            json={
+                                "appliedFacets": {},
+                                "limit": 1,
+                                "offset": 0,
+                                "searchText": "",
+                            },
+                        )
+                    else:
+                        r = await client.get(board_url(feed.system, feed.slug, feed.eu))
                     if r.status_code == 200:
-                        return feed.key, ("ok", count_jobs(feed.system, r.json()))
+                        body = r.json()
+                        found = (
+                            us_filter(body.get("facets", []))
+                            if feed.system == "workday"
+                            else ""
+                        )
+                        return feed.key, ("ok", count_jobs(feed.system, body), found)
                     if r.status_code < 500 and r.status_code != 429:
-                        return feed.key, ("dead", r.status_code)
+                        return feed.key, ("dead", r.status_code, "")
                 except (httpx.TransportError, json.JSONDecodeError, KeyError):
                     pass
                 await asyncio.sleep(2**attempt)
-            return feed.key, ("error", 0)
+            return feed.key, ("error", 0, "")
 
     async with httpx.AsyncClient(
         timeout=20, headers=headers, follow_redirects=True
@@ -404,6 +458,7 @@ COMPANY_FIELDS = [
     "open_jobs",
     "feins",
     "tech_filings",
+    "us_filter",
 ]
 
 
@@ -411,11 +466,19 @@ def write_companies(feeds: list[Feed], status: dict) -> Counter:
     by_feed = defaultdict(list)
     for m in read_csv(MATCHES):
         by_feed[(m["system"], m["slug"])].append(m)
+    # A board that only timed out keeps its last known job count and filter;
+    # only a real HTTP error (404, 410...) takes it off the watchlist
+    before = {(r["system"], r["slug"]): r for r in read_csv(COMPANIES)}
     rows, stats = [], Counter()
     for feed in feeds:
-        state, n = status[feed.key]
+        state, n, found = status[feed.key]
         stats[state] += 1
-        if state != "ok":
+        if state == "error" and feed.key in before:
+            n, found = (
+                before[feed.key]["open_jobs"],
+                before[feed.key].get("us_filter", ""),
+            )
+        elif state != "ok":
             continue
         ms = by_feed[feed.key]
         rows.append(
@@ -427,6 +490,7 @@ def write_companies(feeds: list[Feed], status: dict) -> Counter:
                 "open_jobs": n,
                 "feins": ";".join(m["fein"] for m in ms),
                 "tech_filings": sum(int(m["tech_filings"]) for m in ms),
+                "us_filter": found,
             }
         )
     write_csv(COMPANIES, rows, COMPANY_FIELDS)

@@ -74,8 +74,8 @@ What none of them do:
 
 ## Known gaps
 
-- **Workday isn't covered** (45% of Simplify listings, mostly large
-  companies). Stretch goal.
+- **Oracle, iCIMS and other systems aren't covered.** Workday and SmartRecruiters were added in ADR-003; together
+  they were about half of Simplify's listings.
 - Simplify's sponsorship flag is mostly empty (97 of 19,730), so the DOL
   data carries the evidence.
 - LCA filings show history, not a promise for any single role. The site says
@@ -153,6 +153,6 @@ makes it public.
 - [ ] Model classifier for the cases rules can't decide (level unclear from the title, no years
       stated): rules filter first, the model judges only those, low confidence stays out of alerts.
       Measure on a fresh labelled sample against rules alone
-- [ ] Workday support
+- [x] Workday and SmartRecruiters support (ADR-003)
 - [ ] Email digest
 - [ ] Cap-exempt employers (universities, hospitals) as their own lane

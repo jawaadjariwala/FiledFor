@@ -421,3 +421,113 @@ rules version changes, keeping their first-seen time and alert state.
   shows rules plateauing.
 - **Workday:** 45% of Simplify's listings, mostly large companies. Separate
   adapter, stretch goal.
+
+## ADR-003: Workday and SmartRecruiters
+
+**Status:** Accepted, 2026-10-08
+
+### Context
+
+Greenhouse, Lever and Ashby left out most large employers. In the SimplifyJobs
+listings, 8,969 of 19,671 job URLs (45%) are Workday and 1,006 are
+SmartRecruiters, which together cover NVIDIA, Boeing, Capital One, Morgan
+Stanley, ServiceNow and many of the biggest H-1B filers.
+
+Both have public JSON endpoints, the same ones their careers pages call, so
+they fit the existing design: no logins, no scraping of HTML, no paid
+services. LinkedIn and Handshake were ruled out again: most of their jobs
+come from these same company boards, Handshake needs a student login, and
+LinkedIn's terms forbid scraping.
+
+What makes Workday different, measured on a sample of 40 boards:
+
+- **Size.** RTX lists 4,922 jobs and Northrop 3,783. A sample average of about
+  600 jobs per board, 20 per request, puts a full read of all 1,334 boards at
+  roughly 16,000 requests. Too many for every 30 minutes.
+- **Paging stops at 2,000.** NVIDIA reports exactly 2,000 jobs however many it
+  has.
+- **Dates are text.** "Posted Today", "Posted 3 Days Ago", "Posted 30+ Days Ago".
+- **Search doesn't help.** `searchText` matches the whole posting loosely and
+  sorts by relevance: "intern" returns a tax director, and "new grad" misses
+  "Software Engineer I", the hidden new-grad roles FiledFor exists to find.
+- **Order is newest first, nearly.** Across the sample, no job under 30 days
+  old appeared after the first page made only of "30+ Days" jobs.
+- **Country filters exist but vary.** 567 of 1,285 live boards expose one,
+  named `locationCountry`, `Location_Country` or `locationHierarchy1`.
+
+SmartRecruiters is simpler: strict newest-first order, exact timestamps, a
+server-side `country=us` filter, and 100 jobs per page.
+
+### Decision
+
+1. **Workday quick reads every run.** Page while a page still has jobs
+   posted today or yesterday. Usually one or two requests per board. Finds new
+   jobs within a run, but can't see what closed.
+2. **Workday full reads on rotation.** Each run reads the 60 boards that have
+   waited longest (never-read first) until a page holds only "30+ Days" jobs,
+   or Workday's 2,000 limit. About 1,300 boards at 48 runs a day means each is
+   read in full roughly twice a day. `boards.last_full_at` records when.
+3. **Closing needs a complete read.** `BoardResult.complete` is false for quick
+   reads, and only complete boards can close jobs. A job missing from a quick
+   read may just be on page 3.
+4. **A board's first full read is its bootstrap**, recorded quietly like any
+   new board. Boards never read in full are skipped until their turn.
+5. **The US filter is found once**, by the watchlist probe, and stored in
+   `companies.csv` (`us_filter`). Multi-location jobs on boards without one
+   get their country from the job page, fetched anyway for the description;
+   non-US jobs are stored but never published.
+6. **SmartRecruiters reads to the 30-day mark every run**, US only, and counts
+   as complete.
+7. **Posting dates:** Workday's text gives day precision. A job first seen as
+   "Posted Today" is at most one run old, so `now` is accurate for new jobs;
+   the bootstrap read is off by up to a day. Jobs over 30 days old are dropped
+   at fetch time on both systems, so a job that ages past 30 days closes, which
+   matches what the site publishes.
+
+### Options considered
+
+| | Requests per run | Finds new jobs | Detects closed jobs | Complexity |
+|---|---|---|---|---|
+| Full read every run | ~16,000 | 30 min | 30 min | Low |
+| Keyword search only | ~3,000 | Misses unlabelled roles | No | Low |
+| **Quick every run, full on rotation** | **~2,000 to 3,000** | **30 min** | **~12 hours** | **Medium** |
+| Paid scraping service (Apify) | n/a | Depends | Depends | Low, but costs money per result |
+
+Closing late matters little: a job that closed stays on the site for up to
+half a day, and its link says the posting is gone.
+
+### Consequences
+
+- About doubles the companies covered, mostly large sponsors.
+- Runs take longer. The poller's share of GitHub's free minutes is unlimited
+  for a public repo, but a run must stay well under 30 minutes.
+- Workday's 2,000 limit hides older jobs at the very largest boards. With a
+  30-day window and newest-first order, that only affects RTX, Northrop and
+  similar, and only for their oldest recent jobs.
+- Match review grew by 739 candidates (Workday 671, SmartRecruiters 68), all
+  reviewed in one pass by the same standard as ADR-001: accept only filing
+  entities that are clearly the same corporate group.
+- The watchlist probe now keeps a board that only timed out, using its last
+  known row. Only an HTTP error removes a board.
+
+### Result (2026-10-08)
+
+- **Watchlist:** 2,661 live boards (Workday 1,285, Greenhouse 531, Ashby 407,
+  SmartRecruiters 234, Lever 204), 1,464 matched to a sponsor. Match precision
+  and recall on the ADR-001 sample are unchanged (100%, 95%).
+- **Bootstrap:** reading every Workday board in full once took 10.6 minutes
+  and found 75,000 postings from the last 30 days. 32 boards were rate limited
+  (HTTP 429) and were read first on the next run; 429s now back off longer and
+  honour `Retry-After`.
+- **Normal run:** about 7 minutes (60 full Workday reads, 1,225 quick reads,
+  everything else), 0 failed boards, about 150,000 postings, about 5,700 tech
+  candidates.
+- **Rules v4.** Retailers on Workday exposed loose title words: "Front End
+  Cashier", "Back End Clerk", "Mobile Associate - Retail Sales", and a Domino's
+  on Java Lane. Area words (front end, back end, mobile, web, language names)
+  now count as software only next to an engineering word, and a short list of
+  titles is never tech. 228 stored jobs were closed; the labelled-set scores
+  did not change. Jobs whose titles fail new rules are closed in the same run,
+  not when their board is next read in full.
+- **Site:** the default view (new grad or level not stated, filings for the
+  role, last 7 days) went from 66 jobs to 210.

@@ -35,6 +35,16 @@ from filedfor.classify import flags, is_remote, is_us, level, min_years, role
         ),  # gig data labelling
         ("AI/ML Data Contributor", None, "unclear"),
         ("Applied AI Researcher", "ai", "unclear"),
+        # Retail and field titles from Workday boards (rules v4)
+        ("Front End Cashier", None, "unclear"),
+        ("Full Time - Back End Clerk - Day", None, "unclear"),
+        ("Mobile Associate - Retail Sales", None, "entry"),
+        ("Delivery Driver(08902) - 1348 suite 103 Java Lane", None, "unclear"),
+        ("Account Executive, Tax Software Sales", None, "unclear"),
+        ("Frontend Engineer, New Grad", "swe", "entry"),
+        ("iOS Developer", "swe", "unclear"),
+        ("Dist Engr-Full Stack", "swe", "unclear"),
+        ("Salesforce Developer", "swe", "unclear"),
     ],
 )
 def test_title(title, expected_role, expected_level):

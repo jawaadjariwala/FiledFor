@@ -1,0 +1,23 @@
+{
+ "jobPostingInfo": {
+  "id": "53f602943235100788904ac371cf0000",
+  "title": "DFT Engineer - New College Grad",
+  "jobDescription": "<p>NVIDIA has continuously reinvented itself over two decades. Our invention of the GPU in 1999 sparked the growth of the PC gaming market, redefined modern computer graphics, and revolutionized parallel computing. More recently, GPU deep learning ignited modern AI \u2014 the next era of computing. NVIDIA is a \u201clearning machine\u201d that constantly evolves by adapting to new opportunities that are hard to solve, that only we can seek, and that matter to the world. This is our life\u2019s work, to amplify human creativity and intelligence. Make the choice to join us today.</p><p></p><p>We are now looking for a highly motivated DFT Engineer to join this multifaceted and innovative hardware team at NVIDIA. Our Design-for-Test Engineering team works on groundbreaking innovations involving crafting creative solutions for DFT architecture, verification and post-silicon validation on some of the industry&#39;s most sophisticated semiconductor chips.</p><p></p><p><b>What you&#39;ll be doing:</b></p><ul><li><p>In this highly technical role, you will work on end-to-end DFT for the most sophisticated chips in the world, from methodology, to deployment to post-silicon lifecycle support.</p></li><li><p>Partner with the top EDA tool vendors to develop new capabilities to support NVIDIA requirements, and with internal CAD to drive efficiency via automations.</p></li><li><p>Work with NVIDIA VLSI and Operations teams to deliver the scan feature in all product segments at NVIDIA.</p></li><li><p>Help mentor ",
+  "location": "US, CA, Santa Clara",
+  "postedOn": "Posted 30+ Days Ago",
+  "startDate": "2026-06-25",
+  "country": {
+   "descriptor": "United States of America",
+   "id": "bc33aa3152ec42d4995f4791a106ed09"
+  },
+  "jobRequisitionLocation": {
+   "descriptor": "US, CA, Santa Clara",
+   "country": {
+    "descriptor": "United States of America",
+    "id": "bc33aa3152ec42d4995f4791a106ed09",
+    "alpha2Code": "US"
+   }
+  },
+  "externalUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/DFT-Engineer---New-College-Grad_JR2016865"
+ }
+}

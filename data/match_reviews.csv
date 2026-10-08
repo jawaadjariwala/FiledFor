@@ -371,3 +371,743 @@ lever,trio,Trio,prefix,88-3708484,TRIO APPAREL GROUP INC,1,reject
 lever,windfalldata,Windfall,squashed,81-3232300,"Windfall Data, Inc.",1,accept
 lever,wisdomtree,WisdomTree,prefix,88-2069512,WisdomTree Digital Movement Inc.,1,accept
 lever,woven-by-toyota,Woven,squashed,86-2554188,"Woven by Toyota, U.S., Inc.",68,accept
+smartrecruiters,abbvie,AbbVie,exact,32-0375147,AbbVie Inc.,217,accept
+smartrecruiters,abbvie,AbbVie,exact,80-0805709,AbbVie US LLC,34,accept
+smartrecruiters,abercrombieandfitchco,Abercrombie and Fitch Co.,prefix,31-1228829,Abercrombie & Fitch Management Co.,49,accept
+smartrecruiters,achieve1,Achieve,prefix,47-4100686,Achieve Brown County,2,reject
+smartrecruiters,achieve1,Achieve,prefix,47-5482321,Achieve Miami Inc.,2,reject
+smartrecruiters,achieve1,Achieve,prefix,84-4203576,Achieve Technology Consulting,2,reject
+smartrecruiters,aecom2,AECOM,prefix,95-2661922,"AECOM Technical Services, Inc.",14,accept
+smartrecruiters,baesystems3,BAE Systems,prefix,22-2466421,"BAE Systems Technology Solutions & Services, Inc.",5,accept
+smartrecruiters,bcforward3,BCforward,prefix,47-2305452,BCforward Razor LLC,1,accept
+smartrecruiters,colliersinternationalemea,Colliers,prefix,45-3698813,"Colliers International Valuation & Advisory Services, LLC",3,accept
+smartrecruiters,colliersinternationalemea,Colliers,prefix,32-0356630,"Colliers International WA, LLC",1,accept
+smartrecruiters,comtechllc2,Comtech,prefix,20-5079167,"Comtech Global, Inc.",1,reject
+smartrecruiters,dominos,Domino's,prefix,38-2511577,"Domino's Pizza, Inc.",66,accept
+smartrecruiters,eurofins,Eurofins,prefix,20-0368571,"Eurofins Central Laboratory, LLC",2,accept
+smartrecruiters,eurofins,Eurofins,prefix,52-1782529,"Eurofins Electrical and Electronic Testing NA, LLC",2,accept
+smartrecruiters,eurofins,Eurofins,prefix,43-0918770,"Eurofins BioPharma Product Testing Columbia, LLC.",1,accept
+smartrecruiters,eurofins,Eurofins,prefix,56-2409510,"Eurofins DQCI, LLC",1,accept
+smartrecruiters,eurofins,Eurofins,prefix,62-1098733,"Eurofins Food Chemistry Testing Des Moines, Inc.",1,accept
+smartrecruiters,eversana1,EVERSANA,prefix,39-1821626,"Eversana Life Science Services, LLC",30,accept
+smartrecruiters,experian,Experian,prefix,31-1343192,"Experian Information Solutions, Inc.",140,accept
+smartrecruiters,experian,Experian,prefix,33-0796737,Experian Services Corporation,11,accept
+smartrecruiters,experian,Experian,prefix,62-1741830,"Experian Health, Inc.",11,accept
+smartrecruiters,experian,Experian,prefix,81-4578737,"Experian Marketing Solutions, LLC",2,accept
+smartrecruiters,gdmsi,General Dynamics UK,prefix,54-1194322,"General Dynamics Information Technology, Inc.",47,reject
+smartrecruiters,informagroupplc,Informa Group,prefix,84-1969919,"Informa Tech, LLC",3,accept
+smartrecruiters,informagroupplc,Informa Group,prefix,13-3179256,Informa Connect USA LLC,1,accept
+smartrecruiters,informagroupplc,Informa Group,prefix,59-3435175,"Informa Support Services, Inc.",1,accept
+smartrecruiters,kioxia,Kioxia,prefix,82-1740579,"KIOXIA America, Inc.",11,accept
+smartrecruiters,lgcgroup,LGC Group,prefix,33-0056054,"LGC Clinical Diagnostics, Inc.",1,accept
+smartrecruiters,lgcgroup,LGC Group,prefix,41-2111769,"LGC Global, Inc.",1,accept
+smartrecruiters,loram1,Loram,prefix,74-2662968,"Loram Technologies, Inc.",2,accept
+smartrecruiters,loram1,Loram,prefix,41-0950401,"Loram Maintenance of Way, Inc.",1,accept
+smartrecruiters,mattelinc,Mattel,prefix,95-4658541,"Mattel HQ, Inc.",21,accept
+smartrecruiters,mattelinc,Mattel,prefix,95-2413500,Mattel Sales Corp.,3,accept
+smartrecruiters,msxinternational,MSX International,prefix,82-3432947,MSX International RNS LLC,1,accept
+smartrecruiters,myriadgenetics1,Myriad Genetics,exact,87-0494517,"Myriad Genetics, Inc.",4,accept
+smartrecruiters,myriadgenetics1,Myriad Genetics,exact,74-3238060,"Myriad Genetics, Inc.",2,accept
+smartrecruiters,nextcenturycorporation,CACI,prefix,54-1008371,"CACI, INC - FEDERAL",3,accept
+smartrecruiters,northwesternmutual,Northwestern Mutual,prefix,39-0509570,Northwestern Mutual Life Insurance Company,201,accept
+smartrecruiters,procomconsultantsgroup,Procom,prefix,75-2768694,Procom Services America Inc.,3,accept
+smartrecruiters,procomconsultantsgroup,Procom,prefix,58-2452658,"ProCom Consulting, Inc.",1,reject
+smartrecruiters,procomservices,Procom,prefix,75-2768694,Procom Services America Inc.,3,accept
+smartrecruiters,procomservices,Procom,prefix,58-2452658,"ProCom Consulting, Inc.",1,reject
+smartrecruiters,pureintegration,pureIntegration,squashed,72-1587867,Pure Integration LLC,8,accept
+smartrecruiters,radiuslimited,Radius Limited,prefix,26-0783576,RADIUS INFO SYS INC,4,reject
+smartrecruiters,ramboll3,Ramboll,prefix,16-0980138,"Ramboll Americas Engineering Solutions, Inc",2,accept
+smartrecruiters,randstad4,Randstad,prefix,26-3305132,"RANDSTAD DIGITAL, LLC",1442,accept
+smartrecruiters,randstad4,Randstad,prefix,58-2426265,Randstad General Partner (US) LLC,19,accept
+smartrecruiters,randstad4,Randstad,prefix,26-3305087,"Randstad Professionals US, LLC",2,accept
+smartrecruiters,redbull,Red Bull,prefix,95-4552870,"Red Bull North America, Inc.",14,accept
+smartrecruiters,redbull,Red Bull,prefix,27-4580647,"Red Bull Media House North America, Inc.",2,accept
+smartrecruiters,redbull,Red Bull,prefix,84-1305064,"Red Bull New York, Inc.",1,accept
+smartrecruiters,renesaselectronics,Renesas Electronics,prefix,94-2669985,Renesas Electronics America Inc.,20,accept
+smartrecruiters,sandisk,Sandisk,prefix,99-1519948,"Sandisk Technologies, Inc.",126,accept
+smartrecruiters,skyward1,Skyward,prefix,45-5463484,Skyward Service Company,5,reject
+smartrecruiters,sutherland,Sutherland,prefix,20-1828146,"SUTHERLAND DIGITAL SERVICES, INC",30,accept
+smartrecruiters,sutherland,Sutherland,prefix,16-1287080,Sutherland Global Services Inc.,1,accept
+smartrecruiters,testingxperts,Testing Xperts,squashed,98-0663858,TestingXperts Inc.,11,accept
+smartrecruiters,veoliaenvironnementsa,Veolia,prefix,26-2756568,Veolia North America LLC,8,accept
+smartrecruiters,veoliaenvironnementsa,Veolia,prefix,22-3297197,"Veolia Water M&S (Paramus), Inc.",7,accept
+smartrecruiters,veoliaenvironnementsa,Veolia,prefix,22-0971030,"Veolia Water New Jersey, Inc.",1,accept
+smartrecruiters,veoliaenvironnementsa,Veolia,prefix,23-1503731,"VEOLIA WTS USA, INC.",1,accept
+smartrecruiters,versant3,Versant,prefix,33-3075644,"Versant Media, LLC",10,reject
+smartrecruiters,versant3,Versant,prefix,01-0024370,Versant Power,1,reject
+smartrecruiters,wabtec,Wabtec,prefix,83-0598308,"Wabtec US Rail, Inc.",48,accept
+smartrecruiters,wabtec,Wabtec,prefix,47-2275131,"Wabtec Railway Electronics, Inc.",19,accept
+smartrecruiters,westerndigital,Western Digital,prefix,95-2647125,"Western Digital Technologies, Inc.",135,accept
+smartrecruiters,zoro,Zoro,prefix,27-3596010,"Zoro Tools, Inc.",18,accept
+workday,aaaie.wd1/CSAACareers2,CSAA Insurance Group,prefix,46-4417209,"CSAA Insurance Services, Inc.",90,accept
+workday,abbott.wd5/abbottcareers,Abbott,prefix,36-0698440,ABBOTT LABORATORIES,90,accept
+workday,abbott.wd5/abbottcareers,Abbott,prefix,94-3267373,ABBOTT DIABETES CARE INC.,37,accept
+workday,abbott.wd5/abbottcareers,Abbott,prefix,22-3890190,ABBOTT DIABETES CARE SALES CORPORATION,16,accept
+workday,abbott.wd5/abbottcareers,Abbott,prefix,26-1444559,"ABBOTT RAPID DX NORTH AMERICA, LLC",2,accept
+workday,abbott.wd5/abbottcareers,Abbott,prefix,36-4184946,ABBOTT LABORATORIES INC.,2,accept
+workday,abbott.wd5/abbottcareers2,Abbott,prefix,36-0698440,ABBOTT LABORATORIES,90,accept
+workday,abbott.wd5/abbottcareers2,Abbott,prefix,94-3267373,ABBOTT DIABETES CARE INC.,37,accept
+workday,abbott.wd5/abbottcareers2,Abbott,prefix,22-3890190,ABBOTT DIABETES CARE SALES CORPORATION,16,accept
+workday,abbott.wd5/abbottcareers2,Abbott,prefix,26-1444559,"ABBOTT RAPID DX NORTH AMERICA, LLC",2,accept
+workday,abbott.wd5/abbottcareers2,Abbott,prefix,36-4184946,ABBOTT LABORATORIES INC.,2,accept
+workday,academy.wd1/careers,Academy Sports + Outdoors,squashed,74-1670067,"Academy, LTD",45,accept
+workday,acg.wd1/Careers,Auto Club Group,prefix,38-3370446,"Auto Club Services, Inc.",33,reject
+workday,acg.wd1/Careers,Auto Club Group,prefix,25-1114373,Auto Club of East Central,6,reject
+workday,acrisure.wd1/Acrisure,Acrisure,prefix,85-4263439,"Acrisure Technology Group, LLC",2,accept
+workday,ag.wd3/Airbus,Airbus,prefix,13-3243459,"Airbus Americas, Inc.",5,accept
+workday,ag.wd3/Airbus,Airbus,prefix,75-2416720,"Airbus Helicopters, Inc.",1,accept
+workday,agiliti.wd5/careers,Agiliti,prefix,41-0760940,"Agiliti Health, Inc.",3,accept
+workday,aig.wd1/aig,AIG,prefix,80-0485576,"AIG PC Global Services, Inc.",68,accept
+workday,aig.wd1/aig,AIG,prefix,84-1697731,"AIG Employee Services, Inc.",29,accept
+workday,aig.wd1/aig,AIG,prefix,45-1438352,"AIG Global Operations, Inc.",7,accept
+workday,aig.wd1/aig,AIG,prefix,13-2925174,"AIG Claims, Inc.",6,accept
+workday,aig.wd1/aig,AIG,prefix,13-3870953,AIG Global Asset Management Holdings Corp.,6,accept
+workday,aig.wd1/early_careers,AIG,prefix,80-0485576,"AIG PC Global Services, Inc.",68,accept
+workday,aig.wd1/early_careers,AIG,prefix,84-1697731,"AIG Employee Services, Inc.",29,accept
+workday,aig.wd1/early_careers,AIG,prefix,45-1438352,"AIG Global Operations, Inc.",7,accept
+workday,aig.wd1/early_careers,AIG,prefix,13-2925174,"AIG Claims, Inc.",6,accept
+workday,aig.wd1/early_careers,AIG,prefix,13-3870953,AIG Global Asset Management Holdings Corp.,6,accept
+workday,airliquidehr.wd3/airgasexternalcareer,Airgas,exact,56-0732648,"Airgas, Inc.",5,accept
+workday,airliquidehr.wd3/airgasexternalcareer,Airgas,exact,45-3153734,Airgas USA LLC,1,accept
+workday,alcon.wd5/careers_alcon,Alcon,prefix,75-2824405,"Alcon Research, LLC",35,accept
+workday,alcon.wd5/careers_alcon,Alcon,prefix,75-2252369,"Alcon Vision, LLC",20,accept
+workday,alegeus.wd1/Alegeus_External_Careers,Alegeus,prefix,90-0808825,"Alegeus Technologies, LLC",2,accept
+workday,alliance.wd3/nissanjobs,Nissan Global,prefix,95-2108010,"Nissan North America, Inc.",3,accept
+workday,alliancedata.wd5/breadfinancial_us,Bread Financial,prefix,13-3163498,"BREAD FINANCIAL PAYMENTS, INC.",11,accept
+workday,allina.wd5/external,Allina Health,prefix,36-3261413,Allina Health System,1,accept
+workday,amcor.wd5/amcor_external_career_site,Amcor,prefix,36-4126680,"Amcor Rigid Packaging USA, LLC",3,accept
+workday,amcor.wd5/amcor_external_career_site,Amcor,prefix,43-0178130,"Amcor Flexibles North America, Inc.",2,accept
+workday,ameren.wd1/External,Ameren,prefix,43-1799279,Ameren Services Company,12,accept
+workday,american.wd1/au,American University,prefix,90-0753581,AMERICAN UNIVERSITY OF HEALTH SCIENCES,1,reject
+workday,ancestry.wd501/Careers,Ancestry,prefix,87-0392473,Ancestry.com Operations Inc.,123,accept
+workday,arbella.wd5/Arbella,Arbella,prefix,04-3375448,Arbella Insurance Group,11,accept
+workday,archgroup.wd1/careers,Arch Capital Group,prefix,02-0576800,Arch Capital Services LLC,27,accept
+workday,archildrens.wd1/external_career_site,Arkansas Children's,prefix,71-0236857,Arkansas Children's Hospital,1,accept
+workday,archildrens.wd1/external_career_site,Arkansas Children's,prefix,71-0694931,Arkansas Children's Research Institute,1,accept
+workday,archwellessentials.wd1/modercareers,Moder,squashed,86-3066564,"Archwell Essentials, LLC",5,accept
+workday,asml.wd3/asmlext1,ASML,exact,82-2530621,"ASML US, LP",191,accept
+workday,asml.wd3/asmlext1,ASML,exact,77-0568140,"ASML US, LLC",31,accept
+workday,assetmark.wd5/AssetMark_Careers,AssetMark,prefix,30-0774039,"AssetMark Financial Holdings, Inc.",10,accept
+workday,astemo.wd102/Global_Career_Site,Astemo,prefix,61-1065272,"Astemo Americas, Inc",21,accept
+workday,astrazeneca.wd3/Careers,AstraZeneca,prefix,23-2967016,AstraZeneca Pharmaceuticals LP,66,accept
+workday,astreya.wd5/life-at-astreya-opportunities,Astreya,prefix,77-0570107,"Astreya Partners, LLC",18,accept
+workday,athenahealth.wd1/External,Athena Health,squashed,04-3387530,"athenahealth, Inc.",138,accept
+workday,att.wd1/ATTGeneral,AT&T,prefix,74-2782655,"AT&T SERVICES, INC.",939,accept
+workday,att.wd1/ATTGeneral,AT&T,prefix,37-1417265,"AT&T MOBILITY SERVICES, LLC",30,accept
+workday,att.wd1/ATTGeneral,AT&T,prefix,92-0977647,AT&T Cyber Services LLC,1,accept
+workday,att.wd1/attcollege,AT&T,prefix,74-2782655,"AT&T SERVICES, INC.",939,accept
+workday,att.wd1/attcollege,AT&T,prefix,37-1417265,"AT&T MOBILITY SERVICES, LLC",30,accept
+workday,att.wd1/attcollege,AT&T,prefix,92-0977647,AT&T Cyber Services LLC,1,accept
+workday,aveva.wd3/AVEVA_careers,AVEVA,prefix,47-2573795,"AVEVA SOFTWARE, LLC",42,accept
+workday,aveva.wd3/AVEVA_careers,AVEVA,prefix,65-0263022,"Aveva Drug Delivery Systems, Inc.",3,reject
+workday,aviva.wd1/External,Aviva,prefix,82-3017837,"Aviva Mental Health Services, Inc.",1,reject
+workday,axalta.wd1/axalta,Axalta,prefix,61-1682102,"Axalta Coating Systems, LLC",2,accept
+workday,bacardi.wd3/Jobs_Bacardi,Bacardi,prefix,22-3457808,"Bacardi-Martini, Inc.",1,accept
+workday,bah.wd1/Confidential,Booz Allen,prefix,36-2513626,Booz Allen Hamilton Inc.,23,accept
+workday,bah.wd1/bah_jobs,Booz Allen,prefix,36-2513626,Booz Allen Hamilton Inc.,23,accept
+workday,baldwin.wd1/MSI,MSI,prefix,31-1622808,"MSI Express, Inc.",3,reject
+workday,baldwin.wd1/MSI,MSI,prefix,20-8064210,MSI Credit Solutions LLC,1,reject
+workday,baldwin.wd1/MSI,MSI,prefix,94-3296785,MSI Computer Corp.,1,reject
+workday,barclays.wd3/External_Career_Site_Barclays,Barclays,prefix,13-3714398,Barclays Services Corp.,763,accept
+workday,barclays.wd3/External_Career_Site_Barclays,Barclays,prefix,51-0407971,Barclays Services LLC,210,accept
+workday,barclays.wd3/External_Career_Site_Barclays,Barclays,prefix,51-0407970,Barclays Bank Delaware,28,accept
+workday,barclays.wd3/External_Career_Site_Barclays,Barclays,prefix,06-1031656,Barclays Capital Inc.,26,accept
+workday,barclays.wd3/External_Career_Site_Barclays,Barclays,prefix,13-4942190,Barclays Bank PLC,3,accept
+workday,barr.wd1/barrcareers,Barr,prefix,86-0906481,BARR credit Services Inc.C,1,reject
+workday,basspro.wd1/careers,Bass Pro Shops,squashed,43-1869775,"Bass Pro, LLC",13,accept
+workday,bbh.wd5/BBH,Brown Brothers Harriman,prefix,13-4973745,BROWN BROTHERS HARRIMAN & CO.,38,accept
+workday,bbva.wd3/BBVA,Banco Bilbao Vizcaya Argentaria,prefix,13-3491492,"Banco Bilbao Vizcaya Argentaria, S.A.",1,accept
+workday,bcidaho.wd5/BCI,Blue Cross of Idaho,prefix,82-0344294,"Blue Cross of Idaho Health Services, Inc.",7,accept
+workday,bdo.wd3/BDO,BDO Canada,squashed,13-5381590,"BDO USA, P.C.",7,reject
+workday,bdx.wd1/EXTERNAL_CAREER_SITE_USA,Becton Dickinson,prefix,22-0760120,"Becton, Dickinson and Company",65,accept
+workday,bdx.wd1/US_EARLY_TALENT_SITE,Becton Dickinson,prefix,22-0760120,"Becton, Dickinson and Company",65,accept
+workday,bilh.wd1/External,Beth Israel Lahey Health,exact,04-2103881,"Beth Israel Deaconess Medical Center, Inc.",22,accept
+workday,bilh.wd1/External,Beth Israel Lahey Health,exact,83-2671600,"Beth Israel Lahey Health, Inc.",1,accept
+workday,bpinternational.wd3/bpCareers,BP,prefix,94-2257553,BP America Inc.,18,accept
+workday,bpinternational.wd3/bpCareers,BP,prefix,74-2999179,"Clearbrook Group Services, Inc.",11,reject
+workday,bpinternational.wd3/bpEarlyCareers,BP,prefix,94-2257553,BP America Inc.,18,accept
+workday,bpinternational.wd3/bpEarlyCareers,BP,prefix,74-2999179,"Clearbrook Group Services, Inc.",11,reject
+workday,bpinternational.wd3/bpPrivateExternalCareersSite,BP,prefix,94-2257553,BP America Inc.,18,accept
+workday,bpinternational.wd3/bpPrivateExternalCareersSite,BP,prefix,74-2999179,"Clearbrook Group Services, Inc.",11,reject
+workday,brinks.wd5/brinkscareersus,Brink,squashed,36-2478302,"Brink's, Incorporated",4,accept
+workday,broadridge.wd5/careers,Broadridge,prefix,33-1151291,"BROADRIDGE FINANCIAL SOLUTIONS, INC.",142,accept
+workday,brookfield.wd5/bpandc,Argo Group,prefix,93-2965140,ARGO DIAM NY INC.,1,reject
+workday,brookfield.wd5/brookfield,Brookfield,prefix,20-4473811,Brookfield Asset Management LLC,3,accept
+workday,brookfield.wd5/brookfield,Brookfield,prefix,20-4356399,Brookfield Properties (USA II) LLC,2,accept
+workday,brookfield.wd5/brookfield,Brookfield,prefix,83-0469768,Brookfield Power US Asset Management LLC,2,accept
+workday,brookfield.wd5/brookfield,Brookfield,prefix,20-5445678,Brookfield Dental Associates LLC,1,reject
+workday,brunswick.wd1/search,Brunswick,exact,36-0848180,Brunswick Corporation,21,accept
+workday,brunswick.wd1/search,Brunswick,exact,20-1591418,Brunswick Group LLC,2,reject
+workday,byu.wd1/byu-careers,Brigham Young University,prefix,82-0207699,Brigham Young University - Idaho,2,reject
+workday,caci.wd1/external,CACI,prefix,54-1008371,"CACI, INC - FEDERAL",3,accept
+workday,cae.wd3/career,CAE,prefix,80-0821694,CAE Technology Services Inc,8,accept
+workday,cae.wd3/career,CAE,prefix,87-3279784,"CAE Flight Services USA, Inc",5,accept
+workday,cai.wd5/computer_aid,CAI,prefix,42-1860844,"CAI Labs, Inc.",1,reject
+workday,canadiansolar.wd5/CanadianSolar,Canadian Solar,prefix,92-1360917,Canadian Solar U.S. Module Manufacturing Corporation,3,accept
+workday,canvasinc.wd108/Canvas,"Canvas, Inc.",prefix,22-3919486,"CANVAS INFOTECH, INC.",6,reject
+workday,canvasinc.wd108/Canvas,"Canvas, Inc.",prefix,46-4677643,Canvas Construction Inc,2,accept
+workday,capitalhealth.wd1/CapitalHealthCareers,Capital Health,prefix,22-3548695,"Capital Health System, Inc.",2,accept
+workday,capitalone.wd12/Capital_One,Capital One,prefix,54-1780389,"Capital One Services, LLC",1540,accept
+workday,capitalone.wd12/Capital_One,Capital One,prefix,72-0210640,"Capital One, National Association",915,accept
+workday,capri.wd1/jimmychoocareers,Jimmy Choo,squashed,41-4490828,Capri USA Group Inc.,14,accept
+workday,carislifesciences.wd12/CLS,Caris,prefix,74-3126687,"Caris MPI, Inc.",11,accept
+workday,carmax.wd1/External,CarMax,prefix,87-2574952,"CarMax Enterprise Services, LLC",34,accept
+workday,carrier.wd5/jobs,Carrier Global,squashed,06-0991716,Carrier Corporation,2,accept
+workday,cboe.wd1/External_Career_CBOE,Cboe,prefix,20-5446972,Cboe Global Markets Inc,20,accept
+workday,cengage.wd5/CengageNorthAmericaCareers,Cengage Group,prefix,59-2124491,"Cengage Learning, Inc.",19,accept
+workday,centene.wd5/Centene_External,Centene,prefix,39-1864073,"Centene Management Company, LLC",214,accept
+workday,centific.wd1/Centific_Global,Centific,prefix,37-1533773,"Centific Global Solutions, Inc.",31,accept
+workday,centific.wd1/Centific_Global,Centific,prefix,20-4012879,"Centific Technologies, Inc.",17,accept
+workday,ceritypartners.wd12/ceritypartnerscareers,Cerity Partners,prefix,82-3417410,Cerity Partners Management LLC,2,accept
+workday,chevron.wd5/University,Chevron Corporation,exact,25-0527925,Chevron USA Inc.,5,accept
+workday,chevron.wd5/University,Chevron Corporation,exact,94-0890210,Chevron Corporation,1,accept
+workday,cibc.wd3/campus,CIBC,prefix,36-3722148,CIBC Bank USA,42,accept
+workday,cibc.wd3/campus,CIBC,prefix,13-2798343,CIBC World Markets Corp.,7,accept
+workday,cibc.wd3/search,CIBC,prefix,36-3722148,CIBC Bank USA,42,accept
+workday,cibc.wd3/search,CIBC,prefix,13-2798343,CIBC World Markets Corp.,7,accept
+workday,cigna.wd5/cignacareers,Cigna Group,prefix,85-2732455,Cigna-Evernorth Services Inc.,692,accept
+workday,cigna.wd5/cignacareers,Cigna Group,prefix,59-1031071,Cigna Health and Life Insurance Company,33,accept
+workday,circle.wd1/Circle,Circle,prefix,74-1149540,Circle K Stores Inc.,39,reject
+workday,circle.wd1/Circle,Circle,prefix,46-3394676,"Circle Internet Financial, LLC",30,accept
+workday,circle.wd1/Circle,Circle,prefix,33-1935121,Circle Internet Management Services LLC,25,accept
+workday,circle.wd1/Circle,Circle,prefix,20-8168874,"Circle Wealth Management, LLC",1,reject
+workday,circlek.wd3/circlekstorejobs,Circle K,prefix,74-1149540,Circle K Stores Inc.,39,accept
+workday,cisco.wd5/cisco_careers,Cisco,prefix,77-0059951,"Cisco Systems, Inc.",1873,accept
+workday,cisco.wd5/cisco_careers,Cisco,prefix,77-0440621,Cisco Systems Capital Corporation,1,accept
+workday,citi.wd5/2,Citi,prefix,31-1249295,"Citi Fund Services Ohio, Inc.",5,accept
+workday,citi.wd5/2,Citi,prefix,43-1985209,Citi Diamonds Inc.,3,reject
+workday,citi.wd5/2,Citi,prefix,86-1428826,Citi Cellular LLC,1,reject
+workday,citi.wd5/Citi_Early_Careers_Events_Site,Citi,prefix,31-1249295,"Citi Fund Services Ohio, Inc.",5,accept
+workday,citi.wd5/Citi_Early_Careers_Events_Site,Citi,prefix,43-1985209,Citi Diamonds Inc.,3,reject
+workday,citi.wd5/Citi_Early_Careers_Events_Site,Citi,prefix,86-1428826,Citi Cellular LLC,1,reject
+workday,clarivate.wd3/Clarivate_Careers,Clarivate,prefix,23-1569117,"Clarivate Analytics (US), LLC",11,accept
+workday,clearesult.wd1/CLEAResult_External_Careers,CLEAResult,prefix,72-1572984,CLEAResult Consulitng Inc.,2,accept
+workday,coke.wd1/coca-cola-careers,The Coca-Cola Company,exact,58-0628465,The Coca-Cola Company,13,accept
+workday,coke.wd1/coca-cola-careers,The Coca-Cola Company,exact,58-0503352,The Coca-Cola Company,1,accept
+workday,collectorsuniverse.wd1/collectors,Collectors,squashed,33-0846191,"Collectors Universe, Inc.",14,accept
+workday,comcast.wd5/Comcast_Careers,Comcast,prefix,23-2175755,"Comcast Cable Communications, LLC",844,accept
+workday,conning.wd503/conningcareers,Conning,prefix,06-1174588,Conning & Company,4,accept
+workday,corteva.wd5/corteva,Corteva,prefix,35-1781118,Corteva Agriscience LLC,51,accept
+workday,corteva.wd5/ctp,Corteva,prefix,35-1781118,Corteva Agriscience LLC,51,accept
+workday,costar.wd1/CoStarCareers,CoStar Group,prefix,52-2134617,CoStar Realty Information Inc.,64,accept
+workday,costar.wd1/CoStarCareers,CoStar Group,prefix,33-2871822,COSTAR REALTY LLC,2,accept
+workday,costar.wd1/Costar_Campus,CoStar Group,prefix,52-2134617,CoStar Realty Information Inc.,64,accept
+workday,costar.wd1/Costar_Campus,CoStar Group,prefix,33-2871822,COSTAR REALTY LLC,2,accept
+workday,costar.wd1/confidential,CoStar Group,prefix,52-2134617,CoStar Realty Information Inc.,64,accept
+workday,costar.wd1/confidential,CoStar Group,prefix,33-2871822,COSTAR REALTY LLC,2,accept
+workday,cox.wd1/Cox_External_Career_Site_1,Cox,prefix,47-1727762,"Cox Automotive Corporate Services, LLC",179,accept
+workday,cox.wd1/Cox_External_Career_Site_1,Cox,prefix,05-0521764,Cox Corporate Services Inc.,5,accept
+workday,csagroup.wd3/csagroup,CSA Group,prefix,93-1024944,"CSA Planning, Ltd.",1,reject
+workday,csiweb.wd1/CSI_Careers,CSI,prefix,20-4571736,CSI Interfusion Inc,11,reject
+workday,csiweb.wd1/CSI_Careers,CSI,prefix,37-1762603,CSI Solutions LLC,11,reject
+workday,csiweb.wd1/CSI_Careers,CSI,prefix,81-2264132,"CSI IT, LLC",4,reject
+workday,csiweb.wd1/CSI_Careers,CSI,prefix,95-4740244,CSI PROFESSIONALS INC.,2,reject
+workday,csiweb.wd1/CSI_Careers,CSI,prefix,30-1424448,"CSI LOOP TECHNOLOGY, LLC",1,reject
+workday,cubic.wd1/cubic_USA_careers,Cubic,prefix,47-3146880,Cubic Technologies LLC,15,accept
+workday,cubic.wd1/cubic_USA_careers,Cubic,prefix,74-2019144,"Cubic ITS, Inc.",4,accept
+workday,cubic.wd1/cubic_USA_careers,Cubic,prefix,95-2773786,"Cubic Transportation Systems, Inc.",3,accept
+workday,cubic.wd1/cubic_USA_careers,Cubic,prefix,33-3856495,Cubic Strategies LLC,2,reject
+workday,cubic.wd1/cubic_global_careers,Cubic,prefix,47-3146880,Cubic Technologies LLC,15,accept
+workday,cubic.wd1/cubic_global_careers,Cubic,prefix,74-2019144,"Cubic ITS, Inc.",4,accept
+workday,cubic.wd1/cubic_global_careers,Cubic,prefix,95-2773786,"Cubic Transportation Systems, Inc.",3,accept
+workday,cubic.wd1/cubic_global_careers,Cubic,prefix,33-3856495,Cubic Strategies LLC,2,reject
+workday,cyrusone.wd1/CyrusOneCareerPortal,CyrusOne,prefix,27-4286158,CyrusOne Management Services LLC,2,accept
+workday,daikinapplied.wd1/Daikin-Careers,Daikin Applied,prefix,41-0404230,Daikin Applied Americas Inc.,1,accept
+workday,daikinapplied.wd1/Pre-Selected_Candidate_Site,Daikin Applied,prefix,41-0404230,Daikin Applied Americas Inc.,1,accept
+workday,daveandbusters.wd1/dave_and_busters_careers,Dave & Busters,prefix,20-1574573,"Dave & Buster's Management Corporation, LLC",2,accept
+workday,davidyurman.wd1/DavidYurmanCareers,David Yurman,prefix,45-4614722,David Yurman Enterprises LLC,7,accept
+workday,db.wd3/DBWebsite,Deutsche Bank,prefix,13-2730828,"Deutsche Bank Securities, Inc.",21,accept
+workday,db.wd3/DBWebsite,Deutsche Bank,prefix,35-2420193,Deutsche Bank New York Branch,21,accept
+workday,db.wd3/DBWebsite,Deutsche Bank,prefix,13-4941247,Deutsche Bank Trust Company Americas,2,accept
+workday,db.wd3/DBWebsite,Deutsche Bank,prefix,13-3347003,Deutsche Bank National Trust Company,1,accept
+workday,dealertire.wd5/4710,Dent Wizard,squashed,34-1940366,Dealer Tire LLC,5,accept
+workday,dell.wd1/External,Dell Technologies,squashed,74-2616802,Dell USA L.P.,294,accept
+workday,dentsuaegis.wd3/DAN_GLOBAL,Dentsu,prefix,13-3906970,"Dentsu International Americas, LLC",16,accept
+workday,digikey.wd5/digi-key,DigiKey,squashed,41-1234968,Digi-Key Corporation,1,accept
+workday,disney.wd5/disneycareer,The Walt Disney Company,prefix,95-2412883,"WALT DISNEY PARKS AND RESORTS U.S., INC.",2,accept
+workday,disney.wd5/disneycareer,The Walt Disney Company,prefix,95-3834209,WALT DISNEY PICTURES,1,accept
+workday,disney.wd5/disneycareerdc,The Walt Disney Company,prefix,95-2412883,"WALT DISNEY PARKS AND RESORTS U.S., INC.",2,accept
+workday,disney.wd5/disneycareerdc,The Walt Disney Company,prefix,95-3834209,WALT DISNEY PICTURES,1,accept
+workday,doterra.wd1/doTERRACareers,doTERRA,prefix,26-1898940,"doTERRA International, LLC",17,accept
+workday,dowjones.wd1/Dow_Jones_Career,Dow Jones,prefix,13-5034940,"Dow Jones and Company, Inc.",44,accept
+workday,drivenbrands.wd1/drivenbrandscareersite,Driven Brands,prefix,20-5433628,"Driven Brands Shared Services, LLC",2,accept
+workday,dtna.wd5/dtna_affiliate,Daimler Truck,prefix,93-0790608,"Daimler Truck North America, LLC",29,accept
+workday,dtna.wd5/dtna_affiliate,Daimler Truck,prefix,86-3161482,"Daimler Truck Financial Services USA, LLC",4,accept
+workday,dtna.wd5/dtna_external,Daimler Truck,prefix,93-0790608,"Daimler Truck North America, LLC",29,accept
+workday,dtna.wd5/dtna_external,Daimler Truck,prefix,86-3161482,"Daimler Truck Financial Services USA, LLC",4,accept
+workday,dukeenergy.wd1/search,Duke Energy,prefix,56-2115358,"Duke Energy Business Services, LLC",5,accept
+workday,dxctechnology.wd1/dxcjobs,DXC Technology,prefix,82-2287119,DXC Technology Services LLC,84,accept
+workday,earlywarning.wd5/earlywarningcareers,Early Warning,prefix,20-5276211,"Early Warning Services, LLC",81,accept
+workday,ecolab.wd1/ecolab_external,Ecolab,exact,41-1941945,Ecolab USA Inc.,13,accept
+workday,ecolab.wd1/ecolab_external,Ecolab,exact,41-0231510,Ecolab Inc.,5,accept
+workday,elementfleet.wd3/External_Career_Site,Element Fleet Management,squashed,36-2774566,Element Fleet Corporation,3,accept
+workday,elevancehealth.wd1/ANT,CareBridge,squashed,35-2145715,"Elevance Health, Inc.",703,accept
+workday,empower.wd12/empower,Empower,prefix,84-1233483,"EMPOWER RETIREMENT, LLC",43,accept
+workday,empower.wd12/empower,Empower,prefix,20-1669480,Empower Professionals Inc,37,reject
+workday,empower.wd12/empower,Empower,prefix,81-1879144,"Empower Finance, Inc.",9,reject
+workday,empower.wd12/empower,Empower,prefix,26-3899110,"Empower Clinic Services, L.L.C.",5,reject
+workday,empower.wd12/empower,Empower,prefix,85-2962045,"Empower HR, LLC",3,reject
+workday,enbridge.wd3/enbridge_careers,Enbridge,prefix,76-0697621,"Enbridge Employee Services, Inc.",3,accept
+workday,encova.wd1/Search,Encova,prefix,31-0851906,Encova Service Corp,13,accept
+workday,endurance.wd103/SompoInternational,Sompo International Holdings,squashed,35-2454031,"ENDURANCE GROUP, INC.",1,reject
+workday,epicorsoftware.wd5/epicorjobs,Epicor,squashed,45-1478440,Epicor Software Corporation,12,accept
+workday,essex.wd5/essexcareers,Essex,prefix,92-1732021,"Essex Labs, Inc. (dba Basis)",9,reject
+workday,essex.wd5/essexcareers,Essex,prefix,26-3847877,Essex Lake Group LLC,6,reject
+workday,etsy.wd5/Depop_Careers,Depop,squashed,20-4898921,"Etsy, Inc.",56,accept
+workday,evercommerce.wd1/evercommerce_careers,EverCommerce,prefix,26-2254146,EverCommerce Solutions Inc.,11,accept
+workday,everestre.wd5/careers,Everest,prefix,22-3531077,EVEREST CONSULTING GROUP INC.,135,reject
+workday,everestre.wd5/careers,Everest,prefix,31-1523565,"Everest Technologies, Inc.",53,reject
+workday,everestre.wd5/careers,Everest,prefix,58-2125198,EVEREST COMPUTERS INC,46,reject
+workday,everestre.wd5/careers,Everest,prefix,38-3958429,"Everest Global Solutions, Inc.",34,reject
+workday,everestre.wd5/careers,Everest,prefix,98-0548374,Everest Clinical Research Corporation,21,reject
+workday,eversource.wd1/ExternalSite,Eversource Energy,prefix,06-0810627,Eversource Energy Service Company,11,accept
+workday,evolent.wd1/External,Evolent,prefix,26-0014405,"Evolent Specialty Services, Inc.",22,accept
+workday,evolent.wd1/External,Evolent,prefix,45-3084136,Evolent Health LLC,18,accept
+workday,factset.wd108/FactSetCareers,FactSet,prefix,13-3362547,FactSet Research Systems Inc.,35,accept
+workday,fca.wd3/FCA_Careers,Financial Conduct Authority,squashed,27-0187394,FCA US LLC,87,reject
+workday,ferguson.wd1/Ferguson_Experienced,Ferguson,prefix,54-1211771,"Ferguson Enterprises, Inc.",10,accept
+workday,fifththird.wd5/53careers,Fifth Third Bank,prefix,31-0676865,"Fifth Third Bank, National Association",56,accept
+workday,firstam.wd1/firstamericancareers,First American,prefix,95-2566122,First American Title Insurance Company,23,accept
+workday,firstam.wd1/firstamericancareers,First American,prefix,27-1538401,First American Data Tree LLC,3,accept
+workday,firstam.wd1/firstamericancareers,First American,prefix,88-1208440,"FIRST AMERICAN DIGITAL TITLE, INC.",3,accept
+workday,firstam.wd1/firstamericancareers,First American,prefix,27-4029120,"First American Mortgage Solutions, LLC",1,accept
+workday,firstam.wd1/firstamericancareers,First American,prefix,95-2563019,"FIRST AMERICAN TRUST, FSB",1,accept
+workday,firstquality.wd5/firstquality,First Quality,prefix,23-2744573,First Quality Enterprises LLC,6,accept
+workday,fiserv.wd5/ext,Fiserv,prefix,39-1833695,"Fiserv Solutions, LLC",698,accept
+workday,flir.wd1/flircareers,Teledyne,prefix,13-2507777,"Teledyne LeCroy, Inc.",7,accept
+workday,flir.wd1/flircareers,Teledyne,prefix,25-1843385,Teledyne Technologies Incorporated,1,accept
+workday,flsmidth.wd3/FLS_Global,FLSmidth,squashed,23-0606560,F.L. Smidth Inc.,1,accept
+workday,fmr.wd1/fidelitycareers,Fidelity Investments,prefix,04-2647786,Fidelity Investments Institutional Operations Company d/b/a Fidelity Investments,48,accept
+workday,fmr.wd1/targeted,Fidelity Investments,prefix,04-2647786,Fidelity Investments Institutional Operations Company d/b/a Fidelity Investments,48,accept
+workday,fnbcorp.wd501/FNBCORP,First National Bank,prefix,47-0259043,First National Bank of Omaha,35,reject
+workday,fnbcorp.wd501/FNBCORP,First National Bank,prefix,38-1470765,First National Bank of America,4,reject
+workday,fourseasons.wd3/search,Four Seasons,prefix,23-2013420,"Four Seasons Produce, Inc.",1,reject
+workday,fourseasons.wd3/search,Four Seasons,prefix,36-4009697,"Four Seasons Heating and Air Conditioning, LLC",1,reject
+workday,fragomen.wd1/FragomenCareers,Fragomen,prefix,13-2726464,"Alltrails, Inc.",2,reject
+workday,franklintempleton.wd5/Primary-External-1,Franklin Templeton,prefix,94-3382187,Franklin Templeton Companies LLC,16,accept
+workday,franklintempleton.wd5/Primary-External-1,Franklin Templeton,prefix,13-2670991,Franklin Templeton Investments,3,accept
+workday,franklintempleton.wd5/Primary-External-1,Franklin Templeton,prefix,94-3411725,Franklin Templeton Institutional LLC,1,accept
+workday,franklintempleton.wd5/invitation-only,Franklin Templeton,prefix,94-3382187,Franklin Templeton Companies LLC,16,accept
+workday,franklintempleton.wd5/invitation-only,Franklin Templeton,prefix,13-2670991,Franklin Templeton Investments,3,accept
+workday,franklintempleton.wd5/invitation-only,Franklin Templeton,prefix,94-3411725,Franklin Templeton Institutional LLC,1,accept
+workday,freudenberg.wd3/freudenberg-group,Freudenberg Group,prefix,87-1793719,"Freudenberg Battery Power Systems, LLC",8,accept
+workday,freudenberg.wd3/freudenberg-group,Freudenberg Group,prefix,38-2858208,FREUDENBERG-NOK GENERAL PARTNERSHIP,2,accept
+workday,freudenberg.wd3/freudenberg-group,Freudenberg Group,prefix,02-0383413,Freudenberg North America Limited Partnership,1,accept
+workday,frostbank.wd5/External,Frost,squashed,74-0635455,Frost Bank,24,accept
+workday,gehc.wd5/GEHC_ExternalSite,GE Healthcare,prefix,03-0363612,GE HEALTHCARE IITS USA CORPORATION,52,accept
+workday,geisinger.wd5/geisingerexternal,Geisinger,prefix,23-2164794,Geisinger System Services,46,accept
+workday,geisinger.wd5/geisingerexternal,Geisinger,prefix,23-2311553,Geisinger Health Plan,6,accept
+workday,geisinger.wd5/geisingerexternal,Geisinger,prefix,23-6291113,Geisinger Clinic,4,accept
+workday,gen.wd1/careers,Gen,prefix,77-0181864,Gen Digital Inc.,110,accept
+workday,gen.wd1/careers,Gen,prefix,83-2429307,Gen Piper Technologies LLC,6,reject
+workday,gen.wd1/careers,Gen,prefix,27-0743067,Gen II Management LLC,2,reject
+workday,gen.wd1/careers,Gen,prefix,33-0044608,Gen-Probe Incorporated,2,reject
+workday,generac.wd5/external,Generac,prefix,39-0963276,Generac Power Systems,22,accept
+workday,gevernova.wd5/only_confidential_executive_recruiting,GE Vernova,prefix,47-3902376,GE DIGITAL HOLDINGS LLC,14,accept
+workday,gevernova.wd5/only_confidential_executive_recruiting,GE Vernova,prefix,76-0556188,GE VERNOVA OPERATIONS LLC,14,accept
+workday,gevernova.wd5/only_confidential_executive_recruiting,GE Vernova,prefix,13-1962940,GE VERNOVA INTERNATIONAL LLC,10,accept
+workday,gevernova.wd5/vernova_externalsite,GE Vernova,prefix,47-3902376,GE DIGITAL HOLDINGS LLC,14,accept
+workday,gevernova.wd5/vernova_externalsite,GE Vernova,prefix,76-0556188,GE VERNOVA OPERATIONS LLC,14,accept
+workday,gevernova.wd5/vernova_externalsite,GE Vernova,prefix,13-1962940,GE VERNOVA INTERNATIONAL LLC,10,accept
+workday,ghr.wd1/lateral-emea,Bank of America,exact,94-1687665,BANK OF AMERICA N.A.,999,accept
+workday,ghr.wd1/lateral-emea,Bank of America,exact,56-0906609,BANK OF AMERICA CORPORATION,1,accept
+workday,ghr.wd1/us-emplsv,Bank of America,exact,94-1687665,BANK OF AMERICA N.A.,999,accept
+workday,ghr.wd1/us-emplsv,Bank of America,exact,56-0906609,BANK OF AMERICA CORPORATION,1,accept
+workday,gi.wd1/Global_Infrastructure,Global Infrastructure,prefix,38-4169007,Global Infrastructure Services LLC,6,reject
+workday,goodwinprocter.wd5/External_Careers,Goodwin,prefix,06-1627882,"Goodwin University, Inc.",1,reject
+workday,gsk.wd5/GSKCareers,GSK,prefix,27-2222033,"GSK Solutions, Inc.",95,accept
+workday,gtsgbu.wd3/Careers,Hitachi,prefix,93-4210031,Hitachi Digital Services LLC,173,accept
+workday,gtsgbu.wd3/Careers,Hitachi,prefix,84-3098448,Hitachi Vantara LLC,35,accept
+workday,gtsgbu.wd3/Careers,Hitachi,prefix,94-3273443,HITACHI ENERGY USA INC.,26,accept
+workday,gtsgbu.wd3/Careers,Hitachi,prefix,61-1065272,"Astemo Americas, Inc",21,reject
+workday,gtsgbu.wd3/Careers,Hitachi,prefix,13-1896069,"Hitachi America, Ltd.",10,accept
+workday,guardianlife.wd5/guardian-life-careers,Guardian Life,prefix,13-5123390,The Guardian Life Insurance Company of America,100,accept
+workday,guidewire.wd5/external,Guidewire,prefix,36-4468504,"Guidewire Software, Inc.",132,accept
+workday,hagerty.wd5/hagerty,Hagerty,prefix,20-2066084,"Hagerty Management, LLC",3,accept
+workday,heinz.wd1/KraftHeinz_Careers,Kraft Heinz,prefix,25-0542520,Kraft Heinz Foods Company,1,accept
+workday,helenoftroy.wd503/Main_HoT,Helen of Troy,prefix,74-2804062,Helen of Troy Nevada Corporation,13,accept
+workday,holmanautogroup.wd1/HolmanEnterprisesCareers,Holman,prefix,21-0610247,"Holman Automotive Group, Inc.",1,accept
+workday,hp.wd5/EXTEU-AC-CareerSite,Hewlett Packard (HP),squashed,94-1081436,HP Inc.,271,accept
+workday,hp.wd5/externalcareersite,Hewlett Packard (HP),squashed,94-1081436,HP Inc.,271,accept
+workday,hpinc.wd5/hpinc,Helmerich & Payne,prefix,85-1546957,"Helmerich & Payne Management, LLC",1,accept
+workday,hrhub.wd3/Euronext_Career_Page,Euronext,prefix,45-3828589,Euronext FX Inc.,4,accept
+workday,hubinternational.wd1/hubinternational,HUB International,prefix,35-0672425,Hub International Midwest Limited,1,accept
+workday,humana.wd5/centerwell_external_career_site,CenterWell,squashed,61-0647538,Humana Inc.,487,accept
+workday,huntsman.wd1/Huntsman,Huntsman,prefix,87-0630358,Huntsman International LLC,1,accept
+workday,huron.wd1/huroncareers,Huron,prefix,01-0666453,"Huron Consulting Services, LLC",44,accept
+workday,huron.wd1/huroncareers,Huron,prefix,88-4420449,Huron Research,1,reject
+workday,husqvarnagroup.wd3/External_Career_Site,Husqvarna Group,prefix,26-1595993,"Husqvarna Professional Products, Inc.",1,accept
+workday,hyperiongrp.wd3/Hyperion_External,Howden,prefix,33-5018780,Howden US Services LLC,1,accept
+workday,icon.wd3/broadbean_external,Icon,prefix,23-2689156,"ICON Clinical Research, LLC",7,accept
+workday,icon.wd3/broadbean_external,Icon,prefix,46-2004234,Icon IT Group,7,reject
+workday,icon.wd3/broadbean_external,Icon,prefix,11-3158459,"ICON Laboratory Services, Inc.",2,accept
+workday,icon.wd3/broadbean_external,Icon,prefix,87-2486718,ICON GLOBAL TECHNOLOGIES LLC,2,reject
+workday,icon.wd3/broadbean_external,Icon,prefix,22-3712652,"ICON TECHNICAL GROUP, INC.",1,reject
+workday,idexcorp.wd5/idex_careers,IDEX,prefix,80-0955586,"IDEX America, Inc.",3,accept
+workday,idexx.wd1/IDEXX,IDEXX,prefix,01-0393723,"IDEXX Laboratories, Inc.",30,accept
+workday,iheartmedia.wd5/External_iHM,iHeartMedia,prefix,02-0619566,"IHeartMedia Management Services, Inc.",23,accept
+workday,iheartmedia.wd5/External_iHM,iHeartMedia,prefix,74-2722883,"iHeartMedia Entertainment, Inc.",11,accept
+workday,iheartmedia.wd5/iHM_Technology_Site,iHeartMedia,prefix,02-0619566,"IHeartMedia Management Services, Inc.",23,accept
+workday,iheartmedia.wd5/iHM_Technology_Site,iHeartMedia,prefix,74-2722883,"iHeartMedia Entertainment, Inc.",11,accept
+workday,ing.wd3/icsgblcor,ING,prefix,13-3713590,"ING Financial Services, LLC",4,accept
+workday,inmar.wd1/inmarcareers,Inmar Intelligence,squashed,56-1269300,"INMAR, INC.",26,accept
+workday,insperity.wd12/NSP,Insperity,prefix,76-0584087,"Insperity Services, L.P.",33,accept
+workday,intactfc.wd3/intactfc,Intact,prefix,26-3300555,Intact Services USA LLC,3,accept
+workday,intactfc.wd3/intactfc,Intact,prefix,14-1928579,INTACT INFO SOLUTIONS LLC,1,reject
+workday,intactfc.wd3/intactfc,Intact,prefix,52-1979206,Intact Technology Inc.,1,reject
+workday,integer.wd1/External,Integer Holdings Corporation,prefix,82-3538768,INTEGER TELECOM SERVICES INC,1,reject
+workday,integritymarketing.wd1/Integrity,Integrity,exact,81-3098308,"Integrity, LLC",14,reject
+workday,integritymarketing.wd1/Integrity,Integrity,prefix,87-4326050,Integrity Accounting Services Group Inc,2,reject
+workday,integritymarketing.wd1/Integrity,Integrity,exact,22-1894796,"Integrity, Inc.",1,reject
+workday,interpublic.wd5/omc,Omnicom Group,prefix,13-4165920,"Omnicom Media Group Holdings, Inc.",9,accept
+workday,interpublic.wd5/omc,Omnicom Group,prefix,26-2507588,Omnicom Health Group LLC,1,accept
+workday,invesco.wd1/IVZ,Invesco,prefix,58-1995394,"Invesco Group Services, Inc.",53,accept
+workday,invesco.wd1/IVZearlycareers,Invesco,prefix,58-1995394,"Invesco Group Services, Inc.",53,accept
+workday,ironmountain.wd5/iron-mountain-jobs,Iron Mountain,prefix,04-3038590,"Iron Mountain Information Management, LLC",22,accept
+workday,ironmountain.wd5/iron-mountain-jobs,Iron Mountain,prefix,61-1701138,"Iron Mountain Information Management Services, Inc.",9,accept
+workday,isc.wd10/ISC,Information Services Corporation,squashed,82-3667504,"ISC Holdings, LLC",1,reject
+workday,isu.wd1/IowaStateJobs,Iowa State University,prefix,42-6004224,Iowa State University of Science and Technology,25,accept
+workday,isu.wd1/iowastatejobs,Iowa State University,prefix,42-6004224,Iowa State University of Science and Technology,25,accept
+workday,jackson.wd1/Jackson_Careers,Jackson,prefix,01-0211513,The Jackson Laboratory,20,reject
+workday,jackson.wd1/Jackson_Careers,Jackson,prefix,38-1659835,Jackson National Life Insurance Company,12,accept
+workday,jackson.wd1/Jackson_Careers,Jackson,prefix,46-3862389,Jackson Lewis P.C.,6,reject
+workday,jackson.wd1/Jackson_Careers,Jackson,prefix,76-0812409,"Jackson Hewitt Technology Services, LLC",5,reject
+workday,jackson.wd1/Jackson_Careers,Jackson,prefix,54-1349705,"Jackson Hewitt, Inc.",3,reject
+workday,jcrew.wd1/madewellcareers,Madewell,squashed,22-2894486,"J. Crew Group, LLC",11,accept
+workday,jll.wd1/jllcareers,Jones Lang LaSalle (JLL),prefix,36-4160760,"Jones Lang LaSalle Americas, Inc.",53,accept
+workday,johnsonelectric.wd3/Career_JE,Johnson Electric,prefix,06-0951778,"Johnson Electric North America, Inc.",1,accept
+workday,kbr.wd5/KBR_Careers,KBR,prefix,95-4501907,KBR Wyle Services LLC,32,accept
+workday,kbr.wd5/KBR_Careers,KBR,prefix,95-4164055,"KBR Technical Services, Inc.",2,accept
+workday,kbr.wd5/kbr_careers,KBR,prefix,95-4501907,KBR Wyle Services LLC,32,accept
+workday,kbr.wd5/kbr_careers,KBR,prefix,95-4164055,"KBR Technical Services, Inc.",2,accept
+workday,kcura.wd1/External_Career_Site,Relativity,prefix,36-4801165,Relativity ODA LLC,40,accept
+workday,keybank.wd5/External_Career_Site,KeyBank,prefix,34-0797057,KeyBank National Association,34,accept
+workday,kiongroup.wd3/KION_SCS,KION Group,prefix,57-1075851,KION North America Corporation,1,accept
+workday,kiongroup.wd3/kiongroup,KION Group,prefix,57-1075851,KION North America Corporation,1,accept
+workday,knitwellgroup.wd1/US_Corporate_Jobs,Loft,prefix,81-5383666,"Loft Orbital Solutions, Inc.",1,reject
+workday,kodiakgas.wd12/KodiakGasCareers,Kodiak,prefix,82-5086710,"Kodiak Robotics, Inc",17,reject
+workday,kodiakgas.wd12/KodiakGasCareers,Kodiak,prefix,92-2432823,Kodiak Solutions LLC,9,reject
+workday,kodiakgas.wd12/KodiakGasCareers,Kodiak,prefix,27-0476525,Kodiak Sciences Inc.,1,reject
+workday,labcorp.wd1/external,LabCorp,prefix,27-1797837,Endpoint Clinical L.P.,21,reject
+workday,labcorp.wd1/external,LabCorp,prefix,35-1937506,Labcorp Central Laboratory Services LP,6,accept
+workday,labcorp.wd1/external,LabCorp,prefix,54-0898188,Labcorp Early Development Laboratories Inc.,4,accept
+workday,laticrete.wd1/laticreteinternational,Laticrete,prefix,06-0774147,"LATICRETE International, Inc.",4,accept
+workday,lendingclub.wd1/external,LendingClub,prefix,85-4191886,LendingClub Bank National Association,111,accept
+workday,lifeworks.wd3/External,TELUS,prefix,82-3414296,TELUS International Digital Solutions LLC,39,accept
+workday,lifeworks.wd3/External,TELUS,prefix,98-0226610,TELUS International (U.S.) Corp,32,accept
+workday,lifeworks.wd3/External,TELUS,prefix,85-1406415,TELUS Agriculture & Consumer Goods US Inc.,2,accept
+workday,likewize.wd1/External,Likewize,prefix,20-2353874,"Likewize Device Protection, LLC",17,accept
+workday,linklogistics.wd5/Link,Link Logistics,prefix,83-1825705,Link Logistics Real Estate Holdco LLC,5,accept
+workday,lithia.wd5/LithiaCareers,Lithia Motors,prefix,93-1307404,"Lithia Motors Support Services, Inc.",9,accept
+workday,lowes.wd5/LWS_External_CS,Lowe's,prefix,56-0578072,"Lowe's Companies, Inc.",599,accept
+workday,lsu.wd1/lsuwaiver,Louisiana State University (LSU),prefix,72-6000848,Louisiana State University and A&M College,23,accept
+workday,lsu.wd1/lsuwaiver,Louisiana State University (LSU),prefix,72-0702002,LSU Health Sciences Center - Shreveport,6,reject
+workday,lsu.wd1/lsuwaiver,Louisiana State University (LSU),prefix,72-6087770,LOUISIANA STATE UNIVERSITY HEALTH SCIENCES CENTER NEW ORLEANS,1,reject
+workday,lumentum.wd5/LITE,Lumentum,prefix,47-3844837,Lumentum Operations LLC,2,accept
+workday,maersk.wd3/maersk_careers,Maersk,prefix,22-2904364,Maersk Logistics & Services USA Inc.,13,accept
+workday,maersk.wd3/maersk_careers,Maersk,prefix,27-0322924,Maersk Agency U.S.A. Inc.,4,accept
+workday,maersk.wd3/maersk_careers,Maersk,prefix,33-0260669,Maersk Warehousing & Distribution Services USA LLC,3,accept
+workday,magna.wd3/Magna,Magna,prefix,98-0442576,"Magna Electronics, Inc.",40,accept
+workday,magna.wd3/Magna,Magna,prefix,38-2218685,"Magna Services of America, Inc.",36,accept
+workday,magna.wd3/Magna,Magna,prefix,82-3701316,"Magna Electronics, LLC",10,accept
+workday,magna.wd3/Magna,Magna,prefix,81-5484969,"Magna Marketing, LLC",5,reject
+workday,magna.wd3/Magna,Magna,prefix,98-0098421,"Magna Powertrain of America, Inc.",5,accept
+workday,maricopa.wd1/MC_External,Maricopa County,prefix,86-0185552,Maricopa County Community College District,1,reject
+workday,maritz.wd1/Maritz,Maritz,prefix,46-2659297,Maritz Consulting Group Inc.,22,accept
+workday,maritz.wd1/Maritz,Maritz,prefix,43-1906902,Maritz Motivation Inc.,1,accept
+workday,marmon.wd501/Marmon_Careers,Marmon Holdings,prefix,41-0204600,"Marmon Foodservice Technologies, Inc.",1,accept
+workday,mars.wd3/external,Mars,prefix,35-2615332,MARS TECHNOMINDS INC,18,reject
+workday,mars.wd3/external,Mars,prefix,46-1629298,MARS TECH SOLUTIONS LLC,10,reject
+workday,mars.wd3/external,Mars,prefix,33-4360307,Mars IT Software Solutions LLC,4,reject
+workday,mars.wd3/external,Mars,prefix,43-1350515,"Mars Petcare US, Inc.",4,accept
+workday,mars.wd3/external,Mars,prefix,83-0453571,MARS IT Corp.,4,reject
+workday,marvell.wd1/MarvellCareers,Marvell,prefix,77-0398669,"Marvell Semiconductor, Inc.",83,accept
+workday,marvell.wd1/MarvellCareers2,Marvell,prefix,77-0398669,"Marvell Semiconductor, Inc.",83,accept
+workday,mastercard.wd1/Campus,Mastercard,prefix,36-4481037,"Mastercard Technologies, LLC",685,accept
+workday,mastercard.wd1/Campus,Mastercard,prefix,95-2536378,Mastercard International Incorporated,187,accept
+workday,mastercard.wd1/Campus,Mastercard,prefix,36-4205438,MASTERCARD MOBILE TRANSACTIONS SOLUTIONS INC,3,accept
+workday,mastercard.wd1/Campus,Mastercard,prefix,20-5767056,"Mastercard Mobile Transactions Solutions, Inc.",1,accept
+workday,mastercard.wd1/CorporateCareers,Mastercard,prefix,36-4481037,"Mastercard Technologies, LLC",685,accept
+workday,mastercard.wd1/CorporateCareers,Mastercard,prefix,95-2536378,Mastercard International Incorporated,187,accept
+workday,mastercard.wd1/CorporateCareers,Mastercard,prefix,36-4205438,MASTERCARD MOBILE TRANSACTIONS SOLUTIONS INC,3,accept
+workday,mastercard.wd1/CorporateCareers,Mastercard,prefix,20-5767056,"Mastercard Mobile Transactions Solutions, Inc.",1,accept
+workday,mckesson.wd3/SCRI_Careers,Sarah Cannon Research Institute (SCRI),squashed,94-3207296,McKesson Corporation,194,accept
+workday,mdlz.wd3/External,Mondelez International,prefix,80-0822135,Mondelez International Service LLC,1,accept
+workday,medimpact.wd5/medimpact,MedImpact,prefix,33-0567651,"MedImpact Healthcare Systems, Inc.",15,accept
+workday,medline.wd5/Medline,Medline,prefix,36-2596612,"Medline Industries, LP.",547,accept
+workday,medline.wd5/Medline,Medline,prefix,20-1946031,"Medline Industries Holdings, LP.",1,accept
+workday,meijer.wd5/Meijer,Meijer,prefix,16-1687235,Meijer Great Lakes Limited Partnership,83,accept
+workday,meijer.wd5/Meijer,Meijer,prefix,38-3496076,Meijer Stores Limited Partnership,18,accept
+workday,memorialhermann.wd5/external,Memorial Hermann,prefix,74-1152597,Memorial Hermann Health System,15,accept
+workday,methodisthealth.wd5/MLH,Methodist Le Bonheur,prefix,58-1454711,Methodist Le Bonheur Healthcare,5,accept
+workday,mgmresorts.wd5/MGMCareers,MGM Resorts International,prefix,88-0471660,"MGM Resorts International Operations, Inc.",17,accept
+workday,michelinhr.wd3/Michelin,Michelin,prefix,11-1724631,"Michelin North America, Inc.",4,accept
+workday,mimecast.wd5/Mimecast-Careers,Mimecast,prefix,26-0851633,"Mimecast North America, Inc.",3,accept
+workday,miqdigital.wd3/MiQ_Careers,MiQ,squashed,46-1255166,MIQ Digital USA Inc,2,accept
+workday,modernatx.wd1/M_tx,Moderna,squashed,27-0226313,"ModernaTX, Inc.",34,accept
+workday,momentive.wd1/MC,Momentive,prefix,45-4289949,"Momentive Software, Inc.",2,reject
+workday,momentive.wd1/MC,Momentive,prefix,20-5748388,Momentive Performance Materials USA LLC,1,reject
+workday,momentive.wd1/MC,Momentive,prefix,34-1839929,"Momentive Performance Materials Quartz, Inc.",1,reject
+workday,motorolasolutions.wd5/Careers,Motorola,squashed,36-1115800,"Motorola Solutions, Inc.",197,accept
+workday,ms.wd5/External,Morgan Stanley,prefix,26-0116361,Morgan Stanley Services Group Inc.,1101,accept
+workday,ms.wd5/External,Morgan Stanley,prefix,26-4310844,Morgan Stanley Smith Barney LLC,53,accept
+workday,ms.wd5/External,Morgan Stanley,prefix,13-2655998,"Morgan Stanley & Co., LLC",49,accept
+workday,ms.wd5/External,Morgan Stanley,prefix,22-3458456,Morgan Stanley Private Bank NA,9,accept
+workday,ms.wd5/External,Morgan Stanley,prefix,20-1768995,Morgan Stanley Fund Services Inc.,5,accept
+workday,ms.wd5/private,Morgan Stanley,prefix,26-0116361,Morgan Stanley Services Group Inc.,1101,accept
+workday,ms.wd5/private,Morgan Stanley,prefix,26-4310844,Morgan Stanley Smith Barney LLC,53,accept
+workday,ms.wd5/private,Morgan Stanley,prefix,13-2655998,"Morgan Stanley & Co., LLC",49,accept
+workday,ms.wd5/private,Morgan Stanley,prefix,22-3458456,Morgan Stanley Private Bank NA,9,accept
+workday,ms.wd5/private,Morgan Stanley,prefix,20-1768995,Morgan Stanley Fund Services Inc.,5,accept
+workday,msd.wd5/searchjobs,Merck,prefix,22-1261880,Merck Sharp & Dohme LLC,151,accept
+workday,msd.wd5/searchjobs,Merck,prefix,81-2813214,"Merck Research Laboratories Massachusetts, LLC",2,accept
+workday,mufgub.wd3/mufg-careers,MUFG,prefix,13-5611741,"MUFG Bank, Ltd.",144,accept
+workday,mufgub.wd3/mufg-careers,MUFG,prefix,13-3498732,"MUFG Securities Americas, Inc.",4,accept
+workday,mufgub.wd3/mufg-careers,MUFG,prefix,94-0304228,MUFG Union Bank N.A.,4,accept
+workday,mufgub.wd3/mufg-careers,MUFG,prefix,76-0758622,MUFG Fund Services (USA) LLC,2,accept
+workday,musc.wd1/MUSC,Medical University of South Carolina,prefix,57-6000722,Medical University of South Carolina and Affiliates,1,accept
+workday,myhrabc.wd5/Global,Cencora,prefix,52-1663991,"Cencora Patient Services, LLC",3,accept
+workday,myhrabc.wd5/Global,Cencora,prefix,81-0884380,Cencora Global Consulting Services US Corporation,1,accept
+workday,nascar.wd1/NASCAR,NASCAR,prefix,84-3118241,"NASCAR ENTERPRISES, LLC",1,accept
+workday,nationwide.wd1/Nationwide_Career,Nationwide,prefix,31-4177100,Nationwide Insurance,85,accept
+workday,nationwide.wd1/Nationwide_Career,Nationwide,prefix,31-4379441,Nationwide Children's Hospital,8,reject
+workday,nationwide.wd1/Nationwide_Career,Nationwide,prefix,20-2066140,"Nationwide Auto Services, Inc.",2,reject
+workday,nationwide.wd1/Nationwide_Career,Nationwide,prefix,31-1000740,Nationwide Life and Annuity Insurance Company,1,accept
+workday,nationwide.wd1/Nationwide_Career,Nationwide,prefix,55-0817538,Nationwide Marketing Group LLC,1,reject
+workday,ncino.wd5/nCinoCareers,Ncino,prefix,46-4353148,"nCino OpCo, Inc.",8,accept
+workday,nelnet.wd1/MyNelnet,Nelnet,prefix,47-0751402,"Nelnet Business Solutions, Inc.",24,accept
+workday,nelnet.wd1/MyNelnet,Nelnet,prefix,26-3599745,"Nelnet Diversified Solutions, LLC",1,accept
+workday,nexstar.wd5/nexstar,Nexstar,prefix,23-3063152,Nexstar Media  Inc.,3,accept
+workday,nidec.wd1/nidec,Nidec,prefix,27-3330722,Nidec Motor Corporation,5,accept
+workday,nidec.wd1/nidec,Nidec,prefix,36-3864536,Nidec Mobility America Corporation,3,accept
+workday,nisource.wd1/NiSource,NiSource,prefix,13-1596081,NiSource Corporate Services Company,1,accept
+workday,nordic.wd1/Nordic,Nordic,prefix,27-1633363,"Nordic Consulting Partners, Inc.",6,accept
+workday,nordic.wd1/Nordic,Nordic,prefix,20-8523897,"Nordic Semiconductor, Inc.",4,reject
+workday,northwesternmutual.wd5/corporate-careers,Northwestern Mutual,prefix,39-0509570,Northwestern Mutual Life Insurance Company,201,accept
+workday,novartis.wd3/Novartis_Careers,Novartis,prefix,22-1857084,NOVARTIS PHARMACEUTICALS CORPORATION,117,accept
+workday,novartis.wd3/Novartis_Careers,Novartis,prefix,02-0567016,"Novartis Institutes for BioMedical Research, Inc.",8,accept
+workday,novartis.wd3/Novartis_Careers,Novartis,prefix,13-3686643,Novartis Services Inc.,3,accept
+workday,ntst.wd1/careers,Netsmart,prefix,13-3680154,"Netsmart Technologies, Inc.",5,accept
+workday,nvent.wd5/nVent,nVent,prefix,82-3123161,nVent Management Company,5,accept
+workday,nvent.wd5/nVent,nVent,prefix,65-1007284,nVent Thermal LLC,4,accept
+workday,nxp.wd3/careers,NXP Semiconductors,squashed,20-0443182,"NXP USA, Inc.",64,accept
+workday,nyp.wd1/nypcareers,NewYork-Presbyterian,squashed,13-3732753,"NYP Holdings, Inc",2,reject
+workday,onehealthineers.wd3/SHSJB,Varian,prefix,94-2359345,"Varian Medical Systems, Inc.",53,accept
+workday,oneok.wd1/ONEOK,ONEOK,prefix,73-1543838,"ONEOK Services Company, LLC",7,accept
+workday,orionadvisor.wd1/Orion_Careers,Orion,prefix,36-4789591,Orion Systems Integrators LLC,180,reject
+workday,orionadvisor.wd1/Orion_Careers,Orion,prefix,39-2538762,Orion Steel Group LLC,1,reject
+workday,orionadvisor.wd1/Orion_Careers,Orion,prefix,42-1405415,Orion Healthcare Technology Inc,1,reject
+workday,orionadvisor.wd1/Orion_Careers,Orion,prefix,47-2984664,Orion Systems LLC,1,reject
+workday,orionadvisor.wd1/Orion_Careers,Orion,prefix,47-4366036,"Orion Technology Consulting, LLC",1,reject
+workday,oshkoshcorporation.wd5/Oshkosh,Oshkosh,prefix,47-1133037,Oshkosh Defense LLC,1,accept
+workday,osv-amerisure.wd5/Amerisure,Amerisure,prefix,38-0829210,Amerisure Mutual Insurance Company,1,accept
+workday,ourhrconnect.wd501/SCBlues,BlueCross BlueShield of South Carolina,squashed,57-0287419,Blue Cross Blue Shield of South Carolina,26,accept
+workday,owensminor.wd1/OMCareers,Owens & Minor,prefix,54-1959151,"Owens & Minor Medical, Inc.",9,accept
+workday,owensminor.wd1/OMCareers,Owens & Minor,prefix,54-2049200,"Owens & Minor Distribution, Inc.",9,accept
+workday,pacificlife.wd1/PacificLifeCareers,Pacific Life,prefix,95-1079000,PACIFIC LIFE INSURANCE COMPANY,23,accept
+workday,pae.wd1/amentum_careers,Amentum,prefix,27-1628265,AMENTUM SERVICES INC.,3,accept
+workday,papajohns.wd1/papajohnscareers,Papa John's,prefix,61-1203323,"Papa John's International, Inc.",6,accept
+workday,parsons.wd5/search,Parsons,prefix,36-0982270,Parsons Transportation Group Inc.,5,accept
+workday,parsons.wd5/search,Parsons,prefix,74-1905776,Parsons Services Company,2,accept
+workday,philips.wd3/jobs-and-careers,Philips,prefix,13-3429115,PHILIPS NORTH AMERICA LLC,42,accept
+workday,philips.wd3/jobs-and-careers,Philips,prefix,25-1304989,PHILIPS RS NORTH AMERICA LLC,7,accept
+workday,philips.wd3/jobs-and-careers,Philips,prefix,91-0895332,Philips Ultrasound LLC,6,accept
+workday,philips.wd3/jobs-and-careers,Philips,prefix,94-1725806,"PHILIPS MEDICAL SYSTEMS (CLEVELAND), INC.",4,accept
+workday,philips.wd3/jobs-and-careers,Philips,prefix,94-3313966,PHILIPS HEALTHCARE INFORMATICS INC.,4,accept
+workday,pillsburylaw.wd5/External,Pillsbury,prefix,94-1311126,PILLSBURY WINTHROP SHAW PITTMAN LLP,2,accept
+workday,pipersandler.wd501/Piper_Sandler_Careers,Piper Sandler,prefix,41-0953246,Piper Sandler & Co.,2,accept
+workday,pjm.wd5/pjmcareers,PJM,prefix,23-2896884,"PJM Interconnection, LLC.",4,accept
+workday,plexus.wd5/Plexus_Careers,Plexus,prefix,46-5571152,"Plexus Worldwide, LLC",9,reject
+workday,pnc.wd5/HarrisWilliams,Harris Williams,squashed,22-3470537,PNC Inc.,1,reject
+workday,polaris.wd5/PolarisJobs,Polaris,prefix,41-1857431,"Polaris Industries, Inc.",13,accept
+workday,polaris.wd5/PolarisJobs,Polaris,prefix,77-0456690,Polaris Wireless Inc,6,reject
+workday,polaris.wd5/PolarisJobs,Polaris,prefix,92-2659121,POLARIS TECHNOLOGY INC,4,reject
+workday,polaris.wd5/PolarisJobs,Polaris,prefix,47-4098540,"Polaris Pharmacy Services, LLC",1,reject
+workday,polaris.wd5/PolarisJobs,Polaris,prefix,84-3378018,POLARIS-PC MANAGEMENT LP,1,reject
+workday,pretiumenterpriseservices.wd1/Selene,Selene,prefix,20-4400263,SELENE FINANCE LP,4,accept
+workday,priceline.wd1/Priceline,Priceline,prefix,46-4502396,PRICELINE.COM LLC,19,accept
+workday,priceline.wd1/Priceline,Priceline,prefix,20-3026448,PRICELINE PARTNER SOLUTIONS (USA) INC.,2,accept
+workday,pru.wd5/pgim_careers,PGIM,exact,22-2540245,"PGIM, Inc.",15,accept
+workday,pru.wd5/pgim_careers,PGIM,exact,22-3468527,"PGIM Investments, LLC",3,accept
+workday,publicpartnerships.wd1/ppl,Public Partnerships (PPL),squashed,04-3468852,PUBLIC PARTNERSHIPS LLC,42,accept
+workday,pwc.wd3/Global_Campus_Careers,PricewaterhouseCoopers (PwC),squashed,92-0400838,PwC US Group LLP,39,accept
+workday,pwc.wd3/US_Entry_Level_Careers,PricewaterhouseCoopers (PwC),squashed,92-0400838,PwC US Group LLP,39,accept
+workday,pwc.wd3/US_Experienced_Careers,PricewaterhouseCoopers (PwC),squashed,92-0400838,PwC US Group LLP,39,accept
+workday,q2ebanking.wd5/Q2,Q2,prefix,20-1556899,"Q2 Software, Inc.",36,accept
+workday,qualifacts.wd5/Qualifacts_External_Careers,Qualifacts,prefix,62-1820098,"Qualifacts Systems, LLC",3,accept
+workday,r1rcm.wd1/R1RCM,R1 RCM,prefix,02-0698101,R1 RCM Holdco Inc.,28,accept
+workday,rakuten.wd1/RakutenAmericas,Rakuten International,squashed,94-3377047,"Rakuten USA, Inc.",17,accept
+workday,rbi.wd3/RBI_External_Career_Site,RBI,prefix,36-5082373,RBI Private Lending LLC,1,reject
+workday,rbs.wd3/rbs,NatWest Group,prefix,13-3172275,NatWest Markets Securities Inc.,5,accept
+workday,recar.wd108/SLATEcareers,Slate Auto,squashed,88-2384023,"Re:Car, Inc.",6,accept
+workday,regeneron.wd1/Careers,Regeneron Pharmaceuticals,exact,13-3444607,"Regeneron Pharmaceuticals, Inc.",122,accept
+workday,regeneron.wd1/Careers,Regeneron Pharmaceuticals,exact,46-4073600,"Regeneron Genetics Center, LLC",23,accept
+workday,relx.wd3/ReedExhibitions,RX,squashed,52-1471842,"RELX, Inc.",422,accept
+workday,resmed.wd3/ResMed_External_Careers,Resmed,exact,41-1653149,ResMed Corp.,9,accept
+workday,resmed.wd3/ResMed_External_Careers,Resmed,exact,98-0152841,"ResMed, Inc.",2,accept
+workday,riotinto.wd3/riotinto_careers,Rio Tinto,prefix,52-1631419,Rio Tinto Services Inc.,2,accept
+workday,roche.wd3/ROG-A2O-GENE,Genentech,exact,94-2347624,"Genentech, Inc.",89,accept
+workday,roche.wd3/ROG-A2O-GENE,Genentech,exact,20-5958096,"Genentech USA, Inc.",21,accept
+workday,roche.wd3/roche-ext,Roche,prefix,22-3140457,"Roche Molecular Systems, Inc.",24,accept
+workday,roche.wd3/roche-ext,Roche,prefix,77-0483552,"Roche Diagnostics Operations, Inc.",16,accept
+workday,roche.wd3/roche-ext,Roche,prefix,13-2511923,Roche Diagnostics Corporation,14,accept
+workday,roche.wd3/roche-ext,Roche,prefix,39-2003768,"Roche Sequencing Solutions, Inc.",13,accept
+workday,roche.wd3/roche-ext,Roche,prefix,47-1534558,"Roche Diabetes Care, Inc.",1,accept
+workday,rollsroyce.wd3/Intern_Graduate,Rolls-Royce,prefix,22-2209594,Rolls-Royce Solutions America Inc.,2,accept
+workday,rollsroyce.wd3/professional,Rolls-Royce,prefix,22-2209594,Rolls-Royce Solutions America Inc.,2,accept
+workday,rxo.wd501/rxojobs,RXO,prefix,85-4108974,"RXO Corporate Solutions, LLC",17,accept
+workday,rxo.wd501/rxojobs,RXO,prefix,82-3268160,"RXO Managed Transport, LLC.",5,accept
+workday,ryan.wd1/RyanCareers,Ryan,prefix,27-2122990,"Ryan Specialty, LLC",9,reject
+workday,ryan.wd1/RyanCareers,Ryan,prefix,41-0882483,"Ryan Companies US, Inc.",2,reject
+workday,ryan.wd1/RyanCareers,Ryan,prefix,45-5080078,"Ryan Business and Technology Solutions, LLC",1,reject
+workday,ryan.wd1/Students-Graduates,Ryan,prefix,27-2122990,"Ryan Specialty, LLC",9,reject
+workday,ryan.wd1/Students-Graduates,Ryan,prefix,41-0882483,"Ryan Companies US, Inc.",2,reject
+workday,ryan.wd1/Students-Graduates,Ryan,prefix,45-5080078,"Ryan Business and Technology Solutions, LLC",1,reject
+workday,ryder.wd5/rydercareers,Ryder,prefix,59-0739250,"Ryder System, Inc.",58,accept
+workday,sailpoint.wd1/SailPoint,SailPoint,prefix,90-0187685,"Sailpoint Technologies, Inc.",56,accept
+workday,saintlukes.wd1/saintlukeshealthcareers,Saint Luke's,prefix,43-1747502,Saint Luke's Health System,3,accept
+workday,salesforce.wd12/Slack,Slack,squashed,94-3320693,"Salesforce, Inc.",3046,accept
+workday,sallie-mae.wd5/Careers,Sallie Mae,prefix,20-3196134,Sallie Mae Bank,21,accept
+workday,sanofi.wd3/SanofiCareers,Sanofi,prefix,42-1612939,Sanofi US Services Inc.,52,accept
+workday,sanofi.wd3/SanofiCareers,Sanofi,prefix,98-0033013,Sanofi Pasteur Inc.,21,accept
+workday,sanofi.wd3/SanofiCareers,Sanofi,prefix,36-4406953,Sanofi-Aventis US LLC,9,accept
+workday,scripps.wd5/Scripps_Careers,Scripps,prefix,95-1684089,Scripps Health,5,accept
+workday,scripps.wd5/Scripps_Careers,Scripps,prefix,33-0435954,The Scripps Research Institute,4,reject
+workday,scripps.wd5/Scripps_Careers,Scripps,prefix,51-0345493,"Scripps Networks, LLC",3,reject
+workday,scripps.wd5/Scripps_Careers,Scripps,prefix,87-3478691,Scripps Shared Services Company,1,reject
+workday,sec.wd3/Samsung_Careers,Samsung,prefix,13-2951153,"Samsung Electronics America, Inc.",183,accept
+workday,sec.wd3/Samsung_Careers,Samsung,prefix,94-2905596,"Samsung Semiconductor, Inc.",126,accept
+workday,sec.wd3/Samsung_Careers,Samsung,prefix,95-3170778,"Samsung Research America, Inc.",105,accept
+workday,sec.wd3/Samsung_Careers,Samsung,prefix,74-2772066,"Samsung Austin Semiconductor, LLC.",56,accept
+workday,sec.wd3/Samsung_Careers,Samsung,prefix,20-0796653,NeuroLogica Corporation,5,accept
+workday,seic.wd1/SEI_Global_Services,SEI,prefix,23-1707341,SEI Investments Company,124,accept
+workday,seic.wd1/SEI_Global_Services,SEI,prefix,88-2325927,Sei Labs Inc.,1,reject
+workday,sensata.wd1/Sensata-Careers,Sensata,prefix,20-4297839,"Sensata Technologies, Inc.",10,accept
+workday,sentryinsurance.wd1/SentryCareers,Sentry Insurance,prefix,39-0333950,"Sentry Insurance, a Mutual Company",7,accept
+workday,shell.wd3/ShellCareers,Shell,prefix,76-0460697,Shell Information Technology International Inc.,1,accept
+workday,shell.wd3/ShellCareers,Shell,prefix,76-0551934,Shell International Exploration and Production Inc.,1,accept
+workday,shell.wd3/ShellCareers,Shell,prefix,76-0641749,Shell Chemical LP,1,accept
+workday,shell.wd3/ShellCareers,Shell,prefix,76-0659593,Shell Trading Services Company,1,accept
+workday,simpro.wd3/simPRO_External_Careers,Simpro,prefix,61-1734506,SIMPRO SOFTWARE LTD.,2,accept
+workday,snapchat.wd1/snap,Snap,exact,45-5452795,SNAP INC.,579,accept
+workday,snapchat.wd1/snap,Snap,exact,54-1886708,Snap Inc,2,accept
+workday,solera.wd5/global_career_site,Solera Holdings,prefix,47-5298764,"Solera Health, Inc.",4,reject
+workday,sonyglobal.wd1/SonyGlobalCareers,Sony,prefix,76-0745782,SONY INTERACTIVE ENTERTAINMENT LLC,282,accept
+workday,sonyglobal.wd1/SonyGlobalCareers,Sony,prefix,13-3265777,Sony Pictures Entertainment Inc.,22,accept
+workday,sonyglobal.wd1/SonyGlobalCareers,Sony,prefix,56-2472344,Sony Music Entertainment,22,accept
+workday,sonyglobal.wd1/SonyGlobalCareers,Sony,prefix,13-1914734,SONY CORPORATION OF AMERICA,18,accept
+workday,sonyglobal.wd1/SonyGlobalCareers,Sony,prefix,22-2878067,SONY ELECTRONICS INC.,10,accept
+workday,sonyglobal.wd1/Sony_Europe_Careers,Sony,prefix,76-0745782,SONY INTERACTIVE ENTERTAINMENT LLC,282,accept
+workday,sonyglobal.wd1/Sony_Europe_Careers,Sony,prefix,13-3265777,Sony Pictures Entertainment Inc.,22,accept
+workday,sonyglobal.wd1/Sony_Europe_Careers,Sony,prefix,56-2472344,Sony Music Entertainment,22,accept
+workday,sonyglobal.wd1/Sony_Europe_Careers,Sony,prefix,13-1914734,SONY CORPORATION OF AMERICA,18,accept
+workday,sonyglobal.wd1/Sony_Europe_Careers,Sony,prefix,22-2878067,SONY ELECTRONICS INC.,10,accept
+workday,southstatebank.wd5/external,SouthState Bank,squashed,59-2979916,"South State Bank, N.A.",1,accept
+workday,ssctech.wd1/SSCTechnologies,SS&C,prefix,06-1169696,"SS&C Technologies, Inc.",174,accept
+workday,ssctech.wd1/ssctechnologies,SS&C,prefix,06-1169696,"SS&C Technologies, Inc.",174,accept
+workday,statestreet.wd1/Global,State Street,prefix,04-1867445,State Street Bank and Trust Company,451,accept
+workday,statestreet.wd1/Global,State Street,prefix,04-2835718,"State Street Financial Services, Inc.",4,accept
+workday,statestreet.wd1/equest,State Street,prefix,04-1867445,State Street Bank and Trust Company,451,accept
+workday,statestreet.wd1/equest,State Street,prefix,04-2835718,"State Street Financial Services, Inc.",4,accept
+workday,stewart.wd1/External,Stewart,prefix,82-2720177,"Stewart & Stevenson, LLC",3,reject
+workday,stewart.wd1/External,Stewart,prefix,74-0924290,Stewart Title Guaranty Company,2,accept
+workday,stewart.wd1/External,Stewart,prefix,74-1677330,Stewart Information Services Corporation,2,accept
+workday,sunlife.wd3/Campus,Sun Life,prefix,26-3730703,"Sun Life Financial (U.S.) Services Company, Inc.",28,accept
+workday,sunlife.wd3/Experienced-Jobs,Sun Life,prefix,26-3730703,"Sun Life Financial (U.S.) Services Company, Inc.",28,accept
+workday,syneoshealth.wd12/Syneos_Health_External_Site,Syneos Health,exact,33-0723120,"Syneos Health, LLC",25,accept
+workday,syneoshealth.wd12/Syneos_Health_External_Site,Syneos Health,exact,52-2181734,"Syneos Health US, Inc.",8,accept
+workday,takeda.wd3/external,Takeda,prefix,38-3691673,"Takeda Development Center Americas, Inc.",54,accept
+workday,takeda.wd3/external,Takeda,prefix,13-4013710,"Takeda Pharmaceuticals USA, Inc.",43,accept
+workday,takeda.wd3/external,Takeda,prefix,36-4394197,Takeda Pharmaceuticals America Inc.,5,accept
+workday,takeda.wd3/external,Takeda,prefix,52-1916555,Takeda Manufacturing USA Inc.,2,accept
+workday,target.wd5/targetcareers,Target,prefix,27-2670899,"Target Enterprise, Inc.",326,accept
+workday,target.wd5/targetcareers,Target,prefix,84-2215576,Target Health LLC,4,reject
+workday,target.wd5/targetcareers,Target,prefix,54-1895892,Target Labs Inc,2,reject
+workday,target.wd5/targetcareers,Target,prefix,20-5528278,Target Logistics Management LLC,1,reject
+workday,target.wd5/targetcareers,Target,prefix,87-3366631,Target Integration Inc,1,reject
+workday,taylormadegolf.wd5/taylormadegolf,TaylorMade Golf,squashed,33-0831814,"Taylor Made Golf Company, Inc.",9,accept
+workday,td.wd3/TD_Bank_Careers,TD Bank,prefix,01-0137770,"TD Bank, National Association",71,accept
+workday,tempus.wd5/Tempus_Careers,Tempus,prefix,47-4903308,Tempus AI,60,accept
+workday,tempus.wd5/Tempus_Careers,Tempus,prefix,93-4233357,Tempus Research Group LLC,1,reject
+workday,tencent.wd1/OA_Huoshui_Platform,Tencent,prefix,71-1028222,Tencent America LLC,68,accept
+workday,tencent.wd1/OA_Huoshui_Platform,Tencent,prefix,82-1448737,Tencent Cloud LLC,1,accept
+workday,tencent.wd1/Tencent_Careers,Tencent,prefix,71-1028222,Tencent America LLC,68,accept
+workday,tencent.wd1/Tencent_Careers,Tencent,prefix,82-1448737,Tencent Cloud LLC,1,accept
+workday,thales.wd3/Careers,Thales,prefix,22-2872365,"Thales Avionics, Inc.",36,accept
+workday,thales.wd3/Careers,Thales,prefix,52-1287752,"Thales DIS CPL USA, Inc.",32,accept
+workday,thales.wd3/Careers,Thales,prefix,52-1674023,"Thales DIS USA, Inc.",12,accept
+workday,theaccessgroup.wd103/Access_Group_External_Careers,The Access Group,prefix,41-2948049,"Access Education Services, LLC",10,reject
+workday,theaccessgroup.wd103/Access_Group_External_Careers,The Access Group,prefix,46-1976784,Access Global Group,8,reject
+workday,theaccessgroup.wd103/Access_Group_External_Careers,The Access Group,prefix,45-4294101,"Access Healthcare Services USA, LLC",2,reject
+workday,theaccessgroup.wd103/Access_Group_External_Careers,The Access Group,prefix,46-0505083,"ACCESS BIO, INC.",2,reject
+workday,theaccessgroup.wd103/Access_Group_External_Careers,The Access Group,prefix,85-3321296,Access TeleCare LLC,2,reject
+workday,thehartford.wd5/Careers_External,The Hartford,prefix,06-0383750,Hartford Fire Insurance Company,124,accept
+workday,thehartford.wd5/Careers_External,The Hartford,prefix,06-0384680,The Hartford Steam Boiler Inspection & Insurance Co.,18,reject
+workday,thehartford.wd5/Careers_External,The Hartford,prefix,22-2672834,Hartford HealthCare Corporation,10,reject
+workday,thehartford.wd5/Careers_External,The Hartford,prefix,06-0646668,Hartford Hospital,1,reject
+workday,thehartford.wd5/Careers_External,The Hartford,prefix,43-2080655,Hartford Communities That Care Inc,1,reject
+workday,thinkbrg.wd5/BRG_External_Career_Site,BRG,prefix,20-1636283,"BRG Sports, Inc.",1,reject
+workday,thisisglobal.wd3/Global,Global,prefix,58-2227989,Global Payment Holding Company,106,reject
+workday,thisisglobal.wd3/Global,Global,prefix,61-1908743,Global Soft Technologies LLC,57,reject
+workday,thisisglobal.wd3/Global,Global,prefix,73-1686853,GLOBAL INFOTECH INC,57,reject
+workday,thisisglobal.wd3/Global,Global,prefix,45-0540738,GLOBAL IT SOLUTIONS INC,55,reject
+workday,thisisglobal.wd3/Global,Global,prefix,20-8527461,GLOBAL SUMI TECHNOLOGIES INC,52,reject
+workday,thyssenkruppmaterialsna.wd12/1,thyssenkrupp,prefix,38-0445860,"thyssenkrupp Materials NA, Inc.",3,accept
+workday,thyssenkruppmaterialsna.wd12/1,thyssenkrupp,prefix,20-4023938,"thyssenkrupp Crankshaft Company, LLC",2,accept
+workday,thyssenkruppmaterialsna.wd12/1,thyssenkrupp,prefix,32-0132592,"thyssenkrupp Supply Chain Services NA, Inc.",2,accept
+workday,thyssenkruppmaterialsna.wd12/1,thyssenkrupp,prefix,87-0790059,"thyssenkrupp Materials, LLC",2,accept
+workday,thyssenkruppmaterialsna.wd12/1,thyssenkrupp,prefix,95-2797355,"thyssenkrupp Bilstein of America, Inc.",2,accept
+workday,tjx.wd1/tjx_external,TJX,prefix,04-2207613,"The TJX Companies, Inc.",40,accept
+workday,topcon.wd1/TopconPositioningCareers,Topcon Positioning,prefix,94-3187596,"Topcon Positioning Systems, Inc.",4,accept
+workday,toyota.wd503/tmna,Toyota,prefix,61-1310582,"Toyota  Motor Engineering & Manufacturing North America, Inc. (TEMA)",69,accept
+workday,toyota.wd503/tmna,Toyota,prefix,95-4841215,Toyota Material Handling Inc.,52,reject
+workday,toyota.wd503/tmna,Toyota,prefix,95-3775816,Toyota Motor Credit Corporation,37,accept
+workday,toyota.wd503/tmna,Toyota,prefix,81-0700429,"Toyota Research Institute, Inc.",27,accept
+workday,toyota.wd503/tmna,Toyota,prefix,95-3141669,"Toyota Motor North America, Inc.",15,accept
+workday,transamerica.wd5/US,Transamerica,prefix,39-0989781,Transamerica Life Insurance Company,27,accept
+workday,travelers.wd5/External,Travelers,prefix,06-0566050,The Travelers Indemnity Company,115,accept
+workday,troweprice.wd5/TRowePrice,T. Rowe Price,prefix,52-0556948,"T. Rowe Price Associates, Inc.",93,accept
+workday,truist.wd1/careers,Truist,prefix,56-0939887,Truist Bank,434,accept
+workday,tti.wd1/Milwaukee,Milwaukee Tool,squashed,20-8234316,"TTI, Inc.",7,reject
+workday,tti.wd1/tti_pe,Techtronic Industries (TTI),squashed,20-8234316,"TTI, Inc.",7,reject
+workday,ukgrantt.wd3/careersgrantthornton,Grant Thornton,prefix,99-1856619,Grant Thornton Advisors LLC,25,reject
+workday,ultra.wd3/ultra-careers,Ultra,prefix,94-3144654,Ultra Clean Technology Systems & Services Inc,2,reject
+workday,ultra.wd3/ultra-careers,Ultra,prefix,46-3181288,Ultra Stones LLC,1,reject
+workday,umb.wd1/UMBExternal,UMB,prefix,44-0194180,UMB Bank NA,22,accept
+workday,unilever.wd3/Unilever_Experienced_Professionals,Unilever,prefix,13-2915928,"Unilever United States, Inc.",5,accept
+workday,univision.wd1/External,TelevisaUnivision,prefix,56-2301136,TelevisaUnivision Management Company,4,accept
+workday,usaa.wd1/USAAJOBSWD,USAA,prefix,74-2291652,USAA Federal Savings Bank,22,accept
+workday,usbank.wd1/US_Bank_Careers,U.S. Bank,prefix,31-0841368,U.S. Bank National Association,1205,accept
+workday,valmont.wd1/ValmontCareers,Valmont,prefix,47-0351813,"VALMONT INDUSTRIES, INC.",6,accept
+workday,vantagedc.wd1/Vantage,Vantage Data Centers,prefix,27-2332975,"Vantage Data Centers Management Company, LLC",3,accept
+workday,vca.wd1/antechcareers,Antech Diagnostics,squashed,95-4097995,VCA INC.,1,accept
+workday,vertexinc.wd1/VertexInc,Vertex,exact,23-2081753,"Vertex, Inc.",47,accept
+workday,vertexinc.wd1/VertexInc,Vertex,exact,26-3006422,"Vertex U.S. Holdings, Inc.",8,accept
+workday,vhr-genband.wd1/ribboncareers,Ribbon,prefix,04-3387074,Ribbon Communications Operating Company Inc,15,accept
+workday,vibrant.wd5/VEH_EXTERNAL_CAREER_SITE,Vibrant Emotional Health,squashed,22-3709291,"VIBRANT, INC.",11,reject
+workday,warnerbros.wd5/global,Warner Bros.,prefix,05-0545059,Warner Bros. Entertainment Inc.,2,accept
+workday,warnerbros.wd5/global,Warner Bros.,prefix,33-1045022,Warner Bros. Home Entertainment Inc.,1,accept
+workday,wattswater.wd5/external,Watts Water,prefix,04-2916536,"Watts Water Technologies, Inc.",1,accept
+workday,westernalliancebank.wd5/WAB,Western Alliance,squashed,47-0887231,Western Alliance Bank,64,accept
+workday,westlake.wd1/westlake,Westlake,prefix,76-0321065,Westlake Management Services Inc.,9,reject
+workday,westlake.wd1/westlake,Westlake,prefix,27-2814169,"Westlake Services, LLC",5,reject
+workday,wf.wd1/WellsFargoJobs,Wells Fargo,prefix,94-1347393,"WELLS FARGO BANK, N.A.",877,accept
+workday,wf.wd1/WellsFargoJobs,Wells Fargo,prefix,27-1301141,"Wells Fargo Clearing Services, LLC",2,accept
+workday,wf.wd1/WellsFargoJobs,Wells Fargo,prefix,56-2326000,"Wells Fargo Securities, LLC",1,accept
+workday,whitecap.wd1/careers,White Cap Supply Holdings,squashed,26-0100647,"White Cap, L.P.",5,accept
+workday,williams.wd5/External,Williams,prefix,94-2203880,"Williams-Sonoma, Inc.",40,reject
+workday,williams.wd5/External,Williams,prefix,52-0665775,"Williams Scotsman, Inc.",10,reject
+workday,williams.wd5/External,Williams,prefix,73-1547570,"Williams WPC-I, LLC",8,reject
+workday,williams.wd5/External,Williams,prefix,04-2104847,Williams College,3,reject
+workday,williams.wd5/External,Williams,prefix,46-2218399,Williams Signal Inc.,1,reject
+workday,wisk.wd108/Wisk_Careers,Wisk,prefix,83-4654304,Wisk Aero LLC,9,accept
+workday,wk.wd3/External,Wolters Kluwer,prefix,85-0629912,"Wolters Kluwer DXG U.S., Inc.",149,accept
+workday,wk.wd3/External,Wolters Kluwer,prefix,13-3577870,Wolters Kluwer United States Inc.,82,accept
+workday,wk.wd3/External,Wolters Kluwer,prefix,81-4386138,Wolters Kluwer R&D U.S. LP,1,accept
+workday,wmg.wd1/WMGUS,Warner Music,exact,13-3565869,Warner Music Inc.,4,accept
+workday,wmg.wd1/WMGUS,Warner Music,exact,13-4271875,Warner Music Group Corp.,3,accept
+workday,woodward.wd5/woodward,Woodward Governor,squashed,36-1984010,"Woodward, Inc.",2,accept
+workday,xcelenergy.wd1/External,Xcel Energy,prefix,84-1393401,"Xcel Energy Services, Inc.",5,accept
+workday,xylem.wd5/xylem-careers,Xylem,prefix,93-4094802,Xylem Services USA LLC,16,accept
+workday,xylem.wd5/xylem-careers,Xylem,prefix,27-2183056,"Xylem I, LLC",3,accept
+workday,zoom.wd5/zoom,Zoom,prefix,61-1648780,"Zoom Communications, Inc.",372,accept

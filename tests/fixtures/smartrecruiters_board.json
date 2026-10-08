@@ -1,0 +1,64 @@
+{
+ "offset": 0,
+ "limit": 3,
+ "totalFound": 425,
+ "content": [
+  {
+   "id": "744000154532199",
+   "name": "Senior Staff Product Manager",
+   "releasedDate": "2026-10-08T21:36:31.693Z",
+   "location": {
+    "city": "New York City",
+    "region": "New York",
+    "country": "us",
+    "address": "50 Hudson Yards, 74th Floor",
+    "postalCode": "10001",
+    "remote": false,
+    "hybrid": true,
+    "fullLocation": "New York City, New York, United States"
+   },
+   "experienceLevel": {
+    "id": "mid_senior_level",
+    "label": "Mid-Senior Level"
+   }
+  },
+  {
+   "id": "744000154513541",
+   "name": "Sr. Staff Product Designer, AI/ML",
+   "releasedDate": "2026-10-08T19:19:30.266Z",
+   "location": {
+    "city": "Kirkland",
+    "region": "Washington",
+    "country": "us",
+    "address": "4400 Carillon Point, Floor 4,",
+    "postalCode": "98033",
+    "remote": true,
+    "hybrid": false,
+    "fullLocation": "Kirkland, Washington, United States"
+   },
+   "experienceLevel": {
+    "id": "not_applicable",
+    "label": "Not Applicable"
+   }
+  },
+  {
+   "id": "744000154506638",
+   "name": "Manager, Emerging TA Capabilities & Pilots",
+   "releasedDate": "2026-10-08T18:20:25.584Z",
+   "location": {
+    "city": "Austin",
+    "region": "Texas",
+    "country": "us",
+    "address": "701 Brazos Street, Suite 519",
+    "postalCode": "78701",
+    "remote": true,
+    "hybrid": false,
+    "fullLocation": "Austin, Texas, United States"
+   },
+   "experienceLevel": {
+    "id": "not_applicable",
+    "label": "Not Applicable"
+   }
+  }
+ ]
+}

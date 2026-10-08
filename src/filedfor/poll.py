@@ -3,8 +3,13 @@
     uv run python -m filedfor.poll              full run
     uv run python -m filedfor.poll --no-alerts  store and publish, send nothing
 
+    uv run python -m filedfor.poll --workday-full 2000
+                                                read this many Workday boards in
+                                                full (default 60), e.g. to
+                                                bootstrap them all at once
+
 Needs DATABASE_URL, and DISCORD_WEBHOOK for alerts (both from .env locally,
-GitHub secrets in Actions). Design and trade-offs: ADR-002.
+GitHub secrets in Actions). Design and trade-offs: ADR-002, Workday: ADR-003.
 """
 
 import asyncio
@@ -14,6 +19,7 @@ import re
 import sys
 import time
 from dataclasses import dataclass, field
+from datetime import datetime
 from pathlib import Path
 
 from filedfor import classify, feeds, notify, store
@@ -23,6 +29,9 @@ from filedfor.publish import publish
 
 CONCURRENCY = 8
 FAILED_SHARE_WARNING = 0.10
+# Workday boards read in full per run, longest-waiting first. About 1,300
+# boards at 48 runs a day means each one is read in full about twice a day
+WORKDAY_FULL_PER_RUN = 60
 
 
 @dataclass(frozen=True)
@@ -110,13 +119,35 @@ def load_companies() -> list[dict]:
         ]
 
 
-async def fetch_all(companies: list[dict]) -> list[feeds.BoardResult]:
+def plan_workday(
+    slugs: list[str], last_full: dict[str, datetime], n: int
+) -> dict[str, bool]:
+    """Which Workday boards to read this run: True for a full read, False for
+    a quick one. The n boards that have waited longest (never read in full
+    first) get a full read. A board never read in full is skipped until its
+    turn: its first full read records every job quietly, like any new board."""
+    order = sorted(slugs, key=lambda s: (s in last_full, last_full.get(s), s))
+    full = set(order[:n])
+    return {s: s in full for s in slugs if s in full or s in last_full}
+
+
+async def fetch_all(
+    companies: list[dict], workday: dict[str, bool]
+) -> list[feeds.BoardResult]:
     sem = asyncio.Semaphore(CONCURRENCY)
+    now = store.utcnow()
     async with feeds.client() as c:
         return await asyncio.gather(
             *(
-                feeds.fetch_board(c, sem, r["system"], r["slug"], r["eu"] == "1")
+                feeds.fetch_workday(
+                    c, sem, r["slug"], r.get("us_filter") or "", workday[r["slug"]], now
+                )
+                if r["system"] == "workday"
+                else feeds.fetch_smartrecruiters(c, sem, r["slug"], now)
+                if r["system"] == "smartrecruiters"
+                else feeds.fetch_board(c, sem, r["system"], r["slug"], r["eu"] == "1")
                 for r in companies
+                if r["system"] != "workday" or r["slug"] in workday
             )
         )
 
@@ -138,7 +169,8 @@ def job_row(c: Candidate, company: str, evidence, now, alerted) -> dict:
         "title": p.title,
         "url": p.url,
         "location": p.location,
-        "is_us": c.is_us,
+        # Workday lists "3 Locations"; the job page gives the real country
+        "is_us": c.is_us if c.is_us is not None else classify.is_us(None, p.country),
         "is_remote": c.is_remote,
         "role": c.role,
         "level": c.level,
@@ -154,14 +186,27 @@ def job_row(c: Candidate, company: str, evidence, now, alerted) -> dict:
     }
 
 
-async def run(send_alerts: bool = True) -> dict:
+async def run(
+    send_alerts: bool = True, workday_full: int = WORKDAY_FULL_PER_RUN
+) -> dict:
     started = store.utcnow()
     t0 = time.monotonic()
     companies = load_companies()
     names = {(r["system"], r["slug"]): r["company"] for r in companies}
-    results = await fetch_all(companies)
+    conn = store.connect()
+    store.ensure_schema(conn)
+    plan = plan_workday(
+        [r["slug"] for r in companies if r["system"] == "workday"],
+        store.workday_last_full(conn),
+        workday_full,
+    )
+    conn.close()
+    results = await fetch_all(companies, plan)
+    excluded = load_excluded()
     # Excluded boards count as fetched and empty, so their stored jobs close
-    ok = {(r.system, r.slug) for r in results if r.ok} | load_excluded()
+    ok = {(r.system, r.slug) for r in results if r.ok} | excluded
+    # Only a board read to the end can tell us a job is gone
+    complete = {(r.system, r.slug) for r in results if r.ok and r.complete} | excluded
     failed = {(r.system, r.slug): r.error for r in results if not r.ok}
     postings = [p for r in results for p in r.postings]
     cands = {c.posting.key: c for p in postings if (c := to_candidate(p))}
@@ -170,13 +215,16 @@ async def run(send_alerts: bool = True) -> dict:
     conn = store.connect()
     store.ensure_schema(conn)
     open_keys, closed_keys, known = store.load_state(conn)
-    stale = store.stale_keys(conn, classify.VERSION)
+    stale = store.stale_jobs(conn, classify.VERSION)
     conn.close()  # let the database sleep while we fetch descriptions
-    ch = diff(open_keys, set(cands), ok, known, closed_keys)
+    ch = diff(open_keys, set(cands), complete, known, closed_keys)
+    # New rules say the title isn't a tech role: close it now, even on a board
+    # that was only partly read this run
+    ch.closed |= {k for k, title in stale.items() if classify.role(title) is None}
 
     new = [cands[k] for k in sorted(ch.new)]
     # Still open and still a candidate, but classified by older rules
-    refresh = [cands[k] for k in sorted(stale & set(cands))]
+    refresh = [cands[k] for k in sorted(stale.keys() & set(cands))]
     await fill_descriptions([c.posting for c in new + refresh])
     evidence = EvidenceIndex()
     now = store.utcnow()
@@ -213,7 +261,8 @@ async def run(send_alerts: bool = True) -> dict:
         "closed_jobs": len(ch.closed),
     }
     conn = store.connect()
-    store.save_run(conn, rows, ch.closed, ok, failed, stats, now)
+    full_workday = {k for k in complete if k[0] == "workday"}
+    store.save_run(conn, rows, ch.closed, ok, failed, stats, now, full_workday)
 
     sent = 0
     webhook = os.environ.get("DISCORD_WEBHOOK")
@@ -261,6 +310,8 @@ async def run(send_alerts: bool = True) -> dict:
         "alerts_sent": sent,
         "pruned": pruned,
         "open_jobs": len(jobs),
+        "workday_full": len(full_workday),
+        "workday_quick": sum(1 for full in plan.values() if not full),
         "failing_now": sorted(f"{s}/{g}: {e}" for (s, g), e in failed.items()),
         "failing_over_a_day": stale,
     }
@@ -275,7 +326,12 @@ def main() -> None:
         load_dotenv()
     except ImportError:
         pass
-    health = asyncio.run(run(send_alerts="--no-alerts" not in sys.argv))
+    workday_full = WORKDAY_FULL_PER_RUN
+    if "--workday-full" in sys.argv:
+        workday_full = int(sys.argv[sys.argv.index("--workday-full") + 1])
+    health = asyncio.run(
+        run(send_alerts="--no-alerts" not in sys.argv, workday_full=workday_full)
+    )
     for k in (
         "seconds",
         "fetch_seconds",

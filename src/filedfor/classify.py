@@ -15,7 +15,7 @@ rules classified them.
 import re
 from dataclasses import dataclass
 
-VERSION = 3
+VERSION = 4
 
 
 def _rx(*parts: str) -> re.Pattern:
@@ -40,10 +40,24 @@ NOT_SOFTWARE = _rx(
     r"\bdata cent(er|re)\b",
     r"\bbusiness develop",
 )
-# Overrides the list above: "Distributed Systems Engineer" is software
-SOFTWARE_HINT = _rx(
-    r"software", r"distributed", r"back-?\s?end", r"full-?\s?stack", r"machine learning"
+# Jobs that are never software, data or AI, whatever else the title says.
+# Big retailers on Workday post "Front End Cashier", "Back End Clerk" and
+# "Mobile Associate - Retail Sales" (v4)
+NEVER_TECH = _rx(
+    r"cashier",
+    r"\bclerk\b",
+    r"pharmacy",
+    r"\bnurs(e|ing)\b",
+    r"\bteller\b",
+    r"\b(delivery|truck|cdl)\s+driver",
+    r"^driver\b",
+    r"\bsales (trainee|associate|representative|rep|executive|consultant)\b",
+    r"\bretail sales\b",
+    r"account executive",
+    r"\bstore (associate|manager|team)",
 )
+# Overrides the list above: "Distributed Systems Engineer" is software
+SOFTWARE_HINT = _rx(r"software", r"distributed", r"machine learning")
 AI = _rx(
     r"machine learning",
     r"\bml\b",
@@ -75,13 +89,6 @@ SWE = _rx(
     r"software",
     r"developer",
     r"\bswe\b",
-    r"back-?\s?end",
-    r"front-?\s?end",
-    r"full-?\s?stack",
-    r"\bweb\b",
-    r"mobile",
-    r"\bios\b",
-    r"android",
     r"platform engineer",
     r"infrastructure engineer",
     r"site reliability",
@@ -98,8 +105,27 @@ SWE = _rx(
     r"programmer",
     r"distributed systems",
     r"systems software",
-    # Titles that name a language: "Java Engineer", "Python Developer"
+)
+# Software only next to an engineering word: "Frontend Engineer" is, "Front
+# End Cashier" isn't; "Java Developer" is, "1348 Java Lane" isn't (v4)
+SWE_AREA = _rx(
+    r"back-?\s?end",
+    r"front-?\s?end",
+    r"full-?\s?stack",
+    r"\bweb\b",
+    r"mobile",
+    r"\bios\b",
+    r"android",
     r"\b(java|python|c\+\+|c#|\.net|javascript|typescript|golang|rust|ruby|scala|kotlin|swift)\b",
+)
+ENGINEERING_WORD = _rx(
+    r"engineer",
+    r"\bengr\b",
+    r"developer",
+    r"development",
+    r"programmer",
+    r"\bdev\b",
+    r"\bsde\b",
 )
 
 
@@ -121,13 +147,16 @@ JOB_WORD = _rx(
 def role(title: str) -> str | None:
     """AI/ML beats data beats software: an 'ML Data Engineer' is an AI role."""
     t = title.lower()
-    if NOT_SOFTWARE.search(t) and not SOFTWARE_HINT.search(t):
+    if NEVER_TECH.search(t):
+        return None
+    area = bool(SWE_AREA.search(t) and ENGINEERING_WORD.search(t))
+    if NOT_SOFTWARE.search(t) and not (SOFTWARE_HINT.search(t) or area):
         return None
     if AI.search(t) and JOB_WORD.search(t):
         return "ai"
     if DATA.search(t) and JOB_WORD.search(t) and "software" not in t:
         return "data"
-    if SWE.search(t):
+    if SWE.search(t) or area:
         return "swe"
     return None
 

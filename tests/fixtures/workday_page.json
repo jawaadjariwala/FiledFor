@@ -1,0 +1,73 @@
+{
+ "total": 2000,
+ "jobPostings": [
+  {
+   "title": "Senior Developer Relations Manager - Dynamo AI Inference",
+   "externalPath": "/job/US-CA-Santa-Clara/Senior-Developer-Relations-Manager---Dynamo-AI-Inference_JR2027351",
+   "locationsText": "3 Locations",
+   "postedOn": "Posted Today",
+   "bulletFields": [
+    "JR2027351"
+   ]
+  },
+  {
+   "title": "Senior VLSI CAD Software Engineer",
+   "externalPath": "/job/US-CA-Santa-Clara/Senior-VLSI-CAD-Software-Engineer_JR2013348",
+   "locationsText": "6 Locations",
+   "postedOn": "Posted Today",
+   "bulletFields": [
+    "JR2013348"
+   ]
+  },
+  {
+   "title": "ASIC Design Engineer - Hardware",
+   "externalPath": "/job/US-TX-Austin/ASIC-Design-Engineer---Hardware_JR2019840",
+   "locationsText": "US, TX, Austin",
+   "postedOn": "Posted Today",
+   "bulletFields": [
+    "JR2019840"
+   ]
+  },
+  {
+   "title": "Product Engineer, Developer Platform",
+   "externalPath": "/job/US-CA-Santa-Clara/Product-Engineer--Developer-Platform_JR2026158",
+   "locationsText": "2 Locations",
+   "postedOn": "Posted Today",
+   "bulletFields": [
+    "JR2026158"
+   ]
+  },
+  {
+   "title": "Old Role",
+   "externalPath": "/job/US-CA-Santa-Clara/Old-Role_JR1",
+   "locationsText": "US, CA, Santa Clara",
+   "postedOn": "Posted 30+ Days Ago",
+   "bulletFields": [
+    "JR1"
+   ]
+  }
+ ],
+ "facets": [
+  {
+   "facetParameter": "locationMainGroup",
+   "values": [
+    {
+     "facetParameter": "locationHierarchy1",
+     "descriptor": "Locations",
+     "values": [
+      {
+       "descriptor": "Taiwan",
+       "id": "2fcb99c455831013ea52ed162d4932c0",
+       "count": 120
+      },
+      {
+       "descriptor": "United States",
+       "id": "2fcb99c455831013ea52fb338f2932d8",
+       "count": 1397
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

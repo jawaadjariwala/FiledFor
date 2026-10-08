@@ -91,3 +91,19 @@ def test_alert_filter_skips_research_only_at_frontier_labs():
         and not DISCORD_ALERTS.matches(lab)
         and DISCORD_ALERTS.matches(applied)
     )
+
+
+def test_plan_workday_reads_longest_waiting_boards_in_full():
+    from filedfor.poll import plan_workday
+
+    t = datetime(2026, 10, 8, tzinfo=UTC)
+    last = {
+        "a": t - timedelta(hours=1),
+        "b": t - timedelta(hours=9),
+        "c": t - timedelta(hours=5),
+    }
+    plan = plan_workday(["a", "b", "c", "new1", "new2"], last, 3)
+    # never-read boards first, then the oldest full read; the rest read quickly
+    assert plan == {"new1": True, "new2": True, "b": True, "a": False, "c": False}
+    # a board never read in full and not chosen this run is skipped
+    assert "new2" not in plan_workday(["a", "new1", "new2"], last, 1)

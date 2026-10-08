@@ -25,6 +25,8 @@ create table if not exists boards (
     consecutive_failures int not null default 0,
     primary key (system, slug)
 );
+-- Workday boards are mostly read in part; this is the last read to the end (ADR-003)
+alter table boards add column if not exists last_full_at timestamptz;
 
 create table if not exists jobs (
     system             text not null,
@@ -121,12 +123,24 @@ def load_state(conn: psycopg.Connection) -> tuple[set[Key], set[Key], set[Board]
     return open_keys, closed_keys, known
 
 
-def stale_keys(conn: psycopg.Connection, version: int) -> set[Key]:
-    """Open jobs classified by older rules, to be re-read once."""
+def workday_last_full(conn: psycopg.Connection) -> dict[str, datetime]:
+    """slug -> when each Workday board was last read to the end."""
     return {
-        (r["system"], r["slug"], r["job_id"])
+        r["slug"]: r["last_full_at"]
         for r in conn.execute(
-            "select system, slug, job_id from jobs "
+            "select slug, last_full_at from boards "
+            "where system = 'workday' and last_full_at is not null"
+        )
+    }
+
+
+def stale_jobs(conn: psycopg.Connection, version: int) -> dict[Key, str]:
+    """Open jobs classified by older rules, with their titles: re-read once,
+    or closed if the title no longer names a role FiledFor covers."""
+    return {
+        (r["system"], r["slug"], r["job_id"]): r["title"]
+        for r in conn.execute(
+            "select system, slug, job_id, title from jobs "
             "where closed_at is null and classifier_version < %s",
             (version,),
         )
@@ -141,8 +155,10 @@ def save_run(
     failed_boards: dict[Board, str],
     stats: dict,
     now: datetime,
+    full_boards: Iterable[Board] = (),
 ) -> None:
-    """Everything a run learned, in one transaction."""
+    """Everything a run learned, in one transaction. `full_boards`: Workday
+    boards read to the end this run."""
     with conn.transaction():
         rows = []
         for j in new_jobs:
@@ -187,6 +203,10 @@ def save_run(
                 "last_error = excluded.last_error, "
                 "consecutive_failures = boards.consecutive_failures + 1",
                 [(*b, err[:200]) for b, err in failed_boards.items()],
+            )
+            cur.executemany(
+                "update boards set last_full_at = %s where system = %s and slug = %s",
+                [(now, *b) for b in full_boards],
             )
         conn.execute(
             "insert into runs (started_at, finished_at, boards_ok, boards_failed, postings, "
