@@ -71,8 +71,8 @@ def test_evidence_sums_across_feins(tmp_path):
     assert idx.lookup("lever", "none", "swe") is None
 
 
-def test_personal_filter_skips_research_only_at_frontier_labs():
-    from filedfor.poll import PERSONAL
+def test_alert_filter_skips_research_only_at_frontier_labs():
+    from filedfor.poll import DISCORD_ALERTS
 
     base = {
         "role": "ai",
@@ -87,7 +87,7 @@ def test_personal_filter_skips_research_only_at_frontier_labs():
     lab = base | {"slug": "anthropic", "title": "Research Engineer, Interpretability"}
     applied = base | {"slug": "anthropic", "title": "AI Engineer, New Grad"}
     assert (
-        PERSONAL.matches(exa)
-        and not PERSONAL.matches(lab)
-        and PERSONAL.matches(applied)
+        DISCORD_ALERTS.matches(exa)
+        and not DISCORD_ALERTS.matches(lab)
+        and DISCORD_ALERTS.matches(applied)
     )

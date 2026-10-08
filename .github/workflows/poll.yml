@@ -1,0 +1,60 @@
+# Poll every job board, store the changes in Postgres, publish the site.
+# Design: ADR-002 in docs/decisions.md.
+name: Poll
+
+on:
+  schedule:
+    # Off the hour: GitHub delays runs most at :00 when everyone's cron fires
+    - cron: "7,37 * * * *"
+  workflow_dispatch:
+
+# Two runs at once would both diff against the same stored state
+concurrency:
+  group: poll
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: write # keepalive below
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - run: uv sync --frozen --no-dev
+
+      - name: Poll
+        run: |
+          export SITE_URL="${SITE_URL:-https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/}"
+          uv run python -m filedfor.poll
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          SITE_URL: ${{ vars.SITE_URL }} # set when the site moves to its own domain
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - id: deploy
+        uses: actions/deploy-pages@v4
+
+      # GitHub turns off scheduled workflows after 60 days with no commits.
+      # Re-enabling an enabled workflow resets that clock.
+      - name: Keepalive
+        if: github.event_name == 'schedule'
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/poll.yml/enable"
+        env:
+          GH_TOKEN: ${{ github.token }}

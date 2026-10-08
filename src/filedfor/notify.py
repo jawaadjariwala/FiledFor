@@ -17,20 +17,27 @@ def _money(n: int | None) -> str:
     return f"${n / 1000:.0f}K" if n else "n/a"
 
 
+def evidence_line(job: dict) -> str:
+    """The company's filing record for this role type, in one line."""
+    ev = job.get("evidence") or {}
+    if not ev:
+        return "No H-1B filings found for this role type"
+    levels = ev["level_1"] + ev["level_2"] + ev["level_3"] + ev["level_4"]
+    low = ev["level_1"] + ev["level_2"]
+    share = f", {low * 100 // levels}% at wage level I-II" if levels else ""
+    return (
+        f"{ev['filings']} {ROLE_NAMES[job['role']]} H-1B filings "
+        f"({ev['new_hire_filings']} new hires{share}), median {_money(ev['median_wage'])}"
+    )
+
+
 def embed(job: dict) -> dict:
     """One job as a Discord card: title links to the posting, evidence below."""
     ev = job.get("evidence") or {}
-    lines = [f"**{job['company']}** · {job.get('location') or 'Location not listed'}"]
-    if ev:
-        levels = ev["level_1"] + ev["level_2"] + ev["level_3"] + ev["level_4"]
-        low = ev["level_1"] + ev["level_2"]
-        share = f", {low * 100 // levels}% at wage level I-II" if levels else ""
-        lines.append(
-            f"{ev['filings']} {ROLE_NAMES[job['role']]} H-1B filings "
-            f"({ev['new_hire_filings']} new hires{share}), median {_money(ev['median_wage'])}"
-        )
-    else:
-        lines.append("No H-1B filings found for this role type")
+    lines = [
+        f"**{job['company']}** · {job.get('location') or 'Location not listed'}",
+        evidence_line(job),
+    ]
     if job.get("min_years") is not None:
         lines.append(f"Asks for {job['min_years']}+ years")
     return {

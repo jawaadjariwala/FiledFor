@@ -298,7 +298,7 @@ commit every 30 minutes.
   5xx. A 404 marks the board failed for this run.
 - `health.json`: time of last run, boards failing now, boards failing for
   more than a day (candidates to remove), jobs published.
-- Discord warning to the owner when more than 10% of boards fail in one run.
+- Discord warning to the maintainer when more than 10% of boards fail in one run.
 - `concurrency` group in the workflow so two runs never overlap.
 
 ### Test plan
@@ -352,7 +352,7 @@ type.
 
 ### Classifier results (2026-10-01)
 
-Labels: 120 titles and 40 description snippets, labelled by the owner.
+Labels: 120 titles and 40 description snippets, labelled by hand.
 
 **First score, held out (rules v2, written before the labels were read):**
 
@@ -381,7 +381,7 @@ sample is needed for the next honest number.
   resident, refugee, asylee), clearances read from the title, and clearance
   jobs counted as citizens-only, because US clearances require citizenship.
 - Government contractors (federal, government, public sector) count as
-  citizens-only. Owner's rule.
+  citizens-only, since most of their roles need citizenship in practice.
 - Titles from the excluded gig marketplaces (30 of 120) are left out of the
   score, because the poller no longer fetches those boards.
 
@@ -399,8 +399,8 @@ which were added after labelling.
 
 Three labels were corrected after discussion. A sales engineer is a sales
 role, so "none". Two research engineer roles at AI labs were labelled "none"
-because the owner doesn't want research roles; they are AI roles, so they're
-labelled AI. The owner's personal alert filter skips research titles only at
+because research roles were out of scope for alerts; they are AI roles, so
+they're labelled AI. Scope belongs in the alert filter, which skips research titles only at
 frontier labs (Anthropic, OpenAI, xAI, Mistral, Cohere), because at startups
 "Research Engineer" is often applied ML engineering (Exa's content
 understanding role, for example). With those corrections, AI role precision is 100% (10 of 10) and any
@@ -416,7 +416,7 @@ rules version changes, keeping their first-seen time and alert state.
   Time-to-alert is measured on Day 7. If it's poor, trigger the workflow from
   an external cron.
 - **Dead-man switch:** if runs stop entirely, nothing inside the poller
-  notices. A free healthchecks.io ping would email the owner.
+  notices. A free healthchecks.io ping would email the maintainer.
 - **Classifier:** rules first. Move to a model only if the labelled test set
   shows rules plateauing.
 - **Workday:** 45% of Simplify's listings, mostly large companies. Separate

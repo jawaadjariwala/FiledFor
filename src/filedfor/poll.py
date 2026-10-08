@@ -9,23 +9,20 @@ GitHub secrets in Actions). Design and trade-offs: ADR-002.
 
 import asyncio
 import csv
-import json
 import os
 import re
 import sys
 import time
 from dataclasses import dataclass, field
-from datetime import timedelta
 from pathlib import Path
 
 from filedfor import classify, feeds, notify, store
 from filedfor.diff import diff, should_alert
 from filedfor.evidence import COMPANIES, EvidenceIndex
+from filedfor.publish import publish
 
-PUBLIC = Path("public")  # published to GitHub Pages, not committed
 CONCURRENCY = 8
 FAILED_SHARE_WARNING = 0.10
-MAX_AGE = timedelta(days=30)  # older postings are mostly evergreen or filled
 
 
 @dataclass(frozen=True)
@@ -56,11 +53,20 @@ class AlertFilter:
         return False
 
 
-RESEARCH = re.compile(r"research (engineer|scientist)|\bresearcher\b|^research\b", re.IGNORECASE)
+RESEARCH = re.compile(
+    r"research (engineer|scientist)|\bresearcher\b|^research\b", re.IGNORECASE
+)
 FRONTIER_LABS = frozenset({"anthropic", "openai", "xai", "mistral.ai", "cohere"})
 
-# The owner wants applied AI roles, not frontier-lab research
-PERSONAL = AlertFilter(skip_research_at=FRONTIER_LABS)
+
+def in_feeds(job: dict) -> bool:
+    """Public RSS: new-grad jobs open to F-1 students, at companies with filings
+    for that kind of role."""
+    return bool(job["evidence"]) and AlertFilter().matches(job)
+
+
+# Discord alerts: applied AI roles, not frontier-lab research
+DISCORD_ALERTS = AlertFilter(skip_research_at=FRONTIER_LABS)
 
 
 @dataclass
@@ -148,30 +154,6 @@ def job_row(c: Candidate, company: str, evidence, now, alerted) -> dict:
     }
 
 
-def fresh(job: dict, now) -> bool:
-    return job["posted_at"] is None or now - job["posted_at"] <= MAX_AGE
-
-
-def publish(jobs: list[dict], health: dict, now) -> None:
-    """jobs.json for the site: open jobs a new grad could apply to, posted in
-    the last 30 days."""
-    PUBLIC.mkdir(exist_ok=True)
-    jobs = [j for j in jobs if fresh(j, now)]
-    keep = [
-        {k: (v.isoformat() if hasattr(v, "isoformat") else v) for k, v in j.items()}
-        for j in jobs
-        if j["level"] in ("entry", "intern")
-        or (j["level"] == "unclear" and (j["min_years"] is None or j["min_years"] <= 2))
-    ]
-    for j in keep:
-        for k in ("alerted_at", "classifier_version", "first_seen_at"):
-            j.pop(k, None)
-    (PUBLIC / "jobs.json").write_text(
-        json.dumps({"updated": health["finished_at"], "jobs": keep})
-    )
-    (PUBLIC / "health.json").write_text(json.dumps(health, indent=1))
-
-
 async def run(send_alerts: bool = True) -> dict:
     started = store.utcnow()
     t0 = time.monotonic()
@@ -237,7 +219,7 @@ async def run(send_alerts: bool = True) -> dict:
     webhook = os.environ.get("DISCORD_WEBHOOK")
     if send_alerts and webhook:
         pending = store.pending_alerts(conn)
-        wanted = [j for j in pending if PERSONAL.matches(j)]
+        wanted = [j for j in pending if DISCORD_ALERTS.matches(j)]
         async with feeds.client() as c:
             delivered = await notify.send_discord(c, webhook, wanted)
             if len(failed) > FAILED_SHARE_WARNING * len(companies):
@@ -282,7 +264,7 @@ async def run(send_alerts: bool = True) -> dict:
         "failing_now": sorted(f"{s}/{g}: {e}" for (s, g), e in failed.items()),
         "failing_over_a_day": stale,
     }
-    publish(jobs, health, store.utcnow())
+    publish(jobs, health, store.utcnow(), in_feeds=in_feeds)
     return health
 
 

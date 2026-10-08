@@ -109,39 +109,39 @@ makes it public.
       matched to a sponsor, with 39,132 open jobs before any entry-level filtering)
 
 **Day 3: the poller**
-- [ ] pydantic `Job` model, one adapter per feed system
-- [ ] Concurrent polite fetching, retries, timeouts, per-feed error isolation
-- [ ] Entry-level classifier, tested against about 200 hand-labelled titles
-- [ ] Role to occupation mapping, attaching evidence to each job
-- [ ] Jobs and seen store in **Postgres** (free tier, e.g. Neon or Supabase), tests on saved responses
+- [x] pydantic `Job` model, one adapter per feed system
+- [x] Concurrent polite fetching, retries, timeouts, per-feed error isolation
+- [x] Entry-level classifier, tested against about 200 hand-labelled titles
+- [x] Role to occupation mapping, attaching evidence to each job
+- [x] Jobs and seen store in **Postgres** (free tier, e.g. Neon or Supabase), tests on saved responses
 
 **Day 4: running on its own**
-- [ ] GitHub Actions schedule, state kept in Postgres between runs
-- [ ] ntfy alerts filtered by lane and location
-- [ ] Health report: which feeds failed, how stale the data is
+- [x] GitHub Actions schedule, state kept in Postgres between runs
+- [x] Discord alerts filtered by lane and location (ntfy dropped: public topics can be spammed)
+- [x] Health report: which feeds failed, how stale the data is
 - [ ] Run for 24 hours and fix what breaks
 
 ### Phase 2: public
 
 **Day 5: the site**
-- [ ] Static site generated from `jobs.json`: filter by lane, location, remote, posted-within.
+- [x] Static site generated from `jobs.json`: filter by lane, location, remote, posted-within.
       Only jobs posted in the last 30 days are published (older ones are mostly evergreen)
-- [ ] Every job shows its evidence badge and a link to the numbers
-- [ ] Methodology page: data sources, matching, limits, disclaimer
+- [x] Every job shows its evidence badge (link to per-company numbers comes with Day 6 pages)
+- [x] Methodology page: data sources, matching, limits, disclaimer
 
 **Day 6: company pages**
 - [ ] **Real lottery level per filing:** compare each offered wage to the OEWS wage levels for its SOC code and
       worksite area (DOL FLC Data Center tables). The FY2027 lottery weights by the highest level the offered
-      wage reaches, not by PW_WAGE_LEVEL. This is the follow-up post to the top-25 carousel
+      wage reaches, not by PW_WAGE_LEVEL.
 - [ ] One generated page per sponsor ("Does X sponsor H-1B for new grads?"):
       filings over time, wage levels, top titles, open roles
 - [ ] SEO basics: titles, descriptions, sitemap
 
 **Day 7: alerts, metrics, polish**
-- [ ] Public ntfy topics per lane and RSS feeds
+- [x] RSS feed per lane (public push alerts move to the web push app)
 - [ ] Privacy-friendly visitor counter (to report real usage numbers)
 - [ ] Measure time from posting to alert, median, shown on the site
-- [ ] README: architecture diagram, data pipeline, design decisions, known gaps
+- [x] README: architecture diagram, data pipeline, design decisions, known gaps
 
 **Day 8: launch**
 - [ ] Data story: "Which companies file new grads at wage levels that win the
@@ -150,6 +150,9 @@ makes it public.
 - [ ] Watch feedback and fix fast for the first 48 hours
 
 ### Stretch
+- [ ] Model classifier for the cases rules can't decide (level unclear from the title, no years
+      stated): rules filter first, the model judges only those, low confidence stays out of alerts.
+      Measure on a fresh labelled sample against rules alone
 - [ ] Workday support
 - [ ] Email digest
 - [ ] Cap-exempt employers (universities, hospitals) as their own lane

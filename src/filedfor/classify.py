@@ -398,7 +398,8 @@ CITIZENS_ONLY = _rx(
     r"permanent resident.{0,80}(refugee|asylee|asylum)",
     r"(citizen|u\.?s\.? persons?)\b.{0,150}\b(itar|export control)",
 )
-# Government contractors (his rule, 2026-10-01): treated as citizens-only
+# Government contractors (2026-10-01): treated as citizens-only, since most of
+# their roles need citizenship in practice
 GOVERNMENT = _rx(
     r"\bfederal\b", r"\bgovernment\b", r"public sector", r"\bgovcloud\b", r"\bdod\b"
 )
