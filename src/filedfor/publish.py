@@ -28,9 +28,12 @@ def fresh(job: dict, now: datetime) -> bool:
 
 
 def listed(job: dict) -> bool:
-    """On the site: US (or unknown) jobs that are entry level, internships, or
-    level unclear but asking for 2 years or less (or not saying)."""
+    """On the site: US (or unknown) jobs open to people who need sponsorship,
+    that are entry level, internships, or level unclear but asking for 2 years
+    or less (or not saying)."""
     if job["is_us"] is False:  # Workday multi-location jobs, checked on the job page
+        return False
+    if job["no_sponsorship"] or job["citizens_only"] or job["clearance"]:
         return False
     return job["level"] in ("entry", "intern") or (
         job["level"] == "unclear"

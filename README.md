@@ -8,7 +8,7 @@ Most "visa-friendly" job lists tell you a company sponsors. FiledFor shows each 
 
 ## What you can do with it
 
-- **Browse the site.** Filter by field (Software, AI/ML, Data), level, how recently it was posted, and remote. Postings that say citizens only, no sponsorship, or need a clearance are hidden by default.
+- **Browse the site.** Filter by field (Software, AI/ML, Data), level, how recently it was posted, and remote. Postings that say citizens only, no sponsorship, or need a clearance are left out, so every job listed is one you can apply to on a visa.
 - **Follow an RSS feed** for new jobs in your field: [all](https://jawaadjariwala.github.io/FiledFor/feeds/all.xml), [software](https://jawaadjariwala.github.io/FiledFor/feeds/swe.xml), [AI/ML](https://jawaadjariwala.github.io/FiledFor/feeds/ai.xml), [data](https://jawaadjariwala.github.io/FiledFor/feeds/data.xml). Works in any feed reader, and in Slack or Discord through an RSS bot.
 - **Use the data.** [`jobs.json`](https://jawaadjariwala.github.io/FiledFor/jobs.json) has every listed job with its flags and evidence. The sponsor tables in `data/` are described below.
 

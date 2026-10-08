@@ -30,10 +30,6 @@ function money(n) {
   return n ? `$${Math.round(n / 1000)}K` : "n/a";
 }
 
-function blocked(j) {
-  return j.citizens_only || j.no_sponsorship || j.clearance;
-}
-
 function checked(name) {
   return new Set([...document.querySelectorAll(`input[name=${name}]:checked`)].map((i) => i.value));
 }
@@ -49,7 +45,6 @@ function filtered() {
     if (j.posted_at && now - Date.parse(j.posted_at) > maxAge) return false;
     if ($("filed").checked && !j.evidence) return false;
     if ($("remote").checked && !j.is_remote) return false;
-    if (!$("blocked").checked && blocked(j)) return false;
     if (q && !`${j.title} ${j.company} ${j.location || ""}`.toLowerCase().includes(q)) return false;
     return true;
   });
@@ -89,9 +84,6 @@ function card(j) {
   if (level) tags.append(el("span", { class: "tag" }, level));
   if (j.min_years != null) tags.append(el("span", { class: "tag" }, j.min_years === 0 ? "No experience asked" : `Asks ${j.min_years}+ yr`));
   if (j.is_remote) tags.append(el("span", { class: "tag" }, "Remote"));
-  if (j.citizens_only) tags.append(el("span", { class: "tag warn" }, "Citizens only"));
-  if (j.no_sponsorship) tags.append(el("span", { class: "tag warn" }, "Says no sponsorship"));
-  if (j.clearance) tags.append(el("span", { class: "tag warn" }, "Needs clearance"));
   const meta = [j.company, j.location || "Location not listed"];
   if (j.posted_at) meta.push(`posted ${ago(j.posted_at)}`);
   return el(

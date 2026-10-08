@@ -6,8 +6,6 @@
   --line: #e3e5e1;
   --accent: #2f7d5b;
   --accent-soft: #e5f2eb;
-  --warn: #9a4a12;
-  --warn-soft: #fbeee2;
   --l1: #2f7d5b;
   --l2: #6aaa8a;
   --l3: #c9a24a;
@@ -22,8 +20,6 @@
     --line: #2c322e;
     --accent: #5fbf92;
     --accent-soft: #1d3329;
-    --warn: #f0a46c;
-    --warn-soft: #3a2618;
   }
 }
 * { box-sizing: border-box; }
@@ -85,7 +81,6 @@ input[type=checkbox] { accent-color: var(--accent); }
   background: var(--bg);
   border: 1px solid var(--line);
 }
-.tag.warn { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
 .ev { font-size: 0.9rem; display: grid; gap: 4px; }
 .ev.none { color: var(--muted); }
 .bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; max-width: 260px; background: var(--line); }

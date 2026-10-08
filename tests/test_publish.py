@@ -35,6 +35,9 @@ def job(**kw) -> dict:
 
 
 def test_listed_keeps_entry_intern_and_low_year_unclear():
+    assert not publish.listed(job(citizens_only=True))
+    assert not publish.listed(job(no_sponsorship=True))
+    assert not publish.listed(job(clearance=True))
     assert publish.listed(job())
     assert publish.listed(job(level="intern"))
     assert publish.listed(job(level="unclear", min_years=None))
@@ -82,7 +85,7 @@ def test_publish_writes_site_json_and_feeds(tmp_path, monkeypatch):
     out = tmp_path / "public"
     assert (out / "index.html").read_text() == "<p>hi</p>"
     data = json.loads((out / "jobs.json").read_text())
-    assert [j["job_id"] for j in data["jobs"]] == ["1", "blocked"]
+    assert [j["job_id"] for j in data["jobs"]] == ["1"]  # old and blocked jobs left out
     assert "alerted_at" not in data["jobs"][0]
     items = ET.parse(out / "feeds" / "all.xml").findall("channel/item")
     assert [i.findtext("guid") for i in items] == ["https://example.com/jobs/1?a=1&b=2"]
