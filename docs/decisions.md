@@ -214,8 +214,8 @@ posting date.
   flags), attach evidence, detect new and closed jobs, alert each new match
   once, publish the data the site reads, report feed health.
 - **Freshness:** alert within about 30 minutes of a job appearing on its board.
-- **Cost:** $0 beyond the domain. GitHub Actions, Neon free tier (0.5 GB,
-  scales to zero), GitHub Pages.
+- **Cost:** $0. GitHub Actions, Neon free tier (0.5 GB, scales to zero),
+  GitHub Pages.
 - **Reliability:** one bad board never blocks the rest. A failed fetch must
   never close that board's jobs.
 - **Privacy:** no job descriptions and no personal data stored.
@@ -234,8 +234,8 @@ posting date.
                  warning flags ("no sponsorship", "citizens only", clearance),
                  attach evidence (role type -> occupation codes -> FEIN rows)
    6. store      one short transaction: insert new, close missing, log run
-   7. notify     new matches -> Discord (now), web push (Phase 2)
-   8. publish    jobs.json + health.json -> GitHub Pages (no git commits)
+   7. notify     new matches -> Discord, if a webhook is set
+   8. publish    site, jobs.json, health.json, RSS -> GitHub Pages (no git commits)
 ```
 
 **Data model (Postgres):**
@@ -245,8 +245,6 @@ posting date.
 | `boards` | each board's last success, last error, consecutive failures | 1,148 rows |
 | `jobs` | candidates only: key (system, slug, job id), title, link, location, country, remote, role type, level, min years, 3 warning flags, posted, first seen, closed, alerted, classifier version | ~15,000 open + 90 days of closed, about 10 MB |
 | `runs` | one row per run: counts, duration, errors | 1,440 a month |
-| `subscriptions` | Phase 2: push endpoint, keys, chosen filters | small |
-| `deliveries` | Phase 2: which subscription got which job | pruned with jobs |
 
 ### Key decisions
 
@@ -286,16 +284,17 @@ commit every 30 minutes.
 
 | Resource | Estimate | Limit |
 |---|---|---|
-| Actions minutes | about 2 per run, 96 a day | Private repo: 2,000 a month free, so about 960 until launch on Oct 10. Public: unlimited |
+| Actions minutes | about 2 per run at first, about 6 after ADR-003 | Unlimited for a public repo |
 | Neon storage | about 10 MB | 0.5 GB |
-| Neon compute | a few seconds of work, then about 5 minutes idle before suspend, 48 times a day | measured in the Day 4 24-hour run |
+| Neon compute | a few seconds of work, then about 5 minutes idle before suspend, 48 times a day | Free tier's monthly compute allowance; not yet measured |
 | Board APIs | 1 request per board per 30 minutes, plus a few description fetches | polite |
 | Discord | a handful of messages per run, 10 jobs per message | 30 messages a minute per webhook |
 
 ### Failure handling and monitoring
 
-- Per request: 20 second timeout, 3 tries with backoff on timeouts, 429 and
-  5xx. A 404 marks the board failed for this run.
+- Per request: 20 second timeout, 4 tries with backoff on timeouts, 429 and
+  5xx (429s wait longer and honour `Retry-After`, see ADR-003). A 404 marks
+  the board failed for this run.
 - `health.json`: time of last run, boards failing now, boards failing for
   more than a day (candidates to remove), jobs published.
 - Discord warning to the maintainer when more than 10% of boards fail in one run.
@@ -315,8 +314,8 @@ set. Everything else gets fast unit tests on saved data.
 | Board adapters | Unit | One saved, trimmed API response per system | Every field mapped; missing fields don't crash |
 | Diff: new, closed, failed board, first run, 72-hour guard | Unit | Pure function, no database | Every branch covered |
 | Discord notifier | Unit | httpx mock transport | 10 per message; 429 waits; failure leaves `alerted_at` empty |
-| Postgres store | Integration | Neon `dev` branch, skipped when `DEV_DATABASE_URL` isn't set | Same snapshot twice gives 0 new jobs |
-| Whole run | End to end | 3 saved boards + mock HTTP + dev branch | `jobs.json` has the expected jobs and evidence |
+| Postgres store | Integration | Neon `dev` branch, skipped when `DEV_DATABASE_URL` isn't set | Same snapshot twice gives 0 new jobs. Not built yet |
+| Whole run | End to end | 3 saved boards + mock HTTP + dev branch | `jobs.json` has the expected jobs and evidence. Not built yet |
 
 The targets are targets, not results. Results get recorded here after
 the first scoring.
@@ -400,11 +399,11 @@ which were added after labelling.
 Three labels were corrected after discussion. A sales engineer is a sales
 role, so "none". Two research engineer roles at AI labs were labelled "none"
 because research roles were out of scope for alerts; they are AI roles, so
-they're labelled AI. Scope belongs in the alert filter, which skips research titles only at
-frontier labs (Anthropic, OpenAI, xAI, Mistral, Cohere), because at startups
-"Research Engineer" is often applied ML engineering (Exa's content
-understanding role, for example). With those corrections, AI role precision is 100% (10 of 10) and any
-tech role is 98%.
+they're labelled AI. Scope belongs in the alert filter, which skips research
+titles only at frontier labs (Anthropic, OpenAI, xAI, Mistral, Cohere),
+because at startups "Research Engineer" is often applied ML engineering (Exa's
+content understanding role, for example). With those corrections, AI role
+precision is 100% (10 of 10) and any tech role is 98%.
 
 **Effect on the live data:** candidates went from 6,401 to 4,627 (1,829
 closed, 55 added). Jobs stored under older rules are re-read once when the
@@ -413,14 +412,16 @@ rules version changes, keeping their first-seen time and alert state.
 ### Revisit
 
 - **Schedule drift:** GitHub's cron can start runs late when it's busy.
-  Time-to-alert is measured on Day 7. If it's poor, trigger the workflow from
-  an external cron.
+  Time from posting to alert isn't measured yet. If it's poor, trigger the
+  workflow from an external cron.
 - **Dead-man switch:** if runs stop entirely, nothing inside the poller
   notices. A free healthchecks.io ping would email the maintainer.
 - **Classifier:** rules first. Move to a model only if the labelled test set
   shows rules plateauing.
-- **Workday:** 45% of Simplify's listings, mostly large companies. Separate
-  adapter, stretch goal.
+- **Workday:** 45% of Simplify's listings, mostly large companies. Added in
+  ADR-003.
+
+---
 
 ## ADR-003: Workday and SmartRecruiters
 

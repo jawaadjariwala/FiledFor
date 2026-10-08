@@ -1,4 +1,4 @@
-"""Send job alerts. Discord now; web push for the FiledFor app in Phase 2.
+"""Send job alerts to a Discord channel (optional: needs DISCORD_WEBHOOK).
 
 A job is marked alerted only after Discord accepts the message, so a failed
 send is retried on the next run (ADR-002, decision 4).

@@ -1,81 +1,113 @@
 # FiledFor
 
+[![CI](https://github.com/jawaadjariwala/FiledFor/actions/workflows/ci.yml/badge.svg)](https://github.com/jawaadjariwala/FiledFor/actions/workflows/ci.yml)
+[![Poll](https://github.com/jawaadjariwala/FiledFor/actions/workflows/poll.yml/badge.svg)](https://github.com/jawaadjariwala/FiledFor/actions/workflows/poll.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 **New-grad tech jobs at companies that have filed H-1B applications for that kind of role.**
 
-**Use it here: [jawaadjariwala.github.io/FiledFor](https://jawaadjariwala.github.io/FiledFor/)**. It's free, with no sign-up.
+**Use it: [jawaadjariwala.github.io/FiledFor](https://jawaadjariwala.github.io/FiledFor/)**. Free, no sign-up, refreshed about every 30 minutes.
 
-Most "visa-friendly" job lists tell you a company sponsors. FiledFor shows each job next to what the company actually filed with the Department of Labor for that kind of role: how many H-1B applications, how many were new hires, and what share sat at the lower wage levels where new grads usually land. The list refreshes about every 30 minutes, so you can apply while a posting is still fresh.
+[![FiledFor: job list with filters and H-1B filing evidence on each job](docs/screenshot.png)](https://jawaadjariwala.github.io/FiledFor/)
 
-## What you can do with it
+Most "visa-friendly" job lists tell you a company sponsors. FiledFor puts each job next to what the company actually filed with the Department of Labor for that kind of role: how many H-1B applications, how many were new hires, what share sat at the lower wage levels where new grads land, and the median wage. Postings that say citizens only, no sponsorship, or need a security clearance are left out, so every job listed is one you can apply to on a visa.
 
-- **Browse the site.** Filter by field (Software, AI/ML, Data), level, how recently it was posted, and remote. Postings that say citizens only, no sponsorship, or need a clearance are left out, so every job listed is one you can apply to on a visa.
-- **Follow an RSS feed** for new jobs in your field: [all](https://jawaadjariwala.github.io/FiledFor/feeds/all.xml), [software](https://jawaadjariwala.github.io/FiledFor/feeds/swe.xml), [AI/ML](https://jawaadjariwala.github.io/FiledFor/feeds/ai.xml), [data](https://jawaadjariwala.github.io/FiledFor/feeds/data.xml). Works in any feed reader, and in Slack or Discord through an RSS bot.
-- **Use the data.** [`jobs.json`](https://jawaadjariwala.github.io/FiledFor/jobs.json) has every listed job with its flags and evidence. The sponsor tables in `data/` are described below.
+## Use it
+
+- **Browse** the [site](https://jawaadjariwala.github.io/FiledFor/). Filter by field (Software, AI/ML, Data), level, posting age and remote, or search by title, company or location.
+- **Follow an RSS feed** for new jobs: [all fields](https://jawaadjariwala.github.io/FiledFor/feeds/all.xml), [software](https://jawaadjariwala.github.io/FiledFor/feeds/swe.xml), [AI/ML](https://jawaadjariwala.github.io/FiledFor/feeds/ai.xml), [data](https://jawaadjariwala.github.io/FiledFor/feeds/data.xml). Works in any feed reader, and in Slack or Discord through an RSS bot.
+- **Use the data.** [`jobs.json`](https://jawaadjariwala.github.io/FiledFor/jobs.json) has every listed job with its evidence, and [`health.json`](https://jawaadjariwala.github.io/FiledFor/health.json) shows the last run. The sponsor tables are in [`data/`](docs/data.md).
 
 ## How it works
 
 ```
-DOL LCA filings ──> sponsors.parquet, role_evidence.parquet ──┐
-                                                              ├──> poller ──> Postgres ──> site, jobs.json, RSS
-Greenhouse / Lever / Ashby boards ──> companies.csv ──────────┘   (every 30 min on GitHub Actions)
+DOL H-1B filings ──> sponsor tables (Parquet) ───────────────┐
+                                                             ├──> poller ──> Postgres ──> site, jobs.json, RSS
+Greenhouse, Lever, Ashby, Workday, SmartRecruiters boards ───┘   (every 30 min, GitHub Actions)  (GitHub Pages)
 ```
 
-1. **Sponsor data** (`lca.py`, `sponsors.py`). Every H-1B Labor Condition Application certified from October 2024 to June 2026, about a million rows from the DOL's public disclosure files, reduced to counts per employer and occupation. Contact and attorney details are dropped on read.
-2. **Watchlist** (`watchlist.py`). About 2,600 company job boards on Greenhouse, Lever, Ashby, Workday and SmartRecruiters, each matched to the employer's federal tax ID (FEIN) in the DOL data. Matching uses tiered rules plus hand-reviewed aliases rather than fuzzy scores, because a wrong match puts false evidence next to a job. Why: [ADR-001](docs/decisions.md#adr-001-matching-job-feed-companies-to-dol-employers).
-3. **Poller** (`poll.py`). Fetches every board, keeps US tech roles that aren't clearly senior, reads each new description for the years asked and for phrases that rule out sponsorship, attaches the evidence, and stores what changed in Postgres. Design and failure handling: [ADR-002](docs/decisions.md#adr-002-the-poller).
-4. **Publish** (`publish.py`). Writes the static site, `jobs.json`, `health.json` and the RSS feeds, which GitHub Pages serves.
-
-The classifier is rules, scored against hand-labelled titles and descriptions. The scores and known misses are in [ADR-002](docs/decisions.md#classifier-results-2026-10-01).
+1. **Sponsor data** (`lca.py`, `sponsors.py`). Every H-1B Labor Condition Application certified from October 2024 to June 2026, about a million rows, reduced to counts per employer, occupation and wage level. [Data notes](docs/data.md).
+2. **Watchlist** (`watchlist.py`). About 2,600 company job boards, each matched to the employer's federal tax ID (FEIN) in the DOL data. Matching uses tiered rules and a reviewed queue rather than fuzzy scores, because a wrong match puts false evidence next to a job. [ADR-001](docs/decisions.md#adr-001-matching-job-feed-companies-to-dol-employers).
+3. **Poller** (`poll.py`, `feeds.py`). Reads every board through its public JSON API, keeps US tech roles that aren't clearly senior, reads each new description for the years of experience asked and for language that rules out sponsorship, attaches the evidence, and stores what changed. [ADR-002](docs/decisions.md#adr-002-the-poller). Workday boards are large and paged, so they're read newest first. [ADR-003](docs/decisions.md#adr-003-workday-and-smartrecruiters).
+4. **Classifier** (`classify.py`). Rules, scored against hand-labelled titles and descriptions with `python -m filedfor.evaluate`. [Scores and known misses](docs/decisions.md#classifier-results-2026-10-01).
+5. **Publish** (`publish.py`). Writes the static site (`site/`), `jobs.json`, `health.json` and the RSS feeds for GitHub Pages.
 
 ## Limits
 
 - **Filings are history, not a promise.** A company that filed for software engineers before may not sponsor this particular role. Check the posting and ask the recruiter. Nothing here is legal advice.
-- **Other systems aren't covered yet**, like Oracle and iCIMS. Workday boards are read in full about twice a day, so a closed Workday job can stay listed for up to half a day. Why: [ADR-003](docs/decisions.md#adr-003-workday-and-smartrecruiters).
+- **Not every company is covered.** Only boards on the five systems above, found through the SimplifyJobs listings. Oracle and iCIMS are next.
 - **Some companies file under a different legal name.** "No filings found" can mean the match missed, not that the company never sponsors.
-- **The flags come from rules**, which get most jobs right and some wrong.
-- **Wage level here is the prevailing wage level on the filing.** The FY2027 lottery weights by the level the offered wage reaches, which can be higher.
+- **The flags come from rules**, which get most jobs right and some wrong. They err toward leaving a job out.
+- **Workday jobs close late.** New Workday jobs appear within 30 minutes, but a closed one can stay listed for up to about 12 hours.
+- **Wage level is the prevailing wage level on the filing.** The FY2027 lottery weights by the level the offered wage reaches, which can be higher.
 
-## Run your own
+## Run it yourself
 
 You need Python 3.13 and [uv](https://docs.astral.sh/uv/).
 
 ```sh
+git clone https://github.com/jawaadjariwala/FiledFor.git && cd FiledFor
 uv sync
 uv run pytest
 ```
 
-To run the poller you also need a Postgres database (a free [Neon](https://neon.tech) project works):
+The poller needs a Postgres database (a free [Neon](https://neon.tech) project works):
 
 ```sh
-echo 'DATABASE_URL="postgresql://..."' > .env
+echo "DATABASE_URL='postgresql://...'" > .env
 uv run python -m filedfor.poll --no-alerts   # writes public/
 python -m http.server -d public              # open http://localhost:8000
 ```
 
-The first run records every open job without alerting. After that, each run alerts only on new ones.
+The first run records every open job without alerting. Workday boards are read in full 60 at a time; `--workday-full 2000` reads all of them in the first run instead (about 10 minutes).
 
-**To host it**, fork the repo, add `DATABASE_URL` as an Actions secret, set Settings, Pages, Source to "GitHub Actions", and run the Poll workflow once. Add a `DISCORD_WEBHOOK` secret to get Discord alerts for new matches.
+**To host your own copy:** fork the repo, add `DATABASE_URL` as an Actions secret, set Settings, Pages, Source to "GitHub Actions", and run the Poll workflow once. Add a `DISCORD_WEBHOOK` secret for Discord alerts on new matches.
 
-**To rebuild the sponsor data**, download the LCA disclosure files from the [DOL performance data page](https://www.dol.gov/agencies/eta/foreign-labor/performance) into `data/raw/`, then:
+**To rebuild the sponsor data:** download the LCA disclosure files from the [DOL performance data page](https://www.dol.gov/agencies/eta/foreign-labor/performance) into `data/raw/`, then:
 
 ```sh
 uv run python -m filedfor.lca        # Excel to Parquet
 uv run python -m filedfor.sponsors   # sponsor tables
-uv run python -m filedfor.watchlist  # match boards to employers, probe feeds
+uv run python -m filedfor.watchlist  # match boards to employers, probe each board
 ```
 
-## Data
+## Project layout
 
-| File | What it is |
-|---|---|
-| `data/sponsors.parquet` | One row per employer (FEIN): filings, tech filings, wage-level mix, median tech wage |
-| `data/sponsor_roles.parquet` | One row per employer and occupation (SOC code) |
-| `data/role_evidence.parquet` | One row per employer and field (software, AI/ML, data), as shown on the site |
-| `data/companies.csv` | Every polled job board, its open job count and matched FEINs |
-| `data/aliases.csv`, `data/match_reviews.csv` | Hand-made matching decisions |
+```
+src/filedfor/
+  lca.py, sponsors.py   DOL files to sponsor tables
+  watchlist.py          find boards, match them to employers, probe them
+  feeds.py              one adapter per job system
+  classify.py           field, level, location and sponsorship rules
+  evidence.py           filing record for a job's company and field
+  diff.py, store.py     what changed since the last run, Postgres
+  poll.py               one run, start to finish
+  publish.py, notify.py site, jobs.json, RSS, Discord
+  evaluate.py           score the classifier against hand labels
+site/                   the static page (HTML, CSS, JS; no build step)
+data/                   sponsor tables, watchlist, hand-made decisions and labels
+docs/                   design decisions and data notes
+tests/                  unit tests on saved, trimmed API responses
+```
 
-The LCA data is public and comes from the U.S. Department of Labor. Company job boards were found through [SimplifyJobs](https://github.com/SimplifyJobs)' public listings, which are used only to discover boards and are never republished.
+## Documentation
 
-## License
+- [Design decisions](docs/decisions.md): matching, the poller, Workday, each with the options considered
+- [Data notes](docs/data.md): sources, cleaning rules and quirks
+- [Roadmap](ROADMAP.md)
+
+## Contributing
+
+Issues and pull requests are welcome, especially:
+
+- a company FiledFor matched to the wrong employer, or missed (add it to `data/aliases.csv`)
+- a job that's listed but shouldn't be, or the other way round (the title or description helps)
+- adapters for more job systems
+
+Run `uv run ruff check src tests`, `uv run ruff format src tests` and `uv run pytest` before opening a pull request. CI runs the same.
+
+## Credits and license
+
+H-1B data is public and comes from the U.S. Department of Labor. Company job boards were found through the [SimplifyJobs](https://github.com/SimplifyJobs) listings, which are used only to discover boards and are never republished.
 
 Code under the [MIT License](LICENSE).

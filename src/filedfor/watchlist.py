@@ -126,7 +126,6 @@ class Feed:
     eu: bool
     names: Counter = field(default_factory=Counter)
     listings: int = 0
-    active: int = 0
 
     @property
     def key(self) -> tuple[str, str]:
@@ -174,10 +173,12 @@ def extract_feeds(listings: list[dict]) -> list[Feed]:
         if not parsed:
             continue
         system, slug, eu = parsed
-        feed = feeds.setdefault((system, slug), Feed(system, slug, eu))
+        # Workday treats NVIDIAExternalCareerSite and nvidiaexternalcareersite
+        # as one board; keep the first spelling seen
+        key = (system, slug.lower())
+        feed = feeds.setdefault(key, Feed(system, slug, eu))
         feed.names[item["company_name"].strip()] += 1
         feed.listings += 1
-        feed.active += bool(item["active"])
     return sorted(feeds.values(), key=lambda f: f.key)
 
 

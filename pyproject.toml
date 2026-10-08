@@ -2,6 +2,8 @@
 name = "filedfor"
 version = "0.1.0"
 description = "New-grad tech jobs at companies with a record of H-1B sponsorship, with role-level evidence from DOL filings"
+readme = "README.md"
+license = "MIT"
 authors = [
     { name = "Jawaad Jariwala", email = "jawaadjariwala1jan@gmail.com" }
 ]
@@ -14,6 +16,10 @@ dependencies = [
     "psycopg[binary]>=3.3.6",
     "python-dotenv>=1.2.3",
 ]
+
+[project.urls]
+Homepage = "https://jawaadjariwala.github.io/FiledFor/"
+Repository = "https://github.com/jawaadjariwala/FiledFor"
 
 [build-system]
 requires = ["uv_build>=0.10.0,<0.11.0"]

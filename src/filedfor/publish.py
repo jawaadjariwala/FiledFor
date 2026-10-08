@@ -41,6 +41,24 @@ def listed(job: dict) -> bool:
     )
 
 
+def dedupe(jobs: list[dict]) -> list[dict]:
+    """One listing per company, title and location. Companies often post the
+    same opening several times (one per requisition or recruiter); the most
+    recently posted one is kept."""
+    best: dict[tuple, dict] = {}
+    for j in jobs:
+        k = (
+            j["company"],
+            j["title"].strip().lower(),
+            (j["location"] or "").strip().lower(),
+        )
+        when = j["posted_at"] or j["first_seen_at"]
+        if k not in best or when > (best[k]["posted_at"] or best[k]["first_seen_at"]):
+            best[k] = j
+    kept = {id(j) for j in best.values()}
+    return [j for j in jobs if id(j) in kept]
+
+
 def _plain(job: dict) -> dict:
     out = {k: (v.isoformat() if hasattr(v, "isoformat") else v) for k, v in job.items()}
     for k in ("alerted_at", "classifier_version", "first_seen_at"):
@@ -86,7 +104,7 @@ def publish(
     if SITE.exists():
         shutil.copytree(SITE, PUBLIC, dirs_exist_ok=True)
     PUBLIC.mkdir(exist_ok=True)
-    keep = [j for j in jobs if fresh(j, now) and listed(j)]
+    keep = dedupe([j for j in jobs if fresh(j, now) and listed(j)])
     (PUBLIC / "jobs.json").write_text(
         json.dumps(
             {"updated": health["finished_at"], "jobs": [_plain(j) for j in keep]}

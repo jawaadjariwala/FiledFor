@@ -89,3 +89,10 @@ def test_publish_writes_site_json_and_feeds(tmp_path, monkeypatch):
     assert "alerted_at" not in data["jobs"][0]
     items = ET.parse(out / "feeds" / "all.xml").findall("channel/item")
     assert [i.findtext("guid") for i in items] == ["https://example.com/jobs/1?a=1&b=2"]
+
+
+def test_dedupe_keeps_the_newest_of_identical_listings():
+    a = job(job_id="a", posted_at=NOW - timedelta(days=2))
+    b = job(job_id="b", posted_at=NOW - timedelta(hours=1), location="new york, ny ")
+    other_city = job(job_id="c", location="Austin, TX")
+    assert [j["job_id"] for j in publish.dedupe([a, b, other_city])] == ["b", "c"]

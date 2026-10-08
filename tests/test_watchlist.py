@@ -160,3 +160,25 @@ def test_timed_out_board_stays_and_dead_board_goes(tmp_path, monkeypatch):
     assert [(r["slug"], r["open_jobs"], r["us_filter"]) for r in rows] == [
         ("a.wd1/x", "40", "f=us")
     ]
+
+
+def test_workday_board_spelled_two_ways_is_one_feed():
+    from filedfor.watchlist import extract_feeds
+
+    base = "https://nvidia.wd5.myworkdayjobs.com/{}/job/x_1"
+    listings = [
+        {
+            "url": base.format("NVIDIAExternalCareerSite"),
+            "company_name": "NVIDIA",
+            "active": True,
+        },
+        {
+            "url": base.format("nvidiaexternalcareersite"),
+            "company_name": "NVIDIA",
+            "active": True,
+        },
+    ]
+    feeds = extract_feeds(listings)
+    assert [(f.slug, f.listings) for f in feeds] == [
+        ("nvidia.wd5/NVIDIAExternalCareerSite", 2)
+    ]

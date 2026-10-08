@@ -18,7 +18,7 @@ import os
 import re
 import sys
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 
@@ -85,7 +85,6 @@ class Candidate:
     level: str
     is_us: bool | None
     is_remote: bool
-    extra: dict = field(default_factory=dict)
 
 
 def to_candidate(p: feeds.Posting) -> Candidate | None:
@@ -215,6 +214,9 @@ async def run(
     conn = store.connect()
     store.ensure_schema(conn)
     open_keys, closed_keys, known = store.load_state(conn)
+    # Boards dropped from the watchlist are never fetched again, so close
+    # their jobs as if the board were empty
+    complete |= {k[:2] for k in open_keys} - names.keys()
     stale = store.stale_jobs(conn, classify.VERSION)
     conn.close()  # let the database sleep while we fetch descriptions
     ch = diff(open_keys, set(cands), complete, known, closed_keys)

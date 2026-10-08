@@ -21,7 +21,9 @@ from datetime import UTC, datetime, timedelta
 
 import httpx
 
-USER_AGENT = "FiledFor (open-source job board; filedfor.com)"
+USER_AGENT = (
+    "FiledFor (open-source job board; https://github.com/jawaadjariwala/FiledFor)"
+)
 
 # Greenhouse serves EU boards from its main API; Lever EU boards need the EU host
 API = {
