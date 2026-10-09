@@ -129,10 +129,13 @@ svg.fill { fill: currentColor; stroke: none; }
 
 /* --- hero -------------------------------------------------------------------- */
 
-.hero { padding-top: 40px; padding-bottom: 24px; }
-.hero h1 { margin: 0 0 10px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; letter-spacing: -0.025em; max-width: 26ch; font-weight: 750; }
-.lead { margin: 0 0 14px; max-width: 70ch; color: var(--ink-2); font-size: 16px; }
-.status { margin: 0; color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.hero { padding-top: 56px; padding-bottom: 36px; text-align: center; }
+.hero h1 {
+  margin: 0 auto 14px; max-width: 24ch; font-size: clamp(28px, 4.4vw, 44px); line-height: 1.12;
+  letter-spacing: -0.03em; font-weight: 750; text-wrap: balance;
+}
+.lead { margin: 0 auto 18px; max-width: 62ch; color: var(--ink-2); font-size: 16.5px; text-wrap: pretty; }
+.status { margin: 0; color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; }
 .status b { color: var(--ink); font-weight: 650; }
 .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--brand); margin-right: 6px; vertical-align: 1px; box-shadow: 0 0 0 3px var(--brand-soft); }
 
@@ -260,11 +263,8 @@ svg.fill { fill: currentColor; stroke: none; }
 .ev.none { color: var(--muted); }
 .stats { display: flex; flex-wrap: wrap; gap: 2px 12px; align-items: baseline; }
 .stat b { color: var(--ink); font-weight: 650; font-variant-numeric: tabular-nums; }
-.bar { display: flex; gap: 2px; width: 132px; height: 8px; flex: none; }
+.bar { display: flex; gap: 2px; width: 132px; height: 8px; flex: none; border-radius: 4px; overflow: hidden; }
 .bar .seg { height: 100%; min-width: 3px; }
-.bar .seg:first-child { border-radius: 4px 0 0 4px; }
-.bar .seg:last-child { border-radius: 0 4px 4px 0; }
-.bar .seg:only-child { border-radius: 4px; }
 .bar .seg:hover { filter: brightness(1.12); }
 .actions { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
 .icons { display: flex; gap: 2px; }
@@ -369,7 +369,7 @@ svg.fill { fill: currentColor; stroke: none; }
   .placelist { max-height: 40vh; }
 }
 @media (max-width: 640px) {
-  .hero { padding-top: 24px; }
+  .hero { padding-top: 28px; padding-bottom: 24px; }
   .hide-sm { display: none !important; }
   .job { grid-template-columns: 36px minmax(0, 1fr); gap: 12px; padding: 14px; }
   .logo { width: 36px; height: 36px; border-radius: 9px; font-size: 13px; }
