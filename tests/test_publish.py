@@ -100,6 +100,8 @@ def test_publish_writes_site_json_and_feeds(tmp_path, monkeypatch):
     assert companies == {
         "Acme & Sons": {"tech_filings": 7, "logo": "logos/acme.com.png"}
     }
+    loc = ET.parse(out / "sitemap.xml").getroot()[0][0].text
+    assert loc == publish.SITE_URL
     items = ET.parse(out / "feeds" / "all.xml").findall("channel/item")
     assert [i.findtext("guid") for i in items] == ["https://example.com/jobs/1?a=1&b=2"]
 

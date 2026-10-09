@@ -85,6 +85,17 @@ def logos() -> dict[str, str]:
     }
 
 
+def sitemap(now: datetime) -> str:
+    """One page for now; company pages will add more. lastmod tells search
+    engines the list changes every run."""
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        f"<url><loc>{escape(SITE_URL)}</loc><lastmod>{now.date().isoformat()}</lastmod>"
+        "<changefreq>hourly</changefreq></url></urlset>\n"
+    )
+
+
 def rss(jobs: list[dict], role: str | None, now: datetime) -> str:
     """Newest jobs first. The posting URL is the guid, so readers never repeat one."""
     picked = [j for j in jobs if role is None or j["role"] == role]
@@ -141,6 +152,7 @@ def publish(
     }
     (PUBLIC / "companies.json").write_text(json.dumps(companies))
     (PUBLIC / "health.json").write_text(json.dumps(health, indent=1))
+    (PUBLIC / "sitemap.xml").write_text(sitemap(now))
     feed_jobs = [j for j in keep if in_feeds(j)]
     (PUBLIC / "feeds").mkdir(exist_ok=True)
     for name, role in FEEDS.items():
