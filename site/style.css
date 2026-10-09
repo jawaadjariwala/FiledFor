@@ -131,10 +131,10 @@ svg.fill { fill: currentColor; stroke: none; }
 
 .hero { padding-top: 56px; padding-bottom: 36px; text-align: center; }
 .hero h1 {
-  margin: 0 auto 14px; max-width: 24ch; font-size: clamp(28px, 4.4vw, 44px); line-height: 1.12;
+  margin: 0 auto 14px; font-size: clamp(26px, 3.3vw, 42px); line-height: 1.12;
   letter-spacing: -0.03em; font-weight: 750; text-wrap: balance;
 }
-.lead { margin: 0 auto 18px; max-width: 62ch; color: var(--ink-2); font-size: 16.5px; text-wrap: pretty; }
+.lead { margin: 0 auto 18px; max-width: 920px; color: var(--ink-2); font-size: 17px; text-wrap: balance; }
 .status { margin: 0; color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; }
 .status b { color: var(--ink); font-weight: 650; }
 .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--brand); margin-right: 6px; vertical-align: 1px; box-shadow: 0 0 0 3px var(--brand-soft); }
