@@ -21,7 +21,7 @@ from filedfor.notify import ROLE_NAMES, evidence_line
 PUBLIC = Path("public")
 SITE = Path("site")
 DOMAINS = Path("data/domains.csv")  # company -> website, for logos in site/logos
-SITE_URL = os.environ.get("SITE_URL", "https://jawaadjariwala.github.io/FiledFor/")
+SITE_URL = os.environ.get("SITE_URL", "https://filedfor.com/")
 MAX_AGE = timedelta(days=30)  # older postings are mostly evergreen or filled
 FEED_ITEMS = 50
 FEEDS = {"all": None, "swe": "swe", "ai": "ai", "data": "data"}

@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://jawaadjariwala.github.io/FiledFor/"
+Homepage = "https://filedfor.com/"
 Repository = "https://github.com/jawaadjariwala/FiledFor"
 
 [build-system]

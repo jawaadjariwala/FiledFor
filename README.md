@@ -6,19 +6,19 @@
 
 **New-grad tech jobs at companies that have filed H-1B applications for that kind of role.**
 
-**Use it: [jawaadjariwala.github.io/FiledFor](https://jawaadjariwala.github.io/FiledFor/)**. Free, no sign-up, refreshed about every 30 minutes.
+**Use it: [filedfor.com](https://filedfor.com/)**. Free, no sign-up, refreshed about every 30 minutes.
 
-[![FiledFor: job list with filters and H-1B filing evidence on each job](docs/screenshot.png)](https://jawaadjariwala.github.io/FiledFor/)
+[![FiledFor: job list with filters and H-1B filing evidence on each job](docs/screenshot.png)](https://filedfor.com/)
 
 Most "visa-friendly" job lists tell you a company sponsors. FiledFor puts each job next to what the company actually filed with the Department of Labor for that kind of role: how many H-1B applications, how many were new hires, what share sat at the lower wage levels where new grads land, and the median wage. Postings that say citizens only, no sponsorship, or need a security clearance are left out, so every job listed is one you can apply to on a visa.
 
 ## Use it
 
-- **Browse** the [site](https://jawaadjariwala.github.io/FiledFor/). Filter by field (Software, AI/ML, Data), level, posting age, metro area or state, or search by title, company or location. Every search is a link you can share.
+- **Browse** the [site](https://filedfor.com/). Filter by field (Software, AI/ML, Data), level, posting age, metro area or state, or search by title, company or location. Every search is a link you can share.
 - **Open any company** to see its filing record for each field, its wage-level mix, new-hire share, median wage and all its open roles.
 - **Keep track** with saved and applied jobs and a "new since your last visit" count. All of it stays in your browser; there's no account.
-- **Follow an RSS feed** for new jobs: [all fields](https://jawaadjariwala.github.io/FiledFor/feeds/all.xml), [software](https://jawaadjariwala.github.io/FiledFor/feeds/swe.xml), [AI/ML](https://jawaadjariwala.github.io/FiledFor/feeds/ai.xml), [data](https://jawaadjariwala.github.io/FiledFor/feeds/data.xml). Works in any feed reader, and in Slack or Discord through an RSS bot.
-- **Use the data.** [`jobs.json`](https://jawaadjariwala.github.io/FiledFor/jobs.json) has every listed job with its evidence, and [`health.json`](https://jawaadjariwala.github.io/FiledFor/health.json) shows the last run. The sponsor tables are in [`data/`](docs/data.md).
+- **Follow an RSS feed** for new jobs: [all fields](https://filedfor.com/feeds/all.xml), [software](https://filedfor.com/feeds/swe.xml), [AI/ML](https://filedfor.com/feeds/ai.xml), [data](https://filedfor.com/feeds/data.xml). Works in any feed reader, and in Slack or Discord through an RSS bot.
+- **Use the data.** [`jobs.json`](https://filedfor.com/jobs.json) has every listed job with its evidence, and [`health.json`](https://filedfor.com/health.json) shows the last run. The sponsor tables are in [`data/`](docs/data.md).
 
 ## How it works
 
