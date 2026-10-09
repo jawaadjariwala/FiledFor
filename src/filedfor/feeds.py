@@ -68,6 +68,19 @@ def board_url(system: str, slug: str, eu: bool = False) -> str:
     )
 
 
+def careers_url(system: str, slug: str, eu: bool = False) -> str:
+    """The board's public careers page, for people (not the API)."""
+    if system == "workday":
+        host, site = workday_parts(slug)
+        return f"https://{host}/{site}"
+    return {
+        "greenhouse": f"https://job-boards.greenhouse.io/{slug}",
+        "lever": f"https://jobs{'.eu' if eu else ''}.lever.co/{slug}",
+        "ashby": f"https://jobs.ashbyhq.com/{slug}",
+        "smartrecruiters": f"https://jobs.smartrecruiters.com/{slug}",
+    }[system]
+
+
 def html_to_text(s: str | None) -> str:
     """Greenhouse double-escapes its HTML; unescape, drop tags, keep line breaks."""
     if not s:

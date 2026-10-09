@@ -4,91 +4,185 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FiledFor: new-grad tech jobs at H-1B sponsors</title>
-<meta name="description" content="New-grad tech jobs at companies that have filed H-1B applications for that kind of role, with each company's Department of Labor record. Refreshed about every 30 minutes.">
+<meta name="description" content="New-grad tech jobs at companies that have filed H-1B applications for that kind of role, with each company's Department of Labor record. Refreshed every 30 minutes. Free, no sign-up.">
 <meta property="og:title" content="FiledFor: new-grad tech jobs at H-1B sponsors">
 <meta property="og:description" content="Every job shows how many H-1B applications the company filed for that kind of role, at which wage levels. Free, no sign-up.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f7d5b'/%3E%3Cpath d='M10 8h12v4h-8v3h7v4h-7v5h-4z' fill='white'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#1f7a52">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f7a52'/%3E%3Cpath d='M11 8h11v4h-7v3h6v4h-6v5h-4z' fill='white'/%3E%3C/svg%3E">
 <link rel="alternate" type="application/rss+xml" title="FiledFor: all new-grad jobs" href="feeds/all.xml">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
+<script>
+  // Apply a saved theme before first paint so the page never flashes
+  try { const t = localStorage.getItem("ff.theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
 </head>
 <body>
-<header class="wrap">
-  <h1>FiledFor</h1>
-  <p class="lead">New-grad tech jobs at companies that have filed H-1B applications for that kind of role. Each job shows the company's record from Department of Labor data, so you can see who actually hires people like you. The list refreshes about every 30 minutes.</p>
-  <p class="status" id="status">Loading jobs…</p>
+<a class="skip" href="#results">Skip to jobs</a>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="./" aria-label="FiledFor home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><path d="M11 8h11v4h-7v3h6v4h-6v5h-4z"/></svg>
+      <span>FiledFor</span>
+    </a>
+    <nav class="topnav" aria-label="Main">
+      <button type="button" class="navlink" id="nav-jobs" aria-current="page">Jobs</button>
+      <button type="button" class="navlink" id="nav-saved">Saved <span class="pill" id="saved-count" hidden>0</span></button>
+      <a class="navlink hide-sm" href="#about">How it works</a>
+      <a class="navlink icon-only" href="https://github.com/jawaadjariwala/FiledFor" aria-label="Source code on GitHub" title="Source code on GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true" class="fill"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a>
+      <button type="button" class="navlink icon-only" id="theme" aria-label="Switch between light and dark" title="Switch between light and dark">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="moon"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="sun"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+      </button>
+    </nav>
+  </div>
 </header>
 
-<main class="wrap">
-  <form class="filters" id="filters" onsubmit="return false">
-    <input type="search" id="q" placeholder="Search title, company or location" aria-label="Search">
-    <fieldset>
+<section class="hero wrap">
+  <h1>New-grad tech jobs at companies that actually sponsor H-1B.</h1>
+  <p class="lead">Every job shows what the company filed with the Department of Labor for that kind of role: how many H-1B applications, how many new hires, at which wage levels. Jobs that say citizens only or no sponsorship are left out.</p>
+  <p class="status" id="status" aria-live="polite">Loading jobs…</p>
+</section>
+
+<div class="wrap layout">
+  <aside class="filters" id="filters" aria-label="Filters">
+    <div class="filters-head">
+      <h2>Filters</h2>
+      <button type="button" class="linkbtn" id="reset">Reset</button>
+      <button type="button" class="closebtn mobile-only" id="filters-close" aria-label="Close filters">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+
+    <fieldset class="group">
       <legend>Field</legend>
-      <label><input type="checkbox" name="role" value="swe" checked> Software</label>
-      <label><input type="checkbox" name="role" value="ai" checked> AI/ML</label>
-      <label><input type="checkbox" name="role" value="data" checked> Data</label>
+      <div class="chips" data-key="f">
+        <button type="button" class="chip" data-value="swe">Software</button>
+        <button type="button" class="chip" data-value="ai">AI/ML</button>
+        <button type="button" class="chip" data-value="data">Data</button>
+      </div>
     </fieldset>
-    <fieldset>
-      <legend>Level</legend>
-      <label><input type="checkbox" name="level" value="entry" checked> New grad</label>
-      <label><input type="checkbox" name="level" value="unclear" checked> Level not in title</label>
-      <label><input type="checkbox" name="level" value="intern"> Internship</label>
+
+    <fieldset class="group">
+      <legend>Level <button type="button" class="info" data-explain="level" aria-label="What do the levels mean?">?</button></legend>
+      <div class="chips" data-key="l">
+        <button type="button" class="chip" data-value="entry">New grad</button>
+        <button type="button" class="chip" data-value="unclear">Not in title</button>
+        <button type="button" class="chip" data-value="intern">Internship</button>
+      </div>
     </fieldset>
-    <div class="row">
-      <label>Posted
-        <select id="age">
-          <option value="1">last 24 hours</option>
-          <option value="3">last 3 days</option>
-          <option value="7" selected>last 7 days</option>
-          <option value="30">last 30 days</option>
-        </select>
-      </label>
-      <label>Sort
-        <select id="sort">
-          <option value="new">Newest first</option>
-          <option value="filings">Most filings first</option>
-        </select>
-      </label>
+
+    <fieldset class="group">
+      <legend>Posted</legend>
+      <div class="segmented" data-key="age" role="radiogroup" aria-label="Posted within">
+        <button type="button" role="radio" data-value="1">24h</button>
+        <button type="button" role="radio" data-value="3">3 days</button>
+        <button type="button" role="radio" data-value="7">7 days</button>
+        <button type="button" role="radio" data-value="30">30 days</button>
+      </div>
+    </fieldset>
+
+    <fieldset class="group">
+      <legend>Location</legend>
+      <div class="selected-places" id="selected-places"></div>
+      <input type="search" class="place-search" id="place-search" placeholder="Find a metro area or state" aria-label="Find a location">
+      <div class="placelist" id="placelist"></div>
+    </fieldset>
+
+    <fieldset class="group">
+      <legend>Sponsor record</legend>
+      <label class="toggle"><input type="checkbox" id="filed"> <span>Only companies with filings for the role</span></label>
+      <label class="toggle"><input type="checkbox" id="hide-applied"> <span>Hide jobs I applied to</span></label>
+    </fieldset>
+
+    <button type="button" class="btn primary mobile-only show-results" id="filters-done">Show jobs</button>
+  </aside>
+
+  <main class="results" id="results" tabindex="-1">
+    <div class="searchrow">
+      <div class="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input type="search" id="q" placeholder="Search title, company or location" aria-label="Search jobs">
+      </div>
+      <button type="button" class="btn mobile-only" id="filters-open">Filters <span class="pill" id="filter-count" hidden></span></button>
     </div>
-    <div class="row toggles">
-      <label><input type="checkbox" id="filed" checked> Only companies with filings for this kind of role</label>
-      <label><input type="checkbox" id="remote"> Remote only</label>
+
+    <div class="resultbar">
+      <p class="count" id="count" aria-live="polite"></p>
+      <button type="button" class="newbadge" id="new-toggle" hidden aria-pressed="false"></button>
+      <div class="resultbar-right">
+        <label class="sort"><span>Sort</span>
+          <select id="sort">
+            <option value="new">Newest</option>
+            <option value="filings">Most filings</option>
+            <option value="wage">Highest median wage</option>
+          </select>
+        </label>
+        <button type="button" class="btn ghost" id="copy-link" title="Copy a link to this exact search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+          <span>Share search</span>
+        </button>
+      </div>
     </div>
-  </form>
 
-  <p class="count" id="count" aria-live="polite"></p>
-  <ol class="jobs" id="jobs"></ol>
-  <button type="button" id="more" hidden>Show more</button>
+    <div class="legend" id="legend">
+      <span class="legend-label">Wage level of past filings <button type="button" class="info" data-explain="wage-level" aria-label="What is a wage level?">?</button></span>
+      <span class="key"><i class="sw l1"></i>I</span><span class="key"><i class="sw l2"></i>II</span><span class="key"><i class="sw l3"></i>III</span><span class="key"><i class="sw l4"></i>IV</span>
+    </div>
 
-  <section class="about" id="about">
-    <h2>How it works</h2>
-    <p>FiledFor checks about 2,600 company job boards on Greenhouse, Lever, Ashby, Workday and SmartRecruiters every 30 minutes. It keeps tech roles in the US that look entry level, reads each description for the years of experience it asks for, and leaves out postings that rule out sponsorship, say citizens only, or need a security clearance.</p>
-    <p>Each company is matched to its Department of Labor filings. These are Labor Condition Applications, the step every H-1B petition starts with. The numbers cover certified filings decided between October 2024 and June 2026, counted for the same kind of role as the job (software, AI/ML or data).</p>
-    <dl>
-      <dt>Filings</dt><dd>How many H-1B applications the company filed for this kind of role.</dd>
-      <dt>New hires</dt><dd>Filings for new employment, as opposed to extensions or transfers. This is the closest sign of hiring people who need a first H-1B.</dd>
-      <dt>Wage level I-II</dt><dd>The share filed at the two lower prevailing wage levels, where most new grads land. From FY2027 the H-1B lottery gives higher wage levels more entries, so this mix is worth knowing.</dd>
-    </dl>
+    <ol class="jobs" id="jobs" aria-label="Jobs"></ol>
+    <button type="button" class="btn more" id="more" hidden>Show more</button>
+  </main>
+</div>
 
-    <h2>Get new jobs as they appear</h2>
-    <p>RSS feeds with the newest new-grad jobs at companies with filings for that kind of role. Paste one into any feed reader, or into Slack or Discord with an RSS bot.</p>
-    <ul class="feeds">
-      <li><a href="feeds/all.xml">All fields</a></li>
-      <li><a href="feeds/swe.xml">Software</a></li>
-      <li><a href="feeds/ai.xml">AI/ML</a></li>
-      <li><a href="feeds/data.xml">Data</a></li>
-    </ul>
+<section class="about wrap" id="about">
+  <h2>How it works</h2>
+  <div class="about-grid">
+    <div>
+      <h3>Where the jobs come from</h3>
+      <p>Every 30 minutes FiledFor reads about 2,600 company job boards on Greenhouse, Lever, Ashby, Workday and SmartRecruiters. It keeps US tech roles that look entry level, reads each description for the years of experience it asks for, and leaves out postings that rule out sponsorship, say citizens only, or need a security clearance.</p>
+    </div>
+    <div>
+      <h3>Where the evidence comes from</h3>
+      <p>Each company is matched to its Labor Condition Applications, the step every H-1B petition starts with, from the Department of Labor's public data. The numbers cover certified filings decided between October 2024 and June 2026, for the same kind of role as the job.</p>
+    </div>
+  </div>
+  <h3>What the numbers mean</h3>
+  <dl class="defs" id="defs"></dl>
+  <h3>Limits</h3>
+  <ul>
+    <li>Filings show what a company did before. They aren't a promise for any one job, so check the posting and ask the recruiter. This isn't legal advice.</li>
+    <li>Level and sponsorship come from rules that read the title and description. They get most jobs right and some wrong, and err toward leaving a job out.</li>
+    <li>Some companies file under a different legal name. "No filings found" can mean the match missed.</li>
+    <li>Companies hiring through other systems, like Oracle or iCIMS, aren't covered yet. A closed Workday job can stay listed for up to half a day.</li>
+  </ul>
+  <h3>Get new jobs as they appear</h3>
+  <p>RSS feeds with the newest new-grad jobs at companies with filings for that kind of role. Paste one into any feed reader, or into Slack or Discord with an RSS bot.</p>
+  <ul class="feeds">
+    <li><a href="feeds/all.xml">All fields</a></li>
+    <li><a href="feeds/swe.xml">Software</a></li>
+    <li><a href="feeds/ai.xml">AI/ML</a></li>
+    <li><a href="feeds/data.xml">Data</a></li>
+  </ul>
+  <h3>Open source</h3>
+  <p>Code, data and methods are on <a href="https://github.com/jawaadjariwala/FiledFor">GitHub</a>. Spot a wrong company match or a job that shouldn't be here? Use the flag on the job to report it. Company job boards were found through <a href="https://github.com/SimplifyJobs">SimplifyJobs</a>' public listings.</p>
+</section>
 
-    <h2>Limits</h2>
-    <ul>
-      <li>Filings show what a company did before. They aren't a promise for any one job, so check the posting and ask the recruiter. This isn't legal advice.</li>
-      <li>Companies hiring through other systems, like Oracle or iCIMS, aren't covered yet. On Workday, new jobs show up within 30 minutes, but a closed job can stay listed for up to half a day.</li>
-      <li>Level and sponsorship flags come from rules that read the title and description. They get most jobs right and some wrong.</li>
-      <li>Some companies file under a different legal name. If one shows no filings, it may still sponsor.</li>
-    </ul>
-    <p>Open source. Code, data and methods: <a href="https://github.com/jawaadjariwala/FiledFor">github.com/jawaadjariwala/FiledFor</a>. Company job boards found through <a href="https://github.com/SimplifyJobs">SimplifyJobs</a>' public listings.</p>
-  </section>
-</main>
+<footer class="footer wrap">
+  <span>FiledFor · open data, no sign-up</span>
+  <a href="https://github.com/jawaadjariwala/FiledFor">GitHub</a>
+</footer>
 
-<script src="app.js?v=3"></script>
+<dialog class="panel" id="panel" aria-labelledby="panel-title">
+  <div class="panel-inner" id="panel-body"></div>
+</dialog>
+
+<div class="popover" id="popover" role="tooltip" hidden></div>
+<div class="tip" id="tip" role="tooltip" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="app.js?v=4"></script>
 </body>
 </html>

@@ -3,6 +3,8 @@
     uv run python -m filedfor.poll              full run
     uv run python -m filedfor.poll --no-alerts  store and publish, send nothing
 
+    uv run python -m filedfor.poll --publish-only   rebuild public/ from the
+                                                database, no fetching
     uv run python -m filedfor.poll --workday-full 2000
                                                 read this many Workday boards in
                                                 full (default 60), e.g. to
@@ -14,6 +16,7 @@ GitHub secrets in Actions). Design and trade-offs: ADR-002, Workday: ADR-003.
 
 import asyncio
 import csv
+import json
 import os
 import re
 import sys
@@ -25,7 +28,7 @@ from pathlib import Path
 from filedfor import classify, feeds, notify, store
 from filedfor.diff import diff, should_alert
 from filedfor.evidence import COMPANIES, EvidenceIndex
-from filedfor.publish import publish
+from filedfor.publish import PUBLIC, publish
 
 CONCURRENCY = 8
 FAILED_SHARE_WARNING = 0.10
@@ -185,6 +188,51 @@ def job_row(c: Candidate, company: str, evidence, now, alerted) -> dict:
     }
 
 
+def company_info(companies: list[dict], evidence: EvidenceIndex):
+    """name -> what the site's company panel shows: evidence for every role
+    type across the company's boards, and links to its careers pages."""
+    boards_by_company: dict[str, list[dict]] = {}
+    for r in companies:
+        boards_by_company.setdefault(r["company"], []).append(r)
+
+    def info(name: str) -> dict:
+        boards = boards_by_company.get(name, [])
+        return {
+            # Boards of one company share FEINs, so take the largest, not the sum
+            "tech_filings": max(
+                (int(b["tech_filings"] or 0) for b in boards), default=0
+            ),
+            "evidence": evidence.company([(b["system"], b["slug"]) for b in boards]),
+            "careers": [
+                feeds.careers_url(b["system"], b["slug"], b["eu"] == "1")
+                for b in boards
+            ],
+        }
+
+    return info
+
+
+def publish_only() -> None:
+    """Rebuild public/ from the database without fetching, e.g. after a
+    change to the site or to what gets published."""
+    conn = store.connect()
+    jobs = store.open_jobs(conn)
+    conn.close()
+    health_file = PUBLIC / "health.json"
+    health = (
+        json.loads(health_file.read_text())
+        if health_file.exists()
+        else {"finished_at": store.utcnow().isoformat()}
+    )
+    publish(
+        jobs,
+        health,
+        store.utcnow(),
+        in_feeds=in_feeds,
+        company_info=company_info(load_companies(), EvidenceIndex()),
+    )
+
+
 async def run(
     send_alerts: bool = True, workday_full: int = WORKDAY_FULL_PER_RUN
 ) -> dict:
@@ -317,7 +365,13 @@ async def run(
         "failing_now": sorted(f"{s}/{g}: {e}" for (s, g), e in failed.items()),
         "failing_over_a_day": stale,
     }
-    publish(jobs, health, store.utcnow(), in_feeds=in_feeds)
+    publish(
+        jobs,
+        health,
+        store.utcnow(),
+        in_feeds=in_feeds,
+        company_info=company_info(companies, evidence),
+    )
     return health
 
 
@@ -328,6 +382,9 @@ def main() -> None:
         load_dotenv()
     except ImportError:
         pass
+    if "--publish-only" in sys.argv:
+        publish_only()
+        return
     workday_full = WORKDAY_FULL_PER_RUN
     if "--workday-full" in sys.argv:
         workday_full = int(sys.argv[sys.argv.index("--workday-full") + 1])

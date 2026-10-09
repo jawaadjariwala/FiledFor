@@ -274,3 +274,26 @@ def test_rate_limits_wait_longer_than_timeouts():
     assert retry_wait(httpx.Response(429), 1) == 10
     assert retry_wait(httpx.Response(429, headers={"Retry-After": "7"}), 0) == 7
     assert retry_wait(httpx.Response(429, headers={"Retry-After": "600"}), 0) == 30
+
+
+def test_careers_url_points_at_the_public_board():
+    from filedfor.feeds import careers_url
+
+    assert (
+        careers_url("workday", WD)
+        == "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite"
+    )
+    assert careers_url("lever", "acme", eu=True) == "https://jobs.eu.lever.co/acme"
+    assert (
+        careers_url("greenhouse", "stripe") == "https://job-boards.greenhouse.io/stripe"
+    )
+
+
+def test_logo_size_check_reads_png_header():
+    import struct
+
+    from filedfor.logos import png_size
+
+    header = b"\x89PNG\r\n\x1a\n" + b"\x00\x00\x00\rIHDR" + struct.pack(">II", 128, 64)
+    assert png_size(header) == (128, 64)
+    assert png_size(b"GIF89a....................") is None

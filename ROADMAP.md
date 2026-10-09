@@ -16,8 +16,9 @@ behind each piece are in [docs/decisions.md](docs/decisions.md).
   field, level and sponsorship language, stores changes in Postgres
   ([ADR-002](docs/decisions.md#adr-002-the-poller)).
 - **Classifier:** rules scored against hand-labelled titles and descriptions.
-- **Site and RSS:** static page on GitHub Pages with filters, evidence on every
-  job, and one feed per field.
+- **Site and RSS:** static page on GitHub Pages with shareable filters, metro
+  and state filtering, a company panel with each field's filing record, saved
+  and applied jobs, logos, and one RSS feed per field.
 - **Discord alerts** for anyone running their own copy.
 
 ## Next

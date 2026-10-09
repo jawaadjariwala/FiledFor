@@ -359,6 +359,93 @@ def is_remote(location: str | None, workplace: str | bool | None = None) -> bool
     return bool(location and REMOTE.search(location))
 
 
+# Cities that name their metro area, for the site's location filter. Only
+# cities that aren't ambiguous on their own (no "Arlington", "Cambridge")
+METROS = {
+    "Bay Area": (
+        "CA",
+        (
+            "san francisco|south san francisco|san jose|sunnyvale|mountain view|palo alto"
+            "|menlo park|redwood city|santa clara|cupertino|oakland|fremont|milpitas|san mateo"
+            "|foster city|berkeley|emeryville|san bruno|burlingame|los gatos|campbell|san carlos"
+            "|newark, ca|pleasanton|livermore|union city|hayward|belmont"
+        ),
+    ),
+    "New York": (
+        "NY",
+        "new york|new york city|nyc|brooklyn|manhattan|jersey city|hoboken",
+    ),
+    "Seattle": ("WA", "seattle|bellevue|redmond|kirkland|bothell"),
+    "Los Angeles": (
+        "CA",
+        (
+            "los angeles|santa monica|irvine|pasadena|culver city|el segundo"
+            "|long beach|burbank|torrance|playa vista|hawthorne|costa mesa"
+        ),
+    ),
+    "Boston": (
+        "MA",
+        "boston|waltham|somerville|burlington, ma|cambridge, ma|lexington, ma|woburn",
+    ),
+    "Austin": ("TX", "austin|round rock"),
+    "Chicago": ("IL", "chicago|evanston|naperville"),
+    "Washington DC": (
+        "DC",
+        (
+            "washington,? d\\.?c|mclean|reston|herndon|bethesda|tysons|arlington, va"
+            "|chantilly|fairfax|alexandria, va|rockville"
+        ),
+    ),
+    "Dallas": ("TX", "dallas|plano|irving|fort worth|richardson|frisco|addison"),
+    "Denver": ("CO", "denver|boulder|broomfield|englewood, co"),
+    "Atlanta": ("GA", "atlanta|alpharetta"),
+    "Houston": ("TX", "houston"),
+    "San Diego": ("CA", "san diego|la jolla|carlsbad"),
+    "Raleigh-Durham": ("NC", "raleigh|durham|cary|research triangle|morrisville"),
+    "Philadelphia": ("PA", "philadelphia"),
+    "Phoenix": ("AZ", "phoenix|tempe|chandler|scottsdale"),
+    "Salt Lake City": ("UT", "salt lake city|lehi|draper"),
+    "Minneapolis": ("MN", "minneapolis|st\\.? paul"),
+    "Pittsburgh": ("PA", "pittsburgh"),
+    "Miami": ("FL", "miami"),
+    "Charlotte": ("NC", "charlotte"),
+}
+_METRO_RX = {
+    m: re.compile(rf"\b({cities})\b", re.IGNORECASE)
+    for m, (_, cities) in METROS.items()
+}
+_STATE_NAME = re.compile(
+    r"\b(" + "|".join(sorted(US_STATES.values(), key=len, reverse=True)) + r")\b",
+    re.IGNORECASE,
+)
+_STATE_CODE_TOKEN = re.compile(
+    r"(?<![A-Za-z])(" + "|".join(US_STATES) + r")(?![A-Za-z.])"
+)
+_NAME_TO_CODE = {v: k for k, v in US_STATES.items()}
+
+
+def places(location: str | None) -> tuple[list[str], list[str]]:
+    """(states, metros) named in a location string, for filtering. Empty when
+    the text doesn't say ("Remote", "3 Locations")."""
+    if not location:
+        return [], []
+    metros = [m for m, rx in _METRO_RX.items() if rx.search(location)]
+    states = set(_STATE_CODE_TOKEN.findall(location))
+    # "New York, NY" names the city, "New York, New York" names both
+    for name in _STATE_NAME.findall(location.lower()):
+        if name == "washington" and re.search(
+            r"washington,? d\.?c", location, re.IGNORECASE
+        ):
+            continue
+        if name == "new york" and "New York" in metros and not states:
+            continue
+        states.add(_NAME_TO_CODE[name])
+    # A bare city ("Seattle") implies its metro's state; a stated one wins
+    if not states:
+        states = {METROS[m][0] for m in metros}
+    return sorted(states), metros
+
+
 # --- description -----------------------------------------------------------
 
 NUMBER_WORDS = {

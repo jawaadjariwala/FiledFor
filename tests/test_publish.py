@@ -76,17 +76,30 @@ def test_publish_writes_site_json_and_feeds(tmp_path, monkeypatch):
         job(job_id="old", posted_at=NOW - timedelta(days=40)),
         job(job_id="blocked", url="https://x/blocked", citizens_only=True),
     ]
+    monkeypatch.setattr(publish, "DOMAINS", tmp_path / "domains.csv")
+    (tmp_path / "domains.csv").write_text("company,domain\nAcme & Sons,acme.com\n")
+    (site / "logos").mkdir()
+    (site / "logos" / "acme.com.png").write_bytes(b"png")
     publish.publish(
         jobs,
         {"finished_at": NOW.isoformat()},
         NOW,
         in_feeds=lambda j: not j["citizens_only"],
+        company_info=lambda name: {"tech_filings": 7},
     )
     out = tmp_path / "public"
     assert (out / "index.html").read_text() == "<p>hi</p>"
     data = json.loads((out / "jobs.json").read_text())
     assert [j["job_id"] for j in data["jobs"]] == ["1"]  # old and blocked jobs left out
     assert "alerted_at" not in data["jobs"][0]
+    assert data["jobs"][0]["states"] == ["NY"] and data["jobs"][0]["metros"] == [
+        "New York"
+    ]
+    assert data["jobs"][0]["first_seen_at"]  # the site's "new since your last visit"
+    companies = json.loads((out / "companies.json").read_text())
+    assert companies == {
+        "Acme & Sons": {"tech_filings": 7, "logo": "logos/acme.com.png"}
+    }
     items = ET.parse(out / "feeds" / "all.xml").findall("channel/item")
     assert [i.findtext("guid") for i in items] == ["https://example.com/jobs/1?a=1&b=2"]
 

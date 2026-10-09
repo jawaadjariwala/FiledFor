@@ -62,9 +62,21 @@ class EvidenceIndex:
 
     def lookup(self, system: str, slug: str, role: str) -> Evidence | None:
         """None when the company has no filings for this role type."""
+        return self.for_feins(self.feins(system, slug), role)
+
+    def company(self, boards: list[tuple[str, str]]) -> dict[str, dict | None]:
+        """Evidence for every role type, across all of a company's boards
+        (NVIDIA has several Workday sites under the same FEINs)."""
+        feins = sorted({f for b in boards for f in self.feins(*b)})
+        return {
+            role: (ev.as_dict() if (ev := self.for_feins(feins, role)) else None)
+            for role in ("swe", "ai", "data")
+        }
+
+    def for_feins(self, feins: list[str], role: str) -> Evidence | None:
         rows = [
             self._by_fein_role[(f, role)]
-            for f in self.feins(system, slug)
+            for f in feins
             if (f, role) in self._by_fein_role
         ]
         if not rows:

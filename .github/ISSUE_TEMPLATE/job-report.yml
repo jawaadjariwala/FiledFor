@@ -1,0 +1,34 @@
+name: Report a job or company
+description: A wrong company match, or a job that shouldn't be listed
+title: "Report: "
+labels: ["data report"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping keep FiledFor accurate. The job link and company are filled in when you report from the site.
+  - type: dropdown
+    id: problem
+    attributes:
+      label: What's wrong?
+      options:
+        - The company is matched to the wrong H-1B filer
+        - The company has filings we missed (different legal name)
+        - The job isn't open to visa holders (citizens only, no sponsorship, clearance)
+        - The job isn't entry level, or isn't a tech role
+        - The job is closed or the link is broken
+        - Something else
+    validations:
+      required: true
+  - type: input
+    id: job-url
+    attributes:
+      label: Job link
+  - type: input
+    id: company
+    attributes:
+      label: Company
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: For a wrong or missed match, the company's legal name helps (it's often in the careers page footer or the job description).

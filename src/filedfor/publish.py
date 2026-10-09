@@ -1,9 +1,11 @@
-"""Everything GitHub Pages serves: the site, jobs.json, health.json and RSS.
+"""Everything GitHub Pages serves: the site, jobs.json, companies.json,
+health.json and RSS.
 
 public/ is rebuilt on every run and never committed. The site itself is
-static files in site/, copied as they are; the browser reads jobs.json.
+static files in site/, copied as they are; the browser reads the JSON.
 """
 
+import csv
 import json
 import os
 import shutil
@@ -13,10 +15,12 @@ from email.utils import format_datetime
 from pathlib import Path
 from xml.sax.saxutils import escape
 
+from filedfor.classify import places
 from filedfor.notify import ROLE_NAMES, evidence_line
 
 PUBLIC = Path("public")
 SITE = Path("site")
+DOMAINS = Path("data/domains.csv")  # company -> website, for logos in site/logos
 SITE_URL = os.environ.get("SITE_URL", "https://jawaadjariwala.github.io/FiledFor/")
 MAX_AGE = timedelta(days=30)  # older postings are mostly evergreen or filled
 FEED_ITEMS = 50
@@ -61,9 +65,24 @@ def dedupe(jobs: list[dict]) -> list[dict]:
 
 def _plain(job: dict) -> dict:
     out = {k: (v.isoformat() if hasattr(v, "isoformat") else v) for k, v in job.items()}
-    for k in ("alerted_at", "classifier_version", "first_seen_at"):
+    for k in ("alerted_at", "classifier_version"):
         out.pop(k, None)
+    out["states"], out["metros"] = places(job["location"])
     return out
+
+
+def logos() -> dict[str, str]:
+    """company -> logo path on the site, for companies whose logo was saved
+    (python -m filedfor.logos)."""
+    if not DOMAINS.exists():
+        return {}
+    with DOMAINS.open(newline="") as f:
+        rows = list(csv.DictReader(f))
+    return {
+        r["company"]: f"logos/{r['domain']}.png"
+        for r in rows
+        if (SITE / "logos" / f"{r['domain']}.png").exists()
+    }
 
 
 def rss(jobs: list[dict], role: str | None, now: datetime) -> str:
@@ -97,10 +116,15 @@ def rss(jobs: list[dict], role: str | None, now: datetime) -> str:
 
 
 def publish(
-    jobs: list[dict], health: dict, now: datetime, in_feeds: Callable[[dict], bool]
+    jobs: list[dict],
+    health: dict,
+    now: datetime,
+    in_feeds: Callable[[dict], bool],
+    company_info: Callable[[str], dict] = lambda name: {},
 ) -> None:
-    """Write public/: site files, jobs.json for the site, health.json, and one
-    RSS feed per field with the jobs `in_feeds` accepts."""
+    """Write public/: site files, jobs.json, companies.json (`company_info`
+    for each company with a listed job), health.json, and one RSS feed per
+    field with the jobs `in_feeds` accepts."""
     if SITE.exists():
         shutil.copytree(SITE, PUBLIC, dirs_exist_ok=True)
     PUBLIC.mkdir(exist_ok=True)
@@ -110,6 +134,12 @@ def publish(
             {"updated": health["finished_at"], "jobs": [_plain(j) for j in keep]}
         )
     )
+    logo = logos()
+    companies = {
+        name: company_info(name) | ({"logo": logo[name]} if name in logo else {})
+        for name in sorted({j["company"] for j in keep})
+    }
+    (PUBLIC / "companies.json").write_text(json.dumps(companies))
     (PUBLIC / "health.json").write_text(json.dumps(health, indent=1))
     feed_jobs = [j for j in keep if in_feeds(j)]
     (PUBLIC / "feeds").mkdir(exist_ok=True)

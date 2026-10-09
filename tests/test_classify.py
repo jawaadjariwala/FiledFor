@@ -147,3 +147,25 @@ def test_flags(text, sponsor, citizen, clearance):
 def test_government_contractors_are_citizens_only():
     assert flags("", "Data Analyst", "CGS Federal").citizens_only
     assert flags("", "Analyst (Top Secret)").clearance
+
+
+@pytest.mark.parametrize(
+    "location, states, metros",
+    [
+        ("San Francisco", ["CA"], ["Bay Area"]),
+        ("US, CA, Santa Clara", ["CA"], ["Bay Area"]),  # Workday's format
+        ("New York, New York", ["NY"], ["New York"]),
+        ("Hybrid - McLean, VA", ["VA"], ["Washington DC"]),  # stated state wins
+        ("Washington, D.C.", ["DC"], ["Washington DC"]),
+        ("Seattle, Washington", ["WA"], ["Seattle"]),
+        ("Des Moines, IA, United States", ["IA"], []),
+        ("Portland, OR", ["OR"], []),
+        ("Remote", [], []),
+        ("3 Locations", [], []),
+        (None, [], []),
+    ],
+)
+def test_places(location, states, metros):
+    from filedfor.classify import places
+
+    assert places(location) == (states, metros)

@@ -95,3 +95,4 @@ no HTML scraping. How Workday's paging is handled: [ADR-003](decisions.md#adr-00
 | `data/match_labels.csv` | 50 random boards labelled by hand, to score matching |
 | `data/labels/titles.csv`, `data/labels/descriptions.csv` | Hand-labelled titles and description snippets, to score the classifier (`python -m filedfor.evaluate`) |
 | `data/excluded_boards.csv` | Gig marketplaces that aren't employers |
+| `data/domains.csv` | Company websites, for logos. Each logo was checked by eye; a company without one gets a lettered badge |

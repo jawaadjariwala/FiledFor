@@ -14,7 +14,9 @@ Most "visa-friendly" job lists tell you a company sponsors. FiledFor puts each j
 
 ## Use it
 
-- **Browse** the [site](https://jawaadjariwala.github.io/FiledFor/). Filter by field (Software, AI/ML, Data), level, posting age and remote, or search by title, company or location.
+- **Browse** the [site](https://jawaadjariwala.github.io/FiledFor/). Filter by field (Software, AI/ML, Data), level, posting age, metro area or state, or search by title, company or location. Every search is a link you can share.
+- **Open any company** to see its filing record for each field, its wage-level mix, new-hire share, median wage and all its open roles.
+- **Keep track** with saved and applied jobs and a "new since your last visit" count. All of it stays in your browser; there's no account.
 - **Follow an RSS feed** for new jobs: [all fields](https://jawaadjariwala.github.io/FiledFor/feeds/all.xml), [software](https://jawaadjariwala.github.io/FiledFor/feeds/swe.xml), [AI/ML](https://jawaadjariwala.github.io/FiledFor/feeds/ai.xml), [data](https://jawaadjariwala.github.io/FiledFor/feeds/data.xml). Works in any feed reader, and in Slack or Discord through an RSS bot.
 - **Use the data.** [`jobs.json`](https://jawaadjariwala.github.io/FiledFor/jobs.json) has every listed job with its evidence, and [`health.json`](https://jawaadjariwala.github.io/FiledFor/health.json) shows the last run. The sponsor tables are in [`data/`](docs/data.md).
 
@@ -57,6 +59,7 @@ The poller needs a Postgres database (a free [Neon](https://neon.tech) project w
 echo "DATABASE_URL='postgresql://...'" > .env
 uv run python -m filedfor.poll --no-alerts   # writes public/
 python -m http.server -d public              # open http://localhost:8000
+uv run python -m filedfor.poll --publish-only  # rebuild public/ from the database, e.g. after editing site/
 ```
 
 The first run records every open job without alerting. Workday boards are read in full 60 at a time; `--workday-full 2000` reads all of them in the first run instead (about 10 minutes).
@@ -82,7 +85,8 @@ src/filedfor/
   evidence.py           filing record for a job's company and field
   diff.py, store.py     what changed since the last run, Postgres
   poll.py               one run, start to finish
-  publish.py, notify.py site, jobs.json, RSS, Discord
+  publish.py, notify.py site, jobs.json, companies.json, RSS, Discord
+  logos.py              save company logos into site/logos (run by hand)
   evaluate.py           score the classifier against hand labels
 site/                   the static page (HTML, CSS, JS; no build step)
 data/                   sponsor tables, watchlist, hand-made decisions and labels
@@ -101,13 +105,13 @@ tests/                  unit tests on saved, trimmed API responses
 Issues and pull requests are welcome, especially:
 
 - a company FiledFor matched to the wrong employer, or missed (add it to `data/aliases.csv`)
-- a job that's listed but shouldn't be, or the other way round (the title or description helps)
+- a job that's listed but shouldn't be, or the other way round (the flag on each job opens a pre-filled report)
 - adapters for more job systems
 
 Run `uv run ruff check src tests`, `uv run ruff format src tests` and `uv run pytest` before opening a pull request. CI runs the same.
 
 ## Credits and license
 
-H-1B data is public and comes from the U.S. Department of Labor. Company job boards were found through the [SimplifyJobs](https://github.com/SimplifyJobs) listings, which are used only to discover boards and are never republished.
+H-1B data is public and comes from the U.S. Department of Labor. Company job boards were found through the [SimplifyJobs](https://github.com/SimplifyJobs) listings, which are used only to discover boards and are never republished. Company logos belong to their companies and are shown only to identify them.
 
 Code under the [MIT License](LICENSE).
