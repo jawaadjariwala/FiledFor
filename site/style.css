@@ -369,7 +369,9 @@ svg.fill { fill: currentColor; stroke: none; }
   .placelist { max-height: 40vh; }
 }
 @media (max-width: 640px) {
-  .hero { padding-top: 28px; padding-bottom: 24px; }
+  .hero { padding-top: 28px; padding-bottom: 20px; }
+  .hero h1 { margin-bottom: 12px; }
+  .lead { display: none; } /* the headline says enough on a phone */
   .hide-sm { display: none !important; }
   .job { grid-template-columns: 36px minmax(0, 1fr); gap: 12px; padding: 14px; }
   .logo { width: 36px; height: 36px; border-radius: 9px; font-size: 13px; }
