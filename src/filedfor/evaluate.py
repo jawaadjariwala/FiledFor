@@ -2,10 +2,15 @@
 
     uv run python -m filedfor.evaluate
 
-Titles were drawn in three buckets (entry-ish, plain, senior-ish) at fixed
-counts, so raw counts over-represent the small entry-ish bucket. Precision and
-recall are reported raw and weighted back to each bucket's share of all
-33,235 titles (ADR-002, test plan). Blank flags count as "n".
+Three title sets:
+- titles.csv (rules v2/v3, ADR-002): three fields and three levels. Drawn in
+  buckets (entry-ish, plain, senior-ish) at fixed counts, so scores are also
+  weighted back to each bucket's share of all 33,235 titles. Scored on its
+  original terms: fields it didn't cover count as none, mid and senior count
+  as experienced.
+- titles_v5.csv and titles_v5_test.csv (rules v5, ADR-004): eight fields and
+  five levels. The test set was labelled before the rules ran on it.
+Blank flags count as "n".
 """
 
 import csv
@@ -20,6 +25,18 @@ LABELS = Path("data/labels")
 BUCKET_SIZE = {"entry-ish": 2618, "plain": 16924, "senior-ish": 13693}
 ROLE_CODE = {"a": "ai", "s": "swe", "d": "data", "n": None}
 LEVEL_CODE = {"e": "entry", "x": "experienced", "i": "intern", "?": "unclear"}
+FIELDS = ["swe", "ai", "data", "hardware", "it", "security", "product", "design"]
+
+
+def _v3_role(title: str) -> str | None:
+    """Rules v5 seen through the v3 labels, which only knew three fields."""
+    r = classify.role(title)
+    return r if r in ("ai", "swe", "data") else None
+
+
+def _v3_level(title: str) -> str:
+    lv = classify.level(title)
+    return "experienced" if lv in ("mid", "senior") else lv
 
 
 def _read(name: str) -> list[dict]:
@@ -73,13 +90,13 @@ def titles() -> list[str]:
     for code, name in (("a", "ai"), ("s", "swe"), ("d", "data")):
         raw, wtd = [], []
         for r in rows:
-            p, a = classify.role(r["title"]) == name, r["role"] == code
+            p, a = _v3_role(r["title"]) == name, r["role"] == code
             raw.append((p, a, 1.0))
             wtd.append((p, a, weight[r["bucket"]]))
         print(_line(f"role {name}", _pr(raw), _pr(wtd)))
     tech_raw, tech_wtd = [], []
     for r in rows:
-        pred, want = classify.role(r["title"]), ROLE_CODE[r["role"]]
+        pred, want = _v3_role(r["title"]), ROLE_CODE[r["role"]]
         role_ok += pred == want
         tech_raw.append((pred is not None, want is not None, 1.0))
         tech_wtd.append((pred is not None, want is not None, weight[r["bucket"]]))
@@ -92,16 +109,46 @@ def titles() -> list[str]:
     for code, name in (("e", "entry"), ("i", "intern"), ("x", "experienced")):
         raw, wtd = [], []
         for r in rows:
-            p, a = classify.level(r["title"]) == name, r["level"] == code
+            p, a = _v3_level(r["title"]) == name, r["level"] == code
             raw.append((p, a, 1.0))
             wtd.append((p, a, weight[r["bucket"]]))
         print(_line(f"level {name}", _pr(raw), _pr(wtd)))
     for r in rows:
-        pred, want = classify.level(r["title"]), LEVEL_CODE[r["level"]]
+        pred, want = _v3_level(r["title"]), LEVEL_CODE[r["level"]]
         level_ok += pred == want
         if pred != want:
             misses.append(f"level  {r['title'][:60]!r}: rules {pred}, you {want}")
     print(f"  level exact match      {level_ok}/{len(rows)}")
+    return misses
+
+
+def titles_v5(name: str) -> list[str]:
+    """Eight fields, five levels. Labels: role is a field or blank (none)."""
+    rows = _read(name)
+    misses = []
+    print(f"\nTitles v5, {name}: {len(rows)} labelled")
+    for field in FIELDS:
+        pairs = [
+            (classify.role(r["title"]) == field, r["role"] == field, 1.0) for r in rows
+        ]
+        print(_line(f"role {field}", _pr(pairs), _pr(pairs)))
+    tech = [(classify.role(r["title"]) is not None, bool(r["role"]), 1.0) for r in rows]
+    print(_line("any tech role", _pr(tech), _pr(tech)))
+    exact = 0
+    for r in rows:
+        pred, want = classify.role(r["title"]), r["role"] or None
+        exact += pred == want
+        if pred != want:
+            misses.append(f"role   {r['title'][:60]!r}: rules {pred}, you {want}")
+    print(f"  role exact match       {exact}/{len(rows)}")
+    tech_rows = [r for r in rows if r["role"]]
+    ok = 0
+    for r in tech_rows:
+        pred = classify.level(r["title"])
+        ok += pred == r["level"]
+        if pred != r["level"]:
+            misses.append(f"level  {r['title'][:60]!r}: rules {pred}, you {r['level']}")
+    print(f"  level exact match      {ok}/{len(tech_rows)}   (tech titles)")
     return misses
 
 
@@ -140,7 +187,12 @@ def descriptions() -> list[str]:
 
 
 def main() -> None:
-    misses = titles() + descriptions()
+    misses = (
+        titles()
+        + titles_v5("titles_v5.csv")
+        + titles_v5("titles_v5_test.csv")
+        + descriptions()
+    )
     print(f"\nDisagreements ({len(misses)}):")
     for m in misses:
         print("  " + m)

@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FiledFor: new-grad tech jobs at H-1B sponsors</title>
-<meta name="description" content="New-grad tech jobs at companies that have filed H-1B applications for that kind of role, with each company's Department of Labor record. Refreshed every 30 minutes. Free, no sign-up.">
-<meta property="og:title" content="FiledFor: new-grad tech jobs at H-1B sponsors">
+<title>FiledFor: tech jobs at H-1B sponsors</title>
+<meta name="description" content="Tech jobs, new grad to senior, at companies that have filed H-1B applications for that kind of role, with each company's Department of Labor record. Refreshed every 30 minutes. Free, no sign-up.">
+<meta property="og:title" content="FiledFor: tech jobs at H-1B sponsors">
 <meta property="og:description" content="Every job shows how many H-1B applications the company filed for that kind of role, at which wage levels. Free, no sign-up.">
 <meta name="theme-color" content="#1f7a52">
 <link rel="canonical" href="https://filedfor.com/">
@@ -15,11 +15,11 @@
 <meta property="og:image" content="https://filedfor.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="FiledFor: new-grad tech jobs at companies that actually sponsor H-1B, with each company's filing record">
+<meta property="og:image:alt" content="FiledFor: tech jobs at companies that actually sponsor H-1B, with each company's filing record">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f7a52'/%3E%3Cpath d='M11 8h11v4h-7v3h6v4h-6v5h-4z' fill='white'/%3E%3C/svg%3E">
 <link rel="alternate" type="application/rss+xml" title="FiledFor: all new-grad jobs" href="feeds/all.xml">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 <script>
   // Apply a saved theme before first paint so the page never flashes
   try { const t = localStorage.getItem("ff.theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
@@ -50,8 +50,8 @@
 </header>
 
 <section class="hero wrap">
-  <h1>New-grad tech jobs at companies that actually sponsor H-1B.</h1>
-  <p class="lead">Every job shows what the company filed with the Department of Labor for that kind of role: how many H-1B applications, how many new hires, at which wage levels. Jobs that say citizens only or no sponsorship are left out.</p>
+  <h1>Tech jobs at companies that actually sponsor H-1B.</h1>
+  <p class="lead">Software, AI, data, hardware, IT, security, product and design jobs, each shown with what the company filed with the Department of Labor for that kind of role. Starts with new-grad roles; every level is one click away. Jobs that say citizens only or no sponsorship are left out.</p>
   <p class="status" id="status" aria-live="polite">Loading jobs…</p>
 </section>
 
@@ -71,15 +71,22 @@
         <button type="button" class="chip" data-value="swe">Software</button>
         <button type="button" class="chip" data-value="ai">AI/ML</button>
         <button type="button" class="chip" data-value="data">Data</button>
+        <button type="button" class="chip" data-value="hardware">Hardware</button>
+        <button type="button" class="chip" data-value="it">IT &amp; Cloud</button>
+        <button type="button" class="chip" data-value="security">Security</button>
+        <button type="button" class="chip" data-value="product">Product</button>
+        <button type="button" class="chip" data-value="design">Design</button>
       </div>
     </fieldset>
 
     <fieldset class="group">
       <legend>Level <button type="button" class="info" data-explain="level" aria-label="What do the levels mean?">?</button></legend>
       <div class="chips" data-key="l">
-        <button type="button" class="chip" data-value="entry">New grad</button>
-        <button type="button" class="chip" data-value="unclear">Not in title</button>
         <button type="button" class="chip" data-value="intern">Internship</button>
+        <button type="button" class="chip" data-value="entry">New grad</button>
+        <button type="button" class="chip" data-value="early">Not in title</button>
+        <button type="button" class="chip" data-value="mid">Mid</button>
+        <button type="button" class="chip" data-value="senior">Senior</button>
       </div>
     </fieldset>
 
@@ -151,7 +158,7 @@
   <div class="about-grid">
     <div>
       <h3>Where the jobs come from</h3>
-      <p>Every 30 minutes FiledFor reads about 2,600 company job boards on Greenhouse, Lever, Ashby, Workday and SmartRecruiters. It keeps US tech roles that look entry level, reads each description for the years of experience it asks for, and leaves out postings that rule out sponsorship, say citizens only, or need a security clearance.</p>
+      <p>Every 30 minutes FiledFor reads about 2,600 company job boards on Greenhouse, Lever, Ashby, Workday and SmartRecruiters. It keeps US tech roles in eight fields at every level, reads each description for the years of experience it asks for, and leaves out postings that rule out sponsorship, say citizens only, or need a security clearance.</p>
     </div>
     <div>
       <h3>Where the evidence comes from</h3>
@@ -200,6 +207,6 @@
   window.goatcounter = { path: () => "/" };
 </script>
 <script data-goatcounter="https://jawaadjariwala.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
-<script src="app.js?v=6"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 [![Poll](https://github.com/jawaadjariwala/FiledFor/actions/workflows/poll.yml/badge.svg)](https://github.com/jawaadjariwala/FiledFor/actions/workflows/poll.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-**New-grad tech jobs at companies that have filed H-1B applications for that kind of role.**
+**Tech jobs, new grad to senior, at companies that have filed H-1B applications for that kind of role.**
 
 **Use it: [filedfor.com](https://filedfor.com/)**. Free, no sign-up, refreshed about every 30 minutes.
 
@@ -14,25 +14,25 @@ Most "visa-friendly" job lists tell you a company sponsors. FiledFor puts each j
 
 ## Use it
 
-- **Browse** the [site](https://filedfor.com/). Filter by field (Software, AI/ML, Data), level, posting age, metro area or state, or search by title, company or location. Every search is a link you can share.
+- **Browse** the [site](https://filedfor.com/). Filter by field (Software, AI/ML, Data, Hardware & Embedded, IT & Cloud, Security, Product, Design), level (internship to senior), posting age, metro area or state, or search by title, company or location. Every search is a link you can share.
 - **Open any company** to see its filing record for each field, its wage-level mix, new-hire share, median wage and all its open roles.
 - **Keep track** with saved and applied jobs and a "new since your last visit" count. All of it stays in your browser; there's no account.
 - **Follow an RSS feed** for new jobs: [all fields](https://filedfor.com/feeds/all.xml), [software](https://filedfor.com/feeds/swe.xml), [AI/ML](https://filedfor.com/feeds/ai.xml), [data](https://filedfor.com/feeds/data.xml). Works in any feed reader, and in Slack or Discord through an RSS bot.
-- **Use the data.** [`jobs.json`](https://filedfor.com/jobs.json) has every listed job with its evidence, and [`health.json`](https://filedfor.com/health.json) shows the last run. The sponsor tables are in [`data/`](docs/data.md).
+- **Use the data.** [`jobs-recent.json`](https://filedfor.com/jobs-recent.json) (last 7 days) and [`jobs-older.json`](https://filedfor.com/jobs-older.json) (8 to 30 days) list every job; [`companies.json`](https://filedfor.com/companies.json) has each company's filing record per field, and [`health.json`](https://filedfor.com/health.json) shows the last run. The sponsor tables are in [`data/`](docs/data.md).
 
 ## How it works
 
 ```
 DOL H-1B filings ──> sponsor tables (Parquet) ───────────────┐
-                                                             ├──> poller ──> Postgres ──> site, jobs.json, RSS
+                                                             ├──> poller ──> Postgres ──> site, JSON, RSS     
 Greenhouse, Lever, Ashby, Workday, SmartRecruiters boards ───┘   (every 30 min, GitHub Actions)  (GitHub Pages)
 ```
 
 1. **Sponsor data** (`lca.py`, `sponsors.py`). Every H-1B Labor Condition Application certified from October 2024 to June 2026, about a million rows, reduced to counts per employer, occupation and wage level. [Data notes](docs/data.md).
 2. **Watchlist** (`watchlist.py`). About 2,600 company job boards, each matched to the employer's federal tax ID (FEIN) in the DOL data. Matching uses tiered rules and a reviewed queue rather than fuzzy scores, because a wrong match puts false evidence next to a job. [ADR-001](docs/decisions.md#adr-001-matching-job-feed-companies-to-dol-employers).
 3. **Poller** (`poll.py`, `feeds.py`). Reads every board through its public JSON API, keeps US tech roles that aren't clearly senior, reads each new description for the years of experience asked and for language that rules out sponsorship, attaches the evidence, and stores what changed. [ADR-002](docs/decisions.md#adr-002-the-poller). Workday boards are large and paged, so they're read newest first. [ADR-003](docs/decisions.md#adr-003-workday-and-smartrecruiters).
-4. **Classifier** (`classify.py`). Rules, scored against hand-labelled titles and descriptions with `python -m filedfor.evaluate`. [Scores and known misses](docs/decisions.md#classifier-results-2026-10-01).
-5. **Publish** (`publish.py`). Writes the static site (`site/`), `jobs.json`, `health.json` and the RSS feeds for GitHub Pages.
+4. **Classifier** (`classify.py`). Rules that sort each title into one of eight fields and five levels, scored against hand-labelled titles and descriptions with `python -m filedfor.evaluate`. [Scores and known misses](docs/decisions.md#adr-004-all-tech-roles-all-levels).
+5. **Publish** (`publish.py`). Writes the static site (`site/`), the job and company JSON files, `health.json`, the sitemap and one RSS feed per field for GitHub Pages.
 
 ## Limits
 
@@ -85,7 +85,7 @@ src/filedfor/
   evidence.py           filing record for a job's company and field
   diff.py, store.py     what changed since the last run, Postgres
   poll.py               one run, start to finish
-  publish.py, notify.py site, jobs.json, companies.json, RSS, Discord
+  publish.py, notify.py site, job and company JSON, RSS, Discord
   logos.py              save company logos into site/logos (run by hand)
   evaluate.py           score the classifier against hand labels
 site/                   the static page (HTML, CSS, JS; no build step)

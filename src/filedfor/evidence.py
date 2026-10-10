@@ -12,6 +12,8 @@ from pathlib import Path
 
 import duckdb
 
+from filedfor.classify import FIELDS
+
 ROLE_EVIDENCE = Path("data/role_evidence.parquet")
 COMPANIES = Path("data/companies.csv")
 
@@ -70,7 +72,7 @@ class EvidenceIndex:
         feins = sorted({f for b in boards for f in self.feins(*b)})
         return {
             role: (ev.as_dict() if (ev := self.for_feins(feins, role)) else None)
-            for role in ("swe", "ai", "data")
+            for role in FIELDS
         }
 
     def for_feins(self, feins: list[str], role: str) -> Evidence | None:

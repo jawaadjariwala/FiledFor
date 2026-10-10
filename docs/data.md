@@ -31,10 +31,12 @@ columns FiledFor uses. `sponsors.py` builds three tables with DuckDB:
   employer withdrew after certification. Denied cases and ones withdrawn
   before a decision are left out.
 - **Tech filings:** occupation codes starting `15-` (computer and mathematical
-  occupations).
-- **Fields:** each FiledFor field maps to a set of occupation codes
-  (`ROLE_SOCS` in `sponsors.py`). Software Developers (15-1252) count toward all
-  three, because data and ML engineers are often filed under it.
+  occupations), plus computer hardware, electrical and electronics engineers
+  and computer and information systems managers.
+- **Fields:** each of FiledFor's eight fields maps to a set of occupation
+  codes (`ROLE_SOCS` in `sponsors.py`). Some codes count toward more than one
+  field: Software Developers (15-1252) count toward software, AI and data,
+  because data and ML engineers are often filed under it.
 - **New hires:** filings with new employment, as opposed to extensions,
   amendments or transfers.
 - **Wages:** converted to yearly (hourly x 2,080, monthly x 12, and so on).

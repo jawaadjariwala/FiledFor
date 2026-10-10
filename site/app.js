@@ -1,4 +1,5 @@
-// FiledFor front end. Reads jobs.json, companies.json and health.json; all
+// FiledFor front end. Reads jobs-recent.json (last 7 days) first, then
+// jobs-older.json only when needed, plus companies.json and health.json; all
 // filtering happens in the browser. No build step, no dependencies.
 //
 // State that matters for sharing lives in the URL (?f=ai&age=1&loc=m:Bay Area).
@@ -8,14 +9,14 @@
 
 const PAGE = 40;
 const REPO = "https://github.com/jawaadjariwala/FiledFor";
-const FIELD = { swe: "Software", ai: "AI/ML", data: "Data" };
-const DEFAULTS = { f: ["swe", "ai", "data"], l: ["entry", "unclear"], age: "7", loc: [], filed: true, hideApplied: false, q: "", sort: "new" };
+const FIELD = { swe: "Software", ai: "AI/ML", data: "Data", hardware: "Hardware", it: "IT & Cloud", security: "Security", product: "Product", design: "Design" };
+const DEFAULTS = { f: Object.keys(FIELD), l: ["entry", "early"], age: "7", loc: [], filed: true, hideApplied: false, q: "", sort: "new" };
 const EXPLAIN = {
   filings: ["H-1B filings", "Labor Condition Applications this company filed with the Department of Labor for this kind of role, certified between October 2024 and June 2026. Every H-1B petition starts with one, so more filings means a longer record of sponsoring this work."],
   "new-hires": ["New hires", "Filings for someone joining the company, as opposed to extending or transferring an existing visa. The closest sign the company hires people who need their first H-1B."],
   "wage-level": ["Wage level", "Each filing sets a prevailing wage level for the role and city, from I (entry) to IV (most experienced). Most new grads are filed at Level I or II. From FY2027 the lottery gives higher levels more entries, based on the wage actually offered."],
   median: ["Median wage", "The middle yearly salary on this company's filings for this kind of role."],
-  level: ["Level", "New grad: the title says new grad, junior, entry level or similar. Not in title: the title doesn't say, and the description asks for 2 years of experience or less, or doesn't say. Internship: interns and co-ops."],
+  level: ["Level", "New grad: the title says new grad, junior, entry level or similar. Not in title: the title doesn't say a level, and the description asks for 2 years of experience or less, or doesn't say. Mid and Senior: from the title (II, Senior, Staff, Lead and so on), or from the years the description asks for (3 to 4 is mid, 5 or more is senior). Internship: interns and co-ops."],
   "no-filings": ["No filings found", "No certified H-1B filings for this kind of role under the names we matched for this company. It may file under a different legal name, so this isn't proof it doesn't sponsor."],
 };
 
@@ -64,6 +65,15 @@ const ICON = {
   x: '<path d="M6 6l12 12M18 6L6 18"/>',
 };
 const key = (j) => `${j.system}|${j.slug}|${j.job_id}`;
+// The level filter's buckets. Titles that don't say a level are placed by the
+// years the description asks for.
+function bucket(j) {
+  if (j.level !== "unclear") return j.level;
+  if (j.min_years == null || j.min_years <= 2) return "early";
+  return j.min_years >= 5 ? "senior" : "mid";
+}
+// Filing evidence lives once per company and field in companies.json
+const evOf = (j) => companies[j.company]?.evidence?.[j.role] || null;
 const money = (n) => (n ? `$${Math.round(n / 1000)}K` : "n/a");
 const num = (n) => n.toLocaleString("en-US");
 function ago(iso) {
@@ -94,7 +104,7 @@ function readURL() {
   const list = (k) => (p.has(k) ? p.get(k).split(",").filter(Boolean) : null);
   state = structuredClone(DEFAULTS);
   state.f = list("f") ?? state.f;
-  state.l = list("l") ?? state.l;
+  state.l = (list("l") ?? state.l).map((x) => (x === "unclear" ? "early" : x)); // links from before mid/senior existed
   state.loc = list("loc") ?? [];
   if (["1", "3", "7", "30"].includes(p.get("age"))) state.age = p.get("age");
   if (p.get("all") === "1") state.filed = false;
@@ -136,9 +146,9 @@ function placeMatch(j, loc) {
 }
 function matches(j, { ignoreLoc = false } = {}) {
   if (view === "saved") return saved.has(key(j));
-  if (!state.f.includes(j.role) || !state.l.includes(j.level)) return false;
+  if (!state.f.includes(j.role) || !state.l.includes(bucket(j))) return false;
   if (j.posted_at && Date.now() - Date.parse(j.posted_at) > Number(state.age) * 864e5) return false;
-  if (state.filed && !j.evidence) return false;
+  if (state.filed && !evOf(j)) return false;
   if (state.hideApplied && applied.has(key(j))) return false;
   if (!ignoreLoc && state.loc.length && !placeMatch(j, state.loc)) return false;
   if (state.q) {
@@ -155,8 +165,8 @@ function filtered() {
   const when = (j) => Date.parse(j.posted_at || j.first_seen_at || 0);
   const by = {
     new: (a, b) => when(b) - when(a),
-    filings: (a, b) => (b.evidence?.filings || 0) - (a.evidence?.filings || 0) || when(b) - when(a),
-    wage: (a, b) => (b.evidence?.median_wage || 0) - (a.evidence?.median_wage || 0) || when(b) - when(a),
+    filings: (a, b) => (evOf(b)?.filings || 0) - (evOf(a)?.filings || 0) || when(b) - when(a),
+    wage: (a, b) => (evOf(b)?.median_wage || 0) - (evOf(a)?.median_wage || 0) || when(b) - when(a),
   };
   out.sort(by[state.sort]);
   return { out, newCount };
@@ -185,7 +195,7 @@ function infoBtn(topic) {
   return el("button", { type: "button", class: "info", "data-explain": topic, "aria-label": `What does ${EXPLAIN[topic][0].toLowerCase()} mean?` }, "?");
 }
 function evidenceLine(j) {
-  const ev = j.evidence;
+  const ev = evOf(j);
   if (!ev) return el("div", { class: "ev none" }, `No H-1B filings found for ${FIELD[j.role]} roles`, infoBtn("no-filings"));
   const share = lowShare(ev);
   return el("div", { class: "ev" },
@@ -232,10 +242,11 @@ function card(j) {
   const tags = el("div", { class: "tags" },
     isNew(j) ? el("span", { class: "tag new" }, "New") : null,
     el("span", { class: "tag" }, FIELD[j.role]),
-    { entry: el("span", { class: "tag" }, "New grad"), intern: el("span", { class: "tag" }, "Internship") }[j.level] || null,
+    { entry: "New grad", intern: "Internship", mid: "Mid level", senior: "Senior" }[j.level] ? el("span", { class: "tag" }, { entry: "New grad", intern: "Internship", mid: "Mid level", senior: "Senior" }[j.level]) : null,
     j.min_years != null ? el("span", { class: "tag" }, j.min_years === 0 ? "No experience asked" : `Asks ${j.min_years}+ yr`) : null,
     j.is_remote ? el("span", { class: "tag" }, "Remote") : null,
     applied.has(k) ? el("span", { class: "tag done" }, "Applied") : null,
+    companies[j.company]?.notice ? el("span", { class: "tag notice", title: companies[j.company].notice.detail }, companies[j.company].notice.notice) : null,
   );
   const meta = el("p", { class: "meta" },
     el("button", { type: "button", class: "company-btn", onclick: () => openCompany(j.company) }, j.company),
@@ -304,7 +315,8 @@ function render() {
   $("more").textContent = `Show ${Math.min(PAGE, out.length - shown)} more`;
   $("nav-jobs").setAttribute("aria-current", view === "jobs" ? "page" : "false");
   $("nav-saved").setAttribute("aria-current", view === "saved" ? "page" : "false");
-  $("legend").hidden = !list.some((j) => j.evidence);
+  $("legend").hidden = !list.some(evOf);
+  if (state.age === "30" || view === "saved") loadOlder();
   syncControls();
   renderPlaces();
   writeURL();
@@ -399,7 +411,12 @@ function openCompany(name) {
       ? [`Filed `, el("b", {}, num(total)), ` H-1B applications for tech roles between October 2024 and June 2026. `,
         `Below, the same filings by field. One filing can count in more than one field, since software developer filings cover AI and data work too.`]
       : "No H-1B filings found for software, AI/ML or data roles under the names we matched. It may file under a different legal name."),
-    ...evs.map(fieldCard),
+    c.notice
+      ? el("div", { class: "notice-box", role: "note" },
+          el("strong", {}, c.notice.notice), ` (${c.notice.date}). ${c.notice.detail} `,
+          el("a", { href: c.notice.source, target: "_blank", rel: "noopener" }, "Source"))
+      : null,
+    ...evs.filter(([, e]) => e).map(fieldCard),
     el("h4", {}, `Open roles on FiledFor (${open.length})`),
     open.length
       ? el("ul", { class: "roles" }, ...open.slice(0, 25).map((j) => el("li", {}, el("a", { href: j.url, target: "_blank", rel: "noopener" }, j.title, el("span", { class: "sub" }, `${j.location || "Location not listed"}${j.posted_at ? ` · posted ${ago(j.posted_at)}` : ""}`)))))
@@ -529,20 +546,28 @@ function rememberVisit() {
   } catch (e) { lastVisit = null; }
 }
 
+const getJSON = (f) => fetch(f, { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(f); return r.json(); });
+const withPlaces = (j) => ({ ...j, states: j.states || [], metros: j.metros || [] });
+let older = null; // jobs posted 8 to 30 days ago, fetched the first time they're needed
+function loadOlder() {
+  older ??= getJSON("jobs-older.json")
+    .then((d) => { jobs = jobs.concat(d.jobs.map(withPlaces)); updateSavedCount(); render(); })
+    .catch(() => {});
+  return older;
+}
+
 async function load() {
   const companyParam = readURL();
   wire();
   rememberVisit();
   $("jobs").replaceChildren(...Array.from({ length: 4 }, () => el("li", { class: "skeleton" })));
   try {
-    const get = (f) => fetch(f, { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(f); return r.json(); });
-    const [data, comp, health] = await Promise.all([get("jobs.json"), get("companies.json").catch(() => ({})), get("health.json").catch(() => null)]);
-    jobs = data.jobs.map((j) => ({ ...j, states: j.states || [], metros: j.metros || [] }));
+    const [data, comp, health] = await Promise.all([getJSON("jobs-recent.json"), getJSON("companies.json").catch(() => ({})), getJSON("health.json").catch(() => null)]);
+    jobs = data.jobs.map(withPlaces);
     companies = comp;
-    const nCompanies = new Set(jobs.map((j) => j.company)).size;
     $("status").replaceChildren(
       el("span", {}, el("i", { class: "dot" }), "Updated ", el("b", {}, ago(data.updated))),
-      el("span", {}, el("b", {}, num(jobs.length)), " open jobs at ", el("b", {}, num(nCompanies)), " companies"),
+      el("span", {}, el("b", {}, num(data.total ?? jobs.length)), " open jobs at ", el("b", {}, num(data.companies ?? 0)), " companies"),
       health ? el("span", {}, el("b", {}, num(health.boards_ok)), " job boards checked") : "",
     );
     updateSavedCount();

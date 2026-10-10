@@ -10,7 +10,16 @@ from collections.abc import Sequence
 import httpx
 
 PER_MESSAGE = 10  # Discord's limit on embeds per message
-ROLE_NAMES = {"ai": "AI/ML", "swe": "Software", "data": "Data"}
+ROLE_NAMES = {
+    "swe": "Software",
+    "ai": "AI/ML",
+    "data": "Data",
+    "hardware": "Hardware & Embedded",
+    "it": "IT & Cloud",
+    "security": "Security",
+    "product": "Product",
+    "design": "Design",
+}
 
 
 def _money(n: int | None) -> str:

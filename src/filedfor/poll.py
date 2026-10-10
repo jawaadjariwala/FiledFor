@@ -72,9 +72,11 @@ FRONTIER_LABS = frozenset({"anthropic", "openai", "xai", "mistral.ai", "cohere"}
 
 
 def in_feeds(job: dict) -> bool:
-    """Public RSS: new-grad jobs open to F-1 students, at companies with filings
-    for that kind of role."""
-    return bool(job["evidence"]) and AlertFilter().matches(job)
+    """Public RSS: new-grad jobs in any field, open to F-1 students, at
+    companies with filings for that kind of role."""
+    return bool(job["evidence"]) and AlertFilter(
+        roles=frozenset(classify.FIELDS)
+    ).matches(job)
 
 
 # Discord alerts: applied AI roles, not frontier-lab research
@@ -91,13 +93,12 @@ class Candidate:
 
 
 def to_candidate(p: feeds.Posting) -> Candidate | None:
-    """Tech role, not clearly senior, not clearly outside the US."""
+    """A tech role (any of the eight fields, any level) not clearly outside
+    the US."""
     role = classify.role(p.title)
     if role is None:
         return None
     level = classify.level(p.title)
-    if level == "experienced":
-        return None
     us = classify.is_us(p.location, p.country)
     if us is False:
         return None

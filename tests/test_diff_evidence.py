@@ -107,3 +107,21 @@ def test_plan_workday_reads_longest_waiting_boards_in_full():
     assert plan == {"new1": True, "new2": True, "b": True, "a": False, "c": False}
     # a board never read in full and not chosen this run is skipped
     assert "new2" not in plan_workday(["a", "new1", "new2"], last, 1)
+
+
+def test_company_evidence_covers_every_field(tmp_path):
+    from filedfor.classify import FIELDS
+
+    companies = tmp_path / "companies.csv"
+    companies.write_text(
+        "system,slug,eu,company,open_jobs,feins,tech_filings\nlever,acme,0,Acme,1,11,5\n"
+    )
+    evidence = tmp_path / "ev.parquet"
+    duckdb.sql(
+        "select '11' as employer_fein, 'hardware' as role, 4 as filings, 1 as new_hire_filings, "
+        "1 as level_1, 1 as level_2, 1 as level_3, 1 as level_4, 120000 as median_wage, "
+        "'2026-06-30' as last_decision"
+    ).write_parquet(str(evidence))
+    record = EvidenceIndex(evidence, companies).company([("lever", "acme")])
+    assert set(record) == set(FIELDS)
+    assert record["hardware"]["filings"] == 4 and record["swe"] is None

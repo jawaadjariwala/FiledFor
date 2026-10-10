@@ -532,3 +532,112 @@ half a day, and its link says the posting is gone.
   not when their board is next read in full.
 - **Site:** the default view (new grad or level not stated, filings for the
   role, last 7 days) went from 66 jobs to 210.
+
+---
+
+## ADR-004: All tech roles, all levels
+
+**Status:** Accepted, 2026-10-10
+
+### Context
+
+Through rules v4 FiledFor listed AI/ML, Software and Data roles open to new
+grads: about 250 jobs a week. A read-only study on 2026-10-09 fetched every
+board once and counted US jobs posted in a week (69,208 in all), using the
+blocked-for-sponsorship rates FiledFor measures on each system (about 45% on
+Workday, 42% on Greenhouse):
+
+| Scope | At companies with filings | Any company |
+|---|---|---|
+| AI/ML, Software, Data, new grad | ~280 | ~375 |
+| Same fields, all levels | ~1,300 | ~1,700 |
+| All tech roles, new grad | ~1,350 | ~1,950 |
+| All tech roles, all levels | ~5,100 | ~7,250 |
+
+The estimate for the narrow scope ran about 25% above what the live site
+showed, so these are ceilings.
+
+### Decision
+
+1. **Eight fields:** Software, AI/ML, Data, Hardware & Embedded, IT & Cloud,
+   Security, Product, Design. Checked most specific first: business functions
+   that borrow tech words (marketing, recruiting, sourcing, sales, facilities)
+   are ruled out, then Product leadership, Design, Product, Security, AI/ML,
+   Data, Hardware, IT, and Software last. AI/ML still beats Data beats Software.
+   Physical security, graphic and civil design, construction project
+   management and plant engineering stay out.
+2. **Five levels:** intern, entry, mid, senior, unclear. "Product Manager" and
+   "Program Manager" name a job, not a rank, so they don't count as senior.
+   On the site, titles that don't say a level are bucketed by the years the
+   description asks for: 2 or fewer is "Not in title", 3 to 4 mid, 5 or more
+   senior.
+3. **Every level is stored and listed.** The site's default view stays new
+   grad ("New grad" and "Not in title"), now across all eight fields.
+4. **Evidence per field** from occupation codes: Hardware (17-2061, 17-2071,
+   17-2072), IT & Cloud (15-1244, 15-1241, 15-1231, 15-1232, 15-1242, 15-1243,
+   15-1211, 15-1299.08), Security (15-1212, 15-1299.04/.05/.06), Product
+   (11-3021, 15-1299.09), Design (15-1255, 15-1255.01, 27-1021). Hardware
+   engineers and computer and information systems managers now count as tech
+   filings too, which brought 2,513 more employers into matching (37,713 to
+   40,226) and 67 new match candidates, reviewed by the ADR-001 standard (33
+   accepted, 34 rejected).
+5. **Published data is split** so the page stays fast: `jobs-recent.json`
+   (last 7 days) loads first, `jobs-older.json` (8 to 30 days) only when a
+   visitor asks for 30 days or opens Saved. Filing evidence is stored once per
+   company in `companies.json` instead of on every job.
+6. **Not done:** fetching every Greenhouse description in the list call. Every
+   stored job already has its description read once when first seen, so flags
+   on listed jobs are exact; reading all of them every run would add about
+   600 MB a run for nothing.
+
+### Labels and scores
+
+Two fresh sets, drawn by keyword group (not by FiledFor's rules) from all five
+systems, US jobs posted in the last 30 days:
+
+- `data/labels/titles_v5.csv`: 200 titles, the development set. Labelled by
+  Claude; the owner spot-checked the 26 judgment calls.
+- `data/labels/titles_v5_test.csv`: 100 different titles, labelled by Claude
+  **before** the rules were run on them, then scored once.
+
+| Measure | Held-out test (first score) | Development set |
+|---|---|---|
+| Is it a tech role: precision / recall | 92% / 85% | 99% / 99% |
+| Exact field | 84 / 100 | 197 / 200 |
+| Level exact (tech titles) | 51 / 53 | 111 / 111 |
+
+The held-out misses were product leadership titles, IT support and cloud
+consultants, "Software-Defined Radio" read as software, engineering directors,
+and plant instrumentation engineers. After fixing those the test set scores
+97 / 100, but it is now a development set too. The next honest number needs
+another fresh sample, ideally labelled by someone other than the rule writer.
+
+On the original v3 labels, which only know three fields, the changes are
+deliberate: "New Graduate Engineer, Software Security" is now Security, and
+"Product Manager, AI" is no longer senior.
+
+### Consequences
+
+- About 5x more jobs; a broader audience (experienced H-1B holders changing
+  jobs, and non-software tech roles).
+- The first run after the change re-read every stored job and read the
+  descriptions of all newly eligible jobs: a one-time catch-up run locally,
+  with the scheduled workflow paused so old and new code wouldn't disagree
+  about which jobs exist.
+- Known misses kept rather than overfitted: an "IT Systems & Security" title
+  reads as Security, a defence research scientist as AI/ML.
+
+### Result (2026-10-10)
+
+- **First run under rules v5:** 14 minutes (a one-time catch-up), 2,639
+  boards, 0 failed; 13,923 newly listed jobs, 20,234 open in the database.
+- **Listed on the site:** 5,970 jobs posted in the last 30 days at 1,246
+  companies; 2,595 in the last 7 days (1,808 at companies with filings for the
+  role). The default view (new grad, last 7 days, companies with filings)
+  went from about 210 jobs in three fields to 308 across eight.
+- **The study overestimated by about 2x.** Its keyword list was looser than the
+  real rules (it counted generic "analyst", "test" and "technical" titles). Of
+  the 20,234 open jobs, 10,289 were posted more than 30 days ago and 7,039 (35%)
+  rule out sponsorship, from 14% of design jobs to 49% of hardware jobs.
+- **Published data:** `jobs-recent.json` 188 KB and `jobs-older.json` 249 KB
+  compressed; `companies.json` 61 KB.

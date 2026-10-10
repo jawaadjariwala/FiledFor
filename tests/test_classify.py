@@ -10,23 +10,23 @@ from filedfor.classify import flags, is_remote, is_us, level, min_years, role
     "title, expected_role, expected_level",
     [
         ("Software Engineer, New Grad", "swe", "entry"),
-        ("Senior Software Engineer", "swe", "experienced"),
+        ("Senior Software Engineer", "swe", "senior"),
         ("Machine Learning Engineer", "ai", "unclear"),
         ("Data Scientist I", "data", "entry"),
-        ("Software Engineer II", "swe", "experienced"),
-        ("Associate Director, Engineering", None, "experienced"),
+        ("Software Engineer II", "swe", "mid"),
+        ("Associate Director, Engineering", None, "senior"),
         ("Distributed Systems Engineer", "swe", "unclear"),
         ("Member of Technical Staff", "swe", "unclear"),  # "staff" here isn't a level
         ("Software Engineering Intern (Summer 2027)", "swe", "intern"),
         ("Engineer I - Payments", None, "entry"),  # a bare "Engineer" is too vague
-        ("Staff Engineer", None, "experienced"),
+        ("Staff Engineer", None, "senior"),
         ("Java Engineer - Secret Clearance Required", "swe", "unclear"),
         ("Junior/Senior/Staff Software Engineer", "swe", "entry"),  # open to juniors
         ("Business Developer Junior", None, "entry"),
         ("Sales Engineer", None, "unclear"),
         ("Systems Engineer, Starship", None, "unclear"),  # hardware systems work
         ("Data Center Technician", None, "unclear"),
-        ("Product Manager, AI", None, "experienced"),
+        ("Product Manager, AI", "product", "unclear"),  # a role, not a rank
         ("Mechanical Engineer I", None, "entry"),
         (
             "Doctors - AI Training - Manchester, UK",
@@ -45,6 +45,22 @@ from filedfor.classify import flags, is_remote, is_us, level, min_years, role
         ("iOS Developer", "swe", "unclear"),
         ("Dist Engr-Full Stack", "swe", "unclear"),
         ("Salesforce Developer", "swe", "unclear"),
+        # Rules v5: eight fields, mid and senior levels
+        ("Senior FPGA Engineer, Software-Defined Radio/DSP", "hardware", "senior"),
+        ("Electrical Engineer I", "hardware", "entry"),
+        ("Cloud System Administrator 2", "it", "mid"),
+        ("Technical Support Specialist", "it", "unclear"),
+        ("Sr. Network Security Engineer", "security", "senior"),
+        ("Security Officer I", None, "entry"),  # physical security
+        ("Technical Program Manager, Hardware", "product", "unclear"),
+        ("Director Product, Discovery & AI", "product", "senior"),
+        ("Staff UX Designer", "design", "senior"),
+        ("Graphic Designer", None, "unclear"),
+        ("Senior Software Engineer, ML Systems", "ai", "senior"),
+        ("Technical Recruiter - AI/ML", None, "unclear"),
+        ("Senior Manager, Partner Marketing - Security Partners", None, "senior"),
+        ("Director of Engineering, Cloud Platform", "swe", "senior"),
+        ("Software Engineer 1/2", "swe", "entry"),
     ],
 )
 def test_title(title, expected_role, expected_level):

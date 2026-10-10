@@ -5,8 +5,9 @@ labelled sets in data/labels measure how often the rules are right (see
 ADR-002). Bump VERSION whenever a rule changes, so stored jobs record which
 rules classified them.
 
-    role       ai | swe | data | None   (None: not a role FiledFor covers)
-    level      intern | entry | experienced | unclear
+    role       swe | ai | data | hardware | it | security | product | design
+               | None   (None: not a role FiledFor covers)
+    level      intern | entry | mid | senior | unclear
     is_us      True | False | None      (None: can't tell, e.g. "Remote")
     min_years  smallest years of experience the description asks for
     flags      no_sponsorship, citizens_only, clearance
@@ -15,7 +16,8 @@ rules classified them.
 import re
 from dataclasses import dataclass
 
-VERSION = 4
+VERSION = 5
+FIELDS = ("swe", "ai", "data", "hardware", "it", "security", "product", "design")
 
 
 def _rx(*parts: str) -> re.Pattern:
@@ -51,7 +53,7 @@ NEVER_TECH = _rx(
     r"\bteller\b",
     r"\b(delivery|truck|cdl)\s+driver",
     r"^driver\b",
-    r"\bsales (trainee|associate|representative|rep|executive|consultant)\b",
+    r"\bsales (trainee|associate|representative|rep|executive|consultant|specialist)\b",
     r"\bretail sales\b",
     r"account executive",
     r"\bstore (associate|manager|team)",
@@ -138,24 +140,216 @@ JOB_WORD = _rx(
     r"developer",
     r"analyst",
     r"architect",
-    r"programmer",
+    r"programm",
+    r"\bintern\b",
+    r"co-?op",
     r"\bmts\b",
     r"technical staff",
 )
 
 
+# --- v5: eight fields --------------------------------------------------------
+
+# Business functions that borrow tech words ("Partner Marketing, Security",
+# "Technical Recruiter, AI/ML", "Strategic Sourcing Manager, Infrastructure").
+# Out, unless the title also names hands-on tech work ("Marketing Data Scientist")
+NON_TECH_FUNCTION = _rx(
+    r"\bmarketing\b",
+    r"recruit",
+    r"talent acquisition",
+    r"\bsourcing\b",
+    r"procurement",
+    r"\bsupply\b",
+    r"\bsupplier\b",
+    r"commodity",
+    r"accounting",
+    r"\baccount (director|manager)\b",
+    r"customer success",
+    r"administrative assistant",
+    r"\bconstruction\b",
+    r"facilit",
+    r"\bhse\b",
+    r"inspector",
+    r"project controls",
+    r"\bsales\b",
+    r"partnership",
+)
+HANDS_ON_TECH = _rx(
+    r"software",
+    r"developer",
+    r"data (scien|analy|engineer)",
+    r"machine learning",
+    r"\bml\b",
+)
+# Physical security is a different job from information security
+NOT_INFOSEC = _rx(
+    r"officer",
+    r"guard",
+    r"loss prevention",
+    r"physical",
+    r"patrol",
+    r"shift supervisor",
+    r"national security",
+    r"operator",
+)
+DESIGN = _rx(
+    r"\bux\b",
+    r"\bui\s*(/|and|&)?\s*(ux|design)",  # "UI Designer", not "Web UI" developer work
+    r"user experience",
+    r"product design",
+    r"interaction design",
+    r"user research",
+    r"design technologist",
+)
+PRODUCT = _rx(
+    r"product manag",
+    r"product owner",
+    r"technical program manag",
+    r"\btpm\b",
+    r"(technical|hardware|engineering|software)\b.*\bprogram manag",
+)
+SECURITY = _rx(
+    r"security",
+    r"\bcyber",
+    r"infosec",
+    r"appsec",
+    r"penetration",
+    r"vulnerabilit",
+    r"\bthreat",
+    r"\bsoc analyst",
+    r"identity (and|&) access",
+    r"\biam\b",
+)
+SECURITY_JOB = _rx(
+    r"engineer",
+    r"analyst",
+    r"architect",
+    r"specialist",
+    r"manager",
+    r"intern",
+    r"research",
+    r"\bmts\b",
+    r"technical staff",
+    r"consultant",
+    r"tester",
+)
+HARDWARE = _rx(
+    r"electrical",
+    r"electronics?",
+    r"hardware",
+    r"embedded",
+    r"firmware",
+    r"\bfpga\b",
+    r"\basic\b",
+    r"\brtl\b",
+    r"design verification",
+    r"\banalog\b",
+    r"mixed[- ]signal",
+    r"\brf\b",
+    r"antenna",
+    r"silicon",
+    r"\bpcb\b",
+    r"circuit",
+    r"\bchip\b",
+    r"signal integrity",
+    r"\bdft\b",
+    r"power electronics",
+    r"system[- ]level test",
+    r"\bslt\b",
+)
+HARDWARE_JOB = _rx(
+    r"engineer",
+    r"designer",
+    r"intern",
+    r"co-?op",
+    r"associate",
+    r"architect",
+    r"scientist",
+    r"developer",
+)
+NOT_HARDWARE = _rx(
+    r"technician",
+    r"maintenance",
+    r"manufactur",
+    r"nuclear",
+    r"equipment",
+    r"instrumentation",
+)
+IT = _rx(
+    r"\bit\b",
+    r"information technology",
+    r"\bis/it\b",
+    r"system(s)? admin",
+    r"sysadmin",
+    r"network (engineer|admin|architect|planning|& infrastructure|and infrastructure|manager|specialist|analyst)",
+    r"cloud (engineer|admin|architect|system)",
+    r"help ?desk",
+    r"service desk",
+    r"desktop support",
+    r"database admin",
+    r"\bdba\b",
+    r"business systems analyst",
+    r"infrastructure (manager|leader|lead|director)",
+    r"manager, infrastructure",
+    r"(director|head|vp)\b[^,]*,?\s*(of\s+)?product infrastructure",
+    r"cloud platform",
+    r"technical support (specialist|analyst|technician)",
+    r"\bit support",
+)
+# "Director Product, Discovery & AI", "Sr. Director, Product & UX", "Head of Product".
+# Not "Director, Product Infrastructure" or "Head of Product Design"
+PRODUCT_LEAD = _rx(
+    r"\b(director|head|vp|vice president)\b[^,]*,?\s*(of\s+)?product\b(?!\s*(design|infrastructure|engineering|security|marketing))",
+)
+# HR and ERP systems work is IT, even when the title says "security"
+IT_SYSTEMS = _rx(r"\bhcm\b", r"\bhris\b", r"\berp\b")
+ENGINEERING_LEAD = _rx(r"(director|vp|head|vice president) of engineering")
+# The job is software, not a domain like "Software-Defined Radio"
+SOFTWARE_JOB = _rx(r"software (engineer|developer|development)", r"\bdeveloper\b")
+SRE = _rx(r"site reliability", r"reliability engineering", r"engineering manager")
+
+
 def role(title: str) -> str | None:
-    """AI/ML beats data beats software: an 'ML Data Engineer' is an AI role."""
+    """The field a title belongs to, most specific first. AI/ML beats data
+    beats software, so an 'ML Data Engineer' is AI and a 'Senior Software
+    Engineer, ML Systems' is AI too."""
     t = title.lower()
     if NEVER_TECH.search(t):
         return None
+    if re.search(r"data cent(er|re)", t) and "software" not in t:
+        return None
+    if PRODUCT_LEAD.search(t):
+        return "product"
+    if DESIGN.search(t):
+        return "design"
+    if PRODUCT.search(t):
+        return "product"
+    if NON_TECH_FUNCTION.search(t) and not HANDS_ON_TECH.search(t):
+        return None
+    if ENGINEERING_LEAD.search(t):
+        return "swe"
+    if IT_SYSTEMS.search(t) and not SOFTWARE_JOB.search(t):
+        return "it"
+    if SECURITY.search(t) and SECURITY_JOB.search(t) and not NOT_INFOSEC.search(t):
+        return "security"
+    if AI.search(t) and JOB_WORD.search(t):
+        return "ai"
+    if SRE.search(t):
+        return "swe"
+    if DATA.search(t) and JOB_WORD.search(t) and "software" not in t:
+        return "data"
+    if (
+        HARDWARE.search(t)
+        and HARDWARE_JOB.search(t)
+        and not NOT_HARDWARE.search(t)
+        and not SOFTWARE_JOB.search(t)
+    ):
+        return "hardware"
+    if IT.search(t) and not SOFTWARE_JOB.search(t):
+        return "it"
     area = bool(SWE_AREA.search(t) and ENGINEERING_WORD.search(t))
     if NOT_SOFTWARE.search(t) and not (SOFTWARE_HINT.search(t) or area):
         return None
-    if AI.search(t) and JOB_WORD.search(t):
-        return "ai"
-    if DATA.search(t) and JOB_WORD.search(t) and "software" not in t:
-        return "data"
     if SWE.search(t) or area:
         return "swe"
     return None
@@ -171,6 +365,7 @@ EXPERIENCED = _rx(
     r"\bprincipal\b",
     r"\blead\b",
     r"\bmanager\b",
+    r"\bleader\b",
     r"\bdirector\b",
     r"\bhead of\b",
     r"\bvp\b",
@@ -193,6 +388,7 @@ STRONG_ENTRY = _rx(
     r"entry[- ]level",
     r"\bjunior\b",
     r"early[- ]career",
+    r"early talent",
     r"engineer in training",
     r"\beit\b",
 )
@@ -219,19 +415,42 @@ ENTRY = _rx(
 )
 
 
+MID = _rx(
+    r"\b(ii|2)\b\s*$",
+    r"\b(ii|2)\s*[,(-]",
+    r"\b(ii|2)\b",
+    r"mid[- ]?level",
+    r"intermediate",
+    r"\blevel (ii|2)\b",
+)
+# Titles that name a job, not a rank: a "Product Manager" isn't senior
+ROLE_NOT_RANK = re.compile(r"(product|program|project) manager", re.IGNORECASE)
+OPEN_TO_ENTRY = re.compile(r"\b(i|1)\s*/\s*(ii|2)\b", re.IGNORECASE)  # "Engineer 1/2"
+
+
 def level(title: str) -> str:
-    """Intern first (a 'Senior Intern' is still an intern), then experienced
-    words, then entry words. Titles with neither are 'unclear', and the
-    description's required years decide them."""
+    """Intern first (a 'Senior Intern' is still an intern), then entry words
+    strong enough to win, then senior, mid and entry. Titles with none are
+    'unclear', and the description's required years decide them."""
     # A title used across every level, so the "staff" in it means nothing
     t = title.lower().replace("member of technical staff", "mts")
+    t = t.replace("member of product staff", "mps")
     if INTERN.search(t):
         return "intern"
-    if STRONG_ENTRY.search(t):
+    if STRONG_ENTRY.search(t) or OPEN_TO_ENTRY.search(t):
         return "entry"
-    # "Associate Director" is experienced; "Associate Software Engineer" is entry
-    if EXPERIENCED.search(t):
-        return "experienced"
+    ranked = ROLE_NOT_RANK.sub("role", t)
+    # "Associate Director" is senior; "Associate Software Engineer" is entry
+    if EXPERIENCED.search(ranked) and not MID.search(ranked):
+        return "senior"
+    if re.search(
+        r"\b(senior|sr\.?|staff|principal|lead|leader|director|head of|vp)\b", ranked
+    ):
+        return "senior"
+    if MID.search(ranked):
+        return "mid"
+    if EXPERIENCED.search(ranked):
+        return "senior"
     if ENTRY.search(t):
         return "entry"
     return "unclear"

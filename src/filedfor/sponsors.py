@@ -37,7 +37,25 @@ ROLE_SOCS = {
         "15-2041.00",
         "15-1252.00",
     ],
+    # Rules v5 fields (ADR-004)
+    "hardware": ["17-2061.00", "17-2071.00", "17-2072.00"],
+    "it": [
+        "15-1244.00",
+        "15-1241.00",
+        "15-1231.00",
+        "15-1232.00",
+        "15-1242.00",
+        "15-1243.00",
+        "15-1211.00",
+        "15-1299.08",
+    ],
+    "security": ["15-1212.00", "15-1299.04", "15-1299.05", "15-1299.06"],
+    "product": ["11-3021.00", "15-1299.09"],
+    "design": ["15-1255.00", "15-1255.01", "27-1021.00"],
 }
+# Tech filings outside the 15- computer occupations: hardware engineers and
+# computer and information systems managers (ADR-004)
+EXTRA_TECH_SOCS = ("17-2061.00", "17-2071.00", "17-2072.00", "11-3021.00")
 
 # Hours and pay periods per year, to put every wage on the same footing
 YEARLY_FACTOR = """
@@ -69,7 +87,7 @@ select
     JOB_TITLE                                           as job_title,
     trim(SOC_CODE)                                      as soc_code,
     SOC_TITLE                                           as soc_title,
-    left(SOC_CODE, 3) = '15-'                           as is_tech,
+    left(SOC_CODE, 3) = '15-' or SOC_CODE in {EXTRA_TECH_SOCS} as is_tech,
     coalesce(nullif(PW_WAGE_LEVEL, 'N/A'), 'Unknown')   as wage_level,
     try_cast(WAGE_RATE_OF_PAY_FROM as double) * {YEARLY_FACTOR} as wage_yearly,
     WORKSITE_CITY                                       as worksite_city,
@@ -206,7 +224,7 @@ def report(con: duckdb.DuckDBPyConnection | None = None) -> None:
     print(
         f"clean H-1B evidence {clean:>10,}   (certified, incl. withdrawn after certification)"
     )
-    print(f"  tech (SOC 15-)    {tech:>10,}")
+    print(f"  tech filings      {tech:>10,}")
     print(f"  wage out of range {bad_wage:>10,}   (excluded from medians only)")
     print(f"employers           {employers:>10,}")
     print(f"  with tech filings {tech_employers:>10,}")

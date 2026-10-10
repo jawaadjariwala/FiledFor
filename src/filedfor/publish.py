@@ -15,16 +15,35 @@ from email.utils import format_datetime
 from pathlib import Path
 from xml.sax.saxutils import escape
 
-from filedfor.classify import places
+from filedfor.classify import FIELDS, places
 from filedfor.notify import ROLE_NAMES, evidence_line
 
 PUBLIC = Path("public")
 SITE = Path("site")
 DOMAINS = Path("data/domains.csv")  # company -> website, for logos in site/logos
+NOTICES = Path("data/employer_notices.csv")  # hand-kept: DOL actions against employers
 SITE_URL = os.environ.get("SITE_URL", "https://filedfor.com/")
 MAX_AGE = timedelta(days=30)  # older postings are mostly evergreen or filled
+RECENT = timedelta(days=7)  # jobs-recent.json, loaded first; the rest on demand
+# What the site needs per job. Filing evidence lives once per company in
+# companies.json, and blocked jobs are never published, so their flags aren't either
+SITE_KEYS = (
+    "system",
+    "slug",
+    "job_id",
+    "company",
+    "title",
+    "url",
+    "location",
+    "is_remote",
+    "role",
+    "level",
+    "min_years",
+    "posted_at",
+    "first_seen_at",
+)
 FEED_ITEMS = 50
-FEEDS = {"all": None, "swe": "swe", "ai": "ai", "data": "data"}
+FEEDS = {"all": None} | {f: f for f in FIELDS}
 
 
 def fresh(job: dict, now: datetime) -> bool:
@@ -32,17 +51,11 @@ def fresh(job: dict, now: datetime) -> bool:
 
 
 def listed(job: dict) -> bool:
-    """On the site: US (or unknown) jobs open to people who need sponsorship,
-    that are entry level, internships, or level unclear but asking for 2 years
-    or less (or not saying)."""
+    """On the site: every level, in the US (or unknown), open to people who
+    need sponsorship. Interns and senior roles alike; the site filters."""
     if job["is_us"] is False:  # Workday multi-location jobs, checked on the job page
         return False
-    if job["no_sponsorship"] or job["citizens_only"] or job["clearance"]:
-        return False
-    return job["level"] in ("entry", "intern") or (
-        job["level"] == "unclear"
-        and (job["min_years"] is None or job["min_years"] <= 2)
-    )
+    return not (job["no_sponsorship"] or job["citizens_only"] or job["clearance"])
 
 
 def dedupe(jobs: list[dict]) -> list[dict]:
@@ -64,11 +77,21 @@ def dedupe(jobs: list[dict]) -> list[dict]:
 
 
 def _plain(job: dict) -> dict:
-    out = {k: (v.isoformat() if hasattr(v, "isoformat") else v) for k, v in job.items()}
-    for k in ("alerted_at", "classifier_version"):
-        out.pop(k, None)
+    out = {
+        k: (v.isoformat() if hasattr(v, "isoformat") else v)
+        for k, v in job.items()
+        if k in SITE_KEYS
+    }
     out["states"], out["metros"] = places(job["location"])
     return out
+
+
+def notices() -> dict[str, dict]:
+    """company -> its notice (e.g. a PERM suspension), with date and source."""
+    if not NOTICES.exists():
+        return {}
+    with NOTICES.open(newline="") as f:
+        return {r.pop("company"): r for r in csv.DictReader(f)}
 
 
 def logos() -> dict[str, str]:
@@ -133,24 +156,37 @@ def publish(
     in_feeds: Callable[[dict], bool],
     company_info: Callable[[str], dict] = lambda name: {},
 ) -> None:
-    """Write public/: site files, jobs.json, companies.json (`company_info`
-    for each company with a listed job), health.json, and one RSS feed per
-    field with the jobs `in_feeds` accepts."""
+    """Write public/: site files, jobs-recent.json (last 7 days) and
+    jobs-older.json (8 to 30 days), companies.json (`company_info` for each
+    company with a listed job), health.json, and one RSS feed per field with
+    the jobs `in_feeds` accepts."""
     if SITE.exists():
         shutil.copytree(SITE, PUBLIC, dirs_exist_ok=True)
     PUBLIC.mkdir(exist_ok=True)
     keep = dedupe([j for j in jobs if fresh(j, now) and listed(j)])
-    (PUBLIC / "jobs.json").write_text(
-        json.dumps(
-            {"updated": health["finished_at"], "jobs": [_plain(j) for j in keep]}
+    recent = [j for j in keep if now - (j["posted_at"] or j["first_seen_at"]) <= RECENT]
+    older = [j for j in keep if now - (j["posted_at"] or j["first_seen_at"]) > RECENT]
+    totals = {"total": len(keep), "companies": len({j["company"] for j in keep})}
+    for name, part in (("jobs-recent.json", recent), ("jobs-older.json", older)):
+        (PUBLIC / name).write_text(
+            json.dumps(
+                {
+                    "updated": health["finished_at"],
+                    **totals,
+                    "jobs": [_plain(j) for j in part],
+                },
+                separators=(",", ":"),
+            )
         )
-    )
-    logo = logos()
+    (PUBLIC / "jobs.json").unlink(missing_ok=True)  # replaced by the two files above
+    logo, notice = logos(), notices()
     companies = {
-        name: company_info(name) | ({"logo": logo[name]} if name in logo else {})
+        name: company_info(name)
+        | ({"logo": logo[name]} if name in logo else {})
+        | ({"notice": notice[name]} if name in notice else {})
         for name in sorted({j["company"] for j in keep})
     }
-    (PUBLIC / "companies.json").write_text(json.dumps(companies))
+    (PUBLIC / "companies.json").write_text(json.dumps(companies, separators=(",", ":")))
     (PUBLIC / "health.json").write_text(json.dumps(health, indent=1))
     (PUBLIC / "sitemap.xml").write_text(sitemap(now))
     feed_jobs = [j for j in keep if in_feeds(j)]

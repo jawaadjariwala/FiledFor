@@ -34,15 +34,13 @@ def job(**kw) -> dict:
     return base | kw
 
 
-def test_listed_keeps_entry_intern_and_low_year_unclear():
+def test_listed_keeps_every_level_but_never_blocked_or_non_us_jobs():
     assert not publish.listed(job(citizens_only=True))
     assert not publish.listed(job(no_sponsorship=True))
     assert not publish.listed(job(clearance=True))
-    assert publish.listed(job())
-    assert publish.listed(job(level="intern"))
-    assert publish.listed(job(level="unclear", min_years=None))
-    assert publish.listed(job(level="unclear", min_years=2))
-    assert not publish.listed(job(level="unclear", min_years=3))
+    assert not publish.listed(job(is_us=False))
+    for level in ("intern", "entry", "unclear", "mid", "senior"):
+        assert publish.listed(job(level=level, min_years=5))
 
 
 def test_rss_is_valid_xml_and_escapes_text():
@@ -89,13 +87,18 @@ def test_publish_writes_site_json_and_feeds(tmp_path, monkeypatch):
     )
     out = tmp_path / "public"
     assert (out / "index.html").read_text() == "<p>hi</p>"
-    data = json.loads((out / "jobs.json").read_text())
+    data = json.loads((out / "jobs-recent.json").read_text())
     assert [j["job_id"] for j in data["jobs"]] == ["1"]  # old and blocked jobs left out
-    assert "alerted_at" not in data["jobs"][0]
-    assert data["jobs"][0]["states"] == ["NY"] and data["jobs"][0]["metros"] == [
-        "New York"
-    ]
-    assert data["jobs"][0]["first_seen_at"]  # the site's "new since your last visit"
+    assert data["total"] == 1 and data["companies"] == 1
+    assert json.loads((out / "jobs-older.json").read_text())["jobs"] == []
+    listed = data["jobs"][0]
+    assert (
+        "alerted_at" not in listed
+        and "evidence" not in listed
+        and "citizens_only" not in listed
+    )
+    assert listed["states"] == ["NY"] and listed["metros"] == ["New York"]
+    assert listed["first_seen_at"]  # the site's "new since your last visit"
     companies = json.loads((out / "companies.json").read_text())
     assert companies == {
         "Acme & Sons": {"tech_filings": 7, "logo": "logos/acme.com.png"}
