@@ -104,6 +104,13 @@ function readURL() {
   view = p.get("view") === "saved" ? "saved" : "jobs";
   return p.get("company");
 }
+// Campaign tags (?ref=reddit, utm_*) say which channel a visitor came from.
+// They stay in the address for the whole visit, so the analytics script reads
+// them whenever it loads, but "Share search" copies a link without them.
+const CAMPAIGN = new URLSearchParams(
+  [...new URLSearchParams(location.search)].filter(([k]) => k === "ref" || k.startsWith("utm_")),
+);
+
 function writeURL(company = currentCompany) {
   const p = new URLSearchParams();
   const same = (a, b) => a.length === b.length && a.every((x) => b.includes(x));
@@ -117,6 +124,7 @@ function writeURL(company = currentCompany) {
   if (state.sort !== "new") p.set("sort", state.sort);
   if (view === "saved") p.set("view", "saved");
   if (company) p.set("company", company);
+  for (const [k, v] of CAMPAIGN) p.set(k, v);
   const qs = p.toString().replace(/%2C/g, ",").replace(/%3A/g, ":");
   history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
 }
@@ -487,7 +495,10 @@ function wire() {
   $("copy-link").addEventListener("click", async () => {
     track("share-search");
     writeURL(null);
-    try { await navigator.clipboard.writeText(location.href); toast("Link copied"); } catch (e) { toast("Copy the address bar to share this search"); }
+    const link = new URL(location.href);
+    for (const k of CAMPAIGN.keys()) link.searchParams.delete(k);
+    const clean = link.toString().replace(/%2C/g, ",").replace(/%3A/g, ":");
+    try { await navigator.clipboard.writeText(clean); toast("Link copied"); } catch (e) { toast("Copy the address bar to share this search"); }
   });
   $("nav-jobs").addEventListener("click", () => { view = "jobs"; rerender(); });
   $("nav-saved").addEventListener("click", () => { track("saved-view"); view = "saved"; onlyNew = false; rerender(); window.scrollTo({ top: $("results").offsetTop - 70, behavior: "smooth" }); });
