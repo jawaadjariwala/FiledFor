@@ -641,3 +641,54 @@ deliberate: "New Graduate Engineer, Software Security" is now Security, and
   rule out sponsorship, from 14% of design jobs to 49% of hardware jobs.
 - **Published data:** `jobs-recent.json` 188 KB and `jobs-older.json` 249 KB
   compressed; `companies.json` 61 KB.
+
+---
+
+## ADR-005: Portal features without accounts
+
+**Status:** Accepted, 2026-10-10
+
+### Context
+
+To be a job board people return to, FiledFor needed what other portals offer:
+search that finds what people mean, pay, a job page, tracking applications,
+saved searches, and an app on the phone. The site is static on GitHub Pages
+with no backend, and accounts were ruled out for now (no logins: a sign-up
+wall costs first-time visitors).
+
+### Decisions
+
+1. **Search has its own filters.** Typing a query switches to search mode with
+   wide defaults (all fields, all levels, 30 days, any company); the browse
+   filters are kept aside and come back when the search is cleared. Earlier
+   filters can no longer hide matches.
+2. **Ranked matching with MiniSearch, served from the repo** (`site/vendor`,
+   MIT). Prefix and fuzzy matching handle plurals and typos; a short list
+   expands abbreviations (SWE, ML, PM, SDE, QA, SRE, UX) and related roles
+   ("data engineer" also finds analytics engineers and ETL developers). Titles
+   holding the exact phrase rank first. When nothing matches every word, the
+   closest jobs sharing at least half the words are shown, and the page says so.
+   Served from filedfor.com rather than a CDN: no third-party request, and no
+   integrity hash to manage on a generated file.
+3. **Pay comes from the posting.** Lever's structured salary range when present,
+   otherwise a pay range read from the description: a dollar range, hourly made
+   yearly, several location bands spanning the full range. Single figures are
+   ignored (they are usually stipends or funding rounds), as are amounts outside
+   $20K to $1M a year. Rules v6 also read work setup (remote, hybrid, on-site)
+   from the job system's field, the location, or the description. About half of
+   listed jobs state pay and about 57% a work setup.
+4. **"Last checked"** is the last successful read of the job's board, joined in
+   at publish time, so no per-job writes are needed every run.
+5. **Tracker, notes, hidden jobs and saved searches live in the browser.**
+   Statuses (saved, applied, interviewing, offer, not selected), private notes,
+   a snapshot of each tracked job so it survives the posting closing, and CSV
+   export. Nothing leaves the device; the trade-off is no sync between devices.
+6. **Installable app with a network-first service worker.** It caches the shell
+   and data only as an offline fallback, so a visitor never sees stale jobs
+   while online. Registered only on the https site.
+
+### Consequences
+
+- Anonymous event counts (GoatCounter) are the only record of tracker use.
+- If sync between devices is ever needed, that is the point to add optional
+  sign-in, not before.

@@ -41,6 +41,10 @@ SITE_KEYS = (
     "min_years",
     "posted_at",
     "first_seen_at",
+    "salary_min",
+    "salary_max",
+    "arrangement",
+    "checked_at",
 )
 FEED_ITEMS = 50
 FEEDS = {"all": None} | {f: f for f in FIELDS}

@@ -27,6 +27,10 @@ create table if not exists boards (
 );
 -- Workday boards are mostly read in part; this is the last read to the end (ADR-003)
 alter table boards add column if not exists last_full_at timestamptz;
+-- Rules v6: pay range and work arrangement read from each posting
+alter table jobs add column if not exists salary_min int;
+alter table jobs add column if not exists salary_max int;
+alter table jobs add column if not exists arrangement text;
 
 create table if not exists jobs (
     system             text not null,
@@ -91,6 +95,9 @@ JOB_COLUMNS = [
     "first_seen_at",
     "alerted_at",
     "classifier_version",
+    "salary_min",
+    "salary_max",
+    "arrangement",
 ]
 
 
@@ -249,8 +256,10 @@ def record_alerts(conn: psycopg.Connection, sent: int) -> None:
 def open_jobs(conn: psycopg.Connection) -> list[dict]:
     return list(
         conn.execute(
-            "select * from jobs where closed_at is null "
-            "order by posted_at desc nulls last, system, slug, job_id"
+            # checked_at: the last time the job's board was read successfully
+            "select j.*, b.last_ok_at as checked_at from jobs j "
+            "left join boards b using (system, slug) where j.closed_at is null "
+            "order by j.posted_at desc nulls last, j.system, j.slug, j.job_id"
         )
     )
 

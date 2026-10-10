@@ -56,6 +56,9 @@ class Posting:
     workplace: str | bool | None  # Lever "remote"/"onsite"/..., Ashby isRemote
     posted_at: datetime | None
     description: str | None  # plain text; None until fetched (Greenhouse)
+    # Yearly pay range from a structured field (Lever); otherwise read from the
+    # description later
+    salary: tuple[int, int] | None = None
 
     @property
     def key(self) -> tuple[str, str, str]:
@@ -119,6 +122,15 @@ def parse_greenhouse(slug: str, body: dict) -> list[Posting]:
     ]
 
 
+def _lever_salary(r: dict | None) -> tuple[int, int] | None:
+    """Lever's structured pay range, made yearly. US dollars only."""
+    if not r or r.get("currency") not in (None, "USD") or not r.get("min"):
+        return None
+    factor = 2080 if "hour" in (r.get("interval") or "") else 1
+    low, high = r["min"] * factor, (r.get("max") or r["min"]) * factor
+    return (round(low), round(high)) if 20_000 <= low <= high <= 1_000_000 else None
+
+
 def parse_lever(slug: str, body: list) -> list[Posting]:
     out = []
     for j in body:
@@ -138,6 +150,7 @@ def parse_lever(slug: str, body: list) -> list[Posting]:
                 location=cats.get("location"),
                 country=j.get("country"),
                 workplace=j.get("workplaceType"),
+                salary=_lever_salary(j.get("salaryRange")),
                 posted_at=datetime.fromtimestamp(created / 1000, UTC)
                 if created
                 else None,
@@ -167,7 +180,7 @@ def parse_ashby(slug: str, body: dict) -> list[Posting]:
                 url=j.get("jobUrl") or "",
                 location=j.get("location"),
                 country=addr.get("addressCountry"),
-                workplace=j.get("isRemote"),
+                workplace=j.get("workplaceType") or j.get("isRemote"),
                 posted_at=_iso(j.get("publishedAt")),
                 description=j.get("descriptionPlain")
                 or html_to_text(j.get("descriptionHtml")),

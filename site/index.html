@@ -18,8 +18,12 @@
 <meta property="og:image:alt" content="FiledFor: tech jobs at companies that actually sponsor H-1B, with each company's filing record">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f7a52'/%3E%3Cpath d='M11 8h11v4h-7v3h6v4h-6v5h-4z' fill='white'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="FiledFor">
 <link rel="alternate" type="application/rss+xml" title="FiledFor: all new-grad jobs" href="feeds/all.xml">
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=12">
 <script>
   // Apply a saved theme before first paint so the page never flashes
   try { const t = localStorage.getItem("ff.theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
@@ -36,7 +40,7 @@
     </a>
     <nav class="topnav" aria-label="Main">
       <button type="button" class="navlink" id="nav-jobs" aria-current="page">Jobs</button>
-      <button type="button" class="navlink" id="nav-saved">Saved <span class="pill" id="saved-count" hidden>0</span></button>
+      <button type="button" class="navlink" id="nav-saved">My jobs <span class="pill" id="saved-count" hidden>0</span></button>
       <a class="navlink hide-sm" href="#about">How it works</a>
       <a class="navlink icon-only" href="https://github.com/jawaadjariwala/FiledFor" aria-label="Source code on GitHub" title="Source code on GitHub">
         <svg viewBox="0 0 16 16" aria-hidden="true" class="fill"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
@@ -58,7 +62,7 @@
 <div class="wrap layout">
   <aside class="filters" id="filters" aria-label="Filters">
     <div class="filters-head">
-      <h2>Filters</h2>
+      <h2 id="filters-title">Filters</h2>
       <button type="button" class="linkbtn" id="reset">Reset</button>
       <button type="button" class="closebtn mobile-only" id="filters-close" aria-label="Close filters">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
@@ -101,6 +105,27 @@
     </fieldset>
 
     <fieldset class="group">
+      <legend>Work setup</legend>
+      <div class="chips" data-key="setup">
+        <button type="button" class="chip" data-value="remote">Remote</button>
+        <button type="button" class="chip" data-value="hybrid">Hybrid</button>
+        <button type="button" class="chip" data-value="onsite">On-site</button>
+      </div>
+    </fieldset>
+
+    <fieldset class="group">
+      <legend>Pay <button type="button" class="info" data-explain="pay" aria-label="Where does pay come from?">?</button></legend>
+      <select id="pay" class="select" aria-label="Minimum pay">
+        <option value="0">Any pay</option>
+        <option value="80000">$80K or more</option>
+        <option value="100000">$100K or more</option>
+        <option value="120000">$120K or more</option>
+        <option value="150000">$150K or more</option>
+        <option value="200000">$200K or more</option>
+      </select>
+    </fieldset>
+
+    <fieldset class="group">
       <legend>Location</legend>
       <div class="selected-places" id="selected-places"></div>
       <input type="search" class="place-search" id="place-search" placeholder="Find a metro area or state" aria-label="Find a location">
@@ -110,7 +135,9 @@
     <fieldset class="group">
       <legend>Sponsor record</legend>
       <label class="toggle"><input type="checkbox" id="filed"> <span>Only companies with filings for the role</span></label>
+      <label class="toggle"><input type="checkbox" id="strong"> <span>Strong sponsors only (50+ filings for the role)</span></label>
       <label class="toggle"><input type="checkbox" id="hide-applied"> <span>Hide jobs I applied to</span></label>
+      <label class="toggle" id="show-hidden-row" hidden><input type="checkbox" id="show-hidden"> <span id="show-hidden-label">Show hidden</span></label>
     </fieldset>
 
     <button type="button" class="btn primary mobile-only show-results" id="filters-done">Show jobs</button>
@@ -120,7 +147,7 @@
     <div class="searchrow">
       <div class="search">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-        <input type="search" id="q" placeholder="Search title, company or location" aria-label="Search jobs">
+        <input type="search" id="q" placeholder="Search jobs: title, company, skill or place (SWE, ML, data engineer…)" aria-label="Search jobs">
       </div>
       <button type="button" class="btn mobile-only" id="filters-open">Filters <span class="pill" id="filter-count" hidden></span></button>
     </div>
@@ -131,11 +158,17 @@
       <div class="resultbar-right">
         <label class="sort"><span>Sort</span>
           <select id="sort">
+            <option value="match" id="sort-match" hidden disabled>Best match</option>
             <option value="new">Newest</option>
             <option value="filings">Most filings</option>
+            <option value="pay">Highest posted pay</option>
             <option value="wage">Highest median wage</option>
           </select>
         </label>
+        <button type="button" class="btn ghost" id="save-search" title="Save this search and see what's new next time">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/></svg>
+          <span>Save search</span>
+        </button>
         <button type="button" class="btn ghost" id="copy-link" title="Copy a link to this exact search">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
           <span>Share search</span>
@@ -196,6 +229,9 @@
 <dialog class="panel" id="panel" aria-labelledby="panel-title">
   <div class="panel-inner" id="panel-body"></div>
 </dialog>
+<dialog class="panel" id="jobpanel" aria-labelledby="job-title">
+  <div class="panel-inner" id="job-body"></div>
+</dialog>
 
 <div class="popover" id="popover" role="tooltip" hidden></div>
 <div class="tip" id="tip" role="tooltip" hidden></div>
@@ -207,6 +243,7 @@
   window.goatcounter = { path: () => "/" };
 </script>
 <script data-goatcounter="https://jawaadjariwala.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
-<script src="app.js?v=7"></script>
+<script src="vendor/minisearch.js?v=1"></script>
+<script src="app.js?v=15"></script>
 </body>
 </html>

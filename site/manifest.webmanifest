@@ -1,0 +1,14 @@
+{
+  "name": "FiledFor: tech jobs at H-1B sponsors",
+  "short_name": "FiledFor",
+  "description": "Tech jobs at companies that have filed H-1B applications for that kind of role, with each company's Department of Labor record.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f6f3",
+  "theme_color": "#1f7a52",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

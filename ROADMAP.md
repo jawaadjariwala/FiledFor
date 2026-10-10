@@ -36,17 +36,18 @@ behind each piece are in [docs/decisions.md](docs/decisions.md).
 - [x] Green card (PERM) suspension notices for affected employers
 
 ### 2. A job portal people rely on
-- [ ] Search with its own filter panel, so earlier filters never hide
+- [x] Search with its own filter panel, so earlier filters never hide
       matches, and ranked matching that finds similar jobs: abbreviations
       (SWE, ML, PM, QA), related roles, plurals and typos
-- [ ] Salary ranges from postings, with a pay filter and sort
-- [ ] Job detail view inside FiledFor
-- [ ] "Checked X min ago" on every job, and a status page
-- [ ] Hide a job or a company
-- [ ] Application tracker: statuses, notes, CSV export
-- [ ] Saved searches with "new since last visit" counts
-- [ ] Remote / hybrid / on-site, strong-sponsor and years filters
-- [ ] Install as an app on phones
+- [x] Salary ranges from postings, with a pay filter and sort
+- [x] Job detail view inside FiledFor
+- [x] "Last checked" on every job
+- [ ] A status page (boards checked, failures, time since the last run)
+- [x] Hide a job or a company
+- [x] Application tracker: statuses, notes, CSV export
+- [x] Saved searches with "new since last visit" counts
+- [x] Work setup, pay and strong-sponsor filters (years are covered by the level buckets)
+- [x] Install as an app on phones
 
 ### 3. Pages for search
 - [ ] A page per sponsor: filings over time, wage levels per field, top

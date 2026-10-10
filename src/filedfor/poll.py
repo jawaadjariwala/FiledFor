@@ -178,6 +178,12 @@ def job_row(c: Candidate, company: str, evidence, now, alerted) -> dict:
         "role": c.role,
         "level": c.level,
         "min_years": classify.min_years(p.description or ""),
+        "salary_min": (pay := p.salary or classify.salary(p.description or ""))
+        and pay[0],
+        "salary_max": pay and pay[1],
+        "arrangement": classify.arrangement(
+            p.location, p.workplace, p.description or ""
+        ),
         "no_sponsorship": f.no_sponsorship,
         "citizens_only": f.citizens_only,
         "clearance": f.clearance,

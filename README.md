@@ -14,9 +14,11 @@ Most "visa-friendly" job lists tell you a company sponsors. FiledFor puts each j
 
 ## Use it
 
-- **Browse** the [site](https://filedfor.com/). Filter by field (Software, AI/ML, Data, Hardware & Embedded, IT & Cloud, Security, Product, Design), level (internship to senior), posting age, metro area or state, or search by title, company or location. Every search is a link you can share.
-- **Open any company** to see its filing record for each field, its wage-level mix, new-hire share, median wage and all its open roles.
-- **Keep track** with saved and applied jobs and a "new since your last visit" count. All of it stays in your browser; there's no account.
+- **Browse** the [site](https://filedfor.com/). Filter by field (Software, AI/ML, Data, Hardware & Embedded, IT & Cloud, Security, Product, Design), level (internship to senior), posting age, work setup, pay, metro area or state. Every search is a link you can share.
+- **Search** for what you mean: "SWE new grad", "ml engineer" or "data engineer seattle" also find abbreviations, related roles, plurals and typos, with their own filters.
+- **Open a job** for its pay, work setup, years asked, last-checked time and the company's filing record; **open a company** for its record in every field and all its open roles.
+- **Track your search** in My jobs: statuses from saved to offer, private notes, CSV export, saved searches that count new jobs, and hidden jobs or companies. All of it stays in your browser; there's no account.
+- **Install it** on your phone's home screen like an app.
 - **Follow an RSS feed** for new jobs: [all fields](https://filedfor.com/feeds/all.xml), [software](https://filedfor.com/feeds/swe.xml), [AI/ML](https://filedfor.com/feeds/ai.xml), [data](https://filedfor.com/feeds/data.xml). Works in any feed reader, and in Slack or Discord through an RSS bot.
 - **Use the data.** [`jobs-recent.json`](https://filedfor.com/jobs-recent.json) (last 7 days) and [`jobs-older.json`](https://filedfor.com/jobs-older.json) (8 to 30 days) list every job; [`companies.json`](https://filedfor.com/companies.json) has each company's filing record per field, and [`health.json`](https://filedfor.com/health.json) shows the last run. The sponsor tables are in [`data/`](docs/data.md).
 
@@ -88,7 +90,8 @@ src/filedfor/
   publish.py, notify.py site, job and company JSON, RSS, Discord
   logos.py              save company logos into site/logos (run by hand)
   evaluate.py           score the classifier against hand labels
-site/                   the static page (HTML, CSS, JS; no build step)
+site/                   the static page (HTML, CSS, JS; no build step), app manifest and
+                        service worker, MiniSearch in site/vendor
 data/                   sponsor tables, watchlist, hand-made decisions and labels
 docs/                   design decisions and data notes
 tests/                  unit tests on saved, trimmed API responses

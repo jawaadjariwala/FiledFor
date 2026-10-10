@@ -48,7 +48,9 @@ def test_lever_fields():
 
 def test_ashby_fields():
     p = parse_ashby("gimlet", load("ashby_board.json"))[0]
-    assert p.country == "United States" and p.workplace is False
+    assert (
+        p.country == "United States" and p.workplace == "OnSite"
+    )  # Ashby workplaceType
     assert p.description
 
 
@@ -297,3 +299,17 @@ def test_logo_size_check_reads_png_header():
     header = b"\x89PNG\r\n\x1a\n" + b"\x00\x00\x00\rIHDR" + struct.pack(">II", 128, 64)
     assert png_size(header) == (128, 64)
     assert png_size(b"GIF89a....................") is None
+
+
+def test_lever_salary_range_is_yearly_usd():
+    from filedfor.feeds import _lever_salary
+
+    assert _lever_salary(
+        {"min": 190000, "max": 220000, "currency": "USD", "interval": "per-year-salary"}
+    ) == (190000, 220000)
+    assert _lever_salary(
+        {"min": 40, "max": 50, "currency": "USD", "interval": "per-hour-wage"}
+    ) == (83200, 104000)
+    assert _lever_salary({"min": 50000, "max": 60000, "currency": "GBP"}) is None
+    p = parse_lever("voltus", load("lever_board.json"))[0]
+    assert p.salary == (190000, 220000)

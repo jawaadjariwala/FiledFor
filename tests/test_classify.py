@@ -185,3 +185,49 @@ def test_places(location, states, metros):
     from filedfor.classify import places
 
     assert places(location) == (states, metros)
+
+
+@pytest.mark.parametrize(
+    "text, expected",
+    [
+        (
+            "This role pays $145,000 to $170,000 per year, based on experience",
+            (145000, 170000),
+        ),
+        (
+            "The base salary range for this role is $150K – $250K, depending on level",
+            (150000, 250000),
+        ),
+        ("Pay: $25.00 - $35.00 per hour", (52000, 72800)),  # hourly, made yearly
+        (
+            "Seattle: $178,513 - $220,822. San Francisco: $190,000 - $240,000.",
+            (178513, 240000),
+        ),
+        ("USD $120,000 - $150,000 annually", (120000, 150000)),
+        ("We have raised $96 million from Index Ventures", None),  # funding, not pay
+        ("$100/mo wellness stipend and $1K/year to invest in yourself", None),
+        ("Requires 2-3 years of experience", None),
+        ("", None),
+    ],
+)
+def test_salary(text, expected):
+    from filedfor.classify import salary
+
+    assert salary(text) == expected
+
+
+@pytest.mark.parametrize(
+    "location, workplace, description, expected",
+    [
+        ("New York, NY", "OnSite", "", "onsite"),  # Ashby's field wins
+        ("Remote - US", None, "", "remote"),
+        ("Austin, TX", None, "Hybrid: 3 days a week in the office", "hybrid"),
+        ("Austin, TX", None, "You will work on-site with the team", "onsite"),
+        ("Austin, TX", True, "", "remote"),
+        ("Austin, TX", None, "Great team and benefits", None),
+    ],
+)
+def test_arrangement(location, workplace, description, expected):
+    from filedfor.classify import arrangement
+
+    assert arrangement(location, workplace, description) == expected

@@ -10,13 +10,15 @@ rules classified them.
     level      intern | entry | mid | senior | unclear
     is_us      True | False | None      (None: can't tell, e.g. "Remote")
     min_years  smallest years of experience the description asks for
+    salary     yearly pay range the posting states, if any
+    arrangement remote | hybrid | onsite | None
     flags      no_sponsorship, citizens_only, clearance
 """
 
 import re
 from dataclasses import dataclass
 
-VERSION = 5
+VERSION = 6
 FIELDS = ("swe", "ai", "data", "hardware", "it", "security", "product", "design")
 
 
@@ -663,6 +665,84 @@ def places(location: str | None) -> tuple[list[str], list[str]]:
     if not states:
         states = {METROS[m][0] for m in metros}
     return sorted(states), metros
+
+
+# --- pay and work arrangement (v6) --------------------------------------------
+
+# A pay range: "$145,000 to $170,000", "$150K – $250K", "$25.00 - $35.00 per
+# hour", "USD 120,000 - 150,000". A lone figure is usually a stipend or a
+# funding round ("$96 million"), so only ranges count.
+_PAY = re.compile(
+    r"(?:usd\s*)?\$\s?(?P<a>\d[\d,]*(?:\.\d+)?)\s?(?P<ak>k\b)?"
+    r"\s*(?:-|–|—|to)\s*"
+    r"(?:usd\s*)?\$?\s?(?P<b>\d[\d,]*(?:\.\d+)?)\s?(?P<bk>k\b)?"
+    r"(?P<scale>\s*(?:million|billion|m\b|b\b|mm\b))?"
+    r"(?P<unit>\s*(?:usd\s*)?(?:per|/|an|a)\s*(?:hour|hr|year|yr|annum|annually))?",
+    re.IGNORECASE,
+)
+HOURS_PER_YEAR = 2080
+
+
+def _amount(digits: str, k: str | None) -> float:
+    return float(digits.replace(",", "")) * (1000 if k else 1)
+
+
+def salary(text: str) -> tuple[int, int] | None:
+    """Yearly pay range a posting states, or None. Hourly ranges are turned
+    into yearly ones; several location bands give the full span."""
+    lows, highs = [], []
+    for m in _PAY.finditer(text or ""):
+        if m.group("scale"):
+            continue
+        a, b = _amount(m["a"], m["ak"]), _amount(m["b"], m["bk"])
+        unit = (m["unit"] or "").lower()
+        hourly = "hour" in unit or "hr" in unit or (not unit and b < 300)
+        if hourly:
+            a, b = a * HOURS_PER_YEAR, b * HOURS_PER_YEAR
+        if not (20_000 <= a <= b <= 1_000_000) or b > 4 * a:
+            continue
+        lows.append(a)
+        highs.append(b)
+    if not lows:
+        return None
+    return round(min(lows)), round(max(highs))
+
+
+HYBRID = _rx(
+    r"\bhybrid\b",
+    r"\b[1-4]\s*(days?|x)\s*(a|per|/)\s*week\s*(in|on)[- ]?(the )?(office|site)",
+)
+ONSITE = _rx(
+    r"\bon-?site\b", r"in[- ]office\b", r"in[- ]person\b", r"5 days (a|per) week in"
+)
+FULLY_REMOTE = _rx(
+    r"fully remote", r"100% remote", r"remote[- ]first", r"work from anywhere"
+)
+
+
+def arrangement(
+    location: str | None, workplace: str | bool | None, description: str = ""
+) -> str | None:
+    """remote, hybrid or onsite. A structured field from the job system wins,
+    then the location, then the description; None when nothing says."""
+    if isinstance(workplace, str):
+        w = workplace.lower().replace("-", "").replace(" ", "")
+        if w in ("remote", "hybrid", "onsite"):
+            return w
+    if workplace is True:
+        return "remote"
+    loc = (location or "").lower()
+    if "hybrid" in loc:
+        return "hybrid"
+    if REMOTE.search(loc):
+        return "remote"
+    if HYBRID.search(description):
+        return "hybrid"
+    if FULLY_REMOTE.search(description):
+        return "remote"
+    if ONSITE.search(description):
+        return "onsite"
+    return None
 
 
 # --- description -----------------------------------------------------------
