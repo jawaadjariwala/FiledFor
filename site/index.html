@@ -170,13 +170,15 @@
   <h3>Get new jobs as they appear</h3>
   <p>RSS feeds with the newest new-grad jobs at companies with filings for that kind of role. Paste one into any feed reader, or into Slack or Discord with an RSS bot.</p>
   <ul class="feeds">
-    <li><a href="feeds/all.xml">All fields</a></li>
-    <li><a href="feeds/swe.xml">Software</a></li>
-    <li><a href="feeds/ai.xml">AI/ML</a></li>
-    <li><a href="feeds/data.xml">Data</a></li>
+    <li><a data-goatcounter-click="rss-all" href="feeds/all.xml">All fields</a></li>
+    <li><a data-goatcounter-click="rss-swe" href="feeds/swe.xml">Software</a></li>
+    <li><a data-goatcounter-click="rss-ai" href="feeds/ai.xml">AI/ML</a></li>
+    <li><a data-goatcounter-click="rss-data" href="feeds/data.xml">Data</a></li>
   </ul>
   <h3>Open source</h3>
   <p>Code, data and methods are on <a href="https://github.com/jawaadjariwala/FiledFor">GitHub</a>. Spot a wrong company match or a job that shouldn't be here? Use the flag on the job to report it. Company job boards were found through <a href="https://github.com/SimplifyJobs">SimplifyJobs</a>' public listings.</p>
+  <h3>Privacy</h3>
+  <p>No accounts and no cookies. Saved and applied jobs stay in your browser. Visits and clicks are counted anonymously with <a href="https://www.goatcounter.com">GoatCounter</a>, which records no personal data.</p>
 </section>
 
 <footer class="footer wrap">
@@ -192,6 +194,12 @@
 <div class="tip" id="tip" role="tooltip" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-<script src="app.js?v=4"></script>
+<script>
+  // Count every visit as "/": shared searches add query strings, which would
+  // otherwise split one page into hundreds of rows
+  window.goatcounter = { path: () => "/" };
+</script>
+<script data-goatcounter="https://jawaadjariwala.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>

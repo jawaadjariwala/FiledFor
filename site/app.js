@@ -201,6 +201,12 @@ function logo(name) {
   }
   return box;
 }
+// Anonymous counts of what people do (GoatCounter, no cookies). These are
+// the only record of saves and applies, which otherwise live in one browser.
+function track(name, title = "") {
+  try { window.goatcounter?.count?.({ path: name, title, event: true }); } catch (e) {}
+}
+
 function reportURL(j) {
   const p = new URLSearchParams({
     template: "job-report.yml",
@@ -240,13 +246,14 @@ function card(j) {
     ),
     el("div", { class: "actions" },
       el("div", { class: "icons" }, saveBtn, appliedBtn,
-        el("a", { class: "iconbtn", href: reportURL(j), target: "_blank", rel: "noopener", "aria-label": "Report a problem with this job", title: "Report a problem" }, svg(ICON.flag))),
-      el("a", { class: "btn primary apply", href: j.url, target: "_blank", rel: "noopener" }, "Apply", svg(ICON.out)),
+        el("a", { class: "iconbtn", href: reportURL(j), target: "_blank", rel: "noopener", "aria-label": "Report a problem with this job", title: "Report a problem", onclick: () => track("report", j.company) }, svg(ICON.flag))),
+      el("a", { class: "btn primary apply", href: j.url, target: "_blank", rel: "noopener", onclick: () => track("apply", j.company) }, "Apply", svg(ICON.out)),
     ),
   );
 }
 function toggleSet(set, storeKey, k, btn, onMsg, offMsg) {
   const on = !set.has(k);
+  if (on) track(set === saved ? "save" : "applied");
   on ? set.add(k) : set.delete(k);
   store.set(storeKey, [...set]);
   btn.setAttribute("aria-pressed", String(on));
@@ -351,6 +358,7 @@ function togglePlace(p) {
 let currentCompany = null;
 function openCompany(name) {
   const c = companies[name] || {};
+  if (currentCompany !== name) track("company", name);
   currentCompany = name;
   const open = jobs.filter((j) => j.company === name).sort((a, b) => Date.parse(b.posted_at || 0) - Date.parse(a.posted_at || 0));
   const evs = Object.entries(c.evidence || {});
@@ -475,13 +483,14 @@ function wire() {
   $("place-search").addEventListener("input", renderPlaces);
   $("reset").addEventListener("click", () => { state = structuredClone(DEFAULTS); onlyNew = false; $("place-search").value = ""; rerender(); });
   $("more").addEventListener("click", () => { shown += PAGE; render(); });
-  $("new-toggle").addEventListener("click", () => { onlyNew = !onlyNew; rerender(); });
+  $("new-toggle").addEventListener("click", () => { onlyNew = !onlyNew; if (onlyNew) track("new-since-visit"); rerender(); });
   $("copy-link").addEventListener("click", async () => {
+    track("share-search");
     writeURL(null);
     try { await navigator.clipboard.writeText(location.href); toast("Link copied"); } catch (e) { toast("Copy the address bar to share this search"); }
   });
   $("nav-jobs").addEventListener("click", () => { view = "jobs"; rerender(); });
-  $("nav-saved").addEventListener("click", () => { view = "saved"; onlyNew = false; rerender(); window.scrollTo({ top: $("results").offsetTop - 70, behavior: "smooth" }); });
+  $("nav-saved").addEventListener("click", () => { track("saved-view"); view = "saved"; onlyNew = false; rerender(); window.scrollTo({ top: $("results").offsetTop - 70, behavior: "smooth" }); });
   $("filters-open").addEventListener("click", () => document.body.classList.add("filters-open"));
   const closeFilters = () => document.body.classList.remove("filters-open");
   $("filters-close").addEventListener("click", closeFilters);
@@ -527,6 +536,8 @@ async function load() {
     );
     updateSavedCount();
     render();
+    if (location.search) track("opened-shared-link");
+    if (lastVisit) track("returning-visit");
     if (companyParam && companies[companyParam]) openCompany(companyParam);
   } catch (e) {
     $("status").textContent = "Couldn't load jobs. Refresh to try again.";
