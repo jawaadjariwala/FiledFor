@@ -58,6 +58,12 @@ behind each piece are in [docs/decisions.md](docs/decisions.md).
       lottery, the PERM suspension)
 - [x] Sitemap index, structured data, internal links
 
+### 4. Redesign and job pages
+- [x] Record-style design in greens, chosen from three mockups
+- [x] A page per job with the full description and Google job markup
+- [x] Board as a register with a preview pane, filter menus with counts
+- [x] Page transitions and instant-loading links
+
 ### Also
 - [ ] **Real lottery levels:** compare each offered wage with the OEWS wage
       levels for its occupation and area, since the FY2027 lottery weights by

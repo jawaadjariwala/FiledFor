@@ -29,7 +29,7 @@ PUBLIC = Path("public")
 WATCHLIST = Path("data/companies.csv")
 SITE = Path("site")
 SITE_URL = os.environ.get("SITE_URL", "https://filedfor.com/")
-MODULES = ("filedfor.pages_company", "filedfor.pages_browse")
+MODULES = ("filedfor.pages_company", "filedfor.pages_browse", "filedfor.pages_job")
 FIELD_NAMES = {
     "swe": "Software",
     "ai": "AI/ML",
@@ -54,6 +54,7 @@ class Context:
     companies: dict[str, dict]
     now: datetime
     updated: str  # when the job data was last refreshed, ISO
+    descriptions: dict[str, str] = field(default_factory=dict)  # job key -> clean HTML
 
     @property
     def directory(self) -> dict[str, int]:
@@ -107,12 +108,21 @@ class Page:
     group: str = "pages"  # which sitemap file lists it: sitemap-<group>.xml
     lastmod: str | None = None  # ISO date; defaults to the build date
     noindex: bool = False  # too thin for search: kept for visitors, out of the sitemap
+    nav: str = ""  # which header link is current: jobs, companies or rankings
+    bare: bool = False  # the module supplies all of <main>, without crumbs
 
 
 def slug(name: str) -> str:
     """'Procter & Gamble' -> 'procter-gamble'. Stable, so URLs never change."""
     s = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode()
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-") or "company"
+
+
+def job_path(j: dict) -> str:
+    """A job's page: readable, and unique through a short hash of its key, so
+    it never changes while the posting is open."""
+    h = hashlib.sha1(job_key(j).encode()).hexdigest()[:7]
+    return f"job/{slug(j['company'])[:40]}-{slug(j['title'])[:70].strip('-')}-{h}/"
 
 
 def app_link(**params: str) -> str:
@@ -145,7 +155,7 @@ def ago(iso: str | None, now: datetime) -> str:
 def job_list(
     ctx: Context, jobs: list[dict], limit: int = 25, show_company: bool = True
 ) -> str:
-    """Newest first. Titles open the job in FiledFor; company names link to
+    """Newest first. Titles open the job's page; company names link to
     the company's page when it has one (left out on that page itself)."""
     now = ctx.now
     jobs = sorted(
@@ -159,10 +169,10 @@ def job_list(
         bits.append(f"posted {ago(j.get('posted_at') or j['first_seen_at'], now)}")
         items.append(
             '<li class="pjob">'
-            f'<a class="pjob-title" href="{esc(app_link(job=job_key(j)))}">{esc(j["title"])}</a>'
+            f'<a class="pjob-title" href="/{esc(job_path(j))}">{esc(j["title"])}</a>'
             f'<span class="pjob-meta">'
-            f"{company_link(ctx, j['company']) + ' · ' if show_company else ''}"
-            f"{' · '.join(bits)}</span></li>"
+            f"{company_link(ctx, j['company']) + ', ' if show_company else ''}"
+            f"{', '.join(bits)}</span></li>"
         )
     return f'<ul class="pjobs">{"".join(items)}</ul>' if items else ""
 
@@ -172,14 +182,35 @@ def company_link(ctx: Context, name: str) -> str:
     return f'<a href="{url}">{esc(name)}</a>' if url else esc(name)
 
 
-HEADER = """<header class="topbar"><div class="topbar-inner">
-<a class="brand" href="/" aria-label="FiledFor home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><path d="M11 8h11v4h-7v3h6v4h-6v5h-4z"/></svg><span>FiledFor</span></a>
-<nav class="topnav" aria-label="Main"><a class="navlink" href="/">Jobs</a><a class="navlink" href="/companies/">Companies</a>
-<button type="button" class="navlink icon-only" id="theme" aria-label="Switch between light and dark" title="Switch between light and dark"><svg viewBox="0 0 24 24" aria-hidden="true" class="moon"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true" class="sun"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
-</nav></div></header>"""
+NAV = (
+    ("jobs", "/", "Jobs"),
+    ("companies", "/companies/", "Companies"),
+    ("rankings", "/rankings/", "Rankings"),
+)
+THEME_BUTTON = (
+    '<button type="button" class="iconbtn" id="theme" aria-label="Switch between light and dark" title="Switch between light and dark">'
+    '<svg viewBox="0 0 24 24" aria-hidden="true" class="moon"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>'
+    '<svg viewBox="0 0 24 24" aria-hidden="true" class="sun"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>'
+)
 
-FOOTER = """<footer class="footer wrap"><span>FiledFor · open data, no sign-up. Filing data from the U.S. Department of Labor.</span>
-<a href="/companies/">All companies</a><a href="https://github.com/jawaadjariwala/FiledFor">GitHub</a></footer>"""
+
+def header(active: str = "") -> str:
+    links = "".join(
+        f'<a class="navlink" href="{href}"{' aria-current="page"' if key == active else ""}>{name}</a>'
+        for key, href, name in NAV
+    )
+    return (
+        '<header class="topbar"><div class="topbar-inner">'
+        '<a class="brand" href="/" aria-label="FiledFor home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7"/><path d="M11 8h11v4h-7v3h6v4h-6v5h-4z"/></svg><span>FiledFor</span></a>'
+        f'<nav class="topnav" aria-label="Main">{links}<a class="navlink" href="/?view=saved">My jobs</a></nav>'
+        f'<span class="status"></span>{THEME_BUTTON}</div></header>'
+    )
+
+
+FOOTER = """<footer class="footer wrap"><span>FiledFor: open data, no sign-up. Filing data from the U.S. Department of Labor.</span>
+<a href="/companies/">All companies</a><a href="/rankings/">Rankings</a><a href="/jobs/">Browse jobs</a><a href="https://github.com/jawaadjariwala/FiledFor">GitHub</a></footer>"""
+# Pages a visitor is likely to open next load while the pointer rests on the link
+SPECULATION = '<script type="speculationrules">{"prefetch":[{"where":{"href_matches":["/job/*","/companies/*"]},"eagerness":"moderate"}]}</script>'
 
 
 def render(page: Page, built: str) -> str:
@@ -206,6 +237,13 @@ def render(page: Page, built: str) -> str:
             ],
         }
     ]
+    main = (
+        page.body
+        if page.bare
+        else f'<main class="wrap page" id="main"><nav class="crumbs" aria-label="Breadcrumb">{crumbs}</nav>\n'
+        f"{page.body}\n"
+        f'<p class="page-updated">Jobs updated {esc(built)} UTC. FiledFor checks every company\'s job board every 30 minutes.</p>\n</main>'
+    )
     css = "".join(
         f'<link rel="stylesheet" href="{asset(c)}">'
         for c in ["style.css", "pages.css", *page.css]
@@ -224,17 +262,15 @@ def render(page: Page, built: str) -> str:
 <meta property="og:title" content="{esc(page.title)}"><meta property="og:description" content="{esc(page.description)}">
 <meta property="og:url" content="{esc(url)}"><meta property="og:image" content="{SITE_URL}og.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#1f7a52">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f7a52'/%3E%3Cpath d='M11 8h11v4h-7v3h6v4h-6v5h-4z' fill='white'/%3E%3C/svg%3E"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0e3a2f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230e3a2f'/%3E%3Cpath d='M11 8h11v4h-7v3h6v4h-6v5h-4z' fill='white'/%3E%3C/svg%3E"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 <script>try{{const t=localStorage.getItem("ff.theme");if(t)document.documentElement.dataset.theme=t}}catch(e){{}}</script>
 {css}{scripts}
 </head><body class="static">
-{HEADER}
-<main class="wrap page" id="main"><nav class="crumbs" aria-label="Breadcrumb">{crumbs}</nav>
-{page.body}
-<p class="page-updated">Jobs updated {esc(built)} UTC. FiledFor checks every company's job board every 30 minutes.</p>
-</main>
+{header(page.nav)}
+{main}
 {FOOTER}
+{SPECULATION}
 <script src="{asset("pages.js")}" defer></script>
 <script data-goatcounter="https://jawaadjariwala.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body></html>

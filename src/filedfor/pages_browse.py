@@ -527,6 +527,7 @@ class Browse:
             css=CSS,
             group=group,
             noindex=noindex,
+            nav="rankings" if group == "rankings" else "jobs",
         )
 
     # --- page kinds -----------------------------------------------------------

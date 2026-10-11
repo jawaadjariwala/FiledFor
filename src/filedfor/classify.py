@@ -18,7 +18,7 @@ rules classified them.
 import re
 from dataclasses import dataclass
 
-VERSION = 6
+VERSION = 7
 FIELDS = ("swe", "ai", "data", "hardware", "it", "security", "product", "design")
 
 
@@ -183,6 +183,15 @@ HANDS_ON_TECH = _rx(
     r"machine learning",
     r"\bml\b",
 )
+# Selling or analysing software is not building it: "Equity Research
+# Associate, Software", "Sales & Business Development Associate (Software)"
+SELLS_SOFTWARE = _rx(
+    r"\bsales\b",
+    r"business development",
+    r"equity research",
+    r"investment banking",
+)
+BUILDS = _rx(r"engineer", r"developer", r"scientist", r"architect", r"programmer")
 # Physical security is a different job from information security
 NOT_INFOSEC = _rx(
     r"officer",
@@ -327,6 +336,8 @@ def role(title: str) -> str | None:
     if PRODUCT.search(t):
         return "product"
     if NON_TECH_FUNCTION.search(t) and not HANDS_ON_TECH.search(t):
+        return None
+    if SELLS_SOFTWARE.search(t) and not BUILDS.search(t):
         return None
     if ENGINEERING_LEAD.search(t):
         return "swe"

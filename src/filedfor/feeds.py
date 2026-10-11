@@ -59,6 +59,8 @@ class Posting:
     # Yearly pay range from a structured field (Lever); otherwise read from the
     # description later
     salary: tuple[int, int] | None = None
+    # The employer's HTML, for FiledFor's job page (cleaned by jd.clean)
+    html: str | None = None
 
     @property
     def key(self) -> tuple[str, str, str]:
@@ -117,6 +119,7 @@ def parse_greenhouse(slug: str, body: dict) -> list[Posting]:
             workplace=None,
             posted_at=_iso(j.get("first_published") or j.get("updated_at")),
             description=html_to_text(j["content"]) if j.get("content") else None,
+            html=j.get("content"),
         )
         for j in body.get("jobs", [])
     ]
@@ -151,6 +154,15 @@ def parse_lever(slug: str, body: list) -> list[Posting]:
                 country=j.get("country"),
                 workplace=j.get("workplaceType"),
                 salary=_lever_salary(j.get("salaryRange")),
+                html="".join(
+                    [j.get("description") or ""]
+                    + [
+                        f"<h3>{html.escape(x.get('text') or '')}</h3>"
+                        f"<ul>{x.get('content') or ''}</ul>"
+                        for x in j.get("lists") or []
+                    ]
+                    + [j.get("additional") or ""]
+                ),
                 posted_at=datetime.fromtimestamp(created / 1000, UTC)
                 if created
                 else None,
@@ -184,6 +196,7 @@ def parse_ashby(slug: str, body: dict) -> list[Posting]:
                 posted_at=_iso(j.get("publishedAt")),
                 description=j.get("descriptionPlain")
                 or html_to_text(j.get("descriptionHtml")),
+                html=j.get("descriptionHtml"),
             )
         )
     return out
@@ -448,20 +461,28 @@ async def fetch_description(
                     client, GREENHOUSE_JOB.format(slug=p.slug, id=p.job_id)
                 )
                 p.description = html_to_text(body.get("content"))
+                p.html = body.get("content")
                 return
             if p.system == "smartrecruiters":
                 body = await get_json(
                     client, SMARTRECRUITERS_JOB.format(slug=p.slug, id=p.job_id)
                 )
-                sections = ((body.get("jobAd") or {}).get("sections") or {}).values()
-                p.description = "\n".join(
-                    html_to_text((x or {}).get("text")) for x in sections
+                sections = [
+                    x or {}
+                    for x in ((body.get("jobAd") or {}).get("sections") or {}).values()
+                ]
+                p.description = "\n".join(html_to_text(x.get("text")) for x in sections)
+                p.html = "".join(
+                    f"<h3>{html.escape(x.get('title') or '')}</h3>{x.get('text') or ''}"
+                    for x in sections
+                    if x.get("text")
                 )
                 return
             info = (await get_json(client, workday_detail_url(p))).get(
                 "jobPostingInfo"
             ) or {}
             p.description = html_to_text(info.get("jobDescription"))
+            p.html = info.get("jobDescription")
             country = (info.get("jobRequisitionLocation") or {}).get("country") or {}
             p.country = (
                 p.country or country.get("alpha2Code") or country.get("descriptor")

@@ -724,3 +724,48 @@ engines see little of it. People search for "does Stripe sponsor H-1B" or
 5. **Built by parallel agents in separate worktrees**, each owning its own
    files on top of a shared layer written first, with a separate review of
    each branch against the raw data before merging.
+
+---
+
+## ADR-007: Job pages and the record-style redesign
+
+**Status:** Accepted, 2026-10-11
+
+### Context
+
+The site read as generated: identical rounded cards with soft shadows, pills
+for everything, metadata joined with middle dots. Job seekers also expect to
+read a whole job without leaving the board, as on Jobright or LinkedIn.
+
+### Decisions
+
+1. **Design chosen from three mockups** (Claude Design): the layout of a public
+   record (dark header bar, white search band, jobs as rows of a register, the
+   sponsor record as a form of labelled fields) in a green palette. Public Sans,
+   the US government's typeface, for the interface and Newsreader for reading
+   descriptions, both served from FiledFor. Anthropic's frontend-design skill
+   guided the choices and the list of patterns to avoid.
+2. **A page per listed job** (`/job/<company>-<title>-<hash>/`) with the full
+   description, the company's record for that kind of role, more jobs at the
+   company and similar jobs elsewhere. Descriptions are stored as cleaned HTML
+   (`jd.py`, nh3: paragraphs, lists, headings and emphasis only, no attributes)
+   for listed jobs and dropped when a job closes. Pages with a description carry
+   schema.org JobPosting data for Google's job search; pages without one link
+   out and are kept out of search. Apply always goes to the employer.
+3. **The board is a register and a preview.** On wide screens a click previews
+   the job beside the list; "See the whole job" opens its page. On phones a click
+   opens the page. Rows are real links, so the board works without script and
+   every job page is linked from the home page. Filters are four menus with live
+   counts instead of rows of chips.
+4. **Motion only where it answers an action:** menus open, the preview fades in,
+   and page changes carry the job's title and logo across (cross-document view
+   transitions). Job and company links load in the background while the pointer
+   rests on them (speculation rules). Reduced-motion settings turn all of it off.
+
+### Consequences
+
+- About 6,900 job pages add roughly 170 MB to each deploy; the publish step stays
+  under 10 seconds. If deploys slow down, the first thing to drop is the second
+  copy of the description inside the JobPosting data.
+- A job's page disappears when the posting closes; the 404 page says so and
+  points to My jobs, which keeps a snapshot of every tracked job.

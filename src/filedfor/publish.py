@@ -92,6 +92,7 @@ def _plain(job: dict) -> dict:
         if k in SITE_KEYS
     }
     out["states"], out["metros"] = places(job["location"])
+    out["page"] = pages.job_path(job)[len("job/") : -1]  # the board links here
     return out
 
 
@@ -189,6 +190,11 @@ def publish(
         companies=companies,
         now=now,
         updated=health["finished_at"],
+        descriptions={
+            pages.job_key(j): j["description_html"]
+            for j in keep
+            if j.get("description_html")
+        },
     )
     for name, info in companies.items():
         if url := ctx.company_url(name):

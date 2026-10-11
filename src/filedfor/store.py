@@ -31,6 +31,7 @@ alter table boards add column if not exists last_full_at timestamptz;
 alter table jobs add column if not exists salary_min int;
 alter table jobs add column if not exists salary_max int;
 alter table jobs add column if not exists arrangement text;
+alter table jobs add column if not exists description_html text;
 
 create table if not exists jobs (
     system             text not null,
@@ -98,6 +99,7 @@ JOB_COLUMNS = [
     "salary_min",
     "salary_max",
     "arrangement",
+    "description_html",
 ]
 
 
@@ -176,7 +178,10 @@ def save_run(
             cols = ", ".join(JOB_COLUMNS)
             marks = ", ".join(["%s"] * len(JOB_COLUMNS))
             updates = ", ".join(
-                f"{c} = excluded.{c}"
+                # A run that couldn't fetch the description keeps the stored one
+                f"{c} = coalesce(excluded.{c}, jobs.{c})"
+                if c == "description_html"
+                else f"{c} = excluded.{c}"
                 for c in JOB_COLUMNS
                 if c not in ("system", "slug", "job_id", "first_seen_at", "alerted_at")
             )
@@ -192,7 +197,8 @@ def save_run(
         if closed:
             with conn.cursor() as cur:
                 cur.executemany(
-                    "update jobs set closed_at = %s "
+                    # Closed jobs aren't shown, so their descriptions go
+                    "update jobs set closed_at = %s, description_html = null "
                     "where system = %s and slug = %s and job_id = %s",
                     [(now, *k) for k in closed],
                 )

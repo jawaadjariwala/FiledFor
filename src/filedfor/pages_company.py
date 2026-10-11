@@ -624,6 +624,7 @@ def company_page(ctx: Context, name: str, src: Sources, others: list[str]) -> Pa
     if logo:
         org["logo"] = layer.SITE_URL + logo
     return Page(
+        nav="companies",
         path=path,
         title=title_for(name),
         description=description_for(
@@ -677,6 +678,7 @@ def index_page(ctx: Context, src: Sources) -> Page:
         + "".join(sections)
     )
     return Page(
+        nav="companies",
         path="companies/",
         title="Companies with H-1B Filings for Tech Roles | FiledFor",
         description=(

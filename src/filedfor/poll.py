@@ -25,7 +25,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 
-from filedfor import classify, feeds, notify, store
+from filedfor import classify, feeds, jd, notify, store
 from filedfor.diff import diff, should_alert
 from filedfor.evidence import COMPANIES, EvidenceIndex
 from filedfor.publish import PUBLIC, publish
@@ -192,6 +192,10 @@ def job_row(c: Candidate, company: str, evidence, now, alerted) -> dict:
         "first_seen_at": now,
         "alerted_at": now if alerted else None,
         "classifier_version": classify.VERSION,
+        # Only for jobs the site can list: blocked ones are never shown
+        "description_html": None
+        if f.no_sponsorship or f.citizens_only or f.clearance
+        else jd.clean(p.html),
     }
 
 
