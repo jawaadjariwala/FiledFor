@@ -546,6 +546,9 @@ function hide(what, j) {
 function render() {
   if (view === "saved") return renderMine();
   const { out, newCount } = filtered();
+  // Load far enough down the list to include the job in the preview
+  const at = currentJob ? out.findIndex((j) => key(j) === currentJob) : -1;
+  if (at >= shown) shown = Math.ceil((at + 1) / PAGE) * PAGE;
   const list = out.slice(0, shown);
   visible = list.map(key);
   if (wide() && (!currentJob || !visible.includes(currentJob))) currentJob = visible[0] || null;
@@ -579,7 +582,7 @@ function render() {
   syncControls();
   writeURL();
 }
-function rerender() { shown = PAGE; render(); }
+function rerender() { shown = PAGE; currentJob = null; render(); }
 
 // ---- My jobs: tracker and saved searches --------------------------------------------
 
@@ -984,6 +987,22 @@ function wire() {
   $("defs").replaceChildren(...["filings", "new-hires", "wage-level", "median", "pay", "level", "no-filings"].flatMap((t) => [el("dt", {}, EXPLAIN[t][0]), el("dd", {}, EXPLAIN[t][1])]));
 }
 
+// Coming back from a job's page lands on the same job, at the same place in
+// the list. The browser can't restore the scroll itself because the list is
+// drawn after the jobs load, so the spot is kept for this tab and put back.
+const SPOT = "ff.spot";
+history.scrollRestoration = "manual";
+function saveSpot() {
+  try { sessionStorage.setItem(SPOT, JSON.stringify({ qs: location.search, job: currentJob, shown, y: scrollY, view })); } catch (e) {}
+}
+function readSpot() {
+  try {
+    const s = JSON.parse(sessionStorage.getItem(SPOT) || "null");
+    return s && s.qs === location.search ? s : null;
+  } catch (e) { return null; }
+}
+addEventListener("pagehide", saveSpot);
+
 function rememberVisit() {
   // Jobs first seen after the previous visit are "new". A reload within the
   // same browser session keeps the same baseline, so badges don't vanish.
@@ -1024,6 +1043,12 @@ async function load() {
     fill($("status"), el("i", { class: "dot", "aria-hidden": "true" }),
       el("span", {}, "Updated ", el("b", {}, ago(data.updated)), health ? [", ", el("b", {}, num(health.boards_ok)), " job boards checked"] : null));
     updateSavedCount();
+    const spot = readSpot();
+    if (spot) {
+      shown = Math.max(PAGE, spot.shown || PAGE);
+      if (spot.job && !byKey(spot.job)) await loadOlder();
+      if (spot.job && byKey(spot.job)) currentJob = spot.job;
+    }
     if (jobParam) {
       if (!byKey(jobParam)) await loadOlder();
       const j = byKey(jobParam);
@@ -1031,7 +1056,20 @@ async function load() {
       if (j) currentJob = jobParam;
     }
     render();
-    if (location.search) track("opened-shared-link");
+    if (spot) {
+      if (spot.shown > PAGE && jobs.length <= PAGE) await loadOlder();
+      // Back to the same place; if the list came out a different height, at
+      // least bring the job that was open into view
+      const settle = () => {
+        scrollTo(0, spot.y || 0);
+        const a = spot.job && document.querySelector(`.row[data-k="${CSS.escape(spot.job)}"]`);
+        const r = a?.getBoundingClientRect();
+        if (r && (r.top < 0 || r.bottom > innerHeight)) a.scrollIntoView({ block: "center" });
+      };
+      requestAnimationFrame(settle);
+      document.fonts?.ready.then(settle);
+    }
+    if (location.search && !spot) track("opened-shared-link");
     if (lastVisit) track("returning-visit");
   } catch (e) {
     $("status").textContent = "Couldn't load jobs";
