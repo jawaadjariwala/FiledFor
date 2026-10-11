@@ -94,3 +94,16 @@ def test_company_urls_cover_the_watchlist_and_never_collide(tmp_path, monkeypatc
     }
     assert ctx.company_url("No Filings") is None
     assert pages.company_link(ctx, "No Filings") == "No Filings"
+
+
+def test_noindex_pages_stay_out_of_search():
+    thin = Page(
+        path="jobs/design/salt-lake-city/",
+        title="t",
+        description="d",
+        body="",
+        group="browse",
+        noindex=True,
+    )
+    assert '<meta name="robots" content="noindex, follow">' in pages.render(thin, "now")
+    assert "salt-lake-city" not in "".join(pages.sitemaps([thin], NOW).values())
