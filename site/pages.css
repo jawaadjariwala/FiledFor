@@ -1,0 +1,35 @@
+/* Shared parts of the static pages (src/filedfor/pages.py). Tokens come from
+   style.css; page modules add their own stylesheet for anything specific. */
+
+.page { max-width: 980px; padding-top: 20px; padding-bottom: 40px; }
+.crumbs { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+.crumbs a { color: var(--ink-2); }
+.page h1 { font-size: clamp(26px, 3.2vw, 36px); line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 10px; text-wrap: balance; }
+.page h2 { font-size: 20px; margin: 32px 0 10px; letter-spacing: -0.01em; }
+.page .lede { color: var(--ink-2); font-size: 16.5px; max-width: 760px; margin: 0 0 18px; }
+.page-updated { color: var(--muted); font-size: 12.5px; margin-top: 36px; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 16px 0; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; }
+.stat b { display: block; font-size: 22px; letter-spacing: -0.01em; }
+.stat span { color: var(--muted); font-size: 12.5px; }
+
+.ptable { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; font-size: 14px; }
+.ptable th, .ptable td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+.ptable th { color: var(--muted); font-weight: 600; font-size: 12.5px; background: var(--surface-2); }
+.ptable td.num, .ptable th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.ptable tr:last-child td { border-bottom: 0; }
+.table-scroll { overflow-x: auto; }
+
+.pjobs { list-style: none; margin: 0; padding: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.pjob { display: grid; gap: 2px; padding: 11px 14px; border-bottom: 1px solid var(--line); }
+.pjob:last-child { border-bottom: 0; }
+.pjob-title { font-weight: 650; color: var(--ink); }
+.pjob-meta { color: var(--muted); font-size: 13px; }
+.pjob-meta a { color: var(--ink-2); }
+
+.links { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 8px 0; }
+.links a { display: inline-block; padding: 6px 12px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface); color: var(--ink); font-size: 13.5px; text-decoration: none; }
+.links a:hover { border-color: var(--brand); }
+.cta { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 10px; background: var(--brand); color: #fff; font-weight: 650; text-decoration: none; }
+.note { color: var(--ink-2); font-size: 13.5px; background: var(--surface-2); border-radius: var(--radius); padding: 10px 14px; }

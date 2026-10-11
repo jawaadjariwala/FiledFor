@@ -15,6 +15,7 @@ from email.utils import format_datetime
 from pathlib import Path
 from xml.sax.saxutils import escape
 
+from filedfor import pages
 from filedfor.classify import FIELDS, places
 from filedfor.notify import ROLE_NAMES, evidence_line
 
@@ -112,17 +113,6 @@ def logos() -> dict[str, str]:
     }
 
 
-def sitemap(now: datetime) -> str:
-    """One page for now; company pages will add more. lastmod tells search
-    engines the list changes every run."""
-    return (
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-        f"<url><loc>{escape(SITE_URL)}</loc><lastmod>{now.date().isoformat()}</lastmod>"
-        "<changefreq>hourly</changefreq></url></urlset>\n"
-    )
-
-
 def rss(jobs: list[dict], role: str | None, now: datetime) -> str:
     """Newest jobs first. The posting URL is the guid, so readers never repeat one."""
     picked = [j for j in jobs if role is None or j["role"] == role]
@@ -192,7 +182,16 @@ def publish(
     }
     (PUBLIC / "companies.json").write_text(json.dumps(companies, separators=(",", ":")))
     (PUBLIC / "health.json").write_text(json.dumps(health, indent=1))
-    (PUBLIC / "sitemap.xml").write_text(sitemap(now))
+    # Company, field and city pages, and the sitemap index that lists them
+    pages.write_all(
+        pages.Context(
+            jobs=[_plain(j) for j in keep],
+            companies=companies,
+            now=now,
+            updated=health["finished_at"],
+        ),
+        PUBLIC,
+    )
     feed_jobs = [j for j in keep if in_feeds(j)]
     (PUBLIC / "feeds").mkdir(exist_ok=True)
     for name, role in FEEDS.items():
