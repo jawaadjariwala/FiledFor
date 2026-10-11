@@ -142,9 +142,11 @@ def ago(iso: str | None, now: datetime) -> str:
     return "today" if days < 1 else "1 day ago" if days == 1 else f"{days} days ago"
 
 
-def job_list(ctx: Context, jobs: list[dict], limit: int = 25) -> str:
+def job_list(
+    ctx: Context, jobs: list[dict], limit: int = 25, show_company: bool = True
+) -> str:
     """Newest first. Titles open the job in FiledFor; company names link to
-    the company's page when it has one."""
+    the company's page when it has one (left out on that page itself)."""
     now = ctx.now
     jobs = sorted(
         jobs, key=lambda j: j.get("posted_at") or j["first_seen_at"], reverse=True
@@ -158,8 +160,9 @@ def job_list(ctx: Context, jobs: list[dict], limit: int = 25) -> str:
         items.append(
             '<li class="pjob">'
             f'<a class="pjob-title" href="{esc(app_link(job=job_key(j)))}">{esc(j["title"])}</a>'
-            f'<span class="pjob-meta">{company_link(ctx, j["company"])}'
-            f" · {' · '.join(bits)}</span></li>"
+            f'<span class="pjob-meta">'
+            f"{company_link(ctx, j['company']) + ' · ' if show_company else ''}"
+            f"{' · '.join(bits)}</span></li>"
         )
     return f'<ul class="pjobs">{"".join(items)}</ul>' if items else ""
 

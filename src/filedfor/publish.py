@@ -184,18 +184,19 @@ def publish(
         | ({"notice": notice[name]} if name in notice else {})
         for name in sorted({j["company"] for j in keep})
     }
+    ctx = pages.Context(
+        jobs=[_plain(j) for j in keep],
+        companies=companies,
+        now=now,
+        updated=health["finished_at"],
+    )
+    for name, info in companies.items():
+        if url := ctx.company_url(name):
+            info["page"] = url  # the board's company panel links to it
     (PUBLIC / "companies.json").write_text(json.dumps(companies, separators=(",", ":")))
     (PUBLIC / "health.json").write_text(json.dumps(health, indent=1))
     # Company, field and city pages, and the sitemap index that lists them
-    pages.write_all(
-        pages.Context(
-            jobs=[_plain(j) for j in keep],
-            companies=companies,
-            now=now,
-            updated=health["finished_at"],
-        ),
-        PUBLIC,
-    )
+    pages.write_all(ctx, PUBLIC)
     feed_jobs = [j for j in keep if in_feeds(j)]
     (PUBLIC / "feeds").mkdir(exist_ok=True)
     for name, role in FEEDS.items():

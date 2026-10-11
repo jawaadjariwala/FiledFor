@@ -16,7 +16,7 @@ const SEARCH_DEFAULTS = { f: Object.keys(FIELD), l: ["intern", "entry", "early",
 const defaultsFor = (s) => (s.q ? SEARCH_DEFAULTS : DEFAULTS);
 const EXPLAIN = {
   filings: ["H-1B filings", "Labor Condition Applications this company filed with the Department of Labor for this kind of role, certified between October 2024 and June 2026. Every H-1B petition starts with one, so more filings means a longer record of sponsoring this work."],
-  "new-hires": ["New hires", "Filings for someone joining the company, as opposed to extending or transferring an existing visa. The closest sign the company hires people who need their first H-1B."],
+  "new-hires": ["New employment", "Filings for a new H-1B job, often a person's first H-1B (this can include someone already working at the company on student work authorization), as opposed to an extension or a transfer from another employer. The closest sign the company takes on people who need their first H-1B."],
   "wage-level": ["Wage level", "Each filing sets a prevailing wage level for the role and city, from I (entry) to IV (most experienced). Most new grads are filed at Level I or II. From FY2027 the lottery gives higher levels more entries, based on the wage actually offered."],
   median: ["Median wage", "The middle yearly salary on this company's filings for this kind of role."],
   pay: ["Pay", "The pay range the job posting itself states, made yearly when it's hourly. Many US states require it, but not every posting lists one, so the pay filter only shows jobs that do."],
@@ -358,9 +358,9 @@ function evidenceLine(j) {
   return el("div", { class: "ev" },
     el("div", { class: "stats" },
       el("span", { class: "stat" }, el("b", {}, num(ev.filings)), ` ${FIELD[j.role]} filings `, infoBtn("filings")),
-      el("span", { class: "stat" }, el("b", {}, num(ev.new_hire_filings)), " new hires"),
+      el("span", { class: "stat" }, el("b", {}, num(ev.new_hire_filings)), " new employment ", infoBtn("new-hires")),
       share !== null ? el("span", { class: "stat" }, el("b", {}, `${share}%`), " at Level I-II") : null,
-      el("span", { class: "stat" }, el("b", {}, money(ev.median_wage)), " median"),
+      ev.median_wage ? el("span", { class: "stat" }, el("b", {}, money(ev.median_wage)), " median") : null,
     ),
     levelBar(ev, `${j.company} ${FIELD[j.role]} filings by wage level`),
   );
@@ -805,9 +805,9 @@ function openCompany(name) {
       el("h3", {}, FIELD[role]),
       el("div", { class: "tiles" },
         tile("Filings", num(ev.filings), "filings"),
-        tile("New hires", num(ev.new_hire_filings), "new-hires"),
+        tile("New employment", num(ev.new_hire_filings), "new-hires"),
         tile("Level I-II", share === null ? "n/a" : `${share}%`, "wage-level"),
-        tile("Median wage", money(ev.median_wage), "median")),
+        tile("Median wage", ev.median_wage ? money(ev.median_wage) : "n/a", "median")),
       levelBar(ev, `${name} ${FIELD[role]} filings by wage level`),
       el("table", { class: "levels" },
         el("tr", {}, el("th", {}, "Level"), ...["I", "II", "III", "IV"].map((x, i) => el("th", {}, el("i", { class: `sw l${i + 1}` }), x))),
@@ -822,7 +822,7 @@ function openCompany(name) {
     el("p", { class: "panel-summary" }, total || anyField
       ? [`Filed `, el("b", {}, num(total)), ` H-1B applications for tech roles between October 2024 and June 2026. `,
         `Below, the same filings by field. One filing can count in more than one field, since software developer filings cover AI and data work too.`]
-      : "No H-1B filings found for software, AI/ML or data roles under the names we matched. It may file under a different legal name."),
+      : "No H-1B filings found for tech roles under the names we matched. It may file under a different legal name."),
     c.notice
       ? el("div", { class: "notice-box", role: "note" },
           el("strong", {}, c.notice.notice), ` (${c.notice.date}). ${c.notice.detail} `,
@@ -834,6 +834,7 @@ function openCompany(name) {
       ? el("ul", { class: "roles" }, ...open.slice(0, 25).map((j) => el("li", {}, el("a", { href: j.url, target: "_blank", rel: "noopener" }, j.title, el("span", { class: "sub" }, `${j.location || "Location not listed"}${j.posted_at ? ` · posted ${ago(j.posted_at)}` : ""}`)))))
       : el("p", { class: "none" }, "None right now."),
     el("div", { class: "panel-links" },
+      c.page ? el("a", { class: "btn", href: c.page, "data-goatcounter-click": "company-page" }, "Full sponsor page") : null,
       ...(c.careers || []).slice(0, 3).map((u, i) => el("a", { class: "btn", href: u, target: "_blank", rel: "noopener" }, i ? "Another careers page" : "All jobs at this company", svg(ICON.out))),
       el("a", { class: "btn ghost", href: `${REPO}/issues/new?${new URLSearchParams({ template: "job-report.yml", title: `Wrong company match: ${name}`, company: name })}`, target: "_blank", rel: "noopener" }, svg(ICON.flag), "Wrong company?")),
     el("p", { class: "fineprint" }, "Filings show what a company did before, not a promise for any one job. Source: U.S. Department of Labor LCA disclosure data."),

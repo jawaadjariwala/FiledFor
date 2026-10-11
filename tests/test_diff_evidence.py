@@ -62,11 +62,20 @@ def test_evidence_sums_across_feins(tmp_path):
         "system,slug,eu,company,open_jobs,feins,tech_filings\n"
         "lever,acme,0,Acme,5,11-1;22-2,40\nlever,none,0,None,1,,0\n"
     )
-    idx = EvidenceIndex(ev, comp)
+    idx = EvidenceIndex(ev, comp, tmp_path / "no-profiles.json")
     e = idx.lookup("lever", "acme", "swe")
     assert (e.filings, e.new_hire_filings, e.level_1) == (40, 10, 4)
-    assert e.median_wage == 175000  # (100k x 10 + 200k x 30) / 40
+    # Medians of two FEINs can't be combined: no median without the exact one
+    assert e.median_wage is None
+    assert idx.lookup("lever", "acme", "ai").median_wage == 150000  # one FEIN
     assert e.last_decision == "2026-03-01"
+    profiles = tmp_path / "profiles.json"
+    profiles.write_text(
+        '{"meta":{},"companies":{"Acme":{"field_wages":{"swe":181000}}}}'
+    )
+    exact = EvidenceIndex(ev, comp, profiles)
+    assert exact.lookup("lever", "acme", "swe").median_wage == 181000
+    assert exact.company([("lever", "acme")])["swe"]["median_wage"] == 181000
     assert idx.lookup("lever", "acme", "data") is None
     assert idx.lookup("lever", "none", "swe") is None
 

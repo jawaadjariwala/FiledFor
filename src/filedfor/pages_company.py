@@ -360,7 +360,7 @@ def open_jobs(ctx: Context, name: str, careers: list[str]) -> str:
             else "<p>1 open tech job that doesn't say it rules out visa sponsorship"
         )
         + (f". The {shown} newest are below.</p>" if n > shown else ".</p>")
-        + layer.job_list(ctx, jobs, limit=JOBS_SHOWN)
+        + layer.job_list(ctx, jobs, limit=JOBS_SHOWN, show_company=False)
         + f'<p class="cc-actions"><a class="cta" href="{esc(layer.app_link(company=name))}">'
         + (f"See all {num(n)} on the job board" if n > 1 else "See it on the job board")
         + "</a></p>"
