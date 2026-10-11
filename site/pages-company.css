@@ -8,6 +8,7 @@
 .cc-logo { flex: none; width: 48px; height: 48px; border-radius: 10px; background: #fff; border: 1px solid var(--line); object-fit: contain; }
 .page .notice-box { max-width: 760px; }
 .page .notice-box strong { display: block; margin-bottom: 2px; }
+.stats .stat:only-child { max-width: 280px; }
 .cc-fine { color: var(--muted); font-size: 13px; max-width: 760px; margin: 8px 0 0; }
 .cc-actions { margin: 14px 0 0; }
 .page .ptable caption { caption-side: top; }
@@ -40,6 +41,8 @@
 .cc-index span { flex: none; color: var(--muted); font-size: 12.5px; font-variant-numeric: tabular-nums; }
 
 @media (max-width: 640px) {
+  .page .ptable { font-size: 13px; }
+  .page .ptable th, .page .ptable td { padding: 8px 7px; }
   .cc-pair { grid-template-columns: 1fr; }
   .cc-logo { width: 40px; height: 40px; }
   .qchart { gap: 4px; padding: 12px 6px 8px; }

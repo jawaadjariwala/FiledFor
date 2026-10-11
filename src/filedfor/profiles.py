@@ -17,9 +17,10 @@ from pathlib import Path
 
 import duckdb
 
-from filedfor.sponsors import CLEAN, WAGE_MAX, WAGE_MIN
+from filedfor.sponsors import CLEAN, ROLE_SOCS, WAGE_MAX, WAGE_MIN
 
 COMPANIES = Path("data/companies.csv")
+EXCLUDED = Path("data/excluded_boards.csv")  # boards that aren't employers
 PROFILES = Path("data/company_profiles.json")
 TOP_TITLES = 10
 TOP_CITIES = 8
@@ -35,13 +36,24 @@ FISCAL = """
 """
 
 
-def watchlist(companies: Path = COMPANIES) -> dict[str, list[str]]:
+def excluded_boards(path: Path = EXCLUDED) -> set[tuple[str, str]]:
+    if not path.exists():
+        return set()
+    with path.open(newline="") as f:
+        return {(r["system"], r["slug"]) for r in csv.DictReader(f)}
+
+
+def watchlist(
+    companies: Path = COMPANIES, excluded: Path = EXCLUDED
+) -> dict[str, list[str]]:
     """company -> its FEINs, for every company with tech filings (the same
-    companies that get a page). Boards of one company are merged."""
+    companies that get a page). Boards of one company are merged; boards
+    that aren't employers are left out, as on the pages."""
+    skip = excluded_boards(excluded)
     out: dict[str, set[str]] = {}
     with companies.open(newline="") as f:
         for r in csv.DictReader(f):
-            if int(r["tech_filings"] or 0) > 0:
+            if int(r["tech_filings"] or 0) > 0 and (r["system"], r["slug"]) not in skip:
                 out.setdefault(r["company"], set()).update(
                     x for x in r["feins"].split(";") if x
                 )
@@ -55,9 +67,11 @@ def quarters_between(first: tuple[int, int], last: tuple[int, int]):
         fy, q = (fy, q + 1) if q < 4 else (fy + 1, 1)
 
 
-def build(clean: Path = CLEAN, companies: Path = COMPANIES) -> dict:
+def build(
+    clean: Path = CLEAN, companies: Path = COMPANIES, excluded: Path = EXCLUDED
+) -> dict:
     con = duckdb.connect()
-    feins = watchlist(companies)
+    feins = watchlist(companies, excluded)
     con.execute("create table feins (company varchar, fein varchar)")
     con.executemany(
         "insert into feins values (?, ?)",
@@ -163,6 +177,28 @@ def build(clean: Path = CLEAN, companies: Path = COMPANIES) -> dict:
     ).fetchall():
         out[company]["first"], out[company]["last"] = lo.isoformat(), hi.isoformat()
 
+    # Exact medians over every filing of the company, across all its FEINs:
+    # a median of per-FEIN medians is not the company's median. Fields use
+    # the same occupation codes and filters as data/role_evidence.parquet
+    in_range = f"wage_yearly between {WAGE_MIN} and {WAGE_MAX}"
+    for company, wage in con.execute(
+        f"select company, median(wage_yearly) filter (where {in_range}) "
+        "from tech group by 1"
+    ).fetchall():
+        out[company]["wage"] = round(wage) if wage else None
+    roles = " union all ".join(
+        f"select '{role}' as role, unnest({socs}) as soc_code"
+        for role, socs in ROLE_SOCS.items()
+    )
+    for company, role, wage in con.execute(f"""
+        with roles as ({roles})
+        select m.company, r.role, median(c.wage_yearly) filter (where {in_range})
+        from lca c join feins m on c.employer_fein = m.fein join roles r using (soc_code)
+        group by all order by 1, 2
+    """).fetchall():
+        if wage and company in out:
+            out[company].setdefault("field_wages", {})[role] = round(wage)
+
     return {
         "meta": {
             "source": "U.S. Department of Labor, LCA disclosure data",
@@ -183,8 +219,16 @@ def nice_city(city: str) -> str:
 
 
 def write(profiles: dict, path: Path = PROFILES) -> None:
+    """One company per line, so a rebuild reads as a git diff of the
+    companies whose filings changed."""
+    dump = lambda x: json.dumps(
+        x, separators=(",", ":"), ensure_ascii=False, sort_keys=True
+    )
+    rows = ",\n".join(
+        f"{dump(name)}:{dump(p)}" for name, p in sorted(profiles["companies"].items())
+    )
     path.write_text(
-        json.dumps(profiles, separators=(",", ":"), ensure_ascii=False) + "\n"
+        f'{{"meta":{dump(profiles["meta"])},\n"companies":{{\n{rows}\n}}}}\n'
     )
 
 

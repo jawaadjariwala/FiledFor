@@ -4,8 +4,11 @@ Every company in ctx.directory gets a page, open jobs or not. What a page
 shows comes from four places, and each part is left out when its data is
 missing:
 
-- totals for tech filings (new hires, wage levels, median wage) from
+- tech filing counts (new employment, wage levels) from
   data/sponsors.parquet, summed over the company's FEINs
+- medians from data/company_profiles.json, exact over all the company's
+  filings; without it, only for companies with one FEIN, where the stored
+  per-FEIN median is exact
 - filings by field from companies.json, or the evidence index for
   companies with no job listed today
 - filing history (quarters, titles, cities) from data/company_profiles.json,
@@ -30,6 +33,8 @@ from filedfor.sponsors import SPONSORS
 
 EXCLUDED = Path("data/excluded_boards.csv")
 SIMILAR = 8
+# Below this many filings, shares and medians say little: only counts are shown
+SMALL = 10
 JOBS_SHOWN = 10
 # Similar sponsors: candidates within NEAR places by volume, and how much a
 # different mix of fields counts against one (against log filing ratio)
@@ -52,6 +57,11 @@ MONTH_NAMES = [
     "January", "February", "March", "April", "May", "June", "July",
     "August", "September", "October", "November", "December",
 ]  # fmt: skip
+NEW_EMPLOYMENT = (
+    "New employment means a filing for a new H-1B job, often a person's first H-1B "
+    "(this can include someone already working at the company on student work "
+    "authorization), as opposed to an extension or a transfer from another employer."
+)
 # Why a month had few filings across every employer, where it is known
 LOW_MONTH_REASONS = {"2025-10": "while the federal government was shut down"}
 
@@ -60,6 +70,7 @@ LOW_MONTH_REASONS = {"2025-10": "while the federal government was shut down"}
 class Totals:
     """Tech filings across a company's FEINs."""
 
+    filings: int = 0
     new_hire: int = 0
     levels: list[int] = field(default_factory=lambda: [0, 0, 0, 0])
     wage: int | None = None
@@ -107,10 +118,7 @@ class Sources:
     def __init__(self, ctx: Context) -> None:
         self.ctx = ctx
         self.boards: dict[str, list[dict]] = {}
-        excluded = set()
-        if EXCLUDED.exists():
-            with EXCLUDED.open(newline="") as f:
-                excluded = {(r["system"], r["slug"]) for r in csv.DictReader(f)}
+        excluded = profiles.excluded_boards(EXCLUDED)
         with layer.WATCHLIST.open(newline="") as f:
             for r in csv.DictReader(f):
                 if (
@@ -126,6 +134,13 @@ class Sources:
         meta = self.profiles["meta"]
         if meta.get("first") and meta.get("last"):
             self.period = (meta["first"], meta["last"])
+        self._totals = {n: self._total(n) for n in ctx.directory}
+        # The headline count per company: from the same FEINs as every other
+        # total, so shares can't pass 100%. The watchlist's count otherwise
+        self.counts = {
+            n: t.filings if (t := self._totals[n]) else ctx.directory[n]
+            for n in ctx.directory
+        }
 
     def _domains(self) -> dict[str, str]:
         if not publish.DOMAINS.exists():
@@ -154,19 +169,38 @@ class Sources:
         )
 
     def totals(self, name: str) -> Totals | None:
-        """Medians per FEIN are combined as a filing-weighted average, as
-        in evidence.py, which is exact for companies with one FEIN."""
+        return self._totals.get(name)
+
+    def _total(self, name: str) -> Totals | None:
         rows = [self.sponsors[f] for f in self.feins(name) if f in self.sponsors]
         if not rows:
             return None
-        wages = [(r[6], r[0]) for r in rows if r[6]]
+        if self.has_medians(name):
+            wage = self.profiles["companies"][name]["wage"]
+        elif len(self.feins(name)) == 1 and rows[0][6]:
+            wage = round(rows[0][6])
+        else:
+            wage = None  # a median can't be built from per-FEIN medians
         return Totals(
+            filings=sum(r[0] for r in rows),
             new_hire=sum(r[1] for r in rows),
             levels=[sum(r[i] for r in rows) for i in range(2, 6)],
-            wage=round(sum(w * n for w, n in wages) / sum(n for _, n in wages))
-            if wages
-            else None,
+            wage=wage,
         )
+
+    def has_medians(self, name: str) -> bool:
+        """True when the profile holds exact medians for the company."""
+        return "wage" in (self.profiles["companies"].get(name) or {})
+
+    def field_wage(self, name: str, field: str, ev: dict) -> int | None:
+        if self.has_medians(name):
+            return (self.profiles["companies"][name].get("field_wages") or {}).get(
+                field
+            )
+        return ev["median_wage"] if len(self.feins(name)) == 1 else None
+
+    def field_wages_known(self, name: str) -> bool:
+        return self.has_medians(name) or len(self.feins(name)) == 1
 
     def evidence(self, name: str) -> dict[str, dict | None]:
         info = self.ctx.companies.get(name)
@@ -223,8 +257,10 @@ def summary(name: str, filings: int, t: Totals | None, jobs: int, src: Sources) 
         f"for tech roles that the Department of Labor certified, {period_text(src)}."
     )
     bits = []
+    if filings < SMALL:
+        t = None  # too few for a share or a median
     if t and (share := pct(t.new_hire, filings)) is not None:
-        bits.append(f"{share}% were for new hires")
+        bits.append(f"{share}% were for new H-1B employment")
     if t and t.wage:
         bits.append(f"the median wage on them was {layer.money(t.wage)} a year")
     if bits:
@@ -245,9 +281,21 @@ def tiles(filings: int, t: Totals | None, src: Sources) -> str:
         else "all years on file"
     )
     out = [(num(filings), f"tech LCA filings, {when}")]
+    small = ""
+    if filings < SMALL:
+        t = None
+        small = (
+            f'<p class="cc-fine">With fewer than {SMALL} filings, the sample is too small '
+            "for shares or a median wage to mean much, so only the count is shown.</p>"
+        )
     if t:
         if (share := pct(t.new_hire, filings)) is not None:
-            out.append((f"{share}%", f"for new hires ({count(t.new_hire, 'filing')})"))
+            out.append(
+                (
+                    f"{share}%",
+                    f"for new H-1B employment ({count(t.new_hire, 'filing')})",
+                )
+            )
         if (low := pct(t.levels[0] + t.levels[1], sum(t.levels))) is not None:
             out.append((f"{low}%", "at wage level I or II, the lower two of four"))
         if t.wage:
@@ -259,6 +307,7 @@ def tiles(filings: int, t: Totals | None, src: Sources) -> str:
             for v, k in out
         )
         + "</div>"
+        + small
     )
 
 
@@ -323,30 +372,41 @@ def host(url: str) -> str:
     return url.split("://", 1)[-1].rstrip("/")
 
 
-def by_field(name: str, ev: dict[str, dict | None]) -> str:
+def by_field(name: str, ev: dict[str, dict | None], src: Sources) -> str:
     rows = sorted(
         ((f, e) for f, e in ev.items() if e and f in FIELD_NAMES),
         key=lambda x: -x[1]["filings"],
     )
     if not rows:
         return ""
-    body = "".join(
-        f'<tr><td>{esc(FIELD_NAMES[f])}</td><td class="num">{num(e["filings"])}</td>'
-        f'<td class="num">{num(e["new_hire_filings"])}</td>'
-        f'<td class="num">{"n/a" if (s := low_share(e)) is None else f"{s}%"}</td>'
-        f'<td class="num">{layer.money(e["median_wage"]) or "n/a"}</td></tr>'
-        for f, e in rows
+    wages = src.field_wages_known(name)
+    cells = []
+    for f, e in rows:
+        enough = e["filings"] >= SMALL
+        share = low_share(e) if enough else None
+        wage = src.field_wage(name, f, e) if enough else None
+        cells.append(
+            f'<tr><td>{esc(FIELD_NAMES[f])}</td><td class="num">{num(e["filings"])}</td>'
+            f'<td class="num">{num(e["new_hire_filings"])}</td>'
+            f'<td class="num">{"n/a" if share is None else f"{share}%"}</td>'
+            + (f'<td class="num">{layer.money(wage) or "n/a"}</td>' if wages else "")
+            + "</tr>"
+        )
+    notes = (
+        "One filing can count in more than one field: Software Developer filings count toward "
+        "software, AI/ML and data, because those roles are often filed under that job code. "
+        "Level I-II is the share of filings at the lower two of four prevailing wage levels."
     )
+    if any(e["filings"] < SMALL for _, e in rows):
+        notes += f" n/a means fewer than {SMALL} filings in that field, too few for a share or a median."
     return (
         "<h2>Filings by field</h2>"
         f'<div class="table-scroll"><table class="ptable"><caption class="sr-only">{esc(name)} tech LCA filings by field</caption>'
         '<thead><tr><th scope="col">Field</th><th scope="col" class="num">Filings</th>'
-        '<th scope="col" class="num">New hires</th><th scope="col" class="num">Level I-II</th>'
-        '<th scope="col" class="num">Median wage</th></tr></thead>'
-        f"<tbody>{body}</tbody></table></div>"
-        '<p class="cc-fine">One filing can count in more than one field: Software Developer filings count toward '
-        "software, AI/ML and data, because those roles are often filed under that job code. "
-        "Level I-II is the share of filings at the lower two of four prevailing wage levels.</p>"
+        '<th scope="col" class="num">New employment</th><th scope="col" class="num">Level I-II</th>'
+        + ('<th scope="col" class="num">Median wage</th>' if wages else "")
+        + f"</tr></thead><tbody>{''.join(cells)}</tbody></table></div>"
+        f'<p class="cc-fine">{esc(notes)}</p>'
     )
 
 
@@ -449,12 +509,12 @@ def field_mix(ev: dict[str, dict | None]) -> Mix:
     return Mix({f: n / norm for f, n in counts.items()})
 
 
-def peers(ctx: Context, mixes: dict[str, Mix]) -> dict[str, list[str]]:
+def peers(counts: dict[str, int], mixes: dict[str, Mix]) -> dict[str, list[str]]:
     """name -> up to SIMILAR companies closest in filing volume and in mix of
     fields. Field counts overlap (one Software Developer filing counts in
     three fields), so a single "main field" says little; the whole mix is
     compared instead. Only the nearest by volume are scored."""
-    pool = sorted((math.log(ctx.directory[n]), n) for n, m in mixes.items() if m.vector)
+    pool = sorted((math.log(counts[n]), n) for n, m in mixes.items() if m.vector)
     out: dict[str, list[str]] = {}
     for size, n in pool:
         i = bisect.bisect_left(pool, (size, n))
@@ -469,12 +529,12 @@ def peers(ctx: Context, mixes: dict[str, Mix]) -> dict[str, list[str]]:
     return out
 
 
-def similar(ctx: Context, name: str, others: list[str]) -> str:
+def similar(ctx: Context, others: list[str], counts: dict[str, int]) -> str:
     if not others:
         return ""
     links = "".join(
-        f'<li><a href="{esc(ctx.company_url(o))}">{esc(o)} <span class="cc-n">{num(ctx.directory[o])}</span></a></li>'
-        for o in sorted(others, key=lambda o: (-ctx.directory[o], o))
+        f'<li><a href="{esc(ctx.company_url(o))}">{esc(o)} <span class="cc-n">{num(counts[o])}</span></a></li>'
+        for o in sorted(others, key=lambda o: (-counts[o], o))
     )
     return (
         "<h2>Similar sponsors</h2>"
@@ -492,8 +552,9 @@ def meaning(src: Sources) -> str:
         "It is not a visa approval or a hire: one LCA can cover a role that is never filled, "
         "and the visa itself is decided later by USCIS. Certified means the Department of Labor accepted the filing.</p>"
         "<p>Counts here are certified H-1B LCAs for tech roles (computer occupations, plus hardware engineers and "
-        "IT managers), including ones the employer withdrew after certification. New hires are filings for someone "
-        "joining the company, as opposed to extending or transferring an existing visa. "
+        "IT managers), including ones the employer withdrew after certification. "
+        + NEW_EMPLOYMENT
+        + " "
         "Wage levels I to IV are the prevailing wage levels for the role and city, from entry level (I) to the most "
         f"experienced (IV).</p><p>Source: U.S. Department of Labor LCA disclosure data, decisions {period_text(src)}, "
         'matched to companies by employer tax ID (FEIN). <a href="https://www.dol.gov/agencies/eta/foreign-labor/performance" '
@@ -513,25 +574,24 @@ def title_for(name: str) -> str:
 
 
 def description_for(
-    name: str, filings: int, t: Totals | None, jobs: int, src: Sources
+    name: str, filings: int, t: Totals | None, jobs: int, src: Sources, history: bool
 ) -> str:
     when = (
         f" from {month(src.period[0])} to {month(src.period[1])}" if src.period else ""
     )
     d = f"{name} filed {num(filings)} tech H-1B LCAs{when}"
-    if t and t.wage:
+    if t and t.wage and filings >= SMALL:
         d += f", median wage {layer.money(t.wage)}"
-    d += (
-        "."
-        + (f" See {num(jobs)} open tech jobs" if jobs else " See its careers pages")
-        + ", job titles and cities filed."
+    d += "." + (
+        f" See {num(jobs)} open tech jobs" if jobs else " See its careers pages"
     )
+    d += ", job titles and cities filed." if history else "."
     return d if len(d) <= 160 else d[:157].rsplit(" ", 1)[0] + "..."
 
 
 def company_page(ctx: Context, name: str, src: Sources, others: list[str]) -> Page:
     path = ctx.company_url(name).lstrip("/")
-    filings = ctx.directory[name]
+    filings = src.counts[name]
     t = src.totals(name)
     ev = src.evidence(name)
     p = src.profiles["companies"].get(name)
@@ -552,10 +612,10 @@ def company_page(ctx: Context, name: str, src: Sources, others: list[str]) -> Pa
         + notice_box(src.notice(name))
         + tiles(filings, t, src)
         + open_jobs(ctx, name, src.careers(name))
-        + by_field(name, ev)
+        + by_field(name, ev, src)
         + quarters(name, p, src.profiles["meta"])
         + titles_and_cities(name, p)
-        + similar(ctx, name, others)
+        + similar(ctx, others, src.counts)
         + meaning(src)
     )
     org = {"@context": "https://schema.org", "@type": "Organization", "name": name}
@@ -566,7 +626,14 @@ def company_page(ctx: Context, name: str, src: Sources, others: list[str]) -> Pa
     return Page(
         path=path,
         title=title_for(name),
-        description=description_for(name, filings, t, jobs, src),
+        description=description_for(
+            name,
+            filings,
+            t,
+            jobs,
+            src,
+            bool(p and (p.get("titles") or p.get("cities"))),
+        ),
         body=body,
         crumbs=[("Companies", "companies/"), (name, path)],
         jsonld=[org],
@@ -588,7 +655,7 @@ def index_page(ctx: Context, src: Sources) -> Page:
         items = []
         for n in groups[k]:
             jobs = len(ctx.jobs_at(n))
-            meta = count(ctx.directory[n], "filing") + (
+            meta = count(src.counts[n], "filing") + (
                 f" · {count(jobs, 'open job')}" if jobs else ""
             )
             items.append(
@@ -625,7 +692,9 @@ def index_page(ctx: Context, src: Sources) -> Page:
 
 def pages(ctx: Context) -> list[Page]:
     src = Sources(ctx)
-    similar_to = peers(ctx, {n: field_mix(src.evidence(n)) for n in ctx.directory})
+    similar_to = peers(
+        src.counts, {n: field_mix(src.evidence(n)) for n in ctx.directory}
+    )
     return [index_page(ctx, src)] + [
         company_page(ctx, n, src, similar_to.get(n, [])) for n in sorted(ctx.directory)
     ]
