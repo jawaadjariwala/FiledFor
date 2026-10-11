@@ -50,12 +50,13 @@ behind each piece are in [docs/decisions.md](docs/decisions.md).
 - [x] Install as an app on phones
 
 ### 3. Pages for search
-- [ ] A page per sponsor: filings over time, wage levels per field, top
+- [x] A page per sponsor: filings over time, wage levels per field, top
       filed titles, open roles
-- [ ] Field and city pages ("Data scientist jobs at H-1B sponsors in New York")
-- [ ] Sponsor rankings and two or three guides (reading H-1B filings, the
-      FY2027 weighted lottery)
-- [ ] Sitemap index, structured data, internal links
+- [x] Field and city pages ("Data scientist jobs at H-1B sponsors in New York")
+- [x] Sponsor rankings
+- [ ] Two or three guides (reading H-1B filings, the FY2027 weighted
+      lottery, the PERM suspension)
+- [x] Sitemap index, structured data, internal links
 
 ### Also
 - [ ] **Real lottery levels:** compare each offered wage with the OEWS wage

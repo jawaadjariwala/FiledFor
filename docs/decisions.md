@@ -692,3 +692,35 @@ wall costs first-time visitors).
 - Anonymous event counts (GoatCounter) are the only record of tracker use.
 - If sync between devices is ever needed, that is the point to add optional
   sign-in, not before.
+
+---
+
+## ADR-006: Static pages for search
+
+**Status:** Accepted, 2026-10-11
+
+### Context
+
+The job board is one page whose content loads with JavaScript, so search
+engines see little of it. People search for "does Stripe sponsor H-1B" or
+"new grad data jobs H-1B New York"; FiledFor has the data to answer both.
+
+### Decisions
+
+1. **Rendered in Python on every publish** (`pages.py` plus one module per
+   page type), from the same data as the board, so pages are never staler than
+   the job list. About 1,600 pages add about 3 seconds to a publish.
+2. **A fixed set of URLs.** Company pages exist for every watchlist company
+   with tech filings, open jobs or not; field and city pages exist whether or
+   not jobs are open. Pages that come and go with the job list would show up in
+   search as broken links. Pages too thin to be useful are kept for visitors
+   but marked noindex and left out of the sitemap.
+3. **History is precomputed locally and committed** (`company_profiles.json`,
+   `browse_stats.json`), because the row-level DOL data is not in git. Medians
+   come from the rows, never as averages of per-employer medians.
+4. **Rankings cover every employer in the data**, not only tracked ones, ranked
+   by the legal entity named on the filing. A ranking without Amazon or Google
+   would mislead.
+5. **Built by parallel agents in separate worktrees**, each owning its own
+   files on top of a shared layer written first, with a separate review of
+   each branch against the raw data before merging.

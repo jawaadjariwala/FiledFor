@@ -374,7 +374,7 @@ class Browse:
 
     def filing_sentence(self, cell: dict | None, what: str, where: str) -> str:
         """'Employers filed 12,345 certified LCAs for X roles at Y worksites
-        from A to B; 31% were for new hires and 58% at wage levels I and II.'"""
+        from A to B; 31% were for new H-1B employment and 58% at wage levels I and II.'"""
         if not cell or not cell.get("filings"):
             if self.stats:
                 return f"No LCAs for {what} roles at {where} worksites were{self.when() or ' certified'}."
@@ -386,7 +386,9 @@ class Browse:
         )
         tail = []
         if cell.get("new_hire") is not None:
-            tail.append(f"{pct(cell['new_hire'], cell['filings'])} were for new hires")
+            tail.append(
+                f"{pct(cell['new_hire'], cell['filings'])} were for new H-1B employment"
+            )
         if known:
             tail.append(
                 f"{pct(cell['level_12'], known)} were at wage levels I and II, the entry end of the scale"
@@ -407,7 +409,7 @@ class Browse:
             label = f"LCAs certified {self.period}" if self.period else "LCA filings"
             t += [
                 (label, num(cell["filings"])),
-                ("for new hires", pct(cell.get("new_hire"), cell["filings"])),
+                ("for new H-1B employment", pct(cell.get("new_hire"), cell["filings"])),
                 ("at wage levels I and II", pct(cell["level_12"], known)),
             ]
             if cell.get("median_wage"):
@@ -825,7 +827,7 @@ class Browse:
             f'<p class="bp-sub">{esc(name)} LCA filings{esc(self.when())}, as the job board counts them.</p>'
             '<div class="table-scroll"><table class="ptable bp-sponsors">'
             '<thead><tr><th scope="col">Company</th><th scope="col" class="num">Open internships</th>'
-            '<th scope="col" class="num">LCA filings</th><th scope="col" class="num">For new hires</th></tr></thead>'
+            '<th scope="col" class="num">LCA filings</th><th scope="col" class="num">New employment</th></tr></thead>'
             f"<tbody>{''.join(rows)}</tbody></table></div>"
             if rows
             else '<p class="note">No company has an open internship in this field right now.</p>'
@@ -1100,7 +1102,7 @@ class Browse:
             ("filings", "LCA filings", lambda r: num(r[1])),
             (
                 "new",
-                "New hires",
+                "New employment",
                 lambda r: pct(r[2], r[1]) if r[2] is not None else "n/a",
             ),
             (
@@ -1152,7 +1154,7 @@ class Browse:
         if cell and cell.get("filings"):
             lede += (
                 f"Across all {num(ranked)} employers, {num(cell['filings'])} {phrase} LCAs were certified; "
-                f"{pct(cell['new_hire'], cell['filings'])} were for new hires and "
+                f"{pct(cell['new_hire'], cell['filings'])} were for new H-1B employment and "
                 f"{pct(cell['level_12'], cell['level_12'] + cell['level_34'])} at wage levels I and II. "
             )
         lede += "Companies whose job boards FiledFor checks link to their page and show their open jobs."
@@ -1195,7 +1197,10 @@ class Browse:
                             num(cell["filings"]),
                         ),
                         ("employers that filed", num(ranked)),
-                        ("for new hires", pct(cell["new_hire"], cell["filings"])),
+                        (
+                            "for new H-1B employment",
+                            pct(cell["new_hire"], cell["filings"]),
+                        ),
                         ("median wage on filings", money(cell["median_wage"]) or "n/a"),
                         ("open jobs now", num(sum(open_now.values()))),
                     ]
@@ -1205,7 +1210,7 @@ class Browse:
             )
             + f"<h2>Most {esc(phrase)} LCA filings</h2>"
             + f'<p class="bp-sub">Top {num(min(len(rows), RANK_CAP))} of {num(ranked)} employers with {esc(phrase)} filings. '
-            "New hires: share of filings for someone joining the company. Level I-II: share at the two "
+            "New employment: share of filings for a new H-1B job, often a first H-1B, rather than an extension or transfer. Level I-II: share at the two "
             "entry-level wage levels, of filings with a level. Open jobs: posted in the last 30 days.</p>"
             + self.ranking_table(rows, open_now)
             + "<h2>Most entry-level friendly</h2>"
