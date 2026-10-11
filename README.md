@@ -8,7 +8,7 @@
 
 **Use it: [filedfor.com](https://filedfor.com/)**. Free, no sign-up, refreshed about every 30 minutes.
 
-[![FiledFor: job list with filters and H-1B filing evidence on each job](docs/screenshot.png)](https://filedfor.com/)
+[![FiledFor: the job list with filters, and a job's preview with the company's H-1B record](docs/screenshot.png)](https://filedfor.com/)
 
 Most "visa-friendly" job lists tell you a company sponsors. FiledFor puts each job next to what the company actually filed with the Department of Labor for that kind of role: how many H-1B applications, how many were new hires, what share sat at the lower wage levels where new grads land, and the median wage. Postings that say citizens only, no sponsorship, or need a security clearance are left out, so every job listed is one you can apply to on a visa.
 
@@ -16,7 +16,8 @@ Most "visa-friendly" job lists tell you a company sponsors. FiledFor puts each j
 
 - **Browse** the [site](https://filedfor.com/). Filter by field (Software, AI/ML, Data, Hardware & Embedded, IT & Cloud, Security, Product, Design), level (internship to senior), posting age, work setup, pay, metro area or state. Every search is a link you can share.
 - **Search** for what you mean: "SWE new grad", "ml engineer" or "data engineer seattle" also find abbreviations, related roles, plurals and typos, with their own filters.
-- **Open a job** for its pay, work setup, years asked, last-checked time and the company's filing record; **open a company** for its record in every field and all its open roles.
+- **Read the whole job** on its own page: the full description, pay, work setup, years asked, when it was last checked, the company's filing record for that kind of role, more jobs at the company and similar jobs elsewhere. On a wide screen, a click previews the job beside the list first.
+- **Look up a company**: [1,379 sponsor pages](https://filedfor.com/companies/) with filings by quarter, the job titles and cities filed for, wage levels and open roles, plus [rankings of every employer](https://filedfor.com/rankings/) and [pages by field and city](https://filedfor.com/jobs/).
 - **Track your search** in My jobs: statuses from saved to offer, private notes, CSV export, saved searches that count new jobs, and hidden jobs or companies. All of it stays in your browser; there's no account.
 - **Install it** on your phone's home screen like an app.
 - **Follow an RSS feed** for new jobs: [all fields](https://filedfor.com/feeds/all.xml), [software](https://filedfor.com/feeds/swe.xml), [AI/ML](https://filedfor.com/feeds/ai.xml), [data](https://filedfor.com/feeds/data.xml). Works in any feed reader, and in Slack or Discord through an RSS bot.
@@ -32,9 +33,9 @@ Greenhouse, Lever, Ashby, Workday, SmartRecruiters boards ───┘   (every 
 
 1. **Sponsor data** (`lca.py`, `sponsors.py`). Every H-1B Labor Condition Application certified from October 2024 to June 2026, about a million rows, reduced to counts per employer, occupation and wage level. [Data notes](docs/data.md).
 2. **Watchlist** (`watchlist.py`). About 2,600 company job boards, each matched to the employer's federal tax ID (FEIN) in the DOL data. Matching uses tiered rules and a reviewed queue rather than fuzzy scores, because a wrong match puts false evidence next to a job. [ADR-001](docs/decisions.md#adr-001-matching-job-feed-companies-to-dol-employers).
-3. **Poller** (`poll.py`, `feeds.py`). Reads every board through its public JSON API, keeps US tech roles that aren't clearly senior, reads each new description for the years of experience asked and for language that rules out sponsorship, attaches the evidence, and stores what changed. [ADR-002](docs/decisions.md#adr-002-the-poller). Workday boards are large and paged, so they're read newest first. [ADR-003](docs/decisions.md#adr-003-workday-and-smartrecruiters).
+3. **Poller** (`poll.py`, `feeds.py`). Reads every board through its public JSON API, keeps US tech roles at every level, reads each new description for the years of experience asked, the pay, the work setup and language that rules out sponsorship, attaches the evidence, and stores what changed, with a cleaned copy of the description (`jd.py`). [ADR-002](docs/decisions.md#adr-002-the-poller). Workday boards are large and paged, so they're read newest first. [ADR-003](docs/decisions.md#adr-003-workday-and-smartrecruiters).
 4. **Classifier** (`classify.py`). Rules that sort each title into one of eight fields and five levels, scored against hand-labelled titles and descriptions with `python -m filedfor.evaluate`. [Scores and known misses](docs/decisions.md#adr-004-all-tech-roles-all-levels).
-5. **Publish** (`publish.py`). Writes the static site (`site/`), the job and company JSON files, `health.json`, the sitemap and one RSS feed per field for GitHub Pages.
+5. **Publish** (`publish.py`, `pages*.py`). Writes the job board (`site/`), a page per job, per sponsor, per field and city and per ranking, the job and company JSON files, `health.json`, a sitemap index and one RSS feed per field, for GitHub Pages. [ADR-006](docs/decisions.md#adr-006-static-pages-for-search), [ADR-007](docs/decisions.md#adr-007-job-pages-and-the-record-style-redesign).
 
 ## Limits
 
@@ -87,19 +88,27 @@ src/filedfor/
   evidence.py           filing record for a job's company and field
   diff.py, store.py     what changed since the last run, Postgres
   poll.py               one run, start to finish
+  jd.py                 job descriptions as safe, tidy HTML
   publish.py, notify.py site, job and company JSON, RSS, Discord
+  pages.py              shared layout for the static pages and the sitemap index
+  pages_job.py, pages_company.py, pages_browse.py
+                        job, sponsor, field and city, and ranking pages
+  profiles.py, browse_stats.py
+                        filing history per company and per field and city,
+                        built locally from the row-level data
   logos.py              save company logos into site/logos (run by hand)
   evaluate.py           score the classifier against hand labels
-site/                   the static page (HTML, CSS, JS; no build step), app manifest and
-                        service worker, MiniSearch in site/vendor
+site/                   the job board and the static pages' styles (HTML, CSS, JS; no
+                        build step), fonts, logos, app manifest and service worker,
+                        MiniSearch in site/vendor
 data/                   sponsor tables, watchlist, hand-made decisions and labels
-docs/                   design decisions and data notes
+docs/                   design decisions, data notes, the link preview image source
 tests/                  unit tests on saved, trimmed API responses
 ```
 
 ## Documentation
 
-- [Design decisions](docs/decisions.md): matching, the poller, Workday, each with the options considered
+- [Design decisions](docs/decisions.md): matching, the poller, Workday, scope, portal features, search pages and the redesign, each with the options considered
 - [Data notes](docs/data.md): sources, cleaning rules and quirks
 - [Roadmap](ROADMAP.md)
 
@@ -108,7 +117,7 @@ tests/                  unit tests on saved, trimmed API responses
 Issues and pull requests are welcome, especially:
 
 - a company FiledFor matched to the wrong employer, or missed (add it to `data/aliases.csv`)
-- a job that's listed but shouldn't be, or the other way round (the flag on each job opens a pre-filled report)
+- a job that's listed but shouldn't be, or the other way round ("Report a problem" on each job opens a pre-filled issue)
 - adapters for more job systems
 
 Run `uv run ruff check src tests`, `uv run ruff format src tests` and `uv run pytest` before opening a pull request. CI runs the same.

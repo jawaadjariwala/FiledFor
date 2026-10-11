@@ -291,14 +291,40 @@ def test_careers_url_points_at_the_public_board():
     )
 
 
-def test_logo_size_check_reads_png_header():
-    import struct
+def test_logos_are_converted_to_png_with_a_size_floor():
+    import io
 
-    from filedfor.logos import png_size
+    from PIL import Image
 
-    header = b"\x89PNG\r\n\x1a\n" + b"\x00\x00\x00\rIHDR" + struct.pack(">II", 128, 64)
-    assert png_size(header) == (128, 64)
-    assert png_size(b"GIF89a....................") is None
+    from filedfor.logos import to_png
+
+    def image(size, fmt):
+        out = io.BytesIO()
+        Image.new("RGB", (size, size), "red").save(out, fmt)
+        return out.getvalue()
+
+    png = to_png(image(256, "JPEG"))  # JPEG in, scaled PNG out
+    assert png[:8] == b"\x89PNG\r\n\x1a\n"
+    assert Image.open(io.BytesIO(png)).size == (128, 128)
+    assert to_png(image(16, "PNG")) is None  # too small to look sharp
+    assert to_png(b"<html>not an image</html>") is None
+
+
+def test_site_icons_prefers_the_largest_declared_icon():
+    from filedfor.logos import site_icons
+
+    page = (
+        '<link rel="icon" href="/favicon-32.png" sizes="32x32">'
+        '<link rel="apple-touch-icon" href="/touch.png">'
+        '<link rel="icon" href="/logo.svg">'
+        '<link rel="icon" sizes="192x192" href="https://cdn.example.com/i192.png">'
+    )
+    assert site_icons(page, "https://example.com/") == [
+        "https://cdn.example.com/i192.png",
+        "https://example.com/touch.png",
+        "https://example.com/favicon-32.png",
+        "https://example.com/apple-touch-icon.png",
+    ]
 
 
 def test_lever_salary_range_is_yearly_usd():

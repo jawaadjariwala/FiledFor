@@ -1,0 +1,44 @@
+<!doctype html>
+<!-- Source of site/og.png, the link preview image. Render at 1200x630:
+     Chrome --headless=new --window-size=1200,630 --screenshot=site/og.png docs/og/og.html -->
+<meta charset="utf-8">
+<style>
+@font-face { font-family: "Public Sans"; font-weight: 400 800; src: url(../../site/fonts/PublicSans-normal.woff2) format("woff2"); }
+* { box-sizing: border-box; }
+body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #f3f8f5; color: #13302a; font-family: "Public Sans", sans-serif; font-variant-numeric: tabular-nums; display: flex; flex-direction: column; }
+header { background: #0e3a2f; color: #fff; height: 84px; padding: 0 56px; display: flex; align-items: center; gap: 14px; font-weight: 800; font-size: 30px; letter-spacing: -0.01em; }
+header svg { width: 40px; height: 40px; }
+header span.url { margin-left: auto; font-size: 22px; font-weight: 600; color: #b7d2c6; }
+main { flex: 1; display: grid; grid-template-columns: 1fr 450px; gap: 44px; padding: 52px 56px 48px; align-items: center; }
+h1 { margin: 0 0 22px; font-size: 56px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 800; text-wrap: balance; }
+p { margin: 0; font-size: 23px; line-height: 1.42; text-wrap: pretty; color: #36524a; }
+.rec { background: #fff; border: 2px solid #0e3a2f; border-radius: 14px; overflow: hidden; }
+.rec-head { background: #0e3a2f; color: #fff; padding: 16px 22px; }
+.rec-head b { display: block; font-size: 21px; }
+.rec-head span { font-size: 15px; color: #b7d2c6; }
+dl { margin: 0; padding: 20px 22px 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+dt { font-size: 15px; color: #4f655d; }
+dd { margin: 2px 0 0; font-size: 34px; font-weight: 800; }
+.bar { display: flex; gap: 3px; height: 14px; margin: 10px 22px 22px; }
+.bar i { display: block; }
+</style>
+<header>
+  <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#fff"/><path d="M11 8h11v4h-7v3h6v4h-6v5h-4z" fill="#0e3a2f"/></svg>
+  FiledFor <span class="url">filedfor.com</span>
+</header>
+<main>
+  <div>
+    <h1>Tech jobs at companies that actually sponsor H-1B</h1>
+    <p>Every job shows what the company filed with the Department of Labor for that kind of role. New grad to senior, eight fields, updated every 30 minutes.</p>
+  </div>
+  <div class="rec">
+    <div class="rec-head"><b>Sponsor record: ServiceNow, software</b><span>Department of Labor data, Oct 2024 to Jun 2026</span></div>
+    <dl>
+      <div><dt>Certified filings</dt><dd>746</dd></div>
+      <div><dt>New H-1B employment</dt><dd>325</dd></div>
+      <div><dt>At entry wage levels</dt><dd>28%</dd></div>
+      <div><dt>Median wage filed</dt><dd>$153K</dd></div>
+    </dl>
+    <div class="bar"><i style="flex:4;background:#8cbfa1;border-radius:4px 0 0 4px"></i><i style="flex:100;background:#569c76"></i><i style="flex:125;background:#2a7a51"></i><i style="flex:138;background:#134f33;border-radius:0 4px 4px 0"></i></div>
+  </div>
+</main>
