@@ -16,6 +16,7 @@ rules classified them.
 """
 
 import re
+import unicodedata
 from dataclasses import dataclass
 
 VERSION = 7
@@ -548,7 +549,31 @@ NON_US = _rx(
     r"|uae|dubai|south africa|nigeria|kenya|egypt|romania|ukraine|czech|prague|hungary"
     r"|greece|austria|vienna|belgium|brussels|finland|norway|estonia|serbia|emea|apac"
     r"|latam|europe|\bnz\b|auckland|saudi|riyadh|lebanon|beirut|pakistan|karachi|lahore"
-    r"|cape town|johannesburg|manchester|edinburgh|dublin|international)\b",
+    r"|cape town|johannesburg|manchester|edinburgh|dublin|international"
+    # More countries and tech cities. Names shared with US cities (Valencia,
+    # Cambridge, Birmingham, Waterloo, Athens) are left out on purpose
+    r"|qatar|doha|bulgaria|sofia|slovenia|ljubljana|croatia|zagreb|copenhagen|oslo"
+    r"|helsinki|krakow|wroclaw|gdansk|bucharest|cluj|budapest|belgrade|kyiv|kiev|lviv"
+    r"|tallinn|latvia|riga|lithuania|vilnius|luxembourg|costa rica|peru|lima|uruguay"
+    r"|montevideo|guatemala|turkey|turkiye|istanbul|ankara|morocco|casablanca|tunisia"
+    r"|ghana|accra|lagos|nairobi|cairo|jordan|amman|kuwait|bahrain|oman|abu dhabi"
+    r"|sri lanka|colombo|bangladesh|dhaka|nepal|chennai|gurgaon|gurugram|noida|kolkata"
+    r"|ahmedabad|kochi|coimbatore|taipei|osaka|shenzhen|hangzhou|guangzhou|chengdu"
+    r"|wuhan|nanjing|suzhou|kuala lumpur|penang|jakarta|ho chi minh|hanoi|cebu|makati"
+    r"|quezon|canberra|brisbane|perth, wa|adelaide|wellington, nz|christchurch|calgary"
+    r"|edmonton|ottawa|kitchener|mississauga|winnipeg|halifax|guadalajara|monterrey"
+    r"|bogota|medellin|santiago, chile|buenos aires|rio de janeiro|curitiba|campinas"
+    r"|florianopolis|belo horizonte|porto|coimbra|braga|seville|sevilla|malaga|bilbao"
+    r"|lyon|toulouse|marseille|hamburg|frankfurt|cologne|koln|stuttgart|dusseldorf"
+    r"|leipzig|dresden|rotterdam|eindhoven|the hague|utrecht|antwerp|ghent|geneva"
+    r"|lausanne|basel|milan|milano|rome|roma|turin|torino|bologna|gothenburg|malmo"
+    r"|aarhus|belfast|cardiff|glasgow|leeds|haifa|jerusalem|herzliya|petah tikva"
+    r"|cyprus|limassol|malta|iceland|reykjavik|armenia|yerevan|tbilisi|kazakhstan"
+    r"|almaty|uzbekistan|tashkent|united arab emirates|slovakia|bratislava|estonia"
+    r"|mexico city|ciudad de mexico|guangdong|bengal|karnataka|telangana|maharashtra"
+    r"|tamil nadu|haryana|bavaria|bayern|catalonia|catalunya|lombardy|ile-de-france"
+    r"|north holland|noord-holland|new south wales|victoria, australia|queensland"
+    r"|king abdullah)\b",
 )
 US_COUNTRY = {"us", "usa", "united states", "united states of america"}
 
@@ -560,6 +585,10 @@ def is_us(location: str | None, country: str | None = None) -> bool | None:
         return country.strip().lower() in US_COUNTRY
     if not location:
         return None
+    # "São Paulo" should match "sao paulo"
+    location = (
+        unicodedata.normalize("NFKD", location).encode("ascii", "ignore").decode()
+    )
     parts = re.split(r"\s*(?:\||;|/| or |\band\b)\s*", location)
     seen_non_us = False
     for p in parts:

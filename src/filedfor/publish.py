@@ -60,6 +60,9 @@ def listed(job: dict) -> bool:
     need sponsorship. Interns and senior roles alike; the site filters."""
     if job["is_us"] is False:  # Workday multi-location jobs, checked on the job page
         return False
+    # A location stored as unknown that today's rules place abroad
+    if job["is_us"] is None and classify.is_us(job["location"]) is False:
+        return False
     # A title fix to the rules takes effect on the next publish, without
     # waiting for a version bump to reclassify every stored job
     if classify.role(job["title"]) is None:

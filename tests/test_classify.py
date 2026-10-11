@@ -83,6 +83,12 @@ def test_title(title, expected_role, expected_level):
         ("Auckland, NZ", None, False, False),
         ("Anywhere", "US", True, True),  # a structured country field wins
         ("Paris", "FR", False, False),
+        ("Avenida das Nações Unidas, 12901,11° andar São Paulo", None, False, False),
+        ("Doha, Qatar", None, False, False),
+        ("Ljubljana, Slovenia", None, False, False),
+        ("Amsterdam; Chicago", None, True, False),  # one US office is enough
+        ("Valencia", None, None, False),  # also a California city: unknown
+        ("3 Locations", None, None, False),
     ],
 )
 def test_location(location, country, us, remote):
