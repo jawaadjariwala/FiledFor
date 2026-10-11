@@ -87,6 +87,7 @@ JOB_CAP = 30
 SPONSOR_CAP = 15
 RANK_CAP = 50
 ENTRY_MIN = 50  # without browse_stats.json: filings needed for the entry list
+THIN = 50  # a field and city page with fewer filings and no open jobs is noindex
 H1B = '<span class="nowrap">H-1B</span>'  # headings never break "H-1B" at the hyphen
 ALIASES = {"nyc", "new york city", "research triangle", "washington, d.c"}
 
@@ -198,6 +199,12 @@ def item_list(name: str, items: list[tuple[str, str | None]]) -> dict:
     }
 
 
+def tracked(row: list) -> bool:
+    """Stats rows end in 1 for a company FiledFor tracks, 0 for any other
+    employer; rows without the flag come from the board's own evidence."""
+    return len(row) < 7 or bool(row[6])
+
+
 def clip(text: str, limit: int = 160) -> str:
     return text if len(text) <= limit else text[: limit - 3].rsplit(" ", 1)[0] + "..."
 
@@ -279,7 +286,7 @@ class Browse:
         for name, c in self.ctx.companies.items():
             if field is None:
                 if c.get("tech_filings"):
-                    rows.append([name, c["tech_filings"], None, None, None, None])
+                    rows.append([name, c["tech_filings"], None, None, None, None, 1])
                 continue
             e = (c.get("evidence") or {}).get(field)
             if e:
@@ -291,6 +298,7 @@ class Browse:
                         e["level_1"] + e["level_2"],
                         e["level_3"] + e["level_4"],
                         e["median_wage"],
+                        1,
                     ]
                 )
         rows.sort(key=lambda r: (-r[1], r[0]))
@@ -318,6 +326,15 @@ class Browse:
         return ENTRY_MIN, rows[:SPONSOR_CAP]
 
     # --- shared blocks --------------------------------------------------------
+
+    def name_cell(self, r: list) -> str:
+        """Tracked employers link to their company page; others are plain text."""
+        return company_link(self.ctx, r[0]) if tracked(r) else esc(r[0])
+
+    def open_cell(self, r: list, open_now: Counter) -> str:
+        if not tracked(r):
+            return '<span class="bp-untracked">not tracked</span>'
+        return num(open_now.get(r[0], 0))
 
     def counted(self, cell: dict | None) -> str:
         """' (30,983 filed Oct 2024 to Jun 2026)' for descriptions."""
@@ -391,14 +408,14 @@ class Browse:
         self, rows: list[list], jobs: list[dict], caption: str, open_label: str
     ) -> str:
         if not rows:
-            return '<p class="note">None of the companies FiledFor tracks have filings here.</p>'
+            return '<p class="note">No filings on record here.</p>'
         open_now = Counter(j["company"] for j in jobs)
         body = "".join(
             "<tr>"
-            f"<td>{company_link(self.ctx, r[0])}</td>"
+            f"<td>{self.name_cell(r)}</td>"
             f'<td class="num">{num(r[1])}</td>'
             f'<td class="num">{pct(r[3], (r[3] or 0) + (r[4] or 0)) if r[3] is not None else "n/a"}</td>'
-            f'<td class="num">{num(open_now.get(r[0], 0))}</td>'
+            f'<td class="num">{self.open_cell(r, open_now)}</td>'
             "</tr>"
             for r in rows[:SPONSOR_CAP]
         )
@@ -421,7 +438,8 @@ class Browse:
             "by its occupation code, or by the job title when the code covers several fields "
             "(Software Developers is used for software, ML and data roles alike). The job board and "
             "company pages count a shared code toward every field it covers, so their numbers can be higher. "
-            "Sponsor lists include only companies whose job boards FiledFor checks; totals count every employer."
+            "Sponsor lists include every employer that filed; the ones whose job boards FiledFor checks "
+            "link to their company page and show their open jobs."
             "</p>"
         )
 
@@ -450,7 +468,9 @@ class Browse:
             [
                 (
                     r[0],
-                    (SITE_URL + u[1:]) if (u := self.ctx.company_url(r[0])) else None,
+                    (SITE_URL + u[1:])
+                    if tracked(r) and (u := self.ctx.company_url(r[0]))
+                    else None,
                 )
                 for r in rows
             ],
@@ -465,6 +485,7 @@ class Browse:
         crumbs,
         jsonld=(),
         group="browse",
+        noindex=False,
     ) -> Page:
         return Page(
             path=path,
@@ -475,6 +496,7 @@ class Browse:
             jsonld=list(jsonld),
             css=CSS,
             group=group,
+            noindex=noindex,
         )
 
     # --- page kinds -----------------------------------------------------------
@@ -589,7 +611,7 @@ class Browse:
             + self.sponsor_table(
                 rows,
                 jobs,
-                f"Companies on FiledFor with the most {phrase} LCA filings{self.when()}",
+                f"Employers with the most {phrase} LCA filings{self.when()}",
                 "Open jobs",
             )
             + f'<p class="bp-more"><a href="/rankings/{FIELD_SLUGS[f]}/">Full ranking, with new-hire share and wages</a></p>'
@@ -710,7 +732,7 @@ class Browse:
                 "Hiring for new grads is seasonal; the companies below file the most at entry-level wages.",
             )
             + "<h2>Most entry-level friendly sponsors</h2>"
-            + f'<p class="bp-sub">Companies on FiledFor with at least {num(least)} {esc(phrase)} LCA filings{esc(self.when())}, '
+            + f'<p class="bp-sub">Employers with at least {num(least)} {esc(phrase)} LCA filings{esc(self.when())}, '
             "ranked by the share filed at wage levels I and II.</p>"
             + self.sponsor_table(
                 rows,
@@ -858,32 +880,12 @@ class Browse:
         if cell and national and national.get("filings"):
             lede += f" That is {share_of(cell['filings'], national['filings'])} of all {phrase} filings in the U.S."
         rows = self.top(f, m)
-        if rows or not cell:
-            watch = f"The companies below filed the most {phrase} LCAs here, so they are the ones to watch."
-            caption = (
-                f"{plural(cell.get('companies', len(rows)), 'company', 'companies')} on FiledFor filed "
-                f"{phrase} LCAs at {where}-area worksites{self.when()}; these filed the most"
-                if cell
-                else f"Companies with open jobs here, by {phrase} filings nationwide"
-            )
-            sponsors = self.sponsor_table(rows, jobs, caption, "Open jobs here")
-        else:  # filings here, but none by a company FiledFor tracks
-            rows = self.top(f)[:5]
-            none = (
-                f"None of the companies FiledFor tracks filed {phrase} LCAs at {where}-area "
-                f"worksites{self.when()}; the {num(cell['filings'])} filed here came from other employers"
-            )
-            watch = f"The top {phrase} sponsors nationwide are below." if rows else ""
-            sponsors = (
-                self.sponsor_table(
-                    rows,
-                    self.select(f),
-                    f"{none}. These are the top {phrase} sponsors nationwide",
-                    "Open jobs, U.S.",
-                )
-                if rows
-                else f'<p class="note">{esc(none)}.</p>'
-            )
+        caption = (
+            f"Employers with the most {phrase} LCA filings at {where}-area worksites{self.when()}"
+            if cell
+            else f"Companies with open jobs here, by {phrase} filings nationwide"
+        )
+        sponsors = self.sponsor_table(rows, jobs, caption, "Open jobs here")
         body = (
             f"<h1>{esc(name)} jobs at {H1B} sponsors in {esc(where)}</h1>"
             f'<p class="lede">{esc(lede)}</p>'
@@ -893,7 +895,7 @@ class Browse:
                 jobs,
                 self.board(f, m),
                 f"No {phrase} jobs at companies with filings in {where} were posted in the last 30 days. "
-                + watch,
+                f"The employers below filed the most {phrase} LCAs here, so they are the ones to watch.",
             )
             + (
                 f'<p class="bp-more"><a href="{esc(self.board(f, m, NEW_GRAD))}">New grad {esc(phrase)} jobs in {esc(where)} on the board ({num(ng)})</a></p>'
@@ -976,7 +978,13 @@ class Browse:
                 else []
             )
             + self.jobs_ld(f"{name} jobs in {where}", jobs),
+            noindex=self.thin(jobs, cell),
         )
+
+    def thin(self, jobs: list[dict], cell: dict | None) -> bool:
+        """Too little here for search: no open jobs and few filings. Without
+        the stats file nothing is judged thin."""
+        return bool(self.stats) and not jobs and (cell or {}).get("filings", 0) < THIN
 
     def metro(self, m: str) -> Page:
         jobs, cell = self.select(metro=m), self.cell(metro=m)
@@ -1021,7 +1029,7 @@ class Browse:
             + self.sponsor_table(
                 rows,
                 jobs,
-                f"Companies on FiledFor with the most tech LCA filings at {where}-area worksites{self.when()}"
+                f"Employers with the most tech LCA filings at {where}-area worksites{self.when()}"
                 if cell
                 else "Companies with open jobs here, by tech filings nationwide",
                 "Open jobs here",
@@ -1073,7 +1081,7 @@ class Browse:
                 lambda r: pct(r[3], r[3] + r[4]) if r[3] is not None else "n/a",
             ),
             ("wage", "Median wage", lambda r: money(r[5]) or "n/a"),
-            ("open", "Open jobs", lambda r: num(open_now.get(r[0], 0))),
+            ("open", "Open jobs", lambda r: self.open_cell(r, open_now)),
         ]
         if lead == "level":
             cols.insert(0, cols.pop(2))
@@ -1082,9 +1090,9 @@ class Browse:
         )
         body = "".join(
             "<tr>"
-            f'<td class="rank">{i + 1}</td><td>{company_link(self.ctx, r[0])}</td>'
+            f'<td class="rank">{i + 1}</td><td>{self.name_cell(r)}</td>'
             + "".join(
-                f'<td class="num" data-label="{esc(label)}">{esc(fn(r))}</td>'
+                f'<td class="num" data-label="{esc(label)}">{fn(r)}</td>'
                 for _, label, fn in cols
             )
             + "</tr>"
@@ -1103,9 +1111,9 @@ class Browse:
         rows = self.top(f)[:RANK_CAP]
         least, entry = self.entry(f)
         open_now = Counter(j["company"] for j in self.select(f))
-        tracked = (cell or {}).get("companies") or len(self.top(f))
+        employers = (cell or {}).get("employers") or len(self.top(f))
         lede = (
-            f"The companies FiledFor tracks, ranked by certified LCAs for {phrase} roles{self.when()}. "
+            f"Every employer that filed, ranked by certified LCAs for {phrase} roles{self.when()}. "
             "An LCA is the filing an employer makes with the Department of Labor before an H-1B worker "
             "starts or continues in a role; it is not a visa approval or a hire. "
         )
@@ -1115,10 +1123,7 @@ class Browse:
                 f"{pct(cell['new_hire'], cell['filings'])} were for new hires and "
                 f"{pct(cell['level_12'], cell['level_12'] + cell['level_34'])} at wage levels I and II. "
             )
-        lede += (
-            "FiledFor checks company job boards on Greenhouse, Lever, Ashby, Workday and SmartRecruiters, "
-            "so large sponsors that run their own hiring sites are not in this list."
-        )
+        lede += "Companies whose job boards FiledFor checks link to their page and show their open jobs."
         path = f"rankings/{FIELD_SLUGS[f]}/" if f else "rankings/"
         crumbs = [("Rankings", "rankings/")] + ([(name, path)] if f else [])
         jobs_links = (
@@ -1161,7 +1166,7 @@ class Browse:
                 else ""
             )
             + f"<h2>Most {esc(phrase)} LCA filings</h2>"
-            + f'<p class="bp-sub">Top {num(min(len(rows), RANK_CAP))} of {num(tracked)} companies on FiledFor with {esc(phrase)} filings. '
+            + f'<p class="bp-sub">Top {num(min(len(rows), RANK_CAP))} of {num(employers)} employers with {esc(phrase)} filings. '
             "New hires: share of filings for someone joining the company. Level I-II: share at the two "
             "entry-level wage levels, of filings with a level. Open jobs: posted in the last 30 days.</p>"
             + self.ranking_table(rows, open_now)

@@ -25,17 +25,34 @@ SHEET = (
 
 
 def lca(tmp_path, rows):
-    """A tiny clean.parquet with the columns browse_stats reads."""
+    """A tiny clean.parquet with the columns browse_stats reads. Each row is
+    'decision|fein|employer|title|soc|level|wage|city|state|new hire'."""
     con = duckdb.connect()
     con.execute(
         "create table t (case_number varchar, decision_date varchar, employer_fein varchar,"
-        " job_title varchar, soc_code varchar, wage_level varchar, wage_yearly double,"
-        " worksite_city varchar, worksite_state varchar, is_new_hire boolean)"
+        " employer_name varchar, job_title varchar, soc_code varchar, wage_level varchar,"
+        " wage_yearly double, worksite_city varchar, worksite_state varchar,"
+        " is_new_hire boolean)"
     )
-    con.executemany(
-        "insert into t values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [(f"I-{i}", *r) for i, r in enumerate(rows)],
-    )
+    parsed = []
+    for i, r in enumerate(rows):
+        d, fein, name, title, soc, level, wage, city, state, new = r.split("|")
+        parsed.append(
+            (
+                f"I-{i}",
+                d,
+                fein,
+                name,
+                title,
+                soc,
+                level,
+                float(wage),
+                city,
+                state,
+                new == "y",
+            )
+        )
+    con.executemany("insert into t values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", parsed)
     path = tmp_path / "clean.parquet"
     con.execute(f"copy t to '{path}' (format parquet)")
     return path
@@ -77,94 +94,48 @@ def test_a_shared_fein_belongs_to_the_company_with_more_filings(tmp_path):
     }
 
 
+def test_readable_names_only_change_case():
+    assert browse_stats.readable("AMAZON.COM SERVICES LLC") == "Amazon.com Services LLC"
+    assert browse_stats.readable("KPMG  LLP") == "KPMG LLP"
+    assert (
+        browse_stats.readable("WAL-MART ASSOCIATES, INC.")
+        == "Wal-Mart Associates, Inc."
+    )
+    assert browse_stats.readable("Google LLC") == "Google LLC"  # mixed case: as filed
+
+
 def test_stats_on_a_tiny_fixture(tmp_path):
     sheet = tmp_path / "companies.csv"
     sheet.write_text(SHEET)
-    a, b, other = "11-1111111", "33-3333333", "99-9999999"
     rows = [
-        # decision, fein, title, soc, level, wage, city, state, new hire
-        (
-            "2024-10-01 00:00:00",
-            a,
-            "Software Engineer",
-            "15-1252.00",
-            "I",
-            100_000,
-            "Seattle",
-            "WA",
-            True,
-        ),
-        (
-            "2025-01-05 00:00:00",
-            a,
-            "Software Engineer",
-            "15-1252.00",
-            "II",
-            120_000,
-            "Redmond",
-            "WA",
-            False,
-        ),
-        (
-            "2025-03-01 00:00:00",
-            a,
-            "ML Engineer",
-            "15-1252.00",
-            "III",
-            200_000,
-            "Seattle",
-            "WA",
-            True,
-        ),
-        (
-            "2025-06-01 00:00:00",
-            b,
-            "Software Engineer",
-            "15-1252.00",
-            "IV",
-            300_000,
-            "Omaha",
-            "NE",
-            False,
-        ),
-        (
-            "2026-06-30 00:00:00",
-            other,
-            "Software Developer",
-            "15-1252.00",
-            "Unknown",
-            5,
-            "Seattle",
-            "WA",
-            False,
-        ),
-        (
-            "2025-02-01 00:00:00",
-            other,
-            "Nurse",
-            "29-1141.00",
-            "I",
-            80_000,
-            "Seattle",
-            "WA",
-            True,
-        ),
+        "2024-10-01 00:00:00|11-1111111|ACME LABS INC|Software Engineer|15-1252.00|I|100000|Seattle|WA|y",
+        "2025-01-05 00:00:00|11-1111111|ACME LABS INC|Software Engineer|15-1252.00|II|120000|Redmond|WA|n",
+        "2025-03-01 00:00:00|11-1111111|ACME LABS INC|ML Engineer|15-1252.00|III|200000|Seattle|WA|y",
+        "2025-06-01 00:00:00|33-3333333|Beta Corp|Software Engineer|15-1252.00|IV|300000|Omaha|NE|n",
+        "2026-06-30 00:00:00|99-9999999|BIGCO INC|Software Developer|15-1252.00|Unknown|5|Seattle|WA|n",
+        "2026-01-02 00:00:00|99-9999999|BIGCO INC|Software Developer|15-1252.00|I|90000|Seattle|WA|n",
+        "2026-01-03 00:00:00|99-9999999|Bigco, Inc.|Software Developer|15-1252.00|II|95000|Austin|TX|y",
+        "2025-02-01 00:00:00|99-9999999|BIGCO INC|Nurse|29-1141.00|I|80000|Seattle|WA|y",
     ]
     stats = browse_stats.compute(lca(tmp_path, rows), sheet)
     assert stats["period"] == {"from": "2024-10-01", "to": "2026-06-30"}
-    assert stats["all"]["filings"] == 5  # the nurse is not tech
+    assert stats["all"]["filings"] == 7  # the nurse is not tech
     swe = stats["fields"]["swe"]
-    assert swe["filings"] == 4 and swe["employers"] == 3 and swe["companies"] == 2
-    assert (swe["new_hire"], swe["level_12"], swe["level_34"]) == (1, 2, 1)
-    assert swe["median_wage"] == 120_000  # the $5 wage is out of range
-    assert swe["top"][0] == ["Acme <Labs>", 2, 1, 2, 0, 110_000]
-    assert stats["fields"]["ai"]["top"] == [["Acme <Labs>", 1, 1, 0, 1, 200_000]]
+    assert swe["filings"] == 6 and swe["employers"] == 3 and swe["companies"] == 2
+    assert (swe["new_hire"], swe["level_12"], swe["level_34"]) == (2, 4, 1)
+    # Every employer is ranked; untracked ones by their most common name
+    assert swe["top"][0] == ["Bigco Inc", 3, 1, 2, 0, 92_500, 0]
+    assert swe["top"][1] == ["Acme <Labs>", 2, 1, 2, 0, 110_000, 1]
+    assert stats["fields"]["ai"]["top"] == [["Acme <Labs>", 1, 1, 0, 1, 200_000, 1]]
     seattle = stats["metros"]["Seattle"]
-    assert seattle["all"]["filings"] == 4
-    assert seattle["fields"]["swe"]["filings"] == 3
-    assert [r[0] for r in seattle["fields"]["swe"]["top"]] == ["Acme <Labs>"]
+    assert seattle["all"]["filings"] == 5
+    assert seattle["fields"]["swe"]["filings"] == 4
+    assert [r[0] for r in seattle["fields"]["swe"]["top"]] == [
+        "Acme <Labs>",
+        "Bigco Inc",
+    ]
     assert "Omaha" not in json.dumps(stats)
-    assert stats["placed_share"] == 0.8
+    assert stats["placed_share"] == round(6 / 7, 4)
 
 
 def test_entry_list_uses_the_strictest_minimum_that_leaves_enough():
@@ -189,10 +160,11 @@ STATS = {
         "employers": 50,
         "companies": 2,
         "top": [
-            ["Acme <Labs>", 600, 200, 300, 250, 160_000],
-            ["Beta", 100, 10, 90, 10, 90_000],
+            ["Bigco <Inc>", 900, 100, 400, 400, 170_000, 0],
+            ["Acme <Labs>", 600, 200, 300, 250, 160_000, 1],
+            ["Beta", 100, 10, 90, 10, 90_000, 1],
         ],
-        "entry": [["Beta", 100, 10, 90, 10, 90_000]],
+        "entry": [["Beta", 100, 10, 90, 10, 90_000, 1]],
         "entry_min": 50,
     },
     "fields": {
@@ -204,7 +176,7 @@ STATS = {
             "median_wage": 140_000,
             "employers": 40,
             "companies": 1,
-            "top": [["Acme <Labs>", 500, 150, 250, 200, 150_000]],
+            "top": [["Acme <Labs>", 500, 150, 250, 200, 150_000, 1]],
             "entry": [],
             "entry_min": 10,
         }
@@ -219,7 +191,7 @@ STATS = {
                 "median_wage": 155_000,
                 "employers": 5,
                 "companies": 1,
-                "top": [["Acme <Labs>", 90, 30, 45, 40, 160_000]],
+                "top": [["Acme <Labs>", 90, 30, 45, 40, 160_000, 1]],
             },
             "fields": {
                 "swe": {
@@ -230,9 +202,9 @@ STATS = {
                     "median_wage": 160_000,
                     "employers": 4,
                     "companies": 1,
-                    "top": [["Acme <Labs>", 90, 30, 45, 40, 160_000]],
+                    "top": [["Acme <Labs>", 90, 30, 45, 40, 160_000, 1]],
                 },
-                # Filings here, but none by a tracked company
+                # Too few filings, and only by an employer FiledFor doesn't track
                 "design": {
                     "filings": 3,
                     "new_hire": 1,
@@ -241,7 +213,7 @@ STATS = {
                     "median_wage": 90_000,
                     "employers": 2,
                     "companies": 0,
-                    "top": [],
+                    "top": [["Bigco <Inc>", 3, 1, 2, 1, 90_000, 0]],
                 },
             },
         }
@@ -388,9 +360,9 @@ def test_empty_pages_say_so_and_keep_sponsors_and_links(setup):
     assert "Open the job board with these filters" in out
     assert "Acme &lt;Labs&gt;" in out  # sponsors still shown
     assert 'href="/jobs/software-engineering/austin/"' in out
-    # Filings in the city, none by a tracked company: say so, show national sponsors
+    # An employer FiledFor doesn't track: plain text, no open-jobs count
     design = text(pages_["jobs/design/seattle/"])
-    assert "None of the companies FiledFor tracks filed design LCAs" in design
+    assert "Bigco &lt;Inc&gt;</td>" in design and "not tracked" in design
     # No filings at all for a city and field
     assert "No certified LCAs for AI/ML roles" in text(pages_["jobs/ai-ml/miami/"])
 
@@ -407,11 +379,25 @@ def test_every_value_is_escaped(setup):
 
 def test_rankings_show_filings_shares_and_open_jobs(setup):
     out = text(by_path(context([job("Software Engineer")]))["rankings/"])
-    assert "Top 2 of 2 companies" in out
+    assert "Top 3 of 50 employers" in out
+    assert "<td>Bigco &lt;Inc&gt;</td>" in out  # untracked: no link
+    assert 'href="/companies/acme-labs/"' in out
     assert "55%" in out and "90%" in out  # level I-II: 300 of 550, 90 of 100
     assert "33%" in out and "$160K" in out  # new hires: 200 of 600
     assert "at least 50" in out
     assert "not a visa approval or a hire" in out
+
+
+def test_thin_city_pages_are_noindex(setup):
+    ps = by_path(context([job("Designer", role="design", company="Acme <Labs>")]))
+    # 3 filings, no open design jobs (Acme has no design filings, so it's hidden)
+    assert ps["jobs/design/seattle/"].noindex
+    assert not ps["jobs/software-engineering/seattle/"].noindex  # 90 filings
+    with_job = by_path(context([job("Engineer", metros=("Miami",))]))
+    assert not with_job["jobs/software-engineering/miami/"].noindex  # an open job
+    assert with_job["jobs/ai-ml/miami/"].noindex  # nothing at all
+    assert not any(p.noindex for p in ps.values() if p.path.count("/") != 3)
+    assert '<meta name="robots" content="noindex' in text(ps["jobs/design/seattle/"])
 
 
 def test_pages_build_without_the_stats_file(setup, monkeypatch, tmp_path):

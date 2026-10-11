@@ -32,3 +32,4 @@
 /* Six tiles fit on one row at desktop width */
 .page .stats { grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); }
 .nowrap { white-space: nowrap; }
+.bp-untracked { color: var(--muted); font-size: 12.5px; white-space: nowrap; }

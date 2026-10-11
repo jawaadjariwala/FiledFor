@@ -16,13 +16,15 @@ which counts a shared code toward every field that lists it.
 
 The worksite goes to a metro when classify.places finds one of the board's
 metro cities in "City, ST" and the state belongs to that metro (so Berkeley
-Heights, NJ is not the Bay Area). Employers are named by data/companies.csv:
-only companies FiledFor tracks appear in the top lists; totals count every
-employer.
+Heights, NJ is not the Bay Area). Every employer is ranked. One FiledFor
+tracks (its FEIN is in data/companies.csv) goes by its FiledFor name, with
+all its FEINs together; any other FEIN is its own employer, named by its most
+common name on the filings, in readable case.
 """
 
 import csv
 import json
+import re
 import sys
 from collections import defaultdict
 from datetime import UTC, datetime
@@ -101,6 +103,40 @@ def fein_owners(companies: Path = COMPANIES) -> dict[str, str]:
     return {fein: min(keys)[2] for fein, keys in cands.items()}
 
 
+# Kept upper case when a name is written all in capitals
+UPPER = {
+    "LLC",
+    "LLP",
+    "LP",
+    "PC",
+    "PLLC",
+    "USA",
+    "US",
+    "NA",
+    "IT",
+    "AI",
+    "II",
+    "III",
+    "IV",
+}
+
+
+def readable(name: str) -> str:
+    """'AMAZON.COM SERVICES LLC' -> 'Amazon.com Services LLC'. Names with any
+    lower case letters are left as filed; nothing is added or removed."""
+    name = " ".join(name.split())
+    if name != name.upper():
+        return name
+
+    def word(w: str) -> str:
+        core = re.sub(r"[^A-Za-z]", "", w)
+        if core in UPPER or (core and not re.search(r"[AEIOUY]", core)):
+            return w  # LLC, IBM-like letter runs without vowels: KPMG, HCL
+        return "-".join(p[:1].upper() + p[1:].lower() for p in w.split("-"))
+
+    return " ".join(word(w) for w in name.split(" "))
+
+
 AGG = f"""
     count(*)                                                 as filings,
     count(*) filter (where is_new_hire)                      as new_hire,
@@ -157,9 +193,17 @@ def compute(clean: Path = CLEAN, companies: Path = COMPANIES) -> dict:
     con.executemany(
         "insert into owner values (?, ?)", list(fein_owners(companies).items())
     )
+    names = dict(
+        con.sql(f"""
+            select employer_fein, first(employer_name order by n desc, employer_name)
+            from (select employer_fein, employer_name, count(*) as n from {src} group by all)
+            group by employer_fein
+        """).fetchall()
+    )
     con.execute(f"""
         create table f as
-        select coalesce(sf.field, tf.field) as field, sm.metro, o.company,
+        select coalesce(sf.field, tf.field) as field, sm.metro,
+               coalesce(o.company, 'fein:' || c.employer_fein) as employer,
                c.employer_fein, c.wage_level, c.wage_yearly, c.is_new_hire
         from {src} c
         left join soc_field sf on sf.soc_code = c.soc_code
@@ -180,18 +224,20 @@ def compute(clean: Path = CLEAN, companies: Path = COMPANIES) -> dict:
         return {r[:n]: _cell(r[n : n + len(COLS)]) | {"employers": r[-1]} for r in rows}
 
     def ranked(keys: list[str]) -> dict[tuple, list]:
-        """Tracked employers within each group, most filings first, as
-        compact rows: [company, filings, new_hire, level_12, level_34,
-        median_wage]."""
-        by = [*keys, "company"]
-        rows = con.sql(
-            f"select {_lead(by)} {AGG} from f where company is not null {_group(by)}"
-        ).fetchall()
+        """Every employer within each group, most filings first, as compact
+        rows: [name, filings, new_hire, level_12, level_34, median_wage,
+        tracked], tracked being 1 for a company FiledFor tracks."""
+        by = [*keys, "employer"]
+        rows = con.sql(f"select {_lead(by)} {AGG} from f {_group(by)}").fetchall()
         out: dict[tuple, list] = defaultdict(list)
         n = len(keys)
         for r in rows:
             c = _cell(r[n + 1 :])
-            out[r[:n]].append([r[n], *(c[k] for k in COLS)])
+            key = r[n]
+            fein = key.removeprefix("fein:")
+            tracked = fein == key
+            name = key if tracked else readable(names.get(fein) or fein)
+            out[r[:n]].append([name, *(c[k] for k in COLS), int(tracked)])
         for v in out.values():
             v.sort(key=lambda x: (-x[1], x[0]))
         return out
@@ -208,14 +254,14 @@ def compute(clean: Path = CLEAN, companies: Path = COMPANIES) -> dict:
     def national(cell: dict, rows: list) -> dict:
         least, entry = _entry(rows)
         return cell | {
-            "companies": len(rows),
+            "companies": sum(r[6] for r in rows),
             "top": rows[:TOP_NATIONAL],
             "entry": entry,
             "entry_min": least,
         }
 
     def local(cell: dict, rows: list) -> dict:
-        return cell | {"companies": len(rows), "top": rows[:TOP]}
+        return cell | {"companies": sum(r[6] for r in rows), "top": rows[:TOP]}
 
     return {
         "built": datetime.now(UTC).date().isoformat(),
