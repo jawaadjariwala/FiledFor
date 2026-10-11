@@ -1362,7 +1362,7 @@ smartrecruiters,valeofoods,0,Valeo Foods,0,,0,
 smartrecruiters,veoliaenvironnementsa,0,Veolia,425,26-2756568;22-3297197;22-0971030;23-1503731,23,
 smartrecruiters,versant3,0,Versant,162,,0,
 smartrecruiters,version1,0,Version 1,0,,0,
-smartrecruiters,visa,0,Visa,0,94-1721694,598,
+smartrecruiters,visa,0,Visa,0,74-3070018;94-1721694,1501,
 smartrecruiters,vtechsolution1,0,vTech Solution,620,20-4271088,2,
 smartrecruiters,wabashvalleypoweralliance,0,Wabash Valley Power Alliance,20,,0,
 smartrecruiters,wabtec,0,Wabtec,363,83-0598308;47-2275131,75,
@@ -1445,7 +1445,7 @@ workday,ameren.wd1/External,0,Ameren,87,43-1799279,12,
 workday,ameresco.wd5/Ameresco,0,Ameresco,102,,0,locationCountry=bc33aa3152ec42d4995f4791a106ed09
 workday,american.wd1/au,0,American University,100,,0,
 workday,americancentury.wd5/AmericanCenturyInvestments,0,American Century Investments,26,,0,
-workday,ameriprise.wd5/Ameriprise,0,Ameriprise Financial,241,13-3180631,144,locationCountry=bc33aa3152ec42d4995f4791a106ed09
+workday,ameriprise.wd5/Ameriprise,0,Ameriprise Financial,241,13-3180631;41-0973005,148,locationCountry=bc33aa3152ec42d4995f4791a106ed09
 workday,amesconstruction.wd12/ames,0,Ames Construction,105,,0,
 workday,amgen.wd1/careers,0,Amgen,1696,95-3540776,342,LocationCountry=bc33aa3152ec42d4995f4791a106ed09
 workday,amh.wd12/External_Careers,0,AMH,65,,0,
@@ -2581,7 +2581,7 @@ workday,vfc.wd5/northface_careers,0,The North Face,327,,0,Location_Country=bc33a
 workday,vfc.wd5/vfc_careers,0,VF,1277,23-1180120,3,Location_Country=bc33aa3152ec42d4995f4791a106ed09
 workday,viavisolutions.wd1/careers,0,Viavi Solutions,155,94-2579683,36,
 workday,vibrant.wd5/VEH_EXTERNAL_CAREER_SITE,0,Vibrant Emotional Health,27,,0,
-workday,visa.wd5/Visa,0,Visa,815,94-1721694,598,locationCountry=bc33aa3152ec42d4995f4791a106ed09
+workday,visa.wd5/Visa,0,Visa,815,74-3070018;94-1721694,1501,locationCountry=bc33aa3152ec42d4995f4791a106ed09
 workday,vishay.wd3/VishayCareers,0,Vishay Intertechnology,570,,0,locationCountry=bc33aa3152ec42d4995f4791a106ed09
 workday,vizient.wd1/Vizient_Careers,0,Vizient,237,38-2182248,58,
 workday,volarisgroup.wd3/volaris,0,Volaris Group,23,,0,

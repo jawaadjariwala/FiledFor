@@ -715,7 +715,8 @@ smartrecruiters,veoliaenvironnementsa,Veolia,26-2756568,Veolia North America LLC
 smartrecruiters,veoliaenvironnementsa,Veolia,22-3297197,"Veolia Water M&S (Paramus), Inc.",7,prefix
 smartrecruiters,veoliaenvironnementsa,Veolia,22-0971030,"Veolia Water New Jersey, Inc.",2,prefix
 smartrecruiters,veoliaenvironnementsa,Veolia,23-1503731,Suez WTS USA Inc.,2,prefix
-smartrecruiters,visa,Visa,94-1721694,Visa U.S.A. Inc.,598,exact
+smartrecruiters,visa,Visa,74-3070018,Visa Technology & Operations LLC,903,alias
+smartrecruiters,visa,Visa,94-1721694,Visa U.S.A. Inc.,598,alias
 smartrecruiters,vtechsolution1,vTech Solution,20-4271088,"vTech Solution, Inc.",2,exact
 smartrecruiters,wabtec,Wabtec,83-0598308,"Wabtec US Rail, Inc.",53,prefix
 smartrecruiters,wabtec,Wabtec,47-2275131,"Wabtec Railway Electronics, Inc.",22,prefix
@@ -799,7 +800,8 @@ workday,ambarella.wd108/ambarella,Ambarella,83-0385267,Ambarella Corp.,43,exact
 workday,amcor.wd5/amcor_external_career_site,Amcor,36-4126680,"Amcor Rigid Packaging USA, LLC",3,prefix
 workday,amcor.wd5/amcor_external_career_site,Amcor,43-0178130,"Amcor Flexibles North America, Inc.",2,prefix
 workday,ameren.wd1/External,Ameren,43-1799279,Ameren Services Company,12,prefix
-workday,ameriprise.wd5/Ameriprise,Ameriprise Financial,13-3180631,"Ameriprise Financial, Inc.",144,exact
+workday,ameriprise.wd5/Ameriprise,Ameriprise Financial,13-3180631,"Ameriprise Financial, Inc.",144,alias
+workday,ameriprise.wd5/Ameriprise,Ameriprise Financial,41-0973005,"Ameriprise Financial Services, LLC",4,alias
 workday,amgen.wd1/careers,Amgen,95-3540776,Amgen Inc.,342,exact
 workday,analogdevices.wd1/External,Analog Devices,04-2348234,"Analog Devices, Inc.",406,exact
 workday,ancestry.wd501/Careers,Ancestry,87-0392473,Ancestry.com Operations Inc.,128,prefix
@@ -1718,7 +1720,8 @@ workday,vhr-genband.wd1/ribboncareers,Ribbon,04-3387074,Ribbon Communications Op
 workday,vhr-osvhr.wd1/OSV_External_Career_Site,OneSource Virtual,26-3101267,"OneSource Virtual, Inc.",8,exact
 workday,vhr-unither.wd5/External,United Therapeutics Corporation,52-1984749,United Therapeutics Corporation,10,exact
 workday,viavisolutions.wd1/careers,Viavi Solutions,94-2579683,"Viavi Solutions, Inc.",36,exact
-workday,visa.wd5/Visa,Visa,94-1721694,Visa U.S.A. Inc.,598,exact
+workday,visa.wd5/Visa,Visa,74-3070018,Visa Technology & Operations LLC,903,alias
+workday,visa.wd5/Visa,Visa,94-1721694,Visa U.S.A. Inc.,598,alias
 workday,vizient.wd1/Vizient_Careers,Vizient,38-2182248,"Vizient, Inc.",58,exact
 workday,walkerdunlop.wd1/WD,Walker & Dunlop,80-0312140,"Walker & Dunlop, LLC",3,exact
 workday,warnerbros.wd5/global,Warner Bros.,05-0545059,Warner Bros. Entertainment Inc.,2,prefix
