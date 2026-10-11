@@ -103,38 +103,80 @@ def fein_owners(companies: Path = COMPANIES) -> dict[str, str]:
     return {fein: min(keys)[2] for fein, keys in cands.items()}
 
 
-# Kept upper case when a name is written all in capitals
-UPPER = {
-    "LLC",
-    "LLP",
-    "LP",
-    "PC",
-    "PLLC",
-    "USA",
-    "US",
-    "NA",
-    "IT",
-    "AI",
-    "II",
-    "III",
-    "IV",
+# Converting an all-capitals name: words kept in capitals, small words kept
+# lower case (except first), and well-known names spelled their own way
+UPPER = {"LLC", "LLP", "LP", "LTD", "PVT", "PC", "PLLC", "USA", "US", "NA", "IT", "AI"}
+UPPER |= {"II", "III", "IV"}
+SMALL = {"of", "the", "and", "for", "at", "in"}
+KNOWN = {
+    w.upper(): w
+    for w in (
+        "PricewaterhouseCoopers",
+        "MongoDB",
+        "IBM",
+        "AT&T",
+        "SAP",
+        "GE",
+        "FCA",
+        "UL",
+        "ASM",
+        "DIRECTV",
+        "KPMG",
+        "EY",
+    )
 }
 
 
+def pick_name(spellings: list[tuple[str, int]]) -> str:
+    """The name to show for one FEIN, from (spelling, filings) pairs. The
+    most common name wins; if it was ever filed with lower case letters
+    (same letters, any punctuation), that spelling is used as filed,
+    otherwise it is converted by readable()."""
+    ranked = sorted(spellings, key=lambda s: (-s[1], s[0]))
+    # Skip spellings with characters lost in DOL's export ("Inc\u00bf.")
+    clean = [n for n, _ in ranked if not re.search("[\u00bf\ufffd]", n)] or [
+        ranked[0][0]
+    ]
+    top = _letters(clean[0])
+    mixed = [n for n in clean if n != n.upper() and _letters(n) == top]
+    return " ".join(mixed[0].split()) if mixed else readable(clean[0])
+
+
+def _letters(name: str) -> str:
+    return re.sub(r"[^A-Z0-9]", "", name.upper())
+
+
 def readable(name: str) -> str:
-    """'AMAZON.COM SERVICES LLC' -> 'Amazon.com Services LLC'. Names with any
-    lower case letters are left as filed; nothing is added or removed."""
+    """'AMAZON.COM SERVICES LLC' -> 'Amazon.com Services LLC'. Only the case
+    changes; names with any lower case letters are left as filed."""
     name = " ".join(name.split())
     if name != name.upper():
         return name
+    return " ".join(_word(w, i == 0) for i, w in enumerate(name.split(" ")))
 
-    def word(w: str) -> str:
-        core = re.sub(r"[^A-Za-z]", "", w)
-        if core in UPPER or (core and not re.search(r"[AEIOUY]", core)):
-            return w  # LLC, IBM-like letter runs without vowels: KPMG, HCL
-        return "-".join(p[:1].upper() + p[1:].lower() for p in w.split("-"))
 
-    return " ".join(word(w) for w in name.split(" "))
+def _word(w: str, first: bool) -> str:
+    lead, core, trail = re.fullmatch(r"([^A-Z0-9]*)(.*?)([^A-Z0-9]*)", w).groups()
+    if core in KNOWN:
+        return lead + KNOWN[core] + trail
+    if not first and core.lower() in SMALL:
+        return lead + core.lower() + trail
+    return lead + "-".join(_part(p) for p in core.split("-")) + trail
+
+
+def _part(p: str) -> str:
+    letters = re.sub(r"[^A-Z]", "", p)
+    if p in KNOWN:
+        return KNOWN[p]
+    if p in UPPER or not letters or re.fullmatch(r"([A-Z]\.)+[A-Z]?", p):
+        return p  # LLC, U.S, N.A
+    if not re.search(r"[AEIOUY]", letters):
+        return p  # letter runs without vowels: HCL, NTT
+    if len(p) > 3 and p.startswith("MC") and p[2:].isalpha():
+        return "Mc" + p[2] + p[3:].lower()  # MCDONNELL -> McDonnell
+    low = p.lower()
+    i = re.search(r"[a-z]", low).start()
+    return low[:i] + low[i].upper() + low[i + 1 :]
 
 
 AGG = f"""
@@ -193,13 +235,13 @@ def compute(clean: Path = CLEAN, companies: Path = COMPANIES) -> dict:
     con.executemany(
         "insert into owner values (?, ?)", list(fein_owners(companies).items())
     )
-    names = dict(
-        con.sql(f"""
-            select employer_fein, first(employer_name order by n desc, employer_name)
-            from (select employer_fein, employer_name, count(*) as n from {src} group by all)
-            group by employer_fein
-        """).fetchall()
-    )
+    spellings: dict[str, list[tuple[str, int]]] = defaultdict(list)
+    for fein, name, n in con.sql(
+        f"select employer_fein, employer_name, count(*) from {src} "
+        "where employer_name is not null group by all"
+    ).fetchall():
+        spellings[fein].append((name, n))
+    names = {fein: pick_name(sp) for fein, sp in spellings.items()}
     con.execute(f"""
         create table f as
         select coalesce(sf.field, tf.field) as field, sm.metro,
@@ -236,7 +278,7 @@ def compute(clean: Path = CLEAN, companies: Path = COMPANIES) -> dict:
             key = r[n]
             fein = key.removeprefix("fein:")
             tracked = fein == key
-            name = key if tracked else readable(names.get(fein) or fein)
+            name = key if tracked else names.get(fein) or fein
             out[r[:n]].append([name, *(c[k] for k in COLS), int(tracked)])
         for v in out.values():
             v.sort(key=lambda x: (-x[1], x[0]))
@@ -253,12 +295,18 @@ def compute(clean: Path = CLEAN, companies: Path = COMPANIES) -> dict:
 
     def national(cell: dict, rows: list) -> dict:
         least, entry = _entry(rows)
-        return cell | {
-            "companies": sum(r[6] for r in rows),
-            "top": rows[:TOP_NATIONAL],
-            "entry": entry,
-            "entry_min": least,
-        }
+        return (
+            cell
+            | {
+                "companies": sum(r[6] for r in rows),
+                "ranked": len(
+                    rows
+                ),  # employers as ranked: a tracked company's FEINs as one
+                "top": rows[:TOP_NATIONAL],
+                "entry": entry,
+                "entry_min": least,
+            }
+        )
 
     def local(cell: dict, rows: list) -> dict:
         return cell | {"companies": sum(r[6] for r in rows), "top": rows[:TOP]}

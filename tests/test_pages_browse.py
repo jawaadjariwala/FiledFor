@@ -18,6 +18,7 @@ SHEET = (
     "lever,acme2,0,Acme <Labs>,3,11-1111111,90,\n"
     "ashby,brand,0,Acme Brand,1,11-1111111;22-2222222,5,\n"
     "ashby,beta,0,Beta,2,33-3333333,40,\n"
+    "ashby,slack,0,Slack,4,11-1111111,5,\n"  # files under Acme's FEIN
 )
 
 
@@ -104,6 +105,59 @@ def test_readable_names_only_change_case():
     assert browse_stats.readable("Google LLC") == "Google LLC"  # mixed case: as filed
 
 
+@pytest.mark.parametrize(
+    "filed, shown",
+    [
+        ("TECH MAHINDRA (AMERICAS), INC", "Tech Mahindra (Americas), Inc"),
+        ("UT-BATTELLE, LLC (OAK RIDGE)", "Ut-Battelle, LLC (Oak Ridge)"),
+        ("FCA US LLC", "FCA US LLC"),
+        ("GE ENERGY", "GE Energy"),
+        ("UL SERVICES GROUP LLC", "UL Services Group LLC"),
+        ("ASM AMERICA INC.", "ASM America Inc."),
+        (
+            "PRICEWATERHOUSECOOPERS ADVISORY SERVICES LLC",
+            "PricewaterhouseCoopers Advisory Services LLC",
+        ),
+        ("MONGODB, INC.", "MongoDB, Inc."),
+        ("BURNS & MCDONNELL ENGINEERING CO", "Burns & McDonnell Engineering Co"),
+        ("DIRECTV, LLC", "DIRECTV, LLC"),
+        (
+            "TRUSTEES OF THE UNIVERSITY OF PENNSYLVANIA",
+            "Trustees of the University of Pennsylvania",
+        ),
+        ("THE HOME DEPOT", "The Home Depot"),
+        ("ROYAL CARIBBEAN CRUISES LTD.", "Royal Caribbean Cruises LTD."),
+        ("ACME PVT LTD", "Acme PVT LTD"),
+        ("DECOVITA-USA INC", "Decovita-USA Inc"),
+        ("IBM CORPORATION", "IBM Corporation"),
+        ("AT&T SERVICES, INC.", "AT&T Services, Inc."),
+        ("SAP AMERICA, INC.", "SAP America, Inc."),
+        ("KPMG LLP", "KPMG LLP"),
+        ("ERNST & YOUNG U.S. LLP", "Ernst & Young U.S. LLP"),
+        ("EY LLP", "EY LLP"),
+        ("3M COMPANY", "3M Company"),
+        (
+            "INTERNATIONAL BUSINESS MACHINES CORP",
+            "International Business Machines Corp",
+        ),
+    ],
+)
+def test_all_capital_names_get_readable_case(filed, shown):
+    assert browse_stats.readable(filed) == shown
+
+
+def test_a_name_filed_in_mixed_case_is_used_as_filed():
+    pick = browse_stats.pick_name
+    # The same name in mixed case, even if less common, wins over converting
+    royal = [("ROYAL CARIBBEAN CRUISES LTD.", 9), ("Royal Caribbean Cruises Ltd.", 2)]
+    assert pick(royal) == "Royal Caribbean Cruises Ltd."
+    # A different name that happens to be mixed case does not
+    infosys = [("INFOSYS LIMITED", 50), ("Infosys Nova Holdings LLC", 3)]
+    assert pick(infosys) == "Infosys Limited"
+    # Characters lost in the export are skipped
+    assert pick([("ACME INC", 5), ("Acme Inc\u00bf", 9)]) == "Acme Inc"
+
+
 def test_stats_on_a_tiny_fixture(tmp_path):
     sheet = tmp_path / "companies.csv"
     sheet.write_text(SHEET)
@@ -122,9 +176,11 @@ def test_stats_on_a_tiny_fixture(tmp_path):
     assert stats["all"]["filings"] == 7  # the nurse is not tech
     swe = stats["fields"]["swe"]
     assert swe["filings"] == 6 and swe["employers"] == 3 and swe["companies"] == 2
+    assert swe["ranked"] == 3
     assert (swe["new_hire"], swe["level_12"], swe["level_34"]) == (2, 4, 1)
-    # Every employer is ranked; untracked ones by their most common name
-    assert swe["top"][0] == ["Bigco Inc", 3, 1, 2, 0, 92_500, 0]
+    # Every employer is ranked; untracked ones by their most common name,
+    # as filed in mixed case when it ever was
+    assert swe["top"][0] == ["Bigco, Inc.", 3, 1, 2, 0, 92_500, 0]
     assert swe["top"][1] == ["Acme <Labs>", 2, 1, 2, 0, 110_000, 1]
     assert stats["fields"]["ai"]["top"] == [["Acme <Labs>", 1, 1, 0, 1, 200_000, 1]]
     seattle = stats["metros"]["Seattle"]
@@ -132,7 +188,7 @@ def test_stats_on_a_tiny_fixture(tmp_path):
     assert seattle["fields"]["swe"]["filings"] == 4
     assert [r[0] for r in seattle["fields"]["swe"]["top"]] == [
         "Acme <Labs>",
-        "Bigco Inc",
+        "Bigco, Inc.",
     ]
     assert "Omaha" not in json.dumps(stats)
     assert stats["placed_share"] == round(6 / 7, 4)
@@ -166,6 +222,7 @@ STATS = {
         ],
         "entry": [["Beta", 100, 10, 90, 10, 90_000, 1]],
         "entry_min": 50,
+        "ranked": 40,
     },
     "fields": {
         "swe": {
@@ -271,6 +328,7 @@ def context(jobs):
     companies = {
         "Acme <Labs>": {"tech_filings": 90, "evidence": {"swe": EVIDENCE}},
         "Beta": {"tech_filings": 40, "evidence": {}},  # nothing for software
+        "Slack": {"tech_filings": 90, "evidence": {"swe": EVIDENCE}},
     }
     return Context(jobs=jobs, companies=companies, now=NOW, updated=NOW.isoformat())
 
@@ -327,7 +385,11 @@ def test_field_city_page_lists_jobs_sponsors_and_board_link(setup):
     assert "Software Engineer</a>" in out and "Senior Engineer</a>" in out
     assert "Elsewhere" not in out and "Not filed" not in out
     assert "2 software engineering jobs in Seattle" in out
-    assert "90 certified LCAs" in out and "October 2024 to June 2026" in out
+    assert (
+        "90 LCAs for software engineering roles at Seattle-area worksites were certified "
+        "between October 2024 and June 2026"
+    ) in out
+    assert "including some the employer later withdrew" in out
     board = pages.app_link(
         f="swe", l="intern,entry,early,mid,senior", age="30", loc="m:Seattle"
     )
@@ -364,7 +426,10 @@ def test_empty_pages_say_so_and_keep_sponsors_and_links(setup):
     design = text(pages_["jobs/design/seattle/"])
     assert "Bigco &lt;Inc&gt;</td>" in design and "not tracked" in design
     # No filings at all for a city and field
-    assert "No certified LCAs for AI/ML roles" in text(pages_["jobs/ai-ml/miami/"])
+    assert (
+        "No LCAs for AI/ML roles at Miami-area worksites were certified between"
+        in text(pages_["jobs/ai-ml/miami/"])
+    )
 
 
 def test_every_value_is_escaped(setup):
@@ -379,7 +444,8 @@ def test_every_value_is_escaped(setup):
 
 def test_rankings_show_filings_shares_and_open_jobs(setup):
     out = text(by_path(context([job("Software Engineer")]))["rankings/"])
-    assert "Top 3 of 50 employers" in out
+    assert "Top 3 of 40 employers" in out
+    assert "appears once for each" in out
     assert "<td>Bigco &lt;Inc&gt;</td>" in out  # untracked: no link
     assert 'href="/companies/acme-labs/"' in out
     assert "55%" in out and "90%" in out  # level I-II: 300 of 550, 90 of 100
@@ -407,7 +473,10 @@ def test_pages_build_without_the_stats_file(setup, monkeypatch, tmp_path):
     out = text(ps["jobs/software-engineering/seattle/"])
     assert "Software Engineer</a>" in out
     assert "Acme &lt;Labs&gt;" in out  # sponsors from the board's own evidence
-    assert "500" in text(ps["rankings/software-engineering/"])
+    ranking = text(ps["rankings/software-engineering/"])
+    assert "500" in ranking and "Every employer" not in ranking
+    # Slack files under Acme's FEIN: its filings are not counted a second time
+    assert "Slack" not in ranking
 
 
 def test_no_em_dashes_anywhere(setup):

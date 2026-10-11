@@ -17,11 +17,14 @@ from data/browse_stats.json (browse_stats.py); without it the pages fall back
 to the per-company evidence in companies.json and still build.
 """
 
+import csv
 import json
 import re
-from collections import Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 
+from filedfor import pages as layer
+from filedfor.browse_stats import fein_owners
 from filedfor.classify import FIELDS, METROS
 from filedfor.pages import (
     SITE_URL,
@@ -199,6 +202,21 @@ def item_list(name: str, items: list[tuple[str, str | None]]) -> dict:
     }
 
 
+def filed_by_another() -> set[str]:
+    """Companies whose FEINs all belong to another company (Slack files as
+    Salesforce), so a list built from companies.json counts those filings
+    once. Empty when the watchlist can't be read."""
+    try:
+        owners = fein_owners(layer.WATCHLIST)
+        feins: dict[str, set[str]] = defaultdict(set)
+        with layer.WATCHLIST.open(newline="") as f:
+            for r in csv.DictReader(f):
+                feins[r["company"]] |= set(filter(None, r["feins"].split(";")))
+    except (OSError, KeyError, ValueError):
+        return set()
+    return {c for c, fs in feins.items() if fs and all(owners[x] != c for x in fs)}
+
+
 def tracked(row: list) -> bool:
     """Stats rows end in 1 for a company FiledFor tracks, 0 for any other
     employer; rows without the flag come from the board's own evidence."""
@@ -283,7 +301,11 @@ class Browse:
         """Without browse_stats.json: companies with open jobs, from their
         filing record on the board, in the same row shape."""
         rows = []
+        if not hasattr(self, "_another"):
+            self._another = filed_by_another()
         for name, c in self.ctx.companies.items():
+            if name in self._another:
+                continue
             if field is None:
                 if c.get("tech_filings"):
                     rows.append([name, c["tech_filings"], None, None, None, None, 1])
@@ -340,22 +362,27 @@ class Browse:
         """' (30,983 filed Oct 2024 to Jun 2026)' for descriptions."""
         if not cell or not cell.get("filings"):
             return ""
-        return f" ({num(cell['filings'])} filed {self.short})" if self.short else ""
+        return f" ({num(cell['filings'])} certified {self.short})" if self.short else ""
 
     def when(self) -> str:
-        return f" from {self.period}" if self.period else ""
+        """' certified between October 2024 and June 2026'."""
+        return (
+            f" certified between {self.period.replace(' to ', ' and ')}"
+            if self.period
+            else ""
+        )
 
     def filing_sentence(self, cell: dict | None, what: str, where: str) -> str:
         """'Employers filed 12,345 certified LCAs for X roles at Y worksites
         from A to B; 31% were for new hires and 58% at wage levels I and II.'"""
         if not cell or not cell.get("filings"):
             if self.stats:
-                return f"No certified LCAs for {what} roles at {where} worksites are on record{self.when()}."
+                return f"No LCAs for {what} roles at {where} worksites were{self.when() or ' certified'}."
             return ""
         known = cell["level_12"] + cell["level_34"]
         head = (
-            f"Employers filed {plural(cell['filings'], 'certified LCA')} for {what} roles"
-            f" at {where} worksites{self.when()}"
+            f"{plural(cell['filings'], 'LCA')} for {what} roles at {where} worksites"
+            f" were{self.when() or ' certified'}"
         )
         tail = []
         if cell.get("new_hire") is not None:
@@ -377,7 +404,7 @@ class Browse:
             )
         if cell and cell.get("filings"):
             known = cell["level_12"] + cell["level_34"]
-            label = f"LCA filings, {self.period}" if self.period else "LCA filings"
+            label = f"LCAs certified {self.period}" if self.period else "LCA filings"
             t += [
                 (label, num(cell["filings"])),
                 ("for new hires", pct(cell.get("new_hire"), cell["filings"])),
@@ -428,13 +455,14 @@ class Browse:
         )
 
     def about(self) -> str:
-        period = f" certified from {self.period}" if self.period else ""
+        period = self.when()
         return (
             '<h2>About these numbers</h2><p class="note">'
             "An LCA (Labor Condition Application) is a filing an employer makes with the U.S. "
             "Department of Labor before hiring or keeping an H-1B worker in a role at a stated wage. "
             "It is not a visa approval or a hire. "
-            f"Counts here are LCAs{period}, by worksite. Each filing counts once, in one field: "
+            f"Counts here are LCAs{period}, by worksite, including some the employer later "
+            "withdrew. Each filing counts once, in one field: "
             "by its occupation code, or by the job title when the code covers several fields "
             "(Software Developers is used for software, ML and data roles alike). The job board and "
             "company pages count a shared code toward every field it covers, so their numbers can be higher. "
@@ -670,7 +698,7 @@ class Browse:
         )
         if cell and known:
             lede += (
-                f"Of the {num(cell['filings'])} {phrase} LCAs filed{self.when()}, "
+                f"Of the {num(cell['filings'])} {phrase} LCAs{self.when()}, "
                 f"{pct(cell['level_12'], known)} were at wage levels I and II, where most new grads are filed."
             )
         path = f"jobs/{FIELD_SLUGS[f]}/new-grad/" if f else "jobs/new-grad/"
@@ -1111,15 +1139,19 @@ class Browse:
         rows = self.top(f)[:RANK_CAP]
         least, entry = self.entry(f)
         open_now = Counter(j["company"] for j in self.select(f))
-        employers = (cell or {}).get("employers") or len(self.top(f))
+        ranked = (cell or {}).get("ranked") or len(self.top(f))
         lede = (
-            f"Every employer that filed, ranked by certified LCAs for {phrase} roles{self.when()}. "
-            "An LCA is the filing an employer makes with the Department of Labor before an H-1B worker "
+            (
+                f"Every employer, ranked by LCAs for {phrase} roles{self.when()}. "
+                if cell
+                else f"Companies with jobs on FiledFor now, ranked by the {phrase} LCA filings on their record. "
+            )
+            + "An LCA is the filing an employer makes with the Department of Labor before an H-1B worker "
             "starts or continues in a role; it is not a visa approval or a hire. "
         )
         if cell and cell.get("filings"):
             lede += (
-                f"Across all {num(cell.get('employers'))} employers, {num(cell['filings'])} {phrase} LCAs were filed; "
+                f"Across all {num(ranked)} employers, {num(cell['filings'])} {phrase} LCAs were certified; "
                 f"{pct(cell['new_hire'], cell['filings'])} were for new hires and "
                 f"{pct(cell['level_12'], cell['level_12'] + cell['level_34'])} at wage levels I and II. "
             )
@@ -1148,15 +1180,21 @@ class Browse:
             f"<h1>Top {H1B} sponsors for {esc(phrase if f else 'tech jobs')}</h1>"
             f'<p class="lede">{esc(lede)}</p>'
             + (
+                '<p class="bp-sub">Ranked by the employer named on the filing. A company that files '
+                "under several legal entities, like Amazon, appears once for each.</p>"
+                if cell
+                else ""
+            )
+            + (
                 stat_tiles(
                     [
                         (
-                            f"LCA filings, {self.period}"
+                            f"LCAs certified {self.period}"
                             if self.period
                             else "LCA filings",
                             num(cell["filings"]),
                         ),
-                        ("employers that filed", num(cell.get("employers"))),
+                        ("employers that filed", num(ranked)),
                         ("for new hires", pct(cell["new_hire"], cell["filings"])),
                         ("median wage on filings", money(cell["median_wage"]) or "n/a"),
                         ("open jobs now", num(sum(open_now.values()))),
@@ -1166,12 +1204,12 @@ class Browse:
                 else ""
             )
             + f"<h2>Most {esc(phrase)} LCA filings</h2>"
-            + f'<p class="bp-sub">Top {num(min(len(rows), RANK_CAP))} of {num(employers)} employers with {esc(phrase)} filings. '
+            + f'<p class="bp-sub">Top {num(min(len(rows), RANK_CAP))} of {num(ranked)} employers with {esc(phrase)} filings. '
             "New hires: share of filings for someone joining the company. Level I-II: share at the two "
             "entry-level wage levels, of filings with a level. Open jobs: posted in the last 30 days.</p>"
             + self.ranking_table(rows, open_now)
             + "<h2>Most entry-level friendly</h2>"
-            + f'<p class="bp-sub">Companies with at least {num(least)} {esc(phrase)} LCA filings, ranked by the share filed '
+            + f'<p class="bp-sub">Employers with at least {num(least)} {esc(phrase)} LCA filings, ranked by the share filed '
             "at wage levels I and II, where most new grads are filed. A high share means the company often "
             "files for people early in their careers.</p>"
             + self.ranking_table(entry, open_now, lead="level")
