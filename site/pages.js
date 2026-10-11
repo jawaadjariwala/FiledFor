@@ -62,3 +62,14 @@ if (box) {
   });
   sync();
 }
+
+// "Back to jobs" (and the header's Jobs link) return to the board as the
+// visitor left it when they came from there: same filters, job and place
+const cameFromBoard = (() => {
+  try { const r = new URL(document.referrer); return r.origin === location.origin && r.pathname === "/"; } catch (e) { return false; }
+})();
+document.querySelectorAll('a.back, .topnav a[href="/"]').forEach((a) => a.addEventListener("click", (e) => {
+  if (!cameFromBoard || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+  e.preventDefault();
+  history.back();
+}));

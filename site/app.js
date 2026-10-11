@@ -995,10 +995,16 @@ history.scrollRestoration = "manual";
 function saveSpot() {
   try { sessionStorage.setItem(SPOT, JSON.stringify({ qs: location.search, job: currentJob, shown, y: scrollY, view })); } catch (e) {}
 }
+// The spot applies on Back, and on any plain visit to the board straight
+// from a job's page (its "Back to jobs" link, the header's "Jobs")
 function readSpot() {
   try {
     const s = JSON.parse(sessionStorage.getItem(SPOT) || "null");
-    return s && s.qs === location.search ? s : null;
+    if (!s) return null;
+    if (s.qs === location.search) return s;
+    const from = document.referrer ? new URL(document.referrer) : null;
+    const fromJob = from && from.origin === location.origin && from.pathname.startsWith("/job/");
+    return fromJob && !location.search ? s : null;
   } catch (e) { return null; }
 }
 addEventListener("pagehide", saveSpot);
@@ -1030,6 +1036,10 @@ function loadOlder() {
 }
 
 async function load() {
+  // Arriving from a job's page without filters in the address: put back the
+  // filters the visitor had before opening it
+  const back = readSpot();
+  if (back && back.qs !== location.search) history.replaceState(null, "", back.qs || location.pathname);
   const { company: companyParam, job: jobParam } = readURL();
   wire();
   rememberVisit();
