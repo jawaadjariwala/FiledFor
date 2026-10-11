@@ -1,13 +1,11 @@
-/* Job pages (src/filedfor/pages_job.py). The description reads in Newsreader;
-   everything around it stays in the interface face. */
+/* Job pages (src/filedfor/pages_job.py). */
 
 .jobtop { background: var(--surface); border-bottom: 1px solid var(--line); }
 .jobtop-inner { max-width: 1240px; margin: 0 auto; padding: 20px 32px 26px; display: flex; flex-direction: column; gap: 18px; }
 .back { font-size: 14px; text-decoration: none; font-weight: 600; }
 .back::before { content: ""; display: inline-block; width: 7px; height: 7px; border-left: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); margin: 0 8px 1px 2px; }
 .jobhead { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 18px; align-items: start; }
-.jobhead .logo { view-transition-name: job-logo; }
-.jobhead h1 { margin: 0; font-size: clamp(25px, 2.6vw, 34px); line-height: 1.15; letter-spacing: -0.02em; view-transition-name: job-title; }
+.jobhead h1 { margin: 0; font-size: clamp(25px, 2.6vw, 34px); line-height: 1.15; letter-spacing: -0.02em; }
 .jobhead-text p { margin: 8px 0 0; font-size: 16px; color: var(--muted); }
 .jobhead-text p a { font-weight: 650; }
 .jobhead-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
@@ -22,16 +20,16 @@
 .record.none .record-grid p { margin: 0; font-size: 14px; color: var(--ink-2); }
 
 .jd { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 40px 32px; }
-.jd p, .jd li { font-family: var(--read); font-size: 18.5px; line-height: 1.62; color: var(--ink); max-width: 68ch; }
+.jd p, .jd li { font-size: 16.5px; line-height: 1.7; color: var(--ink); max-width: 72ch; }
 .jd p { margin: 12px 0; }
 .jd ul, .jd ol { padding-left: 22px; margin: 8px 0 14px; }
 .jd li { margin: 0 0 7px; }
 .jd h3 { font-size: 18px; margin: 28px 0 8px; letter-spacing: -0.01em; }
 .jd h4 { font-size: 16px; margin: 22px 0 6px; }
 .jd strong { font-weight: 600; }
-.jd-source { font-family: var(--font) !important; font-size: 14px !important; color: var(--muted) !important; margin-top: 28px !important; }
+.jd-source { font-size: 14px !important; color: var(--muted) !important; margin-top: 28px !important; }
 .jd-missing { padding: 32px 40px; }
-.jd-missing p { font-family: var(--font); font-size: 16px; }
+.jd-missing p { font-size: 16px; }
 
 @media (max-width: 760px) {
   .jobtop-inner, .jobbody { padding-left: 16px; padding-right: 16px; }
@@ -39,5 +37,5 @@
   .jobhead-actions { grid-column: 1 / -1; justify-content: flex-start; }
   .jobhead-actions .btn { flex: 1 1 auto; }
   .jd { padding: 6px 20px 24px; }
-  .jd p, .jd li { font-size: 17.5px; }
+  .jd p, .jd li { font-size: 16px; }
 }

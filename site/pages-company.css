@@ -12,7 +12,7 @@
 .cc-fine { color: var(--muted); font-size: 13px; max-width: 760px; margin: 8px 0 0; }
 .cc-actions { margin: 14px 0 0; }
 .page .ptable caption { caption-side: top; }
-.page .note p { margin: 0 0 8px; max-width: 72ch; }
+.page .note p { margin: 0 0 8px; }
 .page .note p:last-child { margin-bottom: 0; }
 .page .note a { color: inherit; font-weight: 650; }
 

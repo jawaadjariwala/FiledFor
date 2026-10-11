@@ -972,6 +972,13 @@ function wire() {
     document.documentElement.dataset.theme = next;
     try { localStorage.setItem("ff.theme", next); } catch (e) {} // read raw by the inline script in <head>
   });
+  // The search band stays on screen under the header; the preview sits below
+  // both, so it needs their heights (the header wraps to two lines on phones)
+  const root = document.documentElement.style;
+  new ResizeObserver(() => {
+    root.setProperty("--topbar", `${document.querySelector(".topbar").offsetHeight}px`);
+    root.setProperty("--band", `${document.querySelector(".searchband").offsetHeight}px`);
+  }).observe(document.querySelector(".searchband"));
   // Crossing the wide breakpoint shows or hides the preview
   matchMedia("(min-width: 1000px)").addEventListener("change", () => render());
   $("defs").replaceChildren(...["filings", "new-hires", "wage-level", "median", "pay", "level", "no-filings"].flatMap((t) => [el("dt", {}, EXPLAIN[t][0]), el("dd", {}, EXPLAIN[t][1])]));
