@@ -1,0 +1,35 @@
+/* Field, city and ranking pages (src/filedfor/pages_browse.py). Shared
+   parts (stats, tables, job lists, pills) are in pages.css. */
+
+.bp-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 14px 0 6px; }
+.bp-alt { color: var(--ink-2); font-weight: 600; font-size: 14px; }
+.bp-more { color: var(--muted); font-size: 13.5px; margin: 8px 0; }
+.bp-more a { color: var(--ink-2); font-weight: 600; }
+.bp-sub { color: var(--ink-2); font-size: 14px; max-width: 760px; margin: -2px 0 10px; }
+.bp-empty { margin: 4px 0 10px; }
+.table-scroll + .bp-sub { margin-top: 10px; color: var(--muted); font-size: 13px; }
+.page .note + .bp-cta { margin-top: 10px; }
+
+.links .n { color: var(--muted); font-variant-numeric: tabular-nums; margin-left: 2px; }
+
+.ptable td a { color: var(--ink); font-weight: 600; }
+.bp-rank td.rank, .bp-rank th.rank { width: 2.5em; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Phones: ranking rows become cards so no column is cut off */
+@media (max-width: 640px) {
+  .bp-rank, .bp-rank tbody { display: block; }
+  .bp-rank thead { display: none; }
+  .bp-rank tr { display: grid; grid-template-columns: 2.2em 1fr 1fr 1fr; gap: 4px 8px; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  .bp-rank tr:last-child { border-bottom: 0; }
+  .bp-rank td { padding: 0; border: 0; }
+  .bp-rank td:nth-child(2) { grid-column: 2 / -1; }
+  .bp-rank td.num { text-align: left; font-size: 13.5px; }
+  .bp-rank td.num:nth-child(3n) { grid-column-start: 2; }
+  .bp-rank td.num::before { content: attr(data-label); display: block; color: var(--muted); font-size: 11.5px; }
+  .ptable th, .ptable td { padding: 8px 10px; }
+}
+
+/* Six tiles fit on one row at desktop width */
+.page .stats { grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); }
+.nowrap { white-space: nowrap; }
+.bp-untracked { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
