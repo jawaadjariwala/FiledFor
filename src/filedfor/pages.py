@@ -106,6 +106,7 @@ class Page:
     css: list[str] = field(default_factory=list)  # extra stylesheets in site/
     group: str = "pages"  # which sitemap file lists it: sitemap-<group>.xml
     lastmod: str | None = None  # ISO date; defaults to the build date
+    noindex: bool = False  # too thin for search: kept for visitors, out of the sitemap
 
 
 def slug(name: str) -> str:
@@ -215,7 +216,7 @@ def render(page: Page, built: str) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(page.title)}</title>
 <meta name="description" content="{esc(page.description)}">
-<link rel="canonical" href="{esc(url)}">
+<link rel="canonical" href="{esc(url)}">{'<meta name="robots" content="noindex, follow">' if page.noindex else ""}
 <meta property="og:type" content="website"><meta property="og:site_name" content="FiledFor">
 <meta property="og:title" content="{esc(page.title)}"><meta property="og:description" content="{esc(page.description)}">
 <meta property="og:url" content="{esc(url)}"><meta property="og:image" content="{SITE_URL}og.png">
@@ -256,6 +257,8 @@ def sitemaps(pages: list[Page], now: datetime) -> dict[str, str]:
         "main": [f"<url><loc>{escape(SITE_URL)}</loc><lastmod>{today}</lastmod></url>"]
     }
     for p in pages:
+        if p.noindex:
+            continue
         groups.setdefault(p.group, []).append(
             f"<url><loc>{escape(SITE_URL + p.path)}</loc><lastmod>{p.lastmod or today}</lastmod></url>"
         )
