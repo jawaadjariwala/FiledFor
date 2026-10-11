@@ -15,7 +15,7 @@ from email.utils import format_datetime
 from pathlib import Path
 from xml.sax.saxutils import escape
 
-from filedfor import pages
+from filedfor import classify, pages
 from filedfor.classify import FIELDS, places
 from filedfor.notify import ROLE_NAMES, evidence_line
 
@@ -59,6 +59,10 @@ def listed(job: dict) -> bool:
     """On the site: every level, in the US (or unknown), open to people who
     need sponsorship. Interns and senior roles alike; the site filters."""
     if job["is_us"] is False:  # Workday multi-location jobs, checked on the job page
+        return False
+    # A title fix to the rules takes effect on the next publish, without
+    # waiting for a version bump to reclassify every stored job
+    if classify.role(job["title"]) is None:
         return False
     return not (job["no_sponsorship"] or job["citizens_only"] or job["clearance"])
 

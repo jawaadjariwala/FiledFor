@@ -61,6 +61,7 @@ from filedfor.classify import flags, is_remote, is_us, level, min_years, role
         ("Senior Manager, Partner Marketing - Security Partners", None, "senior"),
         ("Director of Engineering, Cloud Platform", "swe", "senior"),
         ("Software Engineer 1/2", "swe", "entry"),
+        ("Executive Assistant - Infrastructure Engineering", None, "unclear"),
     ],
 )
 def test_title(title, expected_role, expected_level):

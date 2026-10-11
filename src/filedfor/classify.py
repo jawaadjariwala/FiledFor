@@ -167,7 +167,7 @@ NON_TECH_FUNCTION = _rx(
     r"accounting",
     r"\baccount (director|manager)\b",
     r"customer success",
-    r"administrative assistant",
+    r"\b(administrative|executive|personal|office|legal) assistant",
     r"\bconstruction\b",
     r"facilit",
     r"\bhse\b",
