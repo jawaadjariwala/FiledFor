@@ -10,6 +10,7 @@ writing; the modules own only their content.
                                          without the database (for development)
 """
 
+import csv
 import hashlib
 import html
 import importlib
@@ -25,6 +26,7 @@ from urllib.parse import urlencode
 from xml.sax.saxutils import escape
 
 PUBLIC = Path("public")
+WATCHLIST = Path("data/companies.csv")
 SITE = Path("site")
 SITE_URL = os.environ.get("SITE_URL", "https://filedfor.com/")
 MODULES = ("filedfor.pages_company", "filedfor.pages_browse")
@@ -52,6 +54,36 @@ class Context:
     companies: dict[str, dict]
     now: datetime
     updated: str  # when the job data was last refreshed, ISO
+
+    @property
+    def directory(self) -> dict[str, int]:
+        """Every company that gets a page: on the watchlist with tech filings,
+        whether or not it has a job open today, so pages don't come and go
+        with the job list. name -> tech filings."""
+        if not hasattr(self, "_directory"):
+            out: dict[str, int] = {}
+            with WATCHLIST.open(newline="") as f:
+                for r in csv.DictReader(f):
+                    n = int(r["tech_filings"] or 0)
+                    if n > 0:  # boards of one company share filings: take the largest
+                        out[r["company"]] = max(n, out.get(r["company"], 0))
+            self._directory = out
+        return self._directory
+
+    def company_url(self, name: str) -> str | None:
+        """Root-relative URL of the company's page, or None if it has none.
+        Names that slug alike get -2, -3 in alphabetical order."""
+        if not hasattr(self, "_paths"):
+            self._paths: dict[str, str] = {}
+            taken: set[str] = set()
+            for n in sorted(self.directory):
+                base = s = slug(n)
+                i = 2
+                while s in taken:
+                    s, i = f"{base}-{i}", i + 1
+                taken.add(s)
+                self._paths[n] = f"/companies/{s}/"
+        return self._paths.get(name)
 
     def jobs_at(self, company: str) -> list[dict]:
         if not hasattr(self, "_by_company"):
@@ -82,10 +114,6 @@ def slug(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-") or "company"
 
 
-def company_path(name: str) -> str:
-    return f"companies/{slug(name)}/"
-
-
 def app_link(**params: str) -> str:
     """A link into the job board with filters, e.g. app_link(company='Stripe')."""
     return "/" + (f"?{urlencode(params)}" if params else "")
@@ -113,9 +141,10 @@ def ago(iso: str | None, now: datetime) -> str:
     return "today" if days < 1 else "1 day ago" if days == 1 else f"{days} days ago"
 
 
-def job_list(jobs: list[dict], now: datetime, limit: int = 25) -> str:
-    """Newest first. Titles open the job in FiledFor; company links go to the
-    company page."""
+def job_list(ctx: Context, jobs: list[dict], limit: int = 25) -> str:
+    """Newest first. Titles open the job in FiledFor; company names link to
+    the company's page when it has one."""
+    now = ctx.now
     jobs = sorted(
         jobs, key=lambda j: j.get("posted_at") or j["first_seen_at"], reverse=True
     )
@@ -128,10 +157,15 @@ def job_list(jobs: list[dict], now: datetime, limit: int = 25) -> str:
         items.append(
             '<li class="pjob">'
             f'<a class="pjob-title" href="{esc(app_link(job=job_key(j)))}">{esc(j["title"])}</a>'
-            f'<span class="pjob-meta"><a href="/{company_path(j["company"])}">{esc(j["company"])}</a>'
+            f'<span class="pjob-meta">{company_link(ctx, j["company"])}'
             f" · {' · '.join(bits)}</span></li>"
         )
     return f'<ul class="pjobs">{"".join(items)}</ul>' if items else ""
+
+
+def company_link(ctx: Context, name: str) -> str:
+    url = ctx.company_url(name)
+    return f'<a href="{url}">{esc(name)}</a>' if url else esc(name)
 
 
 HEADER = """<header class="topbar"><div class="topbar-inner">
