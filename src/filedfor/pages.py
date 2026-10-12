@@ -260,7 +260,7 @@ def render(page: Page, built: str) -> str:
 <link rel="canonical" href="{esc(url)}">{'<meta name="robots" content="noindex, follow">' if page.noindex else ""}
 <meta property="og:type" content="website"><meta property="og:site_name" content="FiledFor">
 <meta property="og:title" content="{esc(page.title)}"><meta property="og:description" content="{esc(page.description)}">
-<meta property="og:url" content="{esc(url)}"><meta property="og:image" content="{SITE_URL}og.png">
+<meta property="og:url" content="{esc(url)}"><meta property="og:image" content="{SITE_URL}og.png?v=2">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0e3a2f">
 <link rel="preload" href="/fonts/PublicSans-normal.woff2" as="font" type="font/woff2" crossorigin>

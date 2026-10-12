@@ -1,6 +1,6 @@
 <!doctype html>
-<!-- Source of site/og.png, the link preview image. Render at 1200x630:
-     Chrome --headless=new --window-size=1200,630 --screenshot=site/og.png docs/og/og.html -->
+<!-- Source of site/og.png, the link preview image. Render at 1200x630, 2x scale (2400x1260 file; LinkedIn blurs a 1x image). Bump ?v= in site/index.html and pages.py after re-rendering:
+     Chrome --headless=new --window-size=1200,630 --force-device-scale-factor=2 --screenshot=site/og.png docs/og/og.html -->
 <meta charset="utf-8">
 <style>
 @font-face { font-family: "Public Sans"; font-weight: 400 800; src: url(../../site/fonts/PublicSans-normal.woff2) format("woff2"); }
