@@ -35,13 +35,16 @@ jobs:
 
       - run: uv sync --frozen --no-dev
 
-      # Job descriptions from earlier runs, so each run reads only new ones
-      # from the database (its free plan limits data transfer)
+      # A copy of the jobs table and the descriptions from earlier runs, so
+      # each run reads only what changed from the database (its free plan
+      # limits data sent out to 5 GB a month)
       - uses: actions/cache@v4
         with:
           path: .cache
-          key: descriptions-${{ github.run_id }}
-          restore-keys: descriptions-
+          key: run-state-${{ github.run_id }}
+          restore-keys: |
+            run-state-
+            descriptions-
 
       - name: Poll
         run: |

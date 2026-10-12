@@ -3,12 +3,19 @@
 All reads happen at the start of a run and all writes in one transaction at
 the end, so the database is awake for seconds. The site never reads from here;
 it reads the jobs.json the poller publishes.
+
+Neon's free plan allows 5 GB of data sent out a month. A run therefore never
+reads the whole jobs table: it keeps a copy between runs (Mirror, in the
+Actions cache) and reads only rows changed since, and it reads descriptions
+only for jobs it hasn't seen.
 """
 
+import gzip
 import json
 import os
 from collections.abc import Iterable
 from datetime import UTC, datetime, timedelta
+from pathlib import Path
 
 import psycopg
 from psycopg.rows import dict_row
@@ -32,6 +39,8 @@ alter table jobs add column if not exists salary_min int;
 alter table jobs add column if not exists salary_max int;
 alter table jobs add column if not exists arrangement text;
 alter table jobs add column if not exists description_html text;
+alter table jobs add column if not exists changed_at timestamptz not null default now();
+create index if not exists jobs_changed_at on jobs (changed_at);
 
 create table if not exists jobs (
     system             text not null,
@@ -116,20 +125,14 @@ def ensure_schema(conn: psycopg.Connection) -> None:
     conn.commit()
 
 
-def load_state(conn: psycopg.Connection) -> tuple[set[Key], set[Key], set[Board]]:
-    """(open jobs, closed jobs, boards fetched successfully before)."""
-    open_keys, closed_keys = set(), set()
-    for r in conn.execute("select system, slug, job_id, closed_at from jobs"):
-        (closed_keys if r["closed_at"] else open_keys).add(
-            (r["system"], r["slug"], r["job_id"])
-        )
-    known = {
+def known_boards(conn: psycopg.Connection) -> set[Board]:
+    """Boards fetched successfully before."""
+    return {
         (r["system"], r["slug"])
         for r in conn.execute(
             "select system, slug from boards where first_ok_at is not null"
         )
     }
-    return open_keys, closed_keys, known
 
 
 def workday_last_full(conn: psycopg.Connection) -> dict[str, datetime]:
@@ -139,19 +142,6 @@ def workday_last_full(conn: psycopg.Connection) -> dict[str, datetime]:
         for r in conn.execute(
             "select slug, last_full_at from boards "
             "where system = 'workday' and last_full_at is not null"
-        )
-    }
-
-
-def stale_jobs(conn: psycopg.Connection, version: int) -> dict[Key, str]:
-    """Open jobs classified by older rules, with their titles: re-read once,
-    or closed if the title no longer names a role FiledFor covers."""
-    return {
-        (r["system"], r["slug"], r["job_id"]): r["title"]
-        for r in conn.execute(
-            "select system, slug, job_id, title from jobs "
-            "where closed_at is null and classifier_version < %s",
-            (version,),
         )
     }
 
@@ -189,7 +179,7 @@ def save_run(
                 cur.executemany(
                     f"insert into jobs ({cols}) values ({marks}) "
                     f"on conflict (system, slug, job_id) do update set {updates}, "
-                    "closed_at = null, "  # a job that came back is open again
+                    "closed_at = null, changed_at = now(), "  # a job that came back is open again
                     "alerted_at = coalesce(jobs.alerted_at, excluded.alerted_at)",
                     rows,
                 )
@@ -198,7 +188,7 @@ def save_run(
             with conn.cursor() as cur:
                 cur.executemany(
                     # Closed jobs aren't shown, so their descriptions go
-                    "update jobs set closed_at = %s, description_html = null "
+                    "update jobs set closed_at = %s, description_html = null, changed_at = now() "
                     "where system = %s and slug = %s and job_id = %s",
                     [(now, *k) for k in closed],
                 )
@@ -234,7 +224,8 @@ def pending_alerts(conn: psycopg.Connection) -> list[dict]:
     """Open jobs not yet alerted, oldest first. Filters are applied by the caller."""
     return list(
         conn.execute(
-            "select * from jobs where alerted_at is null and closed_at is null "
+            f"select {', '.join(MIRROR_COLUMNS)} from jobs "
+            "where alerted_at is null and closed_at is null "
             "order by first_seen_at, system, slug, job_id"
         )
     )
@@ -246,7 +237,8 @@ def mark_alerted(conn: psycopg.Connection, keys: Iterable[Key], now: datetime) -
         return
     with conn.transaction(), conn.cursor() as cur:
         cur.executemany(
-            "update jobs set alerted_at = %s where system = %s and slug = %s and job_id = %s",
+            "update jobs set alerted_at = %s, changed_at = now() "
+            "where system = %s and slug = %s and job_id = %s",
             [(now, *k) for k in keys],
         )
 
@@ -259,34 +251,130 @@ def record_alerts(conn: psycopg.Connection, sent: int) -> None:
     conn.commit()
 
 
-# What the site can list: open, in the US or unknown, not blocked, posted in
-# the last 30 days. Reading only these keeps each run's transfer from the
-# database small (Neon's free plan counts every byte sent out).
-LISTABLE = (
-    "j.closed_at is null and j.is_us is not false "
-    "and not (j.no_sponsorship or j.citizens_only or j.clearance) "
-    "and coalesce(j.posted_at, j.first_seen_at) > now() - interval '30 days'"
-)
+MIRROR = Path(".cache/jobs.json.gz")
+MIRROR_COLUMNS = [c for c in JOB_COLUMNS if c != "description_html"] + [
+    "closed_at",
+    "changed_at",
+]
+TIMES = ("posted_at", "first_seen_at", "alerted_at", "closed_at", "changed_at")
+LISTED_DAYS = 30
+SEP = "\x1f"
 
 
-def open_jobs(conn: psycopg.Connection) -> list[dict]:
-    """Jobs the site can list, without their descriptions, which are most
-    of the bytes and are read separately (`descriptions`)."""
-    cols = ", ".join(f"j.{c}" for c in JOB_COLUMNS if c != "description_html")
-    return list(
-        conn.execute(
-            # checked_at: the last time the job's board was read successfully
-            f"select {cols}, b.last_ok_at as checked_at from jobs j "
-            f"left join boards b using (system, slug) where {LISTABLE} "
-            "order by j.posted_at desc nulls last, j.system, j.slug, j.job_id"
-        )
-    )
+def _key(r: dict) -> Key:
+    return r["system"], r["slug"], r["job_id"]
 
 
-def count_open(conn: psycopg.Connection) -> int:
-    return conn.execute(
-        "select count(*) as n from jobs where closed_at is null"
-    ).fetchone()["n"]
+class Mirror:
+    """The jobs table without descriptions, kept between runs. sync() reads
+    only rows changed since the last sync; if the copy's row count then
+    disagrees with the database's, it reads the whole table again, so the
+    copy can't drift."""
+
+    def __init__(self, path: Path = MIRROR) -> None:
+        self.path = path
+        self.rows: dict[Key, dict] = {}
+        self.mark: datetime | None = None
+        try:
+            data = json.loads(gzip.decompress(path.read_bytes()))
+            for r in data["rows"]:
+                for c in TIMES:
+                    if r.get(c):
+                        r[c] = datetime.fromisoformat(r[c])
+                self.rows[_key(r)] = r
+            self.mark = datetime.fromisoformat(data["mark"])
+        except (OSError, ValueError, KeyError, TypeError):
+            self.rows, self.mark = {}, None
+
+    def sync(self, conn: psycopg.Connection) -> int:
+        """Bring the copy up to date. Returns how many rows were read."""
+        cols = ", ".join(MIRROR_COLUMNS)
+        if self.mark is None:
+            self.rows = {}
+            fresh = conn.execute(f"select {cols} from jobs").fetchall()
+        else:
+            # Only one run writes at a time, so a small margin is enough to
+            # cover a write committed while the last sync was reading
+            fresh = conn.execute(
+                f"select {cols} from jobs where changed_at > %s",
+                (self.mark - timedelta(minutes=2),),
+            ).fetchall()
+        for r in fresh:
+            self.rows[_key(r)] = dict(r)
+        # The database's clock when this read began (now() is the start of
+        # the transaction): the next sync reads rows changed after it
+        check = conn.execute("select count(*) as n, now() as t from jobs").fetchone()
+        if self.mark is not None and check["n"] != len(self.rows):
+            self.mark = None
+            return len(fresh) + self.sync(conn)
+        self.mark = check["t"]
+        return len(fresh)
+
+    def forget(self, keys: Iterable[Key]) -> None:
+        for k in keys:
+            self.rows.pop(k, None)
+
+    def save(self) -> None:
+        def plain(r: dict) -> dict:
+            return {
+                k: (v.isoformat() if isinstance(v, datetime) else v)
+                for k, v in r.items()
+            }
+
+        self.path.parent.mkdir(exist_ok=True)
+        data = {
+            "mark": self.mark.isoformat() if self.mark else None,
+            "rows": [plain(r) for r in self.rows.values()],
+        }
+        self.path.write_bytes(gzip.compress(json.dumps(data).encode()))
+
+    def state(self) -> tuple[set[Key], set[Key]]:
+        """(open jobs, closed jobs)."""
+        open_keys, closed_keys = set(), set()
+        for k, r in self.rows.items():
+            (closed_keys if r["closed_at"] else open_keys).add(k)
+        return open_keys, closed_keys
+
+    def stale(self, version: int) -> dict[Key, str]:
+        """Open jobs classified by older rules, with their titles: re-read
+        once, or closed if the title no longer names a role FiledFor covers."""
+        return {
+            k: r["title"]
+            for k, r in self.rows.items()
+            if not r["closed_at"] and (r["classifier_version"] or 0) < version
+        }
+
+    def open_count(self) -> int:
+        return sum(1 for r in self.rows.values() if not r["closed_at"])
+
+    def listable(self, now: datetime) -> list[dict]:
+        """What the site can list: open, in the US or unknown, not blocked,
+        posted in the last 30 days."""
+        since = now - timedelta(days=LISTED_DAYS)
+        return [
+            r
+            for r in self.rows.values()
+            if not r["closed_at"]
+            and r["is_us"] is not False
+            and not (r["no_sponsorship"] or r["citizens_only"] or r["clearance"])
+            and (r["posted_at"] or r["first_seen_at"]) > since
+        ]
+
+
+def open_jobs(conn: psycopg.Connection, mirror: Mirror) -> list[dict]:
+    """Jobs the site can list, newest first, each with checked_at: the last
+    time its board was read successfully. Descriptions are read separately."""
+    checked = {
+        (r["system"], r["slug"]): r["last_ok_at"]
+        for r in conn.execute("select system, slug, last_ok_at from boards")
+    }
+    jobs = [
+        dict(r, checked_at=checked.get(_key(r)[:2])) for r in mirror.listable(utcnow())
+    ]
+    oldest = datetime.min.replace(tzinfo=UTC)
+    jobs.sort(key=lambda j: (j["system"], j["slug"], j["job_id"]))
+    jobs.sort(key=lambda j: j["posted_at"] or oldest, reverse=True)
+    return jobs
 
 
 def descriptions(conn: psycopg.Connection, keys: list[Key]) -> dict[Key, str]:
@@ -306,13 +394,14 @@ def descriptions(conn: psycopg.Connection, keys: list[Key]) -> dict[Key, str]:
     return out
 
 
-def prune(conn: psycopg.Connection, now: datetime, days: int = 90) -> int:
-    """Forget jobs closed more than `days` ago. Returns how many were deleted."""
-    cur = conn.execute(
-        "delete from jobs where closed_at < %s", (now - timedelta(days=days),)
-    )
+def prune(conn: psycopg.Connection, now: datetime, days: int = 90) -> list[Key]:
+    """Forget jobs closed more than `days` ago. Returns the deleted keys."""
+    rows = conn.execute(
+        "delete from jobs where closed_at < %s returning system, slug, job_id",
+        (now - timedelta(days=days),),
+    ).fetchall()
     conn.commit()
-    return cur.rowcount
+    return [(r["system"], r["slug"], r["job_id"]) for r in rows]
 
 
 def utcnow() -> datetime:

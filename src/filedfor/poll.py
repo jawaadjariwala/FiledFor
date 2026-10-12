@@ -250,9 +250,12 @@ def publish_only() -> None:
     """Rebuild public/ from the database without fetching, e.g. after a
     change to the site or to what gets published."""
     conn = store.connect()
-    jobs = store.open_jobs(conn)
+    mirror = store.Mirror()
+    mirror.sync(conn)
+    jobs = store.open_jobs(conn, mirror)
     attach_descriptions(conn, jobs)
     conn.close()
+    mirror.save()
     health_file = PUBLIC / "health.json"
     health = (
         json.loads(health_file.read_text())
@@ -296,11 +299,14 @@ async def run(
 
     conn = store.connect()
     store.ensure_schema(conn)
-    open_keys, closed_keys, known = store.load_state(conn)
+    mirror = store.Mirror()
+    rows_read = mirror.sync(conn)
+    open_keys, closed_keys = mirror.state()
+    known = store.known_boards(conn)
     # Boards dropped from the watchlist are never fetched again, so close
     # their jobs as if the board were empty
     complete |= {k[:2] for k in open_keys} - names.keys()
-    stale = store.stale_jobs(conn, classify.VERSION)
+    stale = mirror.stale(classify.VERSION)
     conn.close()  # let the database sleep while we fetch descriptions
     ch = diff(open_keys, set(cands), complete, known, closed_keys)
     # New rules say the title isn't a tech role: close it now, even on a board
@@ -378,9 +384,12 @@ async def run(
         store.record_alerts(conn, sent)
 
     pruned = store.prune(conn, now)
-    jobs = store.open_jobs(conn)
+    mirror.forget(pruned)
+    rows_read += mirror.sync(conn)  # this run's own writes
+    jobs = store.open_jobs(conn, mirror)
     attach_descriptions(conn, jobs)
-    open_count = store.count_open(conn)
+    open_count = mirror.open_count()
+    mirror.save()
     stale = [
         f"{r['system']}/{r['slug']}"
         for r in conn.execute(
@@ -395,7 +404,8 @@ async def run(
         "fetch_seconds": round(t_fetch, 1),
         **{k: v for k, v in stats.items() if k not in ("started_at", "finished_at")},
         "alerts_sent": sent,
-        "pruned": pruned,
+        "pruned": len(pruned),
+        "rows_read": rows_read,
         "open_jobs": open_count,
         "workday_full": len(full_workday),
         "workday_quick": sum(1 for full in plan.values() if not full),
