@@ -17,6 +17,7 @@ from pathlib import Path
 
 import duckdb
 
+from filedfor import filers
 from filedfor.sponsors import CLEAN, ROLE_SOCS, WAGE_MAX, WAGE_MIN
 
 COMPANIES = Path("data/companies.csv")
@@ -72,6 +73,10 @@ def build(
 ) -> dict:
     con = duckdb.connect()
     feins = watchlist(companies, excluded)
+    # Record-only pages (big filers whose jobs FiledFor can't read) get the
+    # same history; filers.py already leaves out names on the watchlist
+    for name, r in filers.load().items():
+        feins.setdefault(name, r["feins"])
     con.execute("create table feins (company varchar, fein varchar)")
     con.executemany(
         "insert into feins values (?, ?)",

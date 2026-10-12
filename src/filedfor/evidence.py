@@ -87,6 +87,10 @@ class EvidenceIndex:
         (NVIDIA has several Workday sites under the same FEINs)."""
         feins = sorted({f for b in boards for f in self.feins(*b)})
         name = next((self._company[b] for b in boards if b in self._company), None)
+        return self.by_feins(feins, name)
+
+    def by_feins(self, feins: list[str], name: str | None) -> dict[str, dict | None]:
+        """Evidence for every role type over these FEINs."""
         return {
             role: (ev.as_dict() if (ev := self.for_feins(feins, role, name)) else None)
             for role in FIELDS

@@ -27,6 +27,7 @@ from xml.sax.saxutils import escape
 
 PUBLIC = Path("public")
 WATCHLIST = Path("data/companies.csv")
+FILERS = Path("data/filers.csv")  # big filers whose jobs FiledFor can't read
 SITE = Path("site")
 SITE_URL = os.environ.get("SITE_URL", "https://filedfor.com/")
 MODULES = ("filedfor.pages_company", "filedfor.pages_browse", "filedfor.pages_job")
@@ -60,7 +61,8 @@ class Context:
     def directory(self) -> dict[str, int]:
         """Every company that gets a page: on the watchlist with tech filings,
         whether or not it has a job open today, so pages don't come and go
-        with the job list. name -> tech filings."""
+        with the job list, plus the big filers in data/filers.csv, whose pages
+        show the filing record only (see record_only). name -> tech filings."""
         if not hasattr(self, "_directory"):
             out: dict[str, int] = {}
             with WATCHLIST.open(newline="") as f:
@@ -68,8 +70,21 @@ class Context:
                     n = int(r["tech_filings"] or 0)
                     if n > 0:  # boards of one company share filings: take the largest
                         out[r["company"]] = max(n, out.get(r["company"], 0))
+            self._record_only: set[str] = set()
+            if FILERS.exists():
+                with FILERS.open(newline="") as f:
+                    for r in csv.DictReader(f):
+                        if r["company"] not in out:
+                            out[r["company"]] = int(r["tech_filings"])
+                            self._record_only.add(r["company"])
             self._directory = out
         return self._directory
+
+    @property
+    def record_only(self) -> set[str]:
+        """Directory companies FiledFor has filings for but no job board."""
+        _ = self.directory  # fills _record_only
+        return self._record_only
 
     def company_url(self, name: str) -> str | None:
         """Root-relative URL of the company's page, or None if it has none.
@@ -77,7 +92,9 @@ class Context:
         if not hasattr(self, "_paths"):
             self._paths: dict[str, str] = {}
             taken: set[str] = set()
-            for n in sorted(self.directory):
+            # Watchlist companies first, so a new record-only page never takes
+            # the URL an existing page already has
+            for n in sorted(self.directory, key=lambda n: (n in self.record_only, n)):
                 base = s = slug(n)
                 i = 2
                 while s in taken:

@@ -769,3 +769,46 @@ read a whole job without leaving the board, as on Jobright or LinkedIn.
   copy of the description inside the JobPosting data.
 - A job's page disappears when the posting closes; the 404 page says so and
   points to My jobs, which keeps a snapshot of every tracked job.
+
+## ADR-008: Filing-record pages for big filers FiledFor can't read
+
+**Status:** Accepted, 2026-10-12
+
+### Context
+
+Company pages existed only for watchlist companies, the ones whose job boards
+FiledFor reads (Greenhouse, Lever, Ashby, Workday, SmartRecruiters, found
+through the SimplifyJobs listings). Most of the biggest tech H-1B filers post
+jobs on their own careers sites, so 39 of the 50 largest had no page: Amazon,
+Google, Microsoft, Meta, Apple, JPMorgan, Deloitte and more. Watchlist
+companies account for about 14% of all tech filings. Someone searching the
+companies page for the employer at the booth in front of them found nothing,
+although the Department of Labor data has their full record.
+
+### Decisions
+
+1. **Record-only pages.** `filers.py` lists employers with no FEIN on the
+   watchlist and at least 50 tech filings into `data/filers.csv` (committed;
+   1,187 employers, about 351,000 filings at launch). Their pages have the same
+   filing record (totals, fields, quarters, titles, cities) and, in place of a
+   job list, say that FiledFor can't read their job board yet, with a search
+   link for the careers site. The index marks them "jobs not tracked".
+2. **Grouping.** FEINs group by name with legal suffixes removed;
+   `data/filer_names.csv` names the large ones and joins their entities
+   (Amazon files under five). A group whose name matches a watchlist company
+   is left out, so a brand never gets two pages.
+3. **URLs stay put.** Watchlist companies take their slugs first, so a new
+   page can never take an existing URL.
+4. **History from the same build.** `profiles.py` includes the filers, so
+   quarters, titles, cities and exact multi-FEIN medians come from the
+   row-level data like every other page. Existing profiles were unchanged.
+
+### Consequences
+
+- 2,565 company pages instead of 1,378; the build stays under 10 seconds and
+  `company_profiles.json` grows from 0.75 MB to 1.6 MB.
+- The rankings still mark these employers "not tracked" and don't link them,
+  because their rows use the filing names, not the group names. Linking them
+  is a follow-up.
+- Rebuild `filers.csv` and the profiles together when the LCA data is
+  refreshed: `uv run python -m filedfor.filers && uv run python -m filedfor.profiles`.

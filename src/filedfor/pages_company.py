@@ -14,6 +14,10 @@ missing:
 - filing history (quarters, titles, cities) from data/company_profiles.json,
   built locally by profiles.py
 - logo, website, PERM notice and careers pages from the watchlist files
+
+Record-only companies (ctx.record_only, from data/filers.csv) are big filers
+whose job boards FiledFor can't read: their page has the same filing record,
+and in place of a job list it says their jobs aren't tracked.
 """
 
 import bisect
@@ -22,6 +26,7 @@ import math
 from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
+from urllib.parse import quote_plus
 
 import duckdb
 
@@ -126,6 +131,14 @@ class Sources:
                     and (r["system"], r["slug"]) not in excluded
                 ):
                     self.boards.setdefault(r["company"], []).append(r)
+        self.filer_feins: dict[str, list[str]] = {}
+        if layer.FILERS.exists():
+            with layer.FILERS.open(newline="") as f:
+                for r in csv.DictReader(f):
+                    if r["company"] in ctx.record_only:
+                        self.filer_feins[r["company"]] = [
+                            x for x in r["feins"].split(";") if x
+                        ]
         self.profiles = profiles.load()
         self.domains = self._domains()
         self.notices = publish.notices()
@@ -164,6 +177,8 @@ class Sources:
         return {r[0]: r[1:] for r in rows}, period
 
     def feins(self, name: str) -> list[str]:
+        if name in self.filer_feins:
+            return sorted(self.filer_feins[name])
         return sorted(
             {f for b in self.boards.get(name, []) for f in b["feins"].split(";") if f}
         )
@@ -213,11 +228,15 @@ class Sources:
                 self._index = False  # missing: don't try again for every company
         if not self._index:
             return {}
+        if name in self.filer_feins:
+            return self._index.by_feins(self.feins(name), name)
         return self._index.company(
             [(b["system"], b["slug"]) for b in self.boards.get(name, [])]
         )
 
     def careers(self, name: str) -> list[str]:
+        if name in self.ctx.record_only:
+            return []
         info = self.ctx.companies.get(name)
         if info and info.get("careers"):
             return info["careers"]
@@ -266,11 +285,12 @@ def summary(name: str, filings: int, t: Totals | None, jobs: int, src: Sources) 
     if bits:
         sentence = " and ".join(bits)
         text += f" {sentence[0].upper()}{sentence[1:]}."
-    text += (
-        f" FiledFor lists {num(jobs)} open tech job{'s' if jobs != 1 else ''} there right now."
-        if jobs
-        else " FiledFor has no open tech jobs listed there right now."
-    )
+    if name in src.ctx.record_only:
+        text += f" FiledFor can't read {esc(name)}'s job board yet, so its jobs aren't listed here."
+    elif jobs:
+        text += f" FiledFor lists {num(jobs)} open tech job{'s' if jobs != 1 else ''} there right now."
+    else:
+        text += " FiledFor has no open tech jobs listed there right now."
     return f'<p class="lede">{text}</p>'
 
 
@@ -326,9 +346,22 @@ def notice_box(n: dict | None) -> str:
     )
 
 
+def careers_search(name: str) -> str:
+    return "https://www.google.com/search?q=" + quote_plus(f"{name} careers")
+
+
 def open_jobs(ctx: Context, name: str, careers: list[str]) -> str:
     jobs = ctx.jobs_at(name)
     head = f"<h2>Open tech jobs at {esc(name)}</h2>"
+    if name in ctx.record_only:
+        return (
+            f"<h2>Jobs at {esc(name)}</h2>"
+            + f"<p>FiledFor reads company job boards on Greenhouse, Lever, Ashby, Workday and SmartRecruiters. "
+            f"{esc(name)} posts its jobs elsewhere, so they aren't on FiledFor yet. "
+            "The filing record on this page is complete either way: it comes from the Department of Labor, not the job board.</p>"
+            f'<p class="cc-actions"><a class="cta" href="{esc(careers_search(name))}" rel="noopener">'
+            f"Find {esc(name)}'s careers site</a></p>"
+        )
     careers_links = (
         '<ul class="links">'
         + "".join(
@@ -562,7 +595,15 @@ def meaning(src: Sources) -> str:
     )
 
 
-def title_for(name: str) -> str:
+def title_for(name: str, record_only: bool = False) -> str:
+    if record_only:
+        for t in (
+            f"{name} H-1B Filings for Tech Roles | FiledFor",
+            f"{name} H-1B Filings | FiledFor",
+        ):
+            if len(t) <= 60:
+                return t
+        return f"{name} H-1B Filings"
     for t in (
         f"{name} H-1B Sponsorship and Tech Jobs | FiledFor",
         f"{name} H-1B Filings and Jobs | FiledFor",
@@ -583,7 +624,11 @@ def description_for(
     if t and t.wage and filings >= SMALL:
         d += f", median wage {layer.money(t.wage)}"
     d += "." + (
-        f" See {num(jobs)} open tech jobs" if jobs else " See its careers pages"
+        " See its filing record"
+        if name in src.ctx.record_only
+        else f" See {num(jobs)} open tech jobs"
+        if jobs
+        else " See its careers pages"
     )
     d += ", job titles and cities filed." if history else "."
     return d if len(d) <= 160 else d[:157].rsplit(" ", 1)[0] + "..."
@@ -604,7 +649,11 @@ def company_page(ctx: Context, name: str, src: Sources, others: list[str]) -> Pa
             if logo
             else ""
         )
-        + f"<h1>{esc(name)}: H-1B filings and open tech jobs</h1></div>"
+        + (
+            f"<h1>{esc(name)}: H-1B filings for tech roles</h1></div>"
+            if name in ctx.record_only
+            else f"<h1>{esc(name)}: H-1B filings and open tech jobs</h1></div>"
+        )
     )
     body = (
         head
@@ -626,7 +675,7 @@ def company_page(ctx: Context, name: str, src: Sources, others: list[str]) -> Pa
     return Page(
         nav="companies",
         path=path,
-        title=title_for(name),
+        title=title_for(name, name in ctx.record_only),
         description=description_for(
             name,
             filings,
@@ -657,7 +706,11 @@ def index_page(ctx: Context, src: Sources) -> Page:
         for n in groups[k]:
             jobs = len(ctx.jobs_at(n))
             meta = count(src.counts[n], "filing") + (
-                f" · {count(jobs, 'open job')}" if jobs else ""
+                " · jobs not tracked"
+                if n in ctx.record_only
+                else f" · {count(jobs, 'open job')}"
+                if jobs
+                else ""
             )
             items.append(
                 f'<li><a href="{esc(ctx.company_url(n))}">{esc(n)}</a><span>{meta}</span></li>'
@@ -667,11 +720,17 @@ def index_page(ctx: Context, src: Sources) -> Page:
         )
     total = len(names)
     with_jobs = sum(1 for n in names if ctx.jobs_at(n))
+    tracked = total - len(ctx.record_only)
     body = (
         "<h1>Companies with H-1B filings for tech roles</h1>"
-        f'<p class="lede">{num(total)} companies FiledFor watches have filed H-1B Labor Condition Applications (LCAs) '
-        f"for tech roles {period_text(src)}, and {num(with_jobs)} of them have open tech jobs listed right now. "
-        "Each page shows what the company filed: how many, for which fields and job titles, at what wages and where.</p>"
+        f'<p class="lede">FiledFor has a page for {num(total)} companies with H-1B Labor Condition Applications (LCAs) '
+        f"for tech roles {period_text(src)}: the {num(tracked)} whose job boards it reads, {num(with_jobs)} of them with open tech jobs right now"
+        + (
+            f", and {num(len(ctx.record_only))} large filers whose jobs it can't read yet, with the filing record only. "
+            if ctx.record_only
+            else ". "
+        )
+        + "Each page shows what the company filed: how many, for which fields and job titles, at what wages and where.</p>"
         '<p class="cc-fine">Numbers are tech LCA filings certified by the Department of Labor. '
         "An LCA is a step before an H-1B petition, not a visa approval or a hire.</p>"
         # Shown by pages.js, which filters the list below as you type

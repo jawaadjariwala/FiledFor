@@ -1,0 +1,1188 @@
+company,feins,tech_filings
+Amazon,12-3456789;20-2936165;20-4938068;20-8424306;33-0778501;42-1749823;45-3328644;58-2667566;66-0987601;71-0938319;82-0544687;87-2420773;87-3314334;91-1986543;91-2172399,36183
+Cognizant,13-3924155;26-0891562;33-0761159;98-1100166,16571
+Google,77-0493581;85-0532252,14441
+Microsoft,91-1144442,13143
+Meta,20-1665019,10840
+Tata Consultancy Services,98-0429806,10614
+Apple,94-2404110,9772
+Infosys,27-1122707;47-2921045;48-1260854;58-1760235;58-2154577;92-4005454,9351
+Deloitte,03-0520745;06-1454513;13-3086681;13-3891517;13-4147118;13-5133500;86-1065772;90-1020290,8068
+EY,34-6565596,8006
+JPMorgan Chase,13-2624428,4834
+Capgemini,22-2575929;42-1564752,4273
+Compunnel Software Group,58-2137105,4178
+IBM,13-0871985;30-0550050,4045
+HCLTech,45-5639284;77-0205035,4032
+LTIMindtree,22-3524303,3794
+Wipro,20-8101937;45-0610401;46-3505334;51-0602062;94-3406015;98-0154401,3613
+Qualcomm,26-4049231;45-3157787;77-0485570;95-3685934,3070
+Intel,94-1672743,2866
+Mphasis,95-4759720,2713
+Goldman Sachs,13-3571598;13-3937419;13-5108880;33-1187432,2331
+PayPal,20-8747984;77-0510487,2172
+Oracle,13-4200183;87-1604706;94-2805249,2011
+PwC,13-4008324;46-4958214;59-3712804;81-4489693;92-0385732;92-0460586;92-0482521,1912
+FedEx,16-0807223;25-1766580;26-0269389;34-1175962;71-0427007;71-0562003;87-1450120,1796
+Tech Mahindra,22-3282696;22-3778063;54-1807038,1731
+Tesla,82-1859802;91-2197729,1684
+TikTok,47-3892853;88-4076938,1551
+ByteDance,81-2345210,1512
+Kforce,59-3264661,1335
+Uber,45-2647441,1330
+UST,26-1539797,1315
+Virtusa,04-3512883;22-3641325,1297
+CGI,54-0856778,1293
+American Express,11-2869526;13-3133497;13-4922250,1226
+Ford,38-0549190;38-1612444,1226
+AMD,94-1692300,1223
+Infinite Computer Solutions,51-0406223,1086
+Comcast,23-2175755,1026
+Charter Communications,84-1496755,1016
+Hexaware,22-3301374,1016
+Optum,41-1858498;45-4683454;83-1959511,978
+Intuit,77-0034661,955
+SAP,23-2852542;23-2852543;36-3556041;52-2290494;54-1865804;68-0407321;87-1550487,931
+Charles Schwab,94-1737782,884
+ADP,13-3036745;22-3006057;27-3727214;59-2452825,836
+FIS,43-2054614,833
+TT Commerce & Global Services,99-3304769,827
+NTT DATA,04-2437166;27-2702152;31-1444147;32-0495969;41-2357406;54-1168756;54-1926760,820
+Skilltune Technologies,45-5601289,815
+People Tech Group,26-3665565,798
+Siemens,13-2623356;13-2672488;13-2762488;13-3138748;13-3987280;22-2417778;25-1311392;30-1018552;68-0673201;75-2728894;81-3283763;95-2802182,789
+Persistent Systems,77-0584954;98-0557089,765
+Databricks,46-2972184,761
+Innova Solutions,58-2400405,733
+GP Technologies,46-4714601,684
+Bloomberg,13-3417984;98-1161187,680
+CitiusTech,20-3361916,665
+HTC Global Services,38-3056583,651
+Caremark,95-3382344,646
+American Airlines,13-1502798,633
+V-Soft Consulting Group,76-0532643,623
+MathWorks,94-2960235,621
+Netflix,77-0467272;81-3458190,616
+Pinterest,26-3607129,608
+Dell,74-2616802;74-2616803;74-2616805,595
+Docusign,91-2183967,587
+L&T Technology Services,46-2951591;47-1220223,583
+Insight Global,20-8775560,581
+GlobalLogic,54-1986789,578
+UBS,13-2638166;13-3873456;20-5947231;87-0477597;98-0186363;99-1683313,550
+Coforge,20-0871709;26-0320547,542
+Mastech Digital Technologies,25-1873382,541
+Nokia,22-3408857,526
+Aetna Resources,06-1423207,519
+Arm,98-0443443,516
+ZS Associates,36-3249852,512
+Cummins,35-0257090,507
+Populus Group,38-3659021,488
+Atlassian,59-3797948,479
+DFS Corporate Services,27-3572632,478
+MSR Technology Group,85-1428474,472
+Waymo,81-3622947,455
+HCL Global Systems,13-4309337;88-3360832,454
+Quadrant Technologies,30-0226524,440
+Verizon Data Services,13-2595219,439
+Stripe,27-0465600,426
+Wayfair,26-2188108,419
+Atos Syntel,83-4284670,415
+Tiger Analytics,27-4780643,413
+Roblox,20-0991664,412
+Infocons,83-4110845,411
+ExlService.com,94-3326476,409
+"McKinsey & Company, Inc. United States",13-3796161,403
+DB Global Technology,27-0509518,392
+Brillio,20-1821766,390
+Dish Wireless,35-2576388,390
+Concentrix CVG Customer Management Group,31-1260729,388
+SLK America,98-0347939,384
+Akamai Technologies,04-3432319,381
+Eli Lilly and,35-0470950,376
+Natsoft,42-1631761,373
+Social Finance,45-2499523,369
+Nutanix,27-0989767,361
+Pyramid Consulting,58-2191055,358
+Intercontinental Exchange Holdings,58-2555670,356
+Artech,22-3338103,349
+Nike,93-0584541,345
+Genpact,22-3658826,344
+Satin Solutions,20-0873564,342
+Airbnb,26-3051428,341
+Photon Infotech,26-0106960,333
+Cotiviti,56-2059380,332
+Xilinx,77-0188631,326
+MPG Operations,13-4035318,325
+Block,80-0429876,324
+Intraedge,81-0574547,320
+Indeed,26-0129478,316
+Eficens Systems,84-3443670,314
+Citadel,87-2301961;87-2323326,308
+Slalom,84-1246887,308
+ERP Analysts,31-1688884,306
+NetApp,77-0307520,306
+System Soft Technologies,59-3583134,302
+EMC,04-2680009,300
+Navy Federal Credit Union,53-0116705,299
+Rocket Limited Partnership,32-0628590;84-3250141,298
+Zensar Technologies,77-0283746,298
+Health Care Service,36-1236610,297
+Citizens Financial Group,05-0412693,296
+Starbucks Coffee,91-1325671,296
+Collaborate Solutions,26-2135579,293
+First Citizens Bank and Trust,56-0223230,290
+Avco Consulting,04-3481560,289
+Rivian and VW Group Technology,99-4796906,289
+Synopsys,56-1546236,287
+Deere,36-2382580,286
+Audible,22-3407945,285
+Boston Consulting Group,04-2432614,285
+Birlasoft,22-3394773,284
+Environmental Systems Research Institute,95-2775732,283
+Rockwell Collins,52-2314475,283
+Safeway,94-3019135,283
+Sapphire Software Solutions,45-4572126,283
+Texas Instruments,75-0289970,278
+Coinbase,45-5293997,276
+HubSpot,20-2632791,276
+Perficient,74-2853258,276
+Diaspark,13-3707185,274
+Rivian Automotive,47-3556480,274
+Sage IT,20-0306879,273
+Fortinet,77-0560389,270
+J.B. Hunt Transport,58-1081267,270
+Denken Solutions,27-3050679,266
+Paycom Payroll,26-0302465,264
+Beacon Hill Solutions Group,04-3496741,263
+Squad Software,84-4188530,262
+Kpmg,13-5565207,257
+"Ascendion, Inc. (Formerly known as Collabera, Inc.)",22-3093525,252
+The Bank of New York Mellon,13-5160382,250
+DISH Network,84-1114039,249
+Digipulse Technologies,20-8184941,249
+United Wholesale Mortgage,38-2750395,245
+HCA Management Services,62-1778108,244
+Juniper Networks,77-0422528,242
+Staples,04-2896127,242
+Tredence,47-1158206,239
+Nagarro,52-2195628,236
+Vista Applied Solutions Group,26-1222517,235
+Annapurna Labs (U.S.),45-2588732,233
+Honeywell International,22-2640650,233
+ICE Mortgage Technology,94-3288780,232
+Tek Leaders,32-0263188,232
+Costco Wholesale,91-1223280,231
+Moody's Analytics,13-3851829,231
+Insurance Services Office,13-3131412,229
+eClinicalWorks,04-3461392,227
+Beaconfire Staffing Solutions,84-3265625,225
+Genesis,13-4041496,224
+Delta Air Lines,58-0218548,223
+Zillow,20-2000033,222
+Decision Six,20-4391079,221
+Citadel Securities,87-2324710,218
+Mongodb,26-1463205,218
+VMware,94-3292913,217
+Maplebear,46-0723335,216
+The Prudential Insurance Company of America,22-1211670,212
+KPIT Technologies,83-0784802,211
+New York Life Insurance,13-5582869,211
+ACE American Insurance,95-2371728,210
+Ericsson,06-1119960,209
+MetLife Group,55-0790010,207
+Elite IT Technologies,93-4359579,206
+Gilead Sciences,94-3047598,206
+Infogain,77-0260773,206
+Rubrik,46-4560494,206
+Strategic Systems,20-0915642,206
+Cloudflare,27-0805829,204
+CyberSource,77-0472961,204
+Credit Karma,26-0451139,203
+Epsilon Data Management,84-2129783,202
+DB USA Core,13-3184273,201
+GoDaddy.com,86-0850417,197
+Manhattan Associates,58-2373424,197
+Fujitsu North America,46-4314843,195
+LatentView Analytics,26-3578254,194
+ValueMomentum,11-3414179,194
+EPAM Systems,22-3536104,193
+Discover Products,20-1543776,192
+FCA US,27-0187394,188
+Infineon Technologies Americas,95-1528961,188
+Skyworks Solutions,04-2302115,188
+Incedo,45-4411958,186
+Ventois,45-5486340,186
+Birlasoft Solutions,22-3604017,185
+Iris Software,22-3424909,185
+Two Sigma Investments,13-4181471,185
+Electronic Arts,94-2838567,184
+Tavant Technologies,91-2027172,184
+Cognier,82-1164008,183
+Raymond James & Associates,59-1237041,183
+Sirius XM Radio,52-1700207,180
+Amdocs,43-1339487,179
+Axtria,27-1142668,178
+BILL Operations,92-2578553,178
+Mitchell/Martin,13-3591013,178
+Dropbox,26-0138832,177
+University of Michigan,38-6006309,177
+Ardor IT Solutions,82-1762951,176
+Cbre,95-2743174,176
+Conflux Systems,26-1206788,176
+Lyft,20-8809830,174
+3i INFOTECH,22-3703452,173
+Antra,26-1765515,173
+Ansys,04-3219960,172
+Cigniti Technologies,47-1176261,172
+Nisum Technologies,33-0941881,172
+Pioneer Consulting Services,27-4131205,172
+"American Family Mutual Insurance Company, S.I",39-0273710,169
+Robert Bosch,36-2903176,169
+"Strategic Staffing Solutions, L.C",59-3455070,168
+Chime Financial,46-0925388,165
+Infostretch,20-1181362,165
+The Depository Trust & Clearing Corporation,13-4086405,165
+Astir IT Solutions,22-3793796,164
+Okta,26-4175727,164
+C3.ai,26-3999357,163
+Hughes Network Systems,11-3735091,163
+The Options Clearing Corporation,36-2756407,163
+Datadog,27-2825503,161
+Epitec,38-2563079,161
+Box,20-2714444,159
+Dexian,45-5636447,159
+Eaton,34-0196300,159
+The Huntington National Bank,31-0966785,159
+Altimetrik,38-3456423,158
+Macy'S Systems & Technology,31-1419869,158
+Marriott International,52-2055918,158
+Reddit,45-2546501,157
+Amalgam Technologies,99-4605857,156
+Kingston Technologies,99-4604893,156
+Coupang Global,80-0963568,155
+Inteli Platforms,47-2292085,155
+Technumen,45-5371163,153
+MediaTek USA,91-1854775,152
+Roku,26-2087865,152
+Farmers Group,95-0725935,151
+Liberty Mutual Technology Group,81-4106347,151
+OneMain General Services,46-1095755,151
+Laboratory Corporation of America Holdings,13-3757370,150
+Palayekar Companies,22-3553161,150
+Yash Technologies,36-4062778,150
+Rippling,81-2580113,149
+Apolis,33-0799296,148
+Copart,94-2867490,148
+MOURI Tech,20-2497305,148
+Millennium Software,38-3316472,145
+Orpine,20-4526283,145
+SK Hynix NAND Product Solutions,86-2384522,145
+Technosoft,38-3271169,145
+Zurich American Insurance,36-4233459,145
+IP Heights,46-5741051,144
+Quest Global Services-,31-1393419,144
+SmartDW,99-4605593,144
+Corporate Solutions General,81-1194657,143
+Computer Sciences,95-2043126,142
+Keysight Technologies,46-4254555,141
+Sysintelli,20-2345291,141
+Xoriant,77-0250875,141
+Semiconductor Components Industries,36-4292817,140
+UPS,13-1857959,140
+Forthright Soft,37-2065157,139
+IMR Soft,82-1624854,139
+Informatica,77-0333710,139
+Akkodis,65-0000600,138
+Lam Research,94-2634797,137
+Schlumberger Technology,22-1692661,137
+Schneider Electric USA,36-2440683,137
+Visionet Systems,22-2921566,137
+Dataquad,47-1729855,136
+Gainwell Technologies,27-1510177,136
+Pacific Investment Management,33-0629048,136
+Tanisha Systems,02-0559348,136
+Techpro Solutions,83-1989092,136
+Viacore Technologies,99-4616851,136
+Robotics Technologies,36-4883631,135
+Swanktek,20-5101999,135
+Ally Bank,20-1001796,134
+Infoshare Systems,20-4801500,134
+Bitwise,36-4090217,133
+Fractal Analytics,27-0070961,133
+Synchrony Bank,06-1236737,133
+TekinvaderZ,46-5582856,133
+Credit One Bank,94-2841595,132
+E-Giants Technologies,45-2700157,132
+Ibase Operations,81-3000418,132
+Mankind America,92-1316353,132
+Teladoc Health,04-3705970,132
+i-Link Solutions,04-3718440,132
+AutoZone,62-1611055,131
+HM Health Solutions,46-3823617,131
+Ancile,81-1561552,130
+Infovision,75-2614700,130
+Riot Games,20-5278564,130
+Saipsit,45-5189216,129
+Applab Systems,20-4793307,128
+Lex Nimble Solutions,20-0946615,128
+Quest IT Solutions,46-4573157,128
+Eliassen Group,04-3097449,127
+Sapient,04-3130648,127
+Softworld Technologies,82-2450870,127
+Sophlogic Global,20-8924323,127
+Ariba,77-0439730,126
+Duolingo,45-3055872,126
+Massachusetts Mutual Life Insurance,04-1590850,126
+Prodapt North America,91-1821940,126
+Publix Super Markets,59-0324412,126
+Susquehanna International Group,23-2795207,126
+"The Leland Stanford, Jr University",94-1156365,126
+Advithri Technologies,81-3258250,125
+Dataflake,88-1356079,125
+NobleSoft Solutions,20-8556829,125
+PamTen,47-0873327,125
+The Sherwin-Williams Company,34-0526850,125
+Artifint Technologies,36-4883551,124
+Ipolarity,45-3412032,124
+Kastech Solutions,26-0845325,124
+Pyramid Technology Solutions,35-2048315,124
+RBC Capital Markets,41-1416330,123
+Solution IT,26-0621549,123
+American IT Solutions,20-1100838;36-4791181,122
+California Creative Solutions,33-0762869,122
+Indotronix International,52-1464254,122
+Moody's Investors Service,13-1959883,122
+R2 Technologies,81-1453836,122
+SDH Systems,82-5411589,122
+Aspire Systems Digital Transformation,88-4307400,121
+Progressive Casualty Insurance,34-6513736,121
+Total System Services,58-1493818,121
+Veridic Solutions,81-4143307,121
+Ana-Data Consulting,06-1385939,120
+Asta CRS,20-1475230,120
+Dassault Systemes Americas,51-0379588,120
+Qualtrics,45-4964116,120
+Capital Group Companies Global,30-0476830,119
+GAVS Technologies NA,26-1889502,119
+Itek Info,93-4690179,119
+Majestic IT Services,81-4123561,119
+JRI America,13-3258768,118
+Mahaugha,46-5577683,118
+Msrcosmos,39-2075148,118
+Nomura Holding America,13-3518229,118
+Speridian Technologies,20-0108244,118
+Innovative Consulting Solutions,38-3374137,117
+Burns & Mcdonnell Engineering,43-0956142,116
+Gspann Technologies,20-1463014,116
+NEO Prism Solutions,45-3507182,116
+TEKsystems Global Services,52-2107638,116
+Avani Technology Solutions,26-1722604,115
+Relevantz Technology Services,58-2462521,115
+AlgebraIT,87-4757744,114
+Namitus Technologies,51-0614937,114
+Zions Bancorporation,87-0189025,114
+City National Bank,95-1780067,113
+Emonics,81-4127079,113
+CA,13-2857434,112
+Career Soft Solutions,47-5189493,112
+Donato Technologies,46-1568413,112
+Lakshya Technologies,99-5142139,112
+Mastek,81-0803156,112
+Omnissa,99-1846450,112
+iTech US,54-2053754,112
+Megan Soft,13-4305366,111
+Strategic Resources International,22-3592796,111
+Xylo Consulting,46-4256924,111
+Apptrics,81-4423705,110
+Black & Veatch,43-1833073,110
+Coolsoft,61-1389059,110
+DataEconomy,83-0956467,110
+Keyweb Technologies,33-3776396;99-0907594,110
+Penske Truck Leasing,23-2518618,110
+Educational Testing Service,21-0634479,109
+Inovalon,71-1017974,109
+Intellisoft Systems,81-1531660,109
+McDonald's,36-2361282,109
+REI Systems,54-1650603,109
+SRS Consulting,52-2372326,109
+Stier Solutions,83-2050081,109
+Tata Technologies,38-3384508,109
+Pentangle Tech Services,82-2196851,108
+Promatrix,27-0864376,108
+Intellectt,83-0675925,107
+PRN IT,86-2677039,107
+Qorvo US,95-3654013,107
+Datanormus,81-2519736,106
+Intone Networks,20-0219838,106
+SRI Tech Solutions,20-2995336,106
+iPivot,27-3346610,106
+Amarthy IT Solutions,61-2147555,105
+American General Life Insurance,25-0598210,105
+Camelot Integrated Solutions,20-4384559,105
+Comtec Consultants,72-1326801,105
+Metrix IT Solutions,81-5467325,105
+Mythri Consulting,46-5248404,105
+Northstar Group,27-1385957,105
+Qualys,77-0534145,105
+Zoetis,46-0696167,105
+Info Keys,20-8556576,104
+The Kroger Company,31-0345740,104
+Aurora Operations,81-4387104,103
+Boston Scientific,04-2695240,103
+Bright Vision Technologies,85-1469786,103
+Medidata Solutions,13-4066508,103
+Tekaccel,86-3193490,103
+WarnerMedia Services,46-3480008,103
+American Tech Vision Solutions,46-2286248,102
+GroupM Worldwide,52-2228835,102
+Henry Ford Health System,38-1357020,102
+SDVS Technologies,45-3867624,102
+Upstart Network,45-4660612,102
+JKV International,82-3063860,101
+Logging-in.com,35-2411135,101
+Mican Technologies,20-8536198,101
+Nexus IT,47-0986454,101
+Pi Square Technologies,47-4318413,101
+Pioneer Consulting,82-2245503,101
+SecureNet Systems,26-2136318,101
+TEK Ninjas Solutions,81-0757682,101
+Tabner,20-1948215,101
+Vistaltech,88-1039244,101
+Astir Technologies,81-2174542,100
+Markit North America,13-4153988,100
+Technovision Solution,47-3051043,100
+TriNet USA,32-0480267,100
+4CONSULTING,75-2869552,99
+EPSoft Technologies,47-4603158,99
+Econtenti,20-3590091,99
+Kanap Systems,46-1229393,99
+New York Technology Partners,22-3529507,99
+Open Avenues Foundation,82-2344731,99
+Prime Healthcare Management,20-3952701,99
+Resolve AI,99-1338643,99
+Vsion Technologies,26-3078734,99
+Dataedge,47-1042295,98
+Federal Soft Systems,81-0964194,98
+Lambdanets services,45-5564408,98
+Saama Technologies,77-0456182,98
+TechData Service,23-3064123,98
+eTek IT Services,33-1091601,98
+DGN Technologies,57-1161313,97
+Karwell Technologiies,46-5048234,97
+Logic Planet,22-3821556,97
+P2P Softtek,46-4916086,97
+Thinklusive,83-3750719,97
+Cruise,38-3995716,96
+Garmin International,48-1088407,96
+Isolve Technology,75-3145620,96
+Lenovo (United States),52-2449153,96
+Tecaholic,86-2215848,96
+Tractor Supply,13-3139732,96
+Vejars Technologies,20-4547310,96
+Appridat Solutions,45-4564681,95
+IT Resources,45-4313691,95
+The University of Phoenix,94-2473210,95
+VEN Solutions,26-3926825,95
+Consultadd,27-4565433,94
+Headstrong Services,56-2413911,94
+IT Advanz,87-2113857,94
+Milwaukee Electric Tool,13-3366161,94
+cyberThink,22-3471647,94
+Chicago Mercantile Exchange,36-0902380;36-4340266,93
+Cortracker,99-2715725,93
+Moloco,46-4189499,93
+Moxie IT Solutions,27-1761939,93
+Shoolin,27-3455385,93
+Sonata Software North America,68-0281955,93
+ZoomInfo Technologies,83-1896756,93
+Blue Cross Blue Shield of Michigan,38-2069753,92
+Brillfy Technology,36-4906857,92
+DK Crown Holdings,46-3584674,92
+Kian,83-0599409,92
+Yotta Systems,46-5200021,92
+Acetech Group,85-2429621,91
+CBS Interactive,13-3696170,91
+Dotcom Team,86-0973809,91
+ITC Infotech (Usa),22-3239723,91
+Info Services,20-1788303,91
+Mutual of Omaha Insurance,47-0246511,91
+Sagitec Solutions,20-0970684,91
+Samsara,47-3100039,91
+TSMC Technology,77-0434547,91
+Tyler Technologies,75-2303920,91
+University of Illinois,37-6000511,91
+V3Tech Solutions,83-2712767,91
+Greycell Labs,20-1653222,90
+"IBS SOFTWARE AMERICAS, INC. (f/k/a IBS Software Services Americas, Inc.)",42-1530280,90
+TSQ Systems,46-1490440,90
+Trustees of the University of Pennsylvania,23-1352685,90
+Unity Technologies SF,26-4516105,90
+Cyma Systems,20-4233469,89
+Meghaz,83-4143251,89
+"Yoh, A Day & Zimmermann",20-0427544,89
+Bean Infosystems,81-1872262,88
+Celoris Tech,84-3876052,88
+Inteliroute Technologies,81-4055190,88
+Mygo Consulting,46-1994192,88
+World Wide Technology Holding,43-1401900,88
+Ampere Computing,32-0544208,87
+Eateam,20-1779065,87
+Egen Solutions,36-4386212,87
+Excelon Solutions,46-3079537,87
+Financial Industry Regulatory Authority,53-0088710,87
+Precision Technologies,27-3425282,87
+Ryzlink,27-2042307,87
+"Ut-Battelle, LLC (Oak Ridge National Laboratory)",62-1788235,87
+Emergtech Business Solutions,81-0570777,86
+Infor (US),20-3469219,86
+Johns Hopkins University,52-0595110,86
+Panasonic Avionics,33-0425071,86
+Xenoninfotek,22-3816438,86
+Align Technology,94-3267295,85
+Caprus IT,81-1004772,85
+Code Tech,46-1025710,85
+DVG Tech Solutions,45-2699169,85
+Infotech Prism,20-5783248,85
+Marqeta,27-4306690,85
+NIC Info TEK,43-2053994,85
+Sagarsoft,11-3483319,85
+ServiceTitan,26-0331862,85
+Systems Technology Group,38-2612369,85
+The Hertz Corporation,13-1938568,85
+Vitosha,83-3598389,85
+AR Infotek Solutions,30-1423570,84
+American Bankers Insurance Company of Florida,59-0593886,84
+Galileo Financial Technologies,85-0808078,84
+Intellect Business Solutions,20-0042088,84
+Paychex North America,47-0900849,84
+Quantiphi,46-4258551,84
+Sai Business Solutions,20-3420634,84
+"University of California, Los Angeles",95-6006143,84
+Cloud Software Group,77-0449727,83
+CoreWeave,82-3060021,83
+Digital Datum,88-2796390,83
+Directv,95-4511940,83
+Intellyk,82-2504018,83
+Jefferies,95-2622900,83
+Nivid Infotech,45-4533082,83
+Adaequare,54-2047518,82
+Biogen,33-0112644,82
+Bofa Securities,47-4921463,82
+Flexon Technologies,47-3171043,82
+Flyhigh Staffing,88-4014630,82
+Gusto,45-3942850,82
+Hire IT people,27-2387291,82
+INSPYR Solutions,83-0821972,82
+IT Cats,32-0131107,82
+Mirafra,27-4076662,82
+Ramsai Software Solutions,26-4067950,82
+Sephora USA,94-3322407,82
+Stanford Health Care,94-6174066,82
+United HealthCare Services,41-1289245,82
+Brains Technology Solutions,83-2531813,81
+Carnival,59-1562976,81
+Horizon International Trd,72-1269343,81
+LNW Gaming,88-0276064,81
+Nestor Technologies,81-3708410,81
+UST Healthproof,84-2375987,81
+Uber Freight US,75-2949425,81
+Asana,26-3912448,80
+Avanade,91-2032865,80
+CSC Investments II,41-5126877,80
+Dizer,34-1898475,80
+Georgia-Pacific,93-0432081,80
+H-E-B,74-3010657,80
+HRB Professional Resources,37-1757534,80
+Hiteck Solutions,88-0671915,80
+Itstac,84-2205740,80
+RICEFW Technologies,27-2837612,80
+Shopify (Usa),47-1039071,80
+Thought Circuits Services,85-2345525,80
+Topsys IT Solutions,82-4696126,80
+Yelp,20-1854266,80
+Zeus Solutions,27-0155340,80
+Harman Becker Automotive Systems,36-3130297,79
+Mastech Digital Resourcing,47-2372385,79
+National Railroad Passenger,52-0910053,79
+Savvients,86-1943786,79
+Singular Analysts,46-1614086,79
+Tata Elxsi,52-2103083,79
+Teradata Operations,14-2002217,79
+Adroit Innovative Solutions,88-2437759,78
+BNS International,46-2968515,78
+Fetch Rewards,82-2979008,78
+IT America,20-1428768,78
+KGATE Technologies,87-3067011,78
+LiveRamp,20-2888396,78
+Minisoft Technologies,20-8662925,78
+Neon IT,93-1575834,78
+Safety & Efficacy IT Solutions,86-1396810,78
+Standard & Poor's Financial Services,26-3740348,78
+BCT Consulting,81-5043590,77
+Foot Locker Corporate Services,22-2223346,77
+Hilton Domestic Operating,34-4009972;38-4009972,77
+Keystone Technology Partners,87-1682160,77
+MTX Group,82-4828973,77
+Molina Healthcare,13-4204626,77
+Raas Infotek,27-3424022,77
+Reliable Software Resources,65-1218462,77
+SSTech,26-3226362;46-0626748,77
+Verton Solutions,37-2136575,77
+Zendesk,26-4411091,77
+eviCore healthcare MSI,62-1615395,77
+Acentra Health,52-1872098,76
+Advantage IT,83-0502147,76
+Anand Pag,65-1278147,76
+Dematic,04-3834872,76
+Ealearn,26-1260542,76
+GE Energy Management Services,35-1886526,76
+Geminisoft Solutions,88-0817524,76
+Grubhub Holdings,26-1328194,76
+Mobicloud,88-4386481,76
+Qubitz Tech Sysytems,87-2931755,76
+Savvy Info Systems,46-1255133,76
+Schrill Technologies,26-0734853,76
+Verizon Corporate Resources Group,26-2900101,76
+Ardor IT Systems,85-3525025,75
+Balyasny Asset Management,36-4486492,75
+Cloud Data Systems,82-1781660,75
+Eniac Systems,81-4074349,75
+Etouch Systems,93-1213189,75
+Exzac,26-3374864,75
+Fiori Technology Solutions,46-5121158,75
+Infobiz Systems,45-2018666,75
+Paramount Software Solutions,58-2350067,75
+RGA Enterprise Services,47-2015651,75
+SEL Engineering Services,11-3408916,75
+SRK Systems,45-5488835,75
+SuccessFactors,94-3398453,75
+Tradeweb Markets,26-1429475,75
+ValueLabs,76-0759220,75
+Zuora,20-5530976,75
+Amerisourcebergen Services,23-2546940,74
+Arthur J. Gallagher Service,52-2200060,74
+Bayer Research and Development Services,81-5306278,74
+CareSource Management Services,31-1703371,74
+Endava Solutions,27-0022071,74
+Lead IT,27-1263227,74
+Merrill Lynch,13-5674085,74
+Murthy LAW Firm,33-3480474;33-3540199,74
+Spark Technologies,92-2552935,74
+TheMathCompany,35-2618445,74
+Xebia USA,45-5560973,74
+BNSF Railway,41-6034000,73
+Circana,36-2947987,73
+Galax-Esystems,27-1275506,73
+Indiana University Indianapolis,35-6001673,73
+Jean Martin,13-3950763,73
+OmniVision Technologies,77-0401990,73
+SAS Institute,56-1133017,73
+Tekgence,32-0455375,73
+Tekpros,55-0893224,73
+Xmotors.Ai,82-3160099,73
+ASM America,86-0317468,72
+Astir Services,27-4067217,72
+Bayer U.S,06-1653779,72
+CRA International,04-2372210,72
+Ciberlynx,81-4310365,72
+Ciphernine,26-2180482,72
+Clicksoft Solutions,88-3605835,72
+Cnet Global Solutions,20-2456927,72
+Delta System &Software,20-4611339,72
+Hadiamondstar Software Solutions,20-3801131,72
+Indus Group,20-5754043;54-1961901,72
+LER TechForce,35-2139176,72
+Orien Solutions,87-1994467,72
+Paccar,91-0351110,72
+Source Infotech,22-3747193,72
+University of Colorado,84-6000555,72
+University of Florida,59-6002052,72
+Vyzer Solutions,20-5469677,72
+Windycity Technologies,20-0372336,72
+Ajace,20-2156599,71
+CLOUD5 Solutions,88-2821715,71
+D2Sol,45-4408251,71
+ECOM Consulting,75-2612331,71
+GCOM Software,20-2902922,71
+Grainger Management,32-0353368,71
+Health Management Systems,13-2770433,71
+Level 3 Communications,47-0807040,71
+Shipt,47-1112743,71
+Aceintegrator,88-0786327,70
+Covant Solutions,01-0808309,70
+Eversoft Technologies,87-1508291,70
+HealthEdge Software,20-2006970,70
+Juniper Networks (US),77-0559888,70
+Kaar Technologies,80-0443354,70
+Kyyba,38-3446497,70
+Lawrence Berkeley National Laboratory,94-2951741,70
+Lorvenk Technologies,47-3580257,70
+Luxoft USA,22-3402613,70
+Meridiansoft,20-3045751;92-2687004,70
+MultiPlan,13-3068979,70
+RJ Systems,30-1337983,70
+Symplore,99-2698869,70
+Synapsiq,82-2293371,70
+Techie Associates,82-3298840,70
+Tek Labs,82-4357191,70
+Advanced Resource Staffing,84-1914227,69
+Adventist Health System Sunbelt Healthcare,51-0528398;59-2170012,69
+Agilisium Consulting,46-0958219,69
+Lorhan,27-0836130,69
+Navi Technologies,33-1791871,69
+OT Technology,88-2992190,69
+Radiantze,82-5343276,69
+Relanto,86-1774320,69
+Super Micro Computer,77-0353939,69
+Whatnot,84-3414892,69
+X.Ai,33-1916502;92-3033368,69
+Abal Technologies,27-3306024,68
+Bahwan Cybertek,04-3461279,68
+Blackline Systems,95-4876613,68
+Discord,45-4908598,68
+Enlightened Solutions,26-2224974,68
+Factory Mutual Insurance,05-0316605,68
+Krasan Consulting Services,82-5263603,68
+Lennox International,42-0991521,68
+Liberty Mutual Group,04-3583679,68
+Pegasystems,04-2787865,68
+Raven Software Solutions,20-1668986,68
+Response Informatics,83-2966697,68
+SVK Systems,76-0741034,68
+Sumeru Technologies,99-3508149,68
+Tardus,84-3596475,68
+Technology Hub,47-4641768,68
+The Children's Hospital of Philadelphia,23-1352166,68
+United IT Solutions,26-2985460,68
+Viasat,33-0174996,68
+CSC Covansys,38-2606945,67
+CSS Payroll,37-1900386,67
+DataCloud Technologies,30-1411739;87-4023077,67
+DataStack Technologies,83-2158070,67
+Firstnet Global,92-2642470,67
+Florida Power & Light,59-0247775,67
+InnoCore Solutions,20-3067682,67
+Insight Direct USA,36-3948996,67
+Interon IT Solutions,88-0603278,67
+LiveMindz Services,46-3095693,67
+Maximus,54-1000588,67
+Metaforge IT Solutions,93-4101967,67
+Msci,13-4038723,67
+O3 Technology Solutions,16-1764897,67
+Pantar Solutions,20-0471368,67
+Prowesys,84-3359060,67
+Seer Solutions,46-3425299,67
+SmartWorks,20-0037122,67
+State Farm Mutual Automobile Insurance,37-0533100,67
+Systechcorp,83-2945717,67
+The Matlen Silver Group,22-2328344,67
+Virginia Polytechnic Institute & State University,54-6001805,67
+Calsoft Labs,80-0694724,66
+Concur Technologies,91-1608052,66
+Delta Dental Of California,94-1461312,66
+Dollar General,61-0502302,66
+Gannu Software,46-3867964,66
+Homesite Group,04-3361207,66
+NCS Pearson,41-0850527,66
+Pristen IT Systems,88-2608769,66
+Risamsoft,81-4125605,66
+Selective Insurance Company of America,22-1272390,66
+Trinity Partners,30-0284706,66
+Voya Services,52-1317217,66
+iLink Systems,91-2102165,66
+lululemon usa,75-3060494,66
+Aditi Consulting,26-4656792,65
+Adroix,27-3349132,65
+Amzur Technologies,73-1720999,65
+Beaconbold,99-4123571,65
+Bits and Binaries,82-1370788,65
+Credit Acceptance,38-1999511,65
+Damian Consulting,11-3738177,65
+Delta Dental Insurance,94-2761537,65
+Executive Software Guild,27-3051304,65
+Flexera Global,27-2223690,65
+GanaIT,87-2646264,65
+HYR Global Source,46-1807073,65
+Interactive Communications International,88-0294532,65
+K Tek Soft,92-1116350,65
+Mebhaz,99-4743246,65
+Midland Credit Management,48-0581733,65
+Navan,47-3424780,65
+Peloton Interactive,47-3533761,65
+Presbyterian Healthcare Services,85-0105601,65
+Private National Mortgage Acceptance,26-1740587,65
+Ralph Lauren,13-2622036,65
+Siri Infosolutions,20-2544559,65
+Siritek,35-2196697,65
+Softrams,20-8761455,65
+Tek Grove,99-1507664,65
+The University of Alabama at Birmingham,63-6005396,65
+Adalitek Group,81-4753929,64
+Agiletal Technologies,84-2710594,64
+Arohak,81-4143431,64
+Astute Solutions,83-2335768,64
+Brookhaven National Laboratory,11-3403915,64
+Cognifyar Technologies,84-5031736,64
+Communications Test Design,23-2015935,64
+FPT USA,68-0677411,64
+Infylogy,38-4090228,64
+Lilli Technology,82-4264238,64
+Magic Leap,45-3243237,64
+Maruthi Technologies,83-0384059,64
+Narvee Tech,81-4260281,64
+OM Partners USA,13-4258197,64
+Prophecy Consulting,46-5026539,64
+Refinitiv US,20-4530702,64
+Sumitomo Mitsui Banking,13-5611820,64
+Syrainfotek,46-2468451,64
+Takeda Development Center Americas,38-3691673,64
+Versa Networks,36-4741451,64
+Visam Technologies,20-8909882,64
+Yashco Systems,31-1735073,64
+eBS-Minds IT,46-2691392,64
+ActiveHours,46-2925567,63
+Adroit Associates,20-1001735;47-1223006,63
+Akshaya,45-5157316,63
+BlueRibbon Global Technologies,82-2942711,63
+CC Services,37-1000579,63
+Carnegie Mellon University,25-0969449,63
+Cloudinfrait,87-1909176,63
+Devfi,46-1359246,63
+Eguru Solution,26-1355948,63
+Fuge Technologies,85-1180600,63
+Infodat International,76-0505374,63
+Intellibee,38-3538456,63
+Merkle,52-2205299,63
+PGH Tech Ladder,92-2851151,63
+Prime S4 Technologies,82-2416002,63
+Resource Integrators,75-3094983,63
+Vistex,36-4278759,63
+Amensys,20-1672302,62
+Baanyan Software Services,27-1177796,62
+CSG,47-0772478,62
+Collabrium Systems,45-3975705,62
+Conch Technologies,20-1105490,62
+Digital Management,68-0505254,62
+GE Precision Healthcare,83-0849145,62
+Hallmark Global Technologies,06-1616104,62
+InnoRev Technologies,83-2790849,62
+Itron,91-1011792,62
+NC Health Affiliates,36-4864944,62
+Neutronit,81-0955477,62
+Nile Tech,92-3101424,62
+Northwestern University,36-2167817,62
+Novamegha,84-1793122,62
+Pilot Technologies,85-2242386,62
+Ripple Labs,46-1128587,62
+Royal Cyber,04-3708063,62
+Spruce Technology,20-5656502,62
+The Reinalt-Thomas Corporation,38-1889682,62
+Vasta Infotech,92-0570713,62
+Walgreen,36-1924025,62
+Ahold Delhaize USA Services,27-3756754,61
+Allied Informatics,58-1956701,61
+Brillius,46-2516265,61
+CHRISTUS Health,76-0590551,61
+Cloud Analytics Technologies,36-4834786,61
+Cloudninetek,86-1941933,61
+Compass Group USA,56-1874931,61
+Etekserve,87-4357290,61
+First TEK,22-3786614,61
+Gradestaffing,33-3580257,61
+Grid Dynamics Holdings,83-0632724,61
+HSBC Technology & Services (USA),20-0362763,61
+Harman Connected Services,32-0016942,61
+Kaseya US,46-0522543,61
+Kollasoft,20-8532918,61
+Kosma Tech,88-1187719,61
+LITMUS7 Systems Consulting,45-5344721,61
+Lorshi Systems,20-3198340,61
+Neni TechSystems,85-3888064,61
+Neumeric Technologies,52-2193927,61
+Nextdoor,75-3263336,61
+Pro-Tek Consulting,27-3969329,61
+SAI Technologies,27-2534625,61
+SE2,20-2640636,61
+Select Minds,82-5482200,61
+Tek Tree,20-1903697,61
+University of Utah,87-6000525,61
+Upgrade,81-2807376,61
+ABN Tech,84-1903436,60
+Apps Associates,54-2076463,60
+Apptad,46-3818921,60
+Choice Hotels International Services,52-2128781,60
+Cognitive Minds,87-1950912,60
+Cybage Software,20-0763296,60
+Epic Games,52-1853991,60
+Fermi Forward Discovery Group,93-3319101,60
+London Stock Exchange Group Holdings,46-1065454,60
+NYSE Market (DE),20-3783731,60
+OKBL USA Technology,87-2453862,60
+Platinum Infosys,26-1815808,60
+Quinnox,46-0492353,60
+Rite Pros,20-1449012,60
+"St. Jude Medical, Cardiology Division",41-1991343,60
+Sysconsult,99-2894976,60
+Unikon IT,45-5416531,60
+Valuepro,46-2696479,60
+Variyas Global Solutions,46-1385968,60
+Elite Tech Info,87-3299201,59
+General Hospital,04-2697983,59
+Hudson River Trading,45-0465436,59
+ICE Data Services,13-3668779,59
+Ideal Source,30-0460719,59
+Infoville,20-1170417,59
+Inrika,47-1172566,59
+Namo Technologies,86-1227200,59
+Nexturn,87-2695418,59
+Prabhav Services,32-0155315,59
+Prosper Marketplace,73-1733867,59
+SG Americas Operational Services,86-1120938,59
+Saturn Tech,20-5923714,59
+Shutterfly,94-3330068,59
+SupraSoft,36-4183029,59
+Aanvi Cloud Technologies,88-2893488,58
+BNP Paribas RCC,86-1059468,58
+BackOffice Associates,26-1544182,58
+C4i Technologies,81-5215173,58
+Carvana,45-4788036,58
+Consumerinfo.com,95-4465932,58
+IT Division,37-1528325,58
+John Hancock Life Insurance Company (USA),01-0233346,58
+LGL Technologies,86-3030270,58
+MAST Technology Services,31-1656776,58
+Mizuho Americas Services,82-4950578,58
+NRG Energy,41-1724239,58
+Netskope,46-1141117,58
+Nuro,81-3134259,58
+Premier IT Solutions,76-0615704,58
+Rackera,86-3192623,58
+Resolve Tech Solutions,27-1973305,58
+Sliq Information Technologies,45-4944671,58
+SunLight Technologies,82-4417163;85-3155790,58
+TechField,36-4783682,58
+Tekdelite,87-3750413,58
+Tekfinite,87-1988688,58
+Tror,84-3962311,58
+"Unicorn Technologies,Llc",45-5367245,58
+X,20-8913779,58
+Anveta,26-0446376,57
+Arcane Systems,88-2608929,57
+Battelle Memorial Institute,31-4379427,57
+CGG Services (U.S.),74-1813790,57
+CarGurus,04-3843478,57
+CodeRepo,85-2957557,57
+Conduent State & Local Solutions,13-1996647,57
+Cytel,04-2955676,57
+EAB Global,82-2931750,57
+Group Health,41-0797853,57
+H-Town Technologies,81-0970250,57
+Highbrow Technology,45-1647246,57
+Hyatt,94-1649123,57
+Intellisoft Technologies,23-2933554;59-3290110,57
+Majesco,77-0309142,57
+Maveric NXT,20-3955020,57
+NGA Group,30-0211955,57
+Pacific Gas and Electric,94-0742640,57
+Providence Health & Services,91-0725998,57
+Ramp Business,83-4047085,57
+Rivos,86-3917440,57
+Rokt US,46-4610539,57
+SMBC Capital Markets,13-3380138,57
+Source Cloud Technologies,83-1679013,57
+Synapse Tech Services,81-3940198,57
+Takeda Pharmaceuticals USA,13-4013710,57
+TechVirtue,83-2067569,57
+Teknatio,47-1995452,57
+VRN Technologies,26-2975728,57
+W.W. Grainger,36-1150280,57
+WSP USA,11-1531569,57
+iStream Solutions,20-2389055,57
+Alpha Net Consulting,11-3524755,56
+Ameya Global,20-4350969,56
+Analysis Group,04-2727260,56
+Arcus Technologies,26-0584632,56
+BMO Bank,36-2085229,56
+Cariad,88-1348969,56
+Cloud Social Technologies,37-1824669,56
+Creative Team,84-4377892,56
+Delta Global Services,47-1984764,56
+Ellucian,45-3767548,56
+Fidelis Software Solutions,27-4607612,56
+Hulu,02-0809769,56
+Information Technology and Management Consulting,61-1778020,56
+JNIT Technologies,27-3331256,56
+LexisNexis Risk Data Management,65-0852445,56
+LinQ Global Group,33-4578793,56
+Michaels Stores,75-1943604,56
+Microland,52-2130626,56
+New Era Technology,46-3078820,56
+NewQuest,76-0628370,56
+Pearson Education,22-1603684,56
+SambaNova Systems,82-2909166,56
+Sanav Technologies,84-4051565,56
+Saransh,05-0607119,56
+Techoauth Solutions,88-2177291,56
+Teksoft Systems,27-1812859,56
+Zillion Technologies,71-0884875,56
+AIR Worldwide,33-1004254,55
+Agilysys NV,20-0690011,55
+Apex-2000,58-2466085,55
+Blackhawk Network,91-2198647,55
+Calix,68-0438710,55
+ClientServer Technology Solutions,46-0949539,55
+Datics,92-2030418,55
+Dolby Laboratories,94-2377558,55
+Exelon Business Services,23-3063219,55
+Fast Switch-Great Lakes,84-3717282,55
+Information Data Systems,38-3308919,55
+Judge Technical Services,23-2872921,55
+Mayo Clinic,41-6011702,55
+MicroStrategy,51-0323571,55
+Motional AD,47-3952152,55
+Munich Re America Services,13-3069874,55
+"National Oilwell Varco, L..P",76-0488987,55
+Smart Info Solutions,84-4779526,55
+Svastha Infotech,99-4965373,55
+Virat Solutions,82-1042384,55
+Wizard Tech Solutions,46-2527048,55
+ZipHQ,83-2736232,55
+Apex IT Services,51-0561676,54
+Aplomb Technologies,45-4175774,54
+Artificial Intelligence,38-4065292,54
+Atos IT Solutions and Services,13-3715291,54
+CSC Holdings,27-0726696,54
+Cerebral Technologies,26-1508597,54
+Coupa Software,20-4429448,54
+Datalore Technologies,81-5397743,54
+DigitalOcean,38-4017666,54
+Digitech Labs,82-0595773,54
+HERE North America,77-0080465,54
+Hector Systems,26-1948144,54
+Jump Operations,20-5658928,54
+LS Solutions,82-4336334,54
+Live Nation Worldwide,13-3977880,54
+Progress Software,04-2746201,54
+RapidIT,03-0529614,54
+Sabre GLBL,75-2109502,54
+Soft Parch,99-1604632,54
+Source Consulting,20-2456070,54
+TE Connectivity,23-0332575,54
+Tek Spikes,81-2391387,54
+Teleworld Solutions,04-3664276,54
+USG,36-3329400;88-1740337,54
+Zenith Infotek,47-1415531,54
+Activision Publishing,94-2606438,53
+AmeriCloud Solutions,20-8603306,53
+Blue Cross and Blue Shield of Kansas,48-0952857,53
+Cintas,31-1188630,53
+Cognit AI,33-3025982,53
+DC Group,41-0957854,53
+Ecovue Solutions,27-4744084,53
+Grainger Corporate Services,92-0290913,53
+Integration Developer Network,46-5632860,53
+Involgixs,45-4834216,53
+Keypixel Software Solutions,26-3259621,53
+Kohl’s,13-3357362,53
+LSI,94-2712976,53
+MB IT Associates,46-3739051,53
+MH Sub I,46-3259063,53
+MI Softech,47-5669075,53
+RPA Technologies,35-2613510,53
+Ruri Software Technologies,83-2824649,53
+Savi Technologies,42-1617887,53
+Siri Consultancy Services,27-2220121,53
+Veenus Infotechs,26-1342751,53
+Vensoft,86-0832615,53
+Whirlpool,38-1490038,53
+Zifo Technologies,46-0997077,53
+Accelyst,33-3733752,52
+American Unit,47-0914658,52
+Anagh Technologies,20-8159428,52
+BlueCross and BlueShield Association,13-5656874,52
+CNH Industrial America,76-0433811,52
+CNN IT,46-5682256,52
+Exel,04-2801160,52
+Happiest Minds Technologies,98-1010109,52
+ISN Software,75-2903718,52
+ITG Technologies,81-2553134,52
+Invences,83-1571898,52
+Kiewit Engineering Group,43-1834182,52
+Mitecs,81-1738301,52
+New York Independent System Operator,14-1815612,52
+Nexzentek Solutions,82-5438579,52
+Physicians Mutual Insurance,47-0270450,52
+Radixlink,47-1740041,52
+Slesha,81-4485674,52
+Tana Systems,81-5480793,52
+Teradyne,04-2272148,52
+Think Logic Systems,47-4205575,52
+Thought Byte,20-0753999,52
+Ustring Solutions,82-1455558,52
+Virtual Reality Technologies,35-2613563,52
+WB Solutions,45-5622329,52
+Zappos.com,27-1290998,52
+Amiti Consulting,20-5838724,51
+Ascension Health - IS,65-1257719,51
+Auger,99-4871381,51
+Blue Cross and Blue Shield of Alabama,63-0103830,51
+Blue Cross and Blue Shield of Florida,59-2015694,51
+Cyber Infotech,14-1960164,51
+Cyient,33-0867496,51
+ERP WIZ,80-0838169,51
+Genesys Cloud Services,94-3120525,51
+HF Management Services,13-4069806,51
+HRT Research,84-3351146,51
+Lincoln National,35-1140070,51
+Logic Loops,45-3071590,51
+MGM Resorts Satellite,82-4505598,51
+Magtech Consulting and Solutions Development,82-4408739,51
+Molex,36-2369491,51
+Move Sales,52-2284225,51
+Nike USA,93-1243023,51
+Onix Networking,34-1729033,51
+Pepsico,13-1584302,51
+Pilot Travel Centers,34-1953155,51
+Regal IT Services,82-2606264,51
+Robotics Staffing,37-1864026,51
+Rubistone Technologies,87-3700439,51
+Servesys,27-5349365,51
+Skill Voice,81-1643169,51
+TEKsystems,52-2010575,51
+TOP Edge Technology,47-1594664,51
+Techladder,93-4531250,51
+Techsmart Global,81-2273516,51
+University of Pittsburgh,25-0965591,51
+Zeeto Technologies,83-2961593,51
+ADT,45-4343781,50
+Abhyanth Solutions,47-2012636,50
+Banking Soft Solutions,81-3471802,50
+Boomi,23-3016018,50
+Cloud BC Labs,27-0396753,50
+Collasys,38-3581848,50
+Conga,20-5542615,50
+Creospan,36-4303931,50
+Cynosure Technologies,20-3168757,50
+Dechen Consulting Group,38-3396451,50
+EBSCO Publishing,63-1105270,50
+FiniteTek,88-0997895,50
+Food and Drug Administration,53-0196965,50
+Htms,87-2354883,50
+IQLogg,20-8607513,50
+Iconma,38-3519215,50
+Intuites,27-4896508,50
+Isite Technologies,20-3491774,50
+JetBlue Airways,87-0617894,50
+Leverage Technologies,45-1496611,50
+ProvinceSoft,88-2653723,50
+Purpose Financial,58-2332639,50
+Sacrosanctinfo,81-5138617,50
+Saggi Solutions,81-0845325,50
+Seagate US,77-0545987,50
+Staffbee Solutions,82-4379512,50
+Teksolve IT Solutions,88-2243510,50
+The Automation Space,92-3848419,50
+Vervenest Technologies,82-4477361,50
+Wayve Technologies,87-4088158,50
+Yuvi Systems,83-1768838,50

@@ -426,3 +426,39 @@ def test_similar_sponsors_link_other_company_pages(site):
 def test_title_stays_short_for_long_names():
     t = pages_company.title_for("International Business Machines Corporation")
     assert len(t) <= 60 and t.startswith("International Business Machines")
+
+
+def test_record_only_filers_get_a_filing_page_without_a_job_list(site, monkeypatch):
+    filers = site / "filers.csv"
+    # Acme is on the watchlist, so its row here must not turn it record-only
+    filers.write_text("company,feins,tech_filings\nBigco,77-7,500\nAcme,11-1,40\n")
+    monkeypatch.setattr(pages, "FILERS", filers)
+    out = build()
+    assert "companies/bigco/" in out and "companies/acme/" in out
+    big = out["companies/bigco/"].body
+    assert "500" in big  # the filing count from sponsors.parquet
+    assert "can't read Bigco's job board yet" in big
+    assert "google.com/search?q=Bigco+careers" in big
+    assert "on the job board" not in big  # no link into an empty board
+    assert "See its filing record" in out["companies/bigco/"].description
+    assert (
+        out["companies/bigco/"].title == "Bigco H-1B Filings for Tech Roles | FiledFor"
+    )
+    assert (
+        "Bigco: H-1B filings for tech roles</h1>" in big and "Open tech jobs" not in big
+    )
+    acme = out["companies/acme/"].body
+    assert "can't read" not in acme and "jobs not tracked" not in acme
+    index = out["companies/"].body
+    assert "500 filings · jobs not tracked" in index
+    assert "and 1 large filers whose jobs it can't read yet" in index
+
+
+def test_record_only_pages_never_take_an_existing_url(site, monkeypatch, tmp_path):
+    filers = tmp_path / "filers.csv"
+    # "ACME" slugs like "Acme" and sorts first, but Acme's page keeps /acme/
+    filers.write_text("company,feins,tech_filings\nACME,77-7,500\n")
+    monkeypatch.setattr(pages, "FILERS", filers)
+    ctx = Context(jobs=[], companies={}, now=NOW, updated=NOW.isoformat())
+    assert ctx.company_url("Acme") == "/companies/acme/"
+    assert ctx.company_url("ACME") == "/companies/acme-2/"
