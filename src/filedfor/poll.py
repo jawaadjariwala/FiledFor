@@ -16,6 +16,7 @@ GitHub secrets in Actions). Design and trade-offs: ADR-002, Workday: ADR-003.
 
 import asyncio
 import csv
+import gzip
 import json
 import os
 import re
@@ -223,11 +224,34 @@ def company_info(companies: list[dict], evidence: EvidenceIndex):
     return info
 
 
+DESCRIPTIONS = Path(".cache/descriptions.json.gz")
+
+
+def attach_descriptions(conn, jobs: list[dict]) -> None:
+    """Give each job its description for its page. Descriptions are kept
+    between runs (GitHub's Actions cache keeps .cache/), so only jobs new
+    since the last run are read from the database."""
+    sep = "\x1f"
+    try:
+        cache = json.loads(gzip.decompress(DESCRIPTIONS.read_bytes()))
+    except (OSError, ValueError):
+        cache = {}
+    keys = [(j["system"], j["slug"], j["job_id"]) for j in jobs]
+    have = {sep.join(k): cache[sep.join(k)] for k in keys if sep.join(k) in cache}
+    missing = [k for k in keys if sep.join(k) not in have]
+    have |= {sep.join(k): v for k, v in store.descriptions(conn, missing).items()}
+    for j, k in zip(jobs, keys, strict=True):
+        j["description_html"] = have.get(sep.join(k))
+    DESCRIPTIONS.parent.mkdir(exist_ok=True)
+    DESCRIPTIONS.write_bytes(gzip.compress(json.dumps(have).encode()))
+
+
 def publish_only() -> None:
     """Rebuild public/ from the database without fetching, e.g. after a
     change to the site or to what gets published."""
     conn = store.connect()
     jobs = store.open_jobs(conn)
+    attach_descriptions(conn, jobs)
     conn.close()
     health_file = PUBLIC / "health.json"
     health = (
@@ -355,6 +379,8 @@ async def run(
 
     pruned = store.prune(conn, now)
     jobs = store.open_jobs(conn)
+    attach_descriptions(conn, jobs)
+    open_count = store.count_open(conn)
     stale = [
         f"{r['system']}/{r['slug']}"
         for r in conn.execute(
@@ -370,7 +396,7 @@ async def run(
         **{k: v for k, v in stats.items() if k not in ("started_at", "finished_at")},
         "alerts_sent": sent,
         "pruned": pruned,
-        "open_jobs": len(jobs),
+        "open_jobs": open_count,
         "workday_full": len(full_workday),
         "workday_quick": sum(1 for full in plan.values() if not full),
         "failing_now": sorted(f"{s}/{g}: {e}" for (s, g), e in failed.items()),

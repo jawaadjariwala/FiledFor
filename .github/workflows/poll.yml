@@ -35,6 +35,14 @@ jobs:
 
       - run: uv sync --frozen --no-dev
 
+      # Job descriptions from earlier runs, so each run reads only new ones
+      # from the database (its free plan limits data transfer)
+      - uses: actions/cache@v4
+        with:
+          path: .cache
+          key: descriptions-${{ github.run_id }}
+          restore-keys: descriptions-
+
       - name: Poll
         run: |
           export SITE_URL="${SITE_URL:-https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/}"

@@ -259,15 +259,51 @@ def record_alerts(conn: psycopg.Connection, sent: int) -> None:
     conn.commit()
 
 
+# What the site can list: open, in the US or unknown, not blocked, posted in
+# the last 30 days. Reading only these keeps each run's transfer from the
+# database small (Neon's free plan counts every byte sent out).
+LISTABLE = (
+    "j.closed_at is null and j.is_us is not false "
+    "and not (j.no_sponsorship or j.citizens_only or j.clearance) "
+    "and coalesce(j.posted_at, j.first_seen_at) > now() - interval '30 days'"
+)
+
+
 def open_jobs(conn: psycopg.Connection) -> list[dict]:
+    """Jobs the site can list, without their descriptions, which are most
+    of the bytes and are read separately (`descriptions`)."""
+    cols = ", ".join(f"j.{c}" for c in JOB_COLUMNS if c != "description_html")
     return list(
         conn.execute(
             # checked_at: the last time the job's board was read successfully
-            "select j.*, b.last_ok_at as checked_at from jobs j "
-            "left join boards b using (system, slug) where j.closed_at is null "
+            f"select {cols}, b.last_ok_at as checked_at from jobs j "
+            f"left join boards b using (system, slug) where {LISTABLE} "
             "order by j.posted_at desc nulls last, j.system, j.slug, j.job_id"
         )
     )
+
+
+def count_open(conn: psycopg.Connection) -> int:
+    return conn.execute(
+        "select count(*) as n from jobs where closed_at is null"
+    ).fetchone()["n"]
+
+
+def descriptions(conn: psycopg.Connection, keys: list[Key]) -> dict[Key, str]:
+    """The stored description of each of these jobs that has one."""
+    out: dict[Key, str] = {}
+    for i in range(0, len(keys), 500):
+        batch = keys[i : i + 500]
+        rows = conn.execute(
+            "select j.system, j.slug, j.job_id, j.description_html from jobs j "
+            "join unnest(%s::text[], %s::text[], %s::text[]) as k(system, slug, job_id) "
+            "using (system, slug, job_id) where j.description_html is not null",
+            ([k[0] for k in batch], [k[1] for k in batch], [k[2] for k in batch]),
+        )
+        out |= {
+            (r["system"], r["slug"], r["job_id"]): r["description_html"] for r in rows
+        }
+    return out
 
 
 def prune(conn: psycopg.Connection, now: datetime, days: int = 90) -> int:
