@@ -674,6 +674,12 @@ def index_page(ctx: Context, src: Sources) -> Page:
         "Each page shows what the company filed: how many, for which fields and job titles, at what wages and where.</p>"
         '<p class="cc-fine">Numbers are tech LCA filings certified by the Department of Labor. '
         "An LCA is a step before an H-1B petition, not a visa approval or a hire.</p>"
+        # Shown by pages.js, which filters the list below as you type
+        '<div class="cc-find" hidden><label class="search">'
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>'
+        '<span class="visually-hidden">Search companies</span>'
+        f'<input type="search" id="cc-q" placeholder="Search {num(total)} companies, like ‘NVIDIA’ or ‘Salesforce’" autocomplete="off" spellcheck="false">'
+        '</label><p class="cc-count" aria-live="polite"></p></div>'
         f'<nav class="cc-jump" aria-label="Jump to letter">{jump}</nav>'
         + "".join(sections)
     )

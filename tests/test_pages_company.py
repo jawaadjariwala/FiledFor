@@ -293,6 +293,9 @@ def test_every_company_with_filings_gets_a_page_and_the_index(site):
     index = out["companies/"]
     assert index.group == "companies" and index.crumbs == [("Companies", "companies/")]
     assert '<a href="#letter-a">A</a>' in index.body
+    # The search box ships hidden and pages.js shows it, so no-JS visitors keep the plain list
+    assert '<div class="cc-find" hidden>' in index.body and 'id="cc-q"' in index.body
+    assert index.body.index('class="cc-find"') < index.body.index('class="cc-jump"')
     assert "&lt;Evil &amp; &quot;Co&quot;&gt;" in index.body
     assert "1 filing<" in index.body and "1 filings" not in index.body
     assert "16 filings<" in index.body  # the same count as Split's page

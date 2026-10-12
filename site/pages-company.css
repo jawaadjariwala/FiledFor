@@ -31,6 +31,9 @@
 .cc-pair .ptable td:first-child { overflow-wrap: anywhere; }
 .links .cc-n { color: var(--muted); font-size: 12.5px; margin-left: 4px; font-variant-numeric: tabular-nums; }
 
+.cc-find { margin: 18px 0 0; max-width: 560px; }
+.cc-count { margin: 8px 0 0; color: var(--muted); font-size: 13.5px; }
+.cc-count:empty { display: none; }
 .cc-jump { display: flex; flex-wrap: wrap; gap: 4px; margin: 18px 0 6px; position: sticky; top: 0; z-index: 2; background: var(--bg); padding: 8px 0; }
 .cc-jump a { min-width: 34px; padding: 6px 8px; text-align: center; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font-weight: 600; font-size: 13.5px; text-decoration: none; }
 .cc-jump a:hover { border-color: var(--brand); }

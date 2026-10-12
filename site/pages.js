@@ -63,6 +63,55 @@ if (box) {
   sync();
 }
 
+// Company search on /companies/: filters the A to Z list as you type, keeps
+// the search in ?q= so it can be shared, and Enter opens a single match
+const find = document.querySelector(".cc-find");
+if (find) {
+  const input = find.querySelector("input");
+  const note = find.querySelector(".cc-count");
+  const jump = document.querySelector(".cc-jump");
+  const plain = (t) => t.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  const squash = (t) => plain(t).replace(/[^a-z0-9]+/g, "");
+  // Spaces are ignored ("service now" finds ServiceNow), but a match has to
+  // start at a word in the name, so "cisco" doesn't find San Francisco
+  const starts = (name) => {
+    const words = plain(name).split(/[^a-z0-9]+/).filter(Boolean);
+    return words.map((_, i) => words.slice(i).join(""));
+  };
+  const rows = [...document.querySelectorAll(".cc-index li")].map((li) => {
+    const a = li.querySelector("a");
+    return { li, a, keys: starts(a.textContent) };
+  });
+  const sections = [...document.querySelectorAll('section[id^="letter-"]')];
+  let shown = [];
+  const run = () => {
+    const q = squash(input.value);
+    shown = [];
+    for (const r of rows) {
+      const ok = !q || r.keys.some((k) => k.startsWith(q));
+      r.li.hidden = !ok;
+      if (ok) shown.push(r);
+    }
+    for (const s of sections) s.hidden = Boolean(q) && !s.querySelector("li:not([hidden])");
+    if (jump) jump.hidden = Boolean(q);
+    note.textContent = !q ? ""
+      : !shown.length ? `No company matches. FiledFor lists the ${rows.length.toLocaleString("en-US")} sponsors whose job boards it can read, so some large employers aren’t here yet. A shorter part of the name can also help.`
+      : shown.length === 1 ? "1 company matches. Press Enter to open it."
+      : `${shown.length.toLocaleString("en-US")} companies match`;
+    const url = new URL(location.href);
+    if (q) url.searchParams.set("q", input.value.trim()); else url.searchParams.delete("q");
+    history.replaceState(history.state, "", url);
+  };
+  input.addEventListener("input", run);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && shown.length === 1 && input.value.trim()) location.href = shown[0].a.href;
+    if (e.key === "Escape" && input.value) { input.value = ""; run(); }
+  });
+  input.value = new URLSearchParams(location.search).get("q") || "";
+  find.hidden = false;
+  if (input.value) run();
+}
+
 // "Back to jobs" (and the header's Jobs link) return to the board as the
 // visitor left it when they came from there: same filters, job and place
 const cameFromBoard = (() => {
