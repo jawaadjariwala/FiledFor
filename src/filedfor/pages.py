@@ -281,7 +281,7 @@ def render(page: Page, built: str) -> str:
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0e3a2f">
 <link rel="preload" href="/fonts/PublicSans-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230e3a2f'/%3E%3Cpath d='M11 8h11v4h-7v3h6v4h-6v5h-4z' fill='white'/%3E%3C/svg%3E"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/icons/favicon-96.png" sizes="96x96" type="image/png"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 <script>try{{const t=localStorage.getItem("ff.theme");if(t)document.documentElement.dataset.theme=t}}catch(e){{}}</script>
 {css}{scripts}
 </head><body class="static">

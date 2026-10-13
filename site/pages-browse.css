@@ -5,7 +5,7 @@
 .bp-alt { color: var(--ink-2); font-weight: 600; font-size: 14px; }
 .bp-more { color: var(--muted); font-size: 13.5px; margin: 8px 0; }
 .bp-more a { color: var(--ink-2); font-weight: 600; }
-.bp-sub { color: var(--ink-2); font-size: 14px; max-width: 760px; margin: -2px 0 10px; }
+.bp-sub { color: var(--ink-2); font-size: 14px; margin: -2px 0 10px; }
 .bp-empty { margin: 4px 0 10px; }
 .table-scroll + .bp-sub { margin-top: 10px; color: var(--muted); font-size: 13px; }
 .page .note + .bp-cta { margin-top: 10px; }
