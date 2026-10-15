@@ -34,13 +34,6 @@ create table if not exists boards (
 );
 -- Workday boards are mostly read in part; this is the last read to the end (ADR-003)
 alter table boards add column if not exists last_full_at timestamptz;
--- Rules v6: pay range and work arrangement read from each posting
-alter table jobs add column if not exists salary_min int;
-alter table jobs add column if not exists salary_max int;
-alter table jobs add column if not exists arrangement text;
-alter table jobs add column if not exists description_html text;
-alter table jobs add column if not exists changed_at timestamptz not null default now();
-create index if not exists jobs_changed_at on jobs (changed_at);
 
 create table if not exists jobs (
     system             text not null,
@@ -66,6 +59,13 @@ create table if not exists jobs (
     classifier_version int not null,
     primary key (system, slug, job_id)
 );
+-- Rules v6: pay range and work arrangement read from each posting
+alter table jobs add column if not exists salary_min int;
+alter table jobs add column if not exists salary_max int;
+alter table jobs add column if not exists arrangement text;
+alter table jobs add column if not exists description_html text;
+alter table jobs add column if not exists changed_at timestamptz not null default now();
+create index if not exists jobs_changed_at on jobs (changed_at);
 create index if not exists jobs_open on jobs (system, slug) where closed_at is null;
 create index if not exists jobs_pending on jobs (first_seen_at)
     where alerted_at is null and closed_at is null;
@@ -125,25 +125,51 @@ def ensure_schema(conn: psycopg.Connection) -> None:
     conn.commit()
 
 
-def known_boards(conn: psycopg.Connection) -> set[Board]:
-    """Boards fetched successfully before."""
+def boards(conn: psycopg.Connection) -> dict[Board, dict]:
+    """The boards table, read once per run; apply_run keeps it current after
+    save_run so the run never reads it again."""
     return {
-        (r["system"], r["slug"])
+        (r["system"], r["slug"]): r
         for r in conn.execute(
-            "select system, slug from boards where first_ok_at is not null"
+            "select system, slug, first_ok_at, last_ok_at, last_full_at, "
+            "consecutive_failures from boards"
         )
     }
 
 
-def workday_last_full(conn: psycopg.Connection) -> dict[str, datetime]:
+def known_boards(boards: dict[Board, dict]) -> set[Board]:
+    """Boards fetched successfully before."""
+    return {b for b, r in boards.items() if r["first_ok_at"] is not None}
+
+
+def workday_last_full(boards: dict[Board, dict]) -> dict[str, datetime]:
     """slug -> when each Workday board was last read to the end."""
     return {
-        r["slug"]: r["last_full_at"]
-        for r in conn.execute(
-            "select slug, last_full_at from boards "
-            "where system = 'workday' and last_full_at is not null"
-        )
+        slug: r["last_full_at"]
+        for (system, slug), r in boards.items()
+        if system == "workday" and r["last_full_at"] is not None
     }
+
+
+def apply_run(
+    boards: dict[Board, dict],
+    ok_boards: Iterable[Board],
+    failed_boards: Iterable[Board],
+    now: datetime,
+    full_boards: Iterable[Board] = (),
+) -> None:
+    """What save_run wrote to the boards table, applied to the copy in memory."""
+    blank = {"first_ok_at": None, "last_ok_at": None, "last_full_at": None}
+    for b in ok_boards:
+        r = boards.setdefault(b, {**blank, "consecutive_failures": 0})
+        r |= {"first_ok_at": r["first_ok_at"] or now, "last_ok_at": now}
+        r["consecutive_failures"] = 0
+    for b in failed_boards:
+        r = boards.setdefault(b, {**blank, "consecutive_failures": 0})
+        r["consecutive_failures"] += 1
+    for b in full_boards:
+        if b in boards:
+            boards[b]["last_full_at"] = now
 
 
 def save_run(
@@ -361,13 +387,15 @@ class Mirror:
         ]
 
 
-def open_jobs(conn: psycopg.Connection, mirror: Mirror) -> list[dict]:
+def open_jobs(
+    conn: psycopg.Connection, mirror: Mirror, known: dict[Board, dict] | None = None
+) -> list[dict]:
     """Jobs the site can list, newest first, each with checked_at: the last
-    time its board was read successfully. Descriptions are read separately."""
-    checked = {
-        (r["system"], r["slug"]): r["last_ok_at"]
-        for r in conn.execute("select system, slug, last_ok_at from boards")
-    }
+    time its board was read successfully. Descriptions are read separately.
+    `known`: the boards table already in memory, so it isn't read again."""
+    if known is None:
+        known = boards(conn)
+    checked = {b: r["last_ok_at"] for b, r in known.items()}
     jobs = [
         dict(r, checked_at=checked.get(_key(r)[:2])) for r in mirror.listable(utcnow())
     ]

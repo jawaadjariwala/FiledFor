@@ -227,16 +227,18 @@ def company_info(companies: list[dict], evidence: EvidenceIndex):
 DESCRIPTIONS = Path(".cache/descriptions.json.gz")
 
 
-def attach_descriptions(conn, jobs: list[dict]) -> None:
+def attach_descriptions(conn, jobs: list[dict], fresh: dict | None = None) -> None:
     """Give each job its description for its page. Descriptions are kept
-    between runs (GitHub's Actions cache keeps .cache/), so only jobs new
-    since the last run are read from the database."""
+    between runs (GitHub's Actions cache keeps .cache/), and `fresh` holds the
+    ones this run fetched (key -> html), so the database is read only for
+    jobs in neither."""
     sep = "\x1f"
     try:
         cache = json.loads(gzip.decompress(DESCRIPTIONS.read_bytes()))
     except (OSError, ValueError):
         cache = {}
     keys = [(j["system"], j["slug"], j["job_id"]) for j in jobs]
+    cache |= {sep.join(k): v for k, v in (fresh or {}).items()}
     have = {sep.join(k): cache[sep.join(k)] for k in keys if sep.join(k) in cache}
     missing = [k for k in keys if sep.join(k) not in have]
     have |= {sep.join(k): v for k, v in store.descriptions(conn, missing).items()}
@@ -280,12 +282,13 @@ async def run(
     names = {(r["system"], r["slug"]): r["company"] for r in companies}
     conn = store.connect()
     store.ensure_schema(conn)
+    boards = store.boards(conn)
+    conn.close()
     plan = plan_workday(
         [r["slug"] for r in companies if r["system"] == "workday"],
-        store.workday_last_full(conn),
+        store.workday_last_full(boards),
         workday_full,
     )
-    conn.close()
     results = await fetch_all(companies, plan)
     excluded = load_excluded()
     # Excluded boards count as fetched and empty, so their stored jobs close
@@ -302,7 +305,7 @@ async def run(
     mirror = store.Mirror()
     rows_read = mirror.sync(conn)
     open_keys, closed_keys = mirror.state()
-    known = store.known_boards(conn)
+    known = store.known_boards(boards)
     # Boards dropped from the watchlist are never fetched again, so close
     # their jobs as if the board were empty
     complete |= {k[:2] for k in open_keys} - names.keys()
@@ -354,6 +357,7 @@ async def run(
     conn = store.connect()
     full_workday = {k for k in complete if k[0] == "workday"}
     store.save_run(conn, rows, ch.closed, ok, failed, stats, now, full_workday)
+    store.apply_run(boards, ok, failed, now, full_workday)
 
     sent = 0
     webhook = os.environ.get("DISCORD_WEBHOOK")
@@ -386,15 +390,23 @@ async def run(
     pruned = store.prune(conn, now)
     mirror.forget(pruned)
     rows_read += mirror.sync(conn)  # this run's own writes
-    jobs = store.open_jobs(conn, mirror)
-    attach_descriptions(conn, jobs)
+    jobs = store.open_jobs(conn, mirror, boards)
+    # This run's own descriptions are in hand; reading them back would cost transfer
+    attach_descriptions(
+        conn,
+        jobs,
+        {
+            (r["system"], r["slug"], r["job_id"]): r["description_html"]
+            for r in rows
+            if r["description_html"]
+        },
+    )
     open_count = mirror.open_count()
     mirror.save()
     stale = [
-        f"{r['system']}/{r['slug']}"
-        for r in conn.execute(
-            "select system, slug from boards where consecutive_failures >= 48 order by 1, 2"
-        )
+        f"{system}/{slug}"
+        for (system, slug), r in sorted(boards.items())
+        if r["consecutive_failures"] >= 48
     ]
     conn.close()
 

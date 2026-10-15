@@ -102,3 +102,70 @@ def test_a_broken_cache_file_means_a_full_read(tmp_path):
     path.write_bytes(b"not gzip")
     db = FakeDB([job(1, NOW)])
     assert Mirror(path).sync(db) == 1
+
+
+def test_boards_copy_follows_what_save_run_writes():
+    from filedfor.store import apply_run, known_boards, workday_last_full
+
+    ok, failing, fresh, gone = (
+        ("lever", "a"),
+        ("lever", "b"),
+        ("ashby", "c"),
+        ("lever", "d"),
+    )
+    wd = ("workday", "x.wd1/Jobs")
+    then = NOW - timedelta(days=1)
+    boards = {
+        ok: {
+            "first_ok_at": then,
+            "last_ok_at": then,
+            "last_full_at": None,
+            "consecutive_failures": 2,
+        },
+        failing: {
+            "first_ok_at": then,
+            "last_ok_at": then,
+            "last_full_at": None,
+            "consecutive_failures": 47,
+        },
+        wd: {
+            "first_ok_at": then,
+            "last_ok_at": then,
+            "last_full_at": then,
+            "consecutive_failures": 0,
+        },
+    }
+    apply_run(boards, [ok, fresh, wd], [failing, gone], NOW, [wd])
+    assert boards[ok] | {} == {
+        "first_ok_at": then,
+        "last_ok_at": NOW,
+        "last_full_at": None,
+        "consecutive_failures": 0,
+    }
+    assert boards[fresh]["first_ok_at"] == boards[fresh]["last_ok_at"] == NOW
+    assert boards[failing]["consecutive_failures"] == 48
+    assert boards[failing]["last_ok_at"] == then
+    # A board that has never worked isn't "known", so its first jobs stay silent
+    assert boards[gone]["consecutive_failures"] == 1
+    assert known_boards(boards) == {ok, failing, fresh, wd}
+    assert workday_last_full(boards) == {"x.wd1/Jobs": NOW}
+
+
+def test_descriptions_fetched_this_run_are_not_read_back(tmp_path, monkeypatch):
+    from filedfor import poll
+
+    monkeypatch.setattr(poll, "DESCRIPTIONS", tmp_path / "descriptions.json.gz")
+    asked = []
+    monkeypatch.setattr(
+        poll.store, "descriptions", lambda conn, keys: asked.extend(keys) or {}
+    )
+    jobs = [job(1, NOW), job(2, NOW)]
+    k1 = (jobs[0]["system"], jobs[0]["slug"], jobs[0]["job_id"])
+    k2 = (jobs[1]["system"], jobs[1]["slug"], jobs[1]["job_id"])
+    poll.attach_descriptions(None, jobs, {k1: "<p>new</p>"})
+    assert asked == [k2]
+    assert jobs[0]["description_html"] == "<p>new</p>"
+    # Next run finds it in the cache
+    asked.clear()
+    poll.attach_descriptions(None, [job(1, NOW)])
+    assert asked == []
