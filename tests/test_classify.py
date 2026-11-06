@@ -52,6 +52,16 @@ from filedfor.classify import flags, is_remote, is_us, level, min_years, role
         ("Technical Support Specialist", "it", "unclear"),
         ("Sr. Network Security Engineer", "security", "senior"),
         ("Security Officer I", None, "entry"),  # physical security
+        # Retail security borrows infosec's words. A store guard is a
+        # "specialist", never an engineer or a program manager, so a bare
+        # "security" plus "specialist" needs an explicitly infosec term.
+        # https://github.com/jawaadjariwala/FiledFor/issues/2
+        ("Target Security Specialist", None, "unclear"),
+        ("Security Specialist", None, "unclear"),
+        ("Asset Protection Specialist", None, "unclear"),
+        ("Cybersecurity Specialist", "security", "unclear"),
+        ("Information Security Specialist", "security", "unclear"),
+        ("Security Program Manager", "security", "unclear"),
         ("Technical Program Manager, Hardware", "product", "unclear"),
         ("Director Product, Discovery & AI", "product", "senior"),
         ("Staff UX Designer", "design", "senior"),

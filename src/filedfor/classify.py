@@ -19,7 +19,7 @@ import re
 import unicodedata
 from dataclasses import dataclass
 
-VERSION = 7
+VERSION = 8
 FIELDS = ("swe", "ai", "data", "hardware", "it", "security", "product", "design")
 
 
@@ -203,6 +203,12 @@ NOT_INFOSEC = _rx(
     r"shift supervisor",
     r"national security",
     r"operator",
+    # Retail and premises security, which borrows infosec's vocabulary
+    r"asset protection",
+    r"watchman",
+    r"surveillance",
+    r"\barmed\b",
+    r"\bunarmed\b",
 )
 DESIGN = _rx(
     r"\bux\b",
@@ -244,6 +250,39 @@ SECURITY_JOB = _rx(
     r"technical staff",
     r"consultant",
     r"tester",
+)
+# The bare word "security" is ambiguous: Target calls its store guards
+# "Security Specialist". These terms are information security and nothing
+# else, so they carry a weak job word on their own.
+INFOSEC_TERM = _rx(
+    r"\bcyber",
+    r"infosec",
+    r"appsec",
+    r"information security",
+    r"(network|cloud|application|product|platform|data|email) security",
+    r"penetration",
+    r"vulnerabilit",
+    r"\bthreat",
+    r"\bsoc analyst",
+    r"identity (and|&) access",
+    r"\biam\b",
+)
+# Every job word in SECURITY_JOB except "specialist". Retail security calls
+# its guards specialists and nothing else: a store does not hire a security
+# engineer, architect or program manager. So "specialist" is the one word
+# that cannot carry a bare "security" on its own.
+SECURITY_JOB_STRONG = _rx(
+    r"engineer",
+    r"analyst",
+    r"architect",
+    r"manager",
+    r"intern",
+    r"research",
+    r"\bmts\b",
+    r"technical staff",
+    r"consultant",
+    r"tester",
+    r"developer",
 )
 HARDWARE = _rx(
     r"electrical",
@@ -344,7 +383,16 @@ def role(title: str) -> str | None:
         return "swe"
     if IT_SYSTEMS.search(t) and not SOFTWARE_JOB.search(t):
         return "it"
-    if SECURITY.search(t) and SECURITY_JOB.search(t) and not NOT_INFOSEC.search(t):
+    if (
+        SECURITY.search(t)
+        and SECURITY_JOB.search(t)
+        and not NOT_INFOSEC.search(t)
+        # A bare "security" plus "specialist" is not enough on its own: it
+        # needs an explicitly infosec term. "Cybersecurity Specialist" passes
+        # on the first test, "Security Program Manager" on the second,
+        # "Target Security Specialist" on neither, because it is a guard.
+        and (INFOSEC_TERM.search(t) or SECURITY_JOB_STRONG.search(t))
+    ):
         return "security"
     if AI.search(t) and JOB_WORD.search(t):
         return "ai"
